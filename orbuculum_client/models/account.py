@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,19 +29,33 @@ class Account(BaseModel):
     id: Optional[StrictInt] = Field(default=None, description="Account ID")
     name: Optional[StrictStr] = Field(default=None, description="Account name")
     entity_id: Optional[StrictInt] = Field(default=None, description="Entity ID")
+    entity_name: Optional[StrictStr] = Field(default=None, description="Entity name")
+    entity_type: Optional[StrictInt] = Field(default=None, description="Entity type")
     currency_id: Optional[StrictInt] = Field(default=None, description="Currency ID")
-    hidden: Optional[StrictBool] = Field(default=None, description="Whether the account is hidden")
-    hide_balances: Optional[StrictBool] = Field(default=None, description="Whether balances are hidden")
-    api_id: Optional[StrictInt] = Field(default=None, description="API ID")
-    commission_type: Optional[StrictInt] = Field(default=None, description="Commission type (1 for enabled, any other value for disabled)")
+    type: Optional[StrictInt] = Field(default=None, description="Account subtype")
+    hidden: Optional[StrictInt] = Field(default=None, description="Whether the account is hidden (0 or 1)")
+    balance: Optional[StrictStr] = Field(default=None, description="Account balance (null if hidden)")
+    hide_balances: Optional[StrictInt] = Field(default=None, description="Whether balances are hidden (0 or 1)")
+    api_id: Optional[StrictStr] = Field(default=None, description="External API identifier")
+    commission_enabled: Optional[StrictInt] = Field(default=None, description="Commission enabled flag (0=disabled, 1=enabled)")
     commission_account_id: Optional[StrictInt] = Field(default=None, description="Commission account ID")
-    commission_value: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Commission value")
-    created_at: Optional[datetime] = Field(default=None, description="Creation timestamp")
-    updated_at: Optional[datetime] = Field(default=None, description="Update timestamp")
-    custom_commission_sender_id: Optional[StrictInt] = Field(default=None, description="Custom commission sender ID")
     commission_appliance: Optional[StrictInt] = Field(default=None, description="Commission appliance (0 or 1)")
-    limited: Optional[StrictBool] = Field(default=None, description="Whether the account is limited")
-    __properties: ClassVar[List[str]] = ["id", "name", "entity_id", "currency_id", "hidden", "hide_balances", "api_id", "commission_type", "commission_account_id", "commission_value", "created_at", "updated_at", "custom_commission_sender_id", "commission_appliance", "limited"]
+    custom_commission_sender_id: Optional[StrictInt] = Field(default=None, description="Custom commission sender ID")
+    has_transactions: Optional[StrictBool] = Field(default=None, description="Whether account has any transactions (single mode only)")
+    initial_balance: Optional[StrictStr] = Field(default=None, description="Initial balance amount (single mode only)")
+    limited: Optional[StrictBool] = Field(default=None, description="Account limitation flag")
+    tags: Optional[List[StrictInt]] = Field(default=None, description="Array of account_group_id values")
+    __properties: ClassVar[List[str]] = ["id", "name", "entity_id", "entity_name", "entity_type", "currency_id", "type", "hidden", "balance", "hide_balances", "api_id", "commission_enabled", "commission_account_id", "commission_appliance", "custom_commission_sender_id", "has_transactions", "initial_balance", "limited", "tags"]
+
+    @field_validator('commission_enabled')
+    def commission_enabled_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([0, 1]):
+            raise ValueError("must be one of enum values (0, 1)")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,6 +96,31 @@ class Account(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if entity_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.entity_name is None and "entity_name" in self.model_fields_set:
+            _dict['entity_name'] = None
+
+        # set to None if entity_type (nullable) is None
+        # and model_fields_set contains the field
+        if self.entity_type is None and "entity_type" in self.model_fields_set:
+            _dict['entity_type'] = None
+
+        # set to None if type (nullable) is None
+        # and model_fields_set contains the field
+        if self.type is None and "type" in self.model_fields_set:
+            _dict['type'] = None
+
+        # set to None if balance (nullable) is None
+        # and model_fields_set contains the field
+        if self.balance is None and "balance" in self.model_fields_set:
+            _dict['balance'] = None
+
+        # set to None if api_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.api_id is None and "api_id" in self.model_fields_set:
+            _dict['api_id'] = None
+
         return _dict
 
     @classmethod
@@ -98,18 +136,22 @@ class Account(BaseModel):
             "id": obj.get("id"),
             "name": obj.get("name"),
             "entity_id": obj.get("entity_id"),
+            "entity_name": obj.get("entity_name"),
+            "entity_type": obj.get("entity_type"),
             "currency_id": obj.get("currency_id"),
+            "type": obj.get("type"),
             "hidden": obj.get("hidden"),
+            "balance": obj.get("balance"),
             "hide_balances": obj.get("hide_balances"),
             "api_id": obj.get("api_id"),
-            "commission_type": obj.get("commission_type"),
+            "commission_enabled": obj.get("commission_enabled"),
             "commission_account_id": obj.get("commission_account_id"),
-            "commission_value": obj.get("commission_value"),
-            "created_at": obj.get("created_at"),
-            "updated_at": obj.get("updated_at"),
-            "custom_commission_sender_id": obj.get("custom_commission_sender_id"),
             "commission_appliance": obj.get("commission_appliance"),
-            "limited": obj.get("limited")
+            "custom_commission_sender_id": obj.get("custom_commission_sender_id"),
+            "has_transactions": obj.get("has_transactions"),
+            "initial_balance": obj.get("initial_balance"),
+            "limited": obj.get("limited"),
+            "tags": obj.get("tags")
         })
         return _obj
 

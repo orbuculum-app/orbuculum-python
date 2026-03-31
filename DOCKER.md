@@ -49,7 +49,7 @@ docker-compose run --rm updater
 ```
 
 This service automatically:
-- Downloads the latest OpenAPI spec from https://s1.orbuculum.app/swagger/json
+- Downloads the latest OpenAPI spec from https://orbuculum.app/swagger/json
 - Creates a backup of existing code
 - Regenerates the client using OpenAPI Generator 7.15.0
 - Verifies the generated code

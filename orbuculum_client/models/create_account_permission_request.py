@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,7 +31,8 @@ class CreateAccountPermissionRequest(BaseModel):
     role_id: StrictInt = Field(description="Role ID")
     can_manage: StrictBool = Field(description="Full access")
     show_balance: StrictBool = Field(description="Show balance permission")
-    __properties: ClassVar[List[str]] = ["workspace_id", "account_id", "role_id", "can_manage", "show_balance"]
+    show_transactions: Optional[StrictBool] = Field(default=None, description="Whether transactions are visible for this account. Default: true. Inverted internally to hide_transactions_without_access.")
+    __properties: ClassVar[List[str]] = ["workspace_id", "account_id", "role_id", "can_manage", "show_balance", "show_transactions"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +89,8 @@ class CreateAccountPermissionRequest(BaseModel):
             "account_id": obj.get("account_id"),
             "role_id": obj.get("role_id"),
             "can_manage": obj.get("can_manage"),
-            "show_balance": obj.get("show_balance")
+            "show_balance": obj.get("show_balance"),
+            "show_transactions": obj.get("show_transactions")
         })
         return _obj
 

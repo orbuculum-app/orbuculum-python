@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,7 +28,9 @@ class CommissionData(BaseModel):
     """ # noqa: E501
     sender_amount: StrictStr = Field(description="Commission sender amount")
     receiver_amount: StrictStr = Field(description="Commission receiver amount")
-    __properties: ClassVar[List[str]] = ["sender_amount", "receiver_amount"]
+    sender_account_id: Optional[StrictInt] = Field(default=None, description="Override commission sender account ID")
+    receiver_account_id: Optional[StrictInt] = Field(default=None, description="Override commission receiver account ID")
+    __properties: ClassVar[List[str]] = ["sender_amount", "receiver_amount", "sender_account_id", "receiver_account_id"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +71,16 @@ class CommissionData(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if sender_account_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.sender_account_id is None and "sender_account_id" in self.model_fields_set:
+            _dict['sender_account_id'] = None
+
+        # set to None if receiver_account_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.receiver_account_id is None and "receiver_account_id" in self.model_fields_set:
+            _dict['receiver_account_id'] = None
+
         return _dict
 
     @classmethod
@@ -82,7 +94,9 @@ class CommissionData(BaseModel):
 
         _obj = cls.model_validate({
             "sender_amount": obj.get("sender_amount"),
-            "receiver_amount": obj.get("receiver_amount")
+            "receiver_amount": obj.get("receiver_amount"),
+            "sender_account_id": obj.get("sender_account_id"),
+            "receiver_account_id": obj.get("receiver_account_id")
         })
         return _obj
 

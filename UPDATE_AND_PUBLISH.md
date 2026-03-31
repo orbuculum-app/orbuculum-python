@@ -127,7 +127,7 @@ Get tokens:
 
 ### Overview
 
-The client is automatically generated from the [OpenAPI specification](https://s1.orbuculum.app/swagger/json) using OpenAPI Generator 7.15.0.
+The client is automatically generated from the [OpenAPI specification](https://orbuculum.app/swagger/json) using OpenAPI Generator 7.15.0.
 
 ### Automatic Update (Recommended)
 
@@ -143,7 +143,7 @@ docker-compose run --rm updater -u http://host.docker.internal:8080/openapi.json
 ```
 
 This command:
-1. Downloads latest OpenAPI spec from specified URL (default: `https://s1.orbuculum.app/swagger/json`)
+1. Downloads latest OpenAPI spec from specified URL (default: `https://orbuculum.app/swagger/json`)
 2. Creates automatic backup in `backups/backup_YYYYMMDD_HHMMSS/`
 3. Regenerates client code
 4. **Asks interactively** if you want to update client version:
@@ -273,7 +273,7 @@ If Docker is unavailable:
 #### Steps
 ```bash
 # Download spec
-curl -o orbuculum-openapi.json https://s1.orbuculum.app/swagger/json
+curl -o orbuculum-openapi.json https://orbuculum.app/swagger/json
 
 # Backup
 cp -r orbuculum_client orbuculum_client.backup
@@ -301,7 +301,7 @@ grep '^version' pyproject.toml
 grep '__api_version__' orbuculum_client/__init__.py
 
 # Latest API version
-curl -s https://s1.orbuculum.app/swagger/json | grep -o '"version":"[^"]*"'
+curl -s https://orbuculum.app/swagger/json | grep -o '"version":"[^"]*"'
 ```
 
 ---
@@ -733,7 +733,7 @@ git push origin v1.X.0
 
 ## Additional Resources
 
-- **API Documentation**: https://s1.orbuculum.app/swagger
+- **API Documentation**: https://orbuculum.app/swagger
 - **OpenAPI Generator**: https://openapi-generator.tech
 - **PyPI Packaging**: https://packaging.python.org/
 - **Twine Documentation**: https://twine.readthedocs.io/
@@ -752,4 +752,4 @@ For implementation details:
 
 ## Questions?
 
-If you encounter issues, please [open an issue](https://github.com/orbuculum-app/orbuculum-python-client/issues).
+If you encounter issues, please [open an issue](https://github.com/orbuculum-app/orbuculum-python/issues).

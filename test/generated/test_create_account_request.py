@@ -45,6 +45,8 @@ class TestCreateAccountRequest(unittest.TestCase):
                 commission_appliance = 1,
                 commission_sender_account = 1,
                 commission_receiver_account = 2,
+                limited = False,
+                initial_balance = '1000.50',
                 api_id = '',
                 type = ''
             )

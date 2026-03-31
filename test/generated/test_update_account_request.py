@@ -39,9 +39,19 @@ class TestUpdateAccountRequest(unittest.TestCase):
                 id = 1,
                 name = 'Updated Account',
                 currency_id = 1,
-                commission_type = 'percentage',
-                commission_value = 2.5,
-                hidden = False
+                entity_id = 1,
+                hidden = 0,
+                hide_balances = 0,
+                commission_enabled = 0,
+                commission_appliance = 1,
+                commission_sender_account = 1,
+                commission_receiver_account = 2,
+                limited = 0,
+                api_id = '',
+                type = 56,
+                tags = [
+                    56
+                    ]
             )
         else:
             return UpdateAccountRequest(

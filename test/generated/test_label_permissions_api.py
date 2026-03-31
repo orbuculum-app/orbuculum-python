@@ -47,6 +47,13 @@ class TestLabelPermissionsApi(unittest.TestCase):
         """
         pass
 
+    def test_update_label_tab(self) -> None:
+        """Test case for update_label_tab
+
+        Update label permissions (Tab 4)
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -23,6 +23,7 @@ DRY_RUN=false
 NO_GIT=false
 SKIP_TESTS=false
 SKIP_BUILD=false
+AUTO_YES=false
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -47,6 +48,10 @@ while [[ $# -gt 0 ]]; do
             SKIP_BUILD=true
             shift
             ;;
+        --yes|-y)
+            AUTO_YES=true
+            shift
+            ;;
         -h|--help)
             echo "Usage: $0 [pypi|testpypi] [OPTIONS]"
             echo ""
@@ -55,6 +60,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --no-git       Skip git operations (automatic for testpypi)"
             echo "  --skip-tests   Skip running tests"
             echo "  --skip-build   Skip building (use existing dist/)"
+            echo "  --yes, -y      Skip confirmation prompts (non-interactive mode)"
             echo "  -h, --help     Show this help message"
             echo ""
             echo "Note: Git operations are automatically disabled for testpypi target."
@@ -64,6 +70,7 @@ while [[ $# -gt 0 ]]; do
             echo "  $0 pypi                  # Publish to PyPI (creates git tag)"
             echo "  $0 pypi --dry-run        # Dry run for PyPI"
             echo "  $0 pypi --no-git         # Publish to PyPI without git operations"
+            echo "  $0 pypi -y --skip-tests  # Non-interactive publish to PyPI"
             exit 0
             ;;
         *)
@@ -167,10 +174,14 @@ if [[ "$NO_GIT" == false ]]; then
         # Check if tag already exists
         if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
             echo -e "${YELLOW}⚠ Git tag v${VERSION} already exists${NC}"
-            read -p "Continue anyway? (y/N): " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                exit 1
+            if [[ "$AUTO_YES" == true ]]; then
+                echo -e "${BLUE}Continuing (--yes flag)${NC}"
+            else
+                read -p "Continue anyway? (y/N): " -n 1 -r
+                echo
+                if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                    exit 1
+                fi
             fi
         fi
     fi
@@ -269,6 +280,8 @@ echo -e "━━━━━━━━━━━━━━━━━━━━━━━�
 
 if [[ "$DRY_RUN" == true ]]; then
     echo -e "${BLUE}[DRY RUN] Skipping confirmation${NC}"
+elif [[ "$AUTO_YES" == true ]]; then
+    echo -e "${BLUE}Auto-confirmed (--yes flag)${NC}"
 else
     read -p "Proceed with upload? (y/N): " -n 1 -r
     echo

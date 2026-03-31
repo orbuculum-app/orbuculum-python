@@ -12,13 +12,15 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default configuration
-DEFAULT_OPENAPI_URL="https://s1.orbuculum.app/swagger/json"
+DEFAULT_OPENAPI_URL="https://orbuculum.app/swagger/json"
 OPENAPI_JSON_URL="${DEFAULT_OPENAPI_URL}"
 SPEC_FILE="/tmp/orbuculum-openapi.json"
 BACKUP_DIR="/workspace/backups/backup_$(date +%Y%m%d_%H%M%S)"
 WORKSPACE="/workspace"
 KEEP_VERSION=false
 SKIP_TESTS=false
+SET_VERSION=""
+BUMP_TYPE=""
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -30,6 +32,14 @@ while [[ $# -gt 0 ]]; do
         --keep-version|-k)
             KEEP_VERSION=true
             shift
+            ;;
+        --version|-v)
+            SET_VERSION="$2"
+            shift 2
+            ;;
+        --bump|-b)
+            BUMP_TYPE="$2"
+            shift 2
             ;;
         --skip-tests|-s)
             SKIP_TESTS=true
@@ -44,15 +54,22 @@ while [[ $# -gt 0 ]]; do
             echo "  --spec-url, -u URL     Custom URL to download OpenAPI spec from"
             echo "                         Default: ${DEFAULT_OPENAPI_URL}"
             echo "  --keep-version, -k     Keep current client version (no interactive prompt)"
+            echo "  --version, -v VERSION  Set explicit client version (e.g., 1.2.3)"
+            echo "  --bump, -b TYPE        Auto-bump version: patch, minor, or major"
             echo "  --skip-tests, -s       Skip running tests after code generation"
             echo "  -h, --help            Show this help message"
             echo ""
-            echo "Examples:"
-            echo "  $0                                     # Full workflow with tests"
-            echo "  $0 --keep-version                      # Keep version, run tests"
-            echo "  $0 --skip-tests                        # Skip tests"
+            echo "Non-interactive examples:"
             echo "  $0 -k -s                               # Keep version, skip tests"
-            echo "  $0 -k -u http://localhost:8080/api.json"
+            echo "  $0 -v 1.0.0 -s                         # Set version to 1.0.0, skip tests"
+            echo "  $0 -b patch                             # Auto patch bump (0.3.0 → 0.3.1)"
+            echo "  $0 -b minor                             # Auto minor bump (0.3.0 → 0.4.0)"
+            echo "  $0 -b major                             # Auto major bump (0.3.0 → 1.0.0)"
+            echo ""
+            echo "Interactive examples:"
+            echo "  $0                                     # Full workflow with prompts and tests"
+            echo "  $0 --skip-tests                        # Interactive version, skip tests"
+            echo "  $0 -u http://localhost:8080/api.json   # Custom spec URL"
             echo ""
             exit 0
             ;;
@@ -141,6 +158,7 @@ openapi-generator-cli generate \
     -o "${TEMP_GEN_DIR}" \
     --package-name orbuculum_client \
     --library urllib3 \
+    --skip-validate-spec \
     --additional-properties=projectName=orbuculum-api-client,packageVersion="${API_VERSION}" \
     || {
         echo -e "${RED}✗ OpenAPI Generator failed${NC}"
@@ -269,12 +287,34 @@ calculate_version() {
     esac
 }
 
-# Ask if user wants to update client version (or auto-skip if --keep-version)
+# Determine new version: --version, --bump, --keep-version, or interactive
 NEW_CLIENT_VERSION="${CLIENT_VERSION}"
 
-if [[ "$KEEP_VERSION" == true ]]; then
+if [[ -n "$SET_VERSION" ]]; then
+    # Explicit version via --version flag
+    if [[ "$SET_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([a-zA-Z0-9.]+)?$ ]]; then
+        NEW_CLIENT_VERSION="$SET_VERSION"
+        echo -e "${BLUE}Setting version (--version flag): ${NEW_CLIENT_VERSION}${NC}"
+    else
+        echo -e "${RED}✗ Invalid version format: ${SET_VERSION} (expected X.Y.Z)${NC}"
+        exit 1
+    fi
+elif [[ -n "$BUMP_TYPE" ]]; then
+    # Auto-bump via --bump flag
+    case "$BUMP_TYPE" in
+        patch|minor|major)
+            NEW_CLIENT_VERSION=$(calculate_version "${CLIENT_VERSION}" "$BUMP_TYPE")
+            echo -e "${BLUE}Auto-bumping version (--bump ${BUMP_TYPE}): ${CLIENT_VERSION} → ${NEW_CLIENT_VERSION}${NC}"
+            ;;
+        *)
+            echo -e "${RED}✗ Invalid bump type: ${BUMP_TYPE} (expected: patch, minor, major)${NC}"
+            exit 1
+            ;;
+    esac
+elif [[ "$KEEP_VERSION" == true ]]; then
     echo -e "${BLUE}Keeping current version (--keep-version flag): ${CLIENT_VERSION}${NC}"
 else
+    # Interactive mode
     echo -e "${YELLOW}Do you want to update the client version?${NC}"
     echo "  [1] Keep current version (${CLIENT_VERSION})"
     echo "  [2] Patch bump ($(calculate_version "${CLIENT_VERSION}" "patch")) - Bug fixes"
@@ -346,6 +386,30 @@ echo -e "${GREEN}✓ Version information synchronized${NC}"
 echo -e "  __version__ = \"${NEW_CLIENT_VERSION}\""
 echo -e "  __api_version__ = \"${API_VERSION}\""
 echo -e "  __api_supported__ = \"${API_VERSION}\""
+echo ""
+
+# Step 3.55: Update README.md version strings
+echo -e "${YELLOW}[3.55/6] Updating README.md version strings...${NC}"
+if [ -f "${WORKSPACE}/README.md" ]; then
+    # Package Information section
+    sed -i.bak "s/- \*\*Client Version\*\*: .*/- **Client Version**: ${NEW_CLIENT_VERSION}/" "${WORKSPACE}/README.md"
+    sed -i.bak "s/- \*\*Supported API Version\*\*: .*/- **Supported API Version**: ${API_VERSION}/" "${WORKSPACE}/README.md"
+
+    # Code example in Versioning section
+    sed -i.bak "s/# Client version: .*/# Client version: ${NEW_CLIENT_VERSION}/" "${WORKSPACE}/README.md"
+    sed -i.bak "s/# API version: .*/# API version: ${API_VERSION}/" "${WORKSPACE}/README.md"
+    sed -i.bak "s/# Supported API: .*/# Supported API: ${API_VERSION}/" "${WORKSPACE}/README.md"
+
+    # Version Update Guidelines bump examples
+    sed -i.bak "s/- \*\*PATCH\*\* (.*/- **PATCH** (${NEW_CLIENT_VERSION} → $(calculate_version "${NEW_CLIENT_VERSION}" "patch")): Bug fixes, documentation updates/" "${WORKSPACE}/README.md"
+    sed -i.bak "s/- \*\*MINOR\*\* (.*/- **MINOR** ($(calculate_version "${NEW_CLIENT_VERSION}" "patch") → $(calculate_version "${NEW_CLIENT_VERSION}" "minor")): New features, backward-compatible/" "${WORKSPACE}/README.md"
+    sed -i.bak "s/- \*\*MAJOR\*\* (.*/- **MAJOR** ($(calculate_version "${NEW_CLIENT_VERSION}" "minor") → $(calculate_version "${NEW_CLIENT_VERSION}" "major")): Breaking changes/" "${WORKSPACE}/README.md"
+
+    rm -f "${WORKSPACE}/README.md.bak"
+    echo -e "${GREEN}✓ README.md version strings updated${NC}"
+else
+    echo -e "${YELLOW}⚠ README.md not found${NC}"
+fi
 echo ""
 
 # Step 3.6: Update README.md API sections

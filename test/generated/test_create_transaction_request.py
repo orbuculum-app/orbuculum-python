@@ -49,10 +49,38 @@ class TestCreateTransactionRequest(unittest.TestCase):
                 apikey = '',
                 sender_commission = orbuculum_client.models.commission_data.CommissionData(
                     sender_amount = '5.00', 
-                    receiver_amount = '5.00', ),
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
                 receiver_commission = orbuculum_client.models.commission_data.CommissionData(
                     sender_amount = '5.00', 
-                    receiver_amount = '5.00', )
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
+                doubler_account_id = 3,
+                doubler_amount = '50.00',
+                commission_appliance = 1,
+                timezone = 'Europe/Kyiv',
+                leg1_sender_commission = orbuculum_client.models.commission_data.CommissionData(
+                    sender_amount = '5.00', 
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
+                leg1_receiver_commission = orbuculum_client.models.commission_data.CommissionData(
+                    sender_amount = '5.00', 
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
+                leg2_sender_commission = orbuculum_client.models.commission_data.CommissionData(
+                    sender_amount = '5.00', 
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
+                leg2_receiver_commission = orbuculum_client.models.commission_data.CommissionData(
+                    sender_amount = '5.00', 
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, )
             )
         else:
             return CreateTransactionRequest(

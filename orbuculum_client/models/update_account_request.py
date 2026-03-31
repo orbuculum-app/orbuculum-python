@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,10 +31,58 @@ class UpdateAccountRequest(BaseModel):
     id: StrictInt = Field(description="Account ID to update")
     name: Optional[StrictStr] = Field(default=None, description="New account name")
     currency_id: Optional[StrictInt] = Field(default=None, description="Currency ID")
-    commission_type: Optional[StrictStr] = Field(default=None, description="Commission type")
-    commission_value: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Commission value")
-    hidden: Optional[StrictBool] = Field(default=None, description="Whether account is hidden")
-    __properties: ClassVar[List[str]] = ["workspace_id", "id", "name", "currency_id", "commission_type", "commission_value", "hidden"]
+    entity_id: Optional[StrictInt] = Field(default=None, description="Entity ID")
+    hidden: Optional[StrictInt] = Field(default=None, description="Whether account is hidden")
+    hide_balances: Optional[StrictInt] = Field(default=None, description="Whether balances are hidden")
+    commission_enabled: Optional[StrictInt] = Field(default=None, description="Whether commission is enabled")
+    commission_appliance: Optional[StrictInt] = Field(default=None, description="Commission appliance type")
+    commission_sender_account: Optional[StrictInt] = Field(default=None, description="Commission sender account ID")
+    commission_receiver_account: Optional[StrictInt] = Field(default=None, description="Commission receiver account ID")
+    limited: Optional[StrictInt] = Field(default=None, description="Whether the account has transaction limitations")
+    api_id: Optional[Annotated[str, Field(strict=True, max_length=255)]] = Field(default=None, description="External API ID")
+    type: Optional[StrictInt] = Field(default=None, description="Account type")
+    tags: Optional[List[StrictInt]] = Field(default=None, description="Array of account group IDs")
+    __properties: ClassVar[List[str]] = ["workspace_id", "id", "name", "currency_id", "entity_id", "hidden", "hide_balances", "commission_enabled", "commission_appliance", "commission_sender_account", "commission_receiver_account", "limited", "api_id", "type", "tags"]
+
+    @field_validator('hidden')
+    def hidden_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([0, 1]):
+            raise ValueError("must be one of enum values (0, 1)")
+        return value
+
+    @field_validator('hide_balances')
+    def hide_balances_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([0, 1]):
+            raise ValueError("must be one of enum values (0, 1)")
+        return value
+
+    @field_validator('commission_enabled')
+    def commission_enabled_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([0, 1]):
+            raise ValueError("must be one of enum values (0, 1)")
+        return value
+
+    @field_validator('limited')
+    def limited_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([0, 1]):
+            raise ValueError("must be one of enum values (0, 1)")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,20 +133,60 @@ class UpdateAccountRequest(BaseModel):
         if self.currency_id is None and "currency_id" in self.model_fields_set:
             _dict['currency_id'] = None
 
-        # set to None if commission_type (nullable) is None
+        # set to None if entity_id (nullable) is None
         # and model_fields_set contains the field
-        if self.commission_type is None and "commission_type" in self.model_fields_set:
-            _dict['commission_type'] = None
-
-        # set to None if commission_value (nullable) is None
-        # and model_fields_set contains the field
-        if self.commission_value is None and "commission_value" in self.model_fields_set:
-            _dict['commission_value'] = None
+        if self.entity_id is None and "entity_id" in self.model_fields_set:
+            _dict['entity_id'] = None
 
         # set to None if hidden (nullable) is None
         # and model_fields_set contains the field
         if self.hidden is None and "hidden" in self.model_fields_set:
             _dict['hidden'] = None
+
+        # set to None if hide_balances (nullable) is None
+        # and model_fields_set contains the field
+        if self.hide_balances is None and "hide_balances" in self.model_fields_set:
+            _dict['hide_balances'] = None
+
+        # set to None if commission_enabled (nullable) is None
+        # and model_fields_set contains the field
+        if self.commission_enabled is None and "commission_enabled" in self.model_fields_set:
+            _dict['commission_enabled'] = None
+
+        # set to None if commission_appliance (nullable) is None
+        # and model_fields_set contains the field
+        if self.commission_appliance is None and "commission_appliance" in self.model_fields_set:
+            _dict['commission_appliance'] = None
+
+        # set to None if commission_sender_account (nullable) is None
+        # and model_fields_set contains the field
+        if self.commission_sender_account is None and "commission_sender_account" in self.model_fields_set:
+            _dict['commission_sender_account'] = None
+
+        # set to None if commission_receiver_account (nullable) is None
+        # and model_fields_set contains the field
+        if self.commission_receiver_account is None and "commission_receiver_account" in self.model_fields_set:
+            _dict['commission_receiver_account'] = None
+
+        # set to None if limited (nullable) is None
+        # and model_fields_set contains the field
+        if self.limited is None and "limited" in self.model_fields_set:
+            _dict['limited'] = None
+
+        # set to None if api_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.api_id is None and "api_id" in self.model_fields_set:
+            _dict['api_id'] = None
+
+        # set to None if type (nullable) is None
+        # and model_fields_set contains the field
+        if self.type is None and "type" in self.model_fields_set:
+            _dict['type'] = None
+
+        # set to None if tags (nullable) is None
+        # and model_fields_set contains the field
+        if self.tags is None and "tags" in self.model_fields_set:
+            _dict['tags'] = None
 
         return _dict
 
@@ -115,9 +204,17 @@ class UpdateAccountRequest(BaseModel):
             "id": obj.get("id"),
             "name": obj.get("name"),
             "currency_id": obj.get("currency_id"),
-            "commission_type": obj.get("commission_type"),
-            "commission_value": obj.get("commission_value"),
-            "hidden": obj.get("hidden")
+            "entity_id": obj.get("entity_id"),
+            "hidden": obj.get("hidden"),
+            "hide_balances": obj.get("hide_balances"),
+            "commission_enabled": obj.get("commission_enabled"),
+            "commission_appliance": obj.get("commission_appliance"),
+            "commission_sender_account": obj.get("commission_sender_account"),
+            "commission_receiver_account": obj.get("commission_receiver_account"),
+            "limited": obj.get("limited"),
+            "api_id": obj.get("api_id"),
+            "type": obj.get("type"),
+            "tags": obj.get("tags")
         })
         return _obj
 

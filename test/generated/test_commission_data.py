@@ -36,7 +36,9 @@ class TestCommissionData(unittest.TestCase):
         if include_optional:
             return CommissionData(
                 sender_amount = '5.00',
-                receiver_amount = '5.00'
+                receiver_amount = '5.00',
+                sender_account_id = 42,
+                receiver_account_id = 43
             )
         else:
             return CommissionData(

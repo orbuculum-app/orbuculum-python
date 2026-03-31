@@ -36,15 +36,17 @@ class TestEditAccountPermissionRequest(unittest.TestCase):
         if include_optional:
             return EditAccountPermissionRequest(
                 workspace_id = 1,
-                permission_id = 1,
-                can_read = True,
-                can_write = True,
-                can_manage = False
+                role_id = 2,
+                account_id = 10,
+                can_manage = True,
+                show_balance = True,
+                show_transactions = True
             )
         else:
             return EditAccountPermissionRequest(
                 workspace_id = 1,
-                permission_id = 1,
+                role_id = 2,
+                account_id = 10,
         )
         """
 

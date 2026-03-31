@@ -1,12 +1,13 @@
 # orbuculum_client.EntityPermissionsApi
 
-All URIs are relative to *https://s1.orbuculum.app*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_entity_permission**](EntityPermissionsApi.md#create_entity_permission) | **POST** /api/permission/entity-create | Create entity permission
 [**delete_entity_permission**](EntityPermissionsApi.md#delete_entity_permission) | **POST** /api/permission/entity-delete | Delete entity permission
 [**get_entity_permissions**](EntityPermissionsApi.md#get_entity_permissions) | **GET** /api/permission/entity | Get entity permissions
+[**update_entity_tab**](EntityPermissionsApi.md#update_entity_tab) | **POST** /api/permission/update-entity-tab | Update entity permissions (Tab 2)
 
 
 # **create_entity_permission**
@@ -27,10 +28,10 @@ from orbuculum_client.models.permission_created_response import PermissionCreate
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -109,10 +110,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -191,10 +192,10 @@ from orbuculum_client.models.get_entity_permissions_response import GetEntityPer
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -255,7 +256,90 @@ Name | Type | Description  | Notes
 **200** | Entity permissions retrieved successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | Forbidden - no PERMISSION_MANAGEMENT access |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_entity_tab**
+> update_entity_tab(update_entity_tab_request)
+
+Update entity permissions (Tab 2)
+
+Update entity-level permissions for a workspace member. Sets entity access levels (none/read/manage), entity creation permission, and account creation permissions per entity.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.update_entity_tab_request import UpdateEntityTabRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.EntityPermissionsApi(api_client)
+    update_entity_tab_request = orbuculum_client.UpdateEntityTabRequest() # UpdateEntityTabRequest | 
+
+    try:
+        # Update entity permissions (Tab 2)
+        api_instance.update_entity_tab(update_entity_tab_request)
+    except Exception as e:
+        print("Exception when calling EntityPermissionsApi->update_entity_tab: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **update_entity_tab_request** | [**UpdateEntityTabRequest**](UpdateEntityTabRequest.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Entity permissions updated successfully |  -  |
+**400** | Validation error |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**404** | User not found |  -  |
+**409** | User has full access |  -  |
+**500** | Internal error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

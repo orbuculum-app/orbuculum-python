@@ -33,6 +33,13 @@ class TestTransactionApi(unittest.TestCase):
         """
         pass
 
+    def test_call_715f0758591c4b040bb95d00236e14e4(self) -> None:
+        """Test case for call_715f0758591c4b040bb95d00236e14e4
+
+        Check chained transactions affected by mass action
+        """
+        pass
+
     def test_create_transaction(self) -> None:
         """Test case for create_transaction
 
@@ -47,10 +54,80 @@ class TestTransactionApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_transaction_file(self) -> None:
+        """Test case for delete_transaction_file
+
+        Delete a transaction file
+        """
+        pass
+
+    def test_download_transaction_file(self) -> None:
+        """Test case for download_transaction_file
+
+        Download a transaction file
+        """
+        pass
+
+    def test_get_recalculated_balances(self) -> None:
+        """Test case for get_recalculated_balances
+
+        Poll for balance recalculation status
+        """
+        pass
+
     def test_get_transaction(self) -> None:
         """Test case for get_transaction
 
-        Get transaction details
+        Get transaction(s) with enriched data, pagination and filters
+        """
+        pass
+
+    def test_list_transaction_files(self) -> None:
+        """Test case for list_transaction_files
+
+        List files for a transaction
+        """
+        pass
+
+    def test_mass_delete_transactions(self) -> None:
+        """Test case for mass_delete_transactions
+
+        Delete multiple transactions
+        """
+        pass
+
+    def test_mass_duplicate_transactions(self) -> None:
+        """Test case for mass_duplicate_transactions
+
+        Duplicate multiple transactions
+        """
+        pass
+
+    def test_mass_replace_account(self) -> None:
+        """Test case for mass_replace_account
+
+        Replace account on multiple transactions
+        """
+        pass
+
+    def test_mass_set_date(self) -> None:
+        """Test case for mass_set_date
+
+        Set date on multiple transactions
+        """
+        pass
+
+    def test_mass_set_done(self) -> None:
+        """Test case for mass_set_done
+
+        Set done/undone on multiple transactions
+        """
+        pass
+
+    def test_set_balance_invalid(self) -> None:
+        """Test case for set_balance_invalid
+
+        Trigger balance recalculation for specified accounts
         """
         pass
 
@@ -58,6 +135,13 @@ class TestTransactionApi(unittest.TestCase):
         """Test case for update_transaction
 
         Update an existing transaction
+        """
+        pass
+
+    def test_upload_transaction_files(self) -> None:
+        """Test case for upload_transaction_files
+
+        Upload files to a transaction
         """
         pass
 

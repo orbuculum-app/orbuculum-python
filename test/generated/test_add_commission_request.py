@@ -39,7 +39,9 @@ class TestAddCommissionRequest(unittest.TestCase):
                 id = 1,
                 commission = orbuculum_client.models.commission_data.CommissionData(
                     sender_amount = '5.00', 
-                    receiver_amount = '5.00', ),
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
                 commission_side = 'sender'
             )
         else:
@@ -48,7 +50,9 @@ class TestAddCommissionRequest(unittest.TestCase):
                 id = 1,
                 commission = orbuculum_client.models.commission_data.CommissionData(
                     sender_amount = '5.00', 
-                    receiver_amount = '5.00', ),
+                    receiver_amount = '5.00', 
+                    sender_account_id = 42, 
+                    receiver_account_id = 43, ),
         )
         """
 

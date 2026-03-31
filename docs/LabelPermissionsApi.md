@@ -1,12 +1,13 @@
 # orbuculum_client.LabelPermissionsApi
 
-All URIs are relative to *https://s1.orbuculum.app*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_label_permission**](LabelPermissionsApi.md#create_label_permission) | **POST** /api/permission/label-create | Create label permission
 [**delete_label_permission**](LabelPermissionsApi.md#delete_label_permission) | **POST** /api/permission/label-delete | Delete label permission
 [**get_label_permissions**](LabelPermissionsApi.md#get_label_permissions) | **GET** /api/permission/label | Get label permissions
+[**update_label_tab**](LabelPermissionsApi.md#update_label_tab) | **POST** /api/permission/update-label-tab | Update label permissions (Tab 4)
 
 
 # **create_label_permission**
@@ -27,10 +28,10 @@ from orbuculum_client.models.permission_created_response import PermissionCreate
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -109,10 +110,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -191,10 +192,10 @@ from orbuculum_client.models.get_label_permissions_response import GetLabelPermi
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -259,6 +260,88 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **404** | Workspace not found |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_label_tab**
+> update_label_tab(update_label_tab_request)
+
+Update label permissions (Tab 4)
+
+Update label-level permissions for a workspace member. Sets per-account access levels for a specific label. Accounts with full access (edit permission) are skipped.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.update_label_tab_request import UpdateLabelTabRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.LabelPermissionsApi(api_client)
+    update_label_tab_request = orbuculum_client.UpdateLabelTabRequest() # UpdateLabelTabRequest | 
+
+    try:
+        # Update label permissions (Tab 4)
+        api_instance.update_label_tab(update_label_tab_request)
+    except Exception as e:
+        print("Exception when calling LabelPermissionsApi->update_label_tab: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **update_label_tab_request** | [**UpdateLabelTabRequest**](UpdateLabelTabRequest.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Label permissions updated successfully |  -  |
+**400** | Validation error |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**404** | User not found |  -  |
+**409** | User has full access |  -  |
+**500** | Internal error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

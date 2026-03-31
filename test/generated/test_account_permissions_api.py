@@ -54,6 +54,20 @@ class TestAccountPermissionsApi(unittest.TestCase):
         """
         pass
 
+    def test_get_manage_access(self) -> None:
+        """Test case for get_manage_access
+
+        Get manage-access data for account
+        """
+        pass
+
+    def test_update_account_tab(self) -> None:
+        """Test case for update_account_tab
+
+        Update account permissions (Tab 3)
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

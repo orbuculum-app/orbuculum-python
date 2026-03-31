@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -36,9 +36,11 @@ class CreateAccountRequest(BaseModel):
     commission_appliance: Optional[StrictInt] = Field(default=None, description="Commission appliance type")
     commission_sender_account: Optional[StrictInt] = Field(default=None, description="Commission sender account ID")
     commission_receiver_account: Optional[StrictInt] = Field(default=None, description="Commission receiver account ID")
+    limited: Optional[StrictBool] = Field(default=None, description="Whether the account has transaction limitations")
+    initial_balance: Optional[StrictStr] = Field(default=None, description="Initial balance amount (positive or negative)")
     api_id: Optional[StrictStr] = Field(default=None, description="External API ID")
     type: Optional[StrictStr] = Field(default=None, description="Account type")
-    __properties: ClassVar[List[str]] = ["workspace_id", "entity_id", "name", "currency_id", "hidden", "hide_balances", "commission_enabled", "commission_appliance", "commission_sender_account", "commission_receiver_account", "api_id", "type"]
+    __properties: ClassVar[List[str]] = ["workspace_id", "entity_id", "name", "currency_id", "hidden", "hide_balances", "commission_enabled", "commission_appliance", "commission_sender_account", "commission_receiver_account", "limited", "initial_balance", "api_id", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -114,6 +116,11 @@ class CreateAccountRequest(BaseModel):
         if self.commission_receiver_account is None and "commission_receiver_account" in self.model_fields_set:
             _dict['commission_receiver_account'] = None
 
+        # set to None if initial_balance (nullable) is None
+        # and model_fields_set contains the field
+        if self.initial_balance is None and "initial_balance" in self.model_fields_set:
+            _dict['initial_balance'] = None
+
         # set to None if api_id (nullable) is None
         # and model_fields_set contains the field
         if self.api_id is None and "api_id" in self.model_fields_set:
@@ -146,6 +153,8 @@ class CreateAccountRequest(BaseModel):
             "commission_appliance": obj.get("commission_appliance"),
             "commission_sender_account": obj.get("commission_sender_account"),
             "commission_receiver_account": obj.get("commission_receiver_account"),
+            "limited": obj.get("limited"),
+            "initial_balance": obj.get("initial_balance"),
             "api_id": obj.get("api_id"),
             "type": obj.get("type")
         })

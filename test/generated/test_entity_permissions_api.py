@@ -47,6 +47,13 @@ class TestEntityPermissionsApi(unittest.TestCase):
         """
         pass
 
+    def test_update_entity_tab(self) -> None:
+        """Test case for update_entity_tab
+
+        Update entity permissions (Tab 2)
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -54,6 +54,34 @@ class TestAccountApi(unittest.TestCase):
         """
         pass
 
+    def test_get_account_balance(self) -> None:
+        """Test case for get_account_balance
+
+        Get account balance at a specific date
+        """
+        pass
+
+    def test_get_account_context(self) -> None:
+        """Test case for get_account_context
+
+        Get account form context data
+        """
+        pass
+
+    def test_get_menu_config(self) -> None:
+        """Test case for get_menu_config
+
+        Get sidebar menu configuration
+        """
+        pass
+
+    def test_save_account_sorting(self) -> None:
+        """Test case for save_account_sorting
+
+        Save account sorting preference
+        """
+        pass
+
     def test_update_account(self) -> None:
         """Test case for update_account
 

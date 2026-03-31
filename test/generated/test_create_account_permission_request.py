@@ -39,7 +39,8 @@ class TestCreateAccountPermissionRequest(unittest.TestCase):
                 account_id = 1,
                 role_id = 2,
                 can_manage = False,
-                show_balance = True
+                show_balance = True,
+                show_transactions = True
             )
         else:
             return CreateAccountPermissionRequest(

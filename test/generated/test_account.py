@@ -38,18 +38,24 @@ class TestAccount(unittest.TestCase):
                 id = 56,
                 name = '',
                 entity_id = 56,
+                entity_name = '',
+                entity_type = 56,
                 currency_id = 56,
-                hidden = True,
-                hide_balances = True,
-                api_id = 56,
-                commission_type = 56,
+                type = 56,
+                hidden = 56,
+                balance = '',
+                hide_balances = 56,
+                api_id = '',
+                commission_enabled = 0,
                 commission_account_id = 56,
-                commission_value = 1.337,
-                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                custom_commission_sender_id = 56,
                 commission_appliance = 56,
-                limited = True
+                custom_commission_sender_id = 56,
+                has_transactions = True,
+                initial_balance = '',
+                limited = True,
+                tags = [
+                    56
+                    ]
             )
         else:
             return Account(

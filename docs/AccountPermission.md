@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **can_read** | **bool** | Read permission | [optional] 
 **can_write** | **bool** | Write permission | [optional] 
 **can_manage** | **bool** | Full access | [optional] 
+**show_transactions** | **bool** | Whether transactions are visible for this account permission | [optional] 
 
 ## Example
 

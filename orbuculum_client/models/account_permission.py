@@ -31,7 +31,8 @@ class AccountPermission(BaseModel):
     can_read: Optional[StrictBool] = Field(default=None, description="Read permission")
     can_write: Optional[StrictBool] = Field(default=None, description="Write permission")
     can_manage: Optional[StrictBool] = Field(default=None, description="Full access")
-    __properties: ClassVar[List[str]] = ["account_id", "account_name", "can_read", "can_write", "can_manage"]
+    show_transactions: Optional[StrictBool] = Field(default=None, description="Whether transactions are visible for this account permission")
+    __properties: ClassVar[List[str]] = ["account_id", "account_name", "can_read", "can_write", "can_manage", "show_transactions"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +89,8 @@ class AccountPermission(BaseModel):
             "account_name": obj.get("account_name"),
             "can_read": obj.get("can_read"),
             "can_write": obj.get("can_write"),
-            "can_manage": obj.get("can_manage")
+            "can_manage": obj.get("can_manage"),
+            "show_transactions": obj.get("show_transactions")
         })
         return _obj
 

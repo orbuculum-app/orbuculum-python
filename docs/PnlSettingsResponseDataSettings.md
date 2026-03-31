@@ -1,0 +1,32 @@
+# PnlSettingsResponseDataSettings
+
+Normalized PnL report display settings
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**period** | **int** | Range period (0-4) | [optional] 
+**options** | **List[int]** | Display options [full_period, show_totals, include_future] | [optional] 
+**sections** | **List[int]** | Section collapse state | [optional] 
+
+## Example
+
+```python
+from orbuculum_client.models.pnl_settings_response_data_settings import PnlSettingsResponseDataSettings
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of PnlSettingsResponseDataSettings from a JSON string
+pnl_settings_response_data_settings_instance = PnlSettingsResponseDataSettings.from_json(json)
+# print the JSON string representation of the object
+print(PnlSettingsResponseDataSettings.to_json())
+
+# convert the object into a dict
+pnl_settings_response_data_settings_dict = pnl_settings_response_data_settings_instance.to_dict()
+# create an instance of PnlSettingsResponseDataSettings from a dict
+pnl_settings_response_data_settings_from_dict = PnlSettingsResponseDataSettings.from_dict(pnl_settings_response_data_settings_dict)
+```
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

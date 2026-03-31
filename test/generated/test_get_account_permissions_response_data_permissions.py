@@ -41,7 +41,8 @@ class TestGetAccountPermissionsResponseDataPermissions(unittest.TestCase):
                         account_name = '', 
                         can_read = True, 
                         can_write = True, 
-                        can_manage = True, )
+                        can_manage = True, 
+                        show_transactions = True, )
                     ],
                 manage = [
                     orbuculum_client.models.account_permission.AccountPermission(
@@ -49,7 +50,8 @@ class TestGetAccountPermissionsResponseDataPermissions(unittest.TestCase):
                         account_name = '', 
                         can_read = True, 
                         can_write = True, 
-                        can_manage = True, )
+                        can_manage = True, 
+                        show_transactions = True, )
                     ]
             )
         else:

@@ -20,6 +20,14 @@ Name | Type | Description | Notes
 **apikey** | **str** | API key for external integrations | [optional] 
 **sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
+**doubler_account_id** | **int** | Doubler account ID for linked doubler transactions | [optional] 
+**doubler_amount** | **str** | Doubler leg amount (required when doubler_account_id is set) | [optional] 
+**commission_appliance** | **int** | Commission appliance deduction flag (0 or 1) | [optional] 
+**timezone** | **str** | IANA timezone for datetime conversion (e.g., Europe/Kyiv) | [optional] 
+**leg1_sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
+**leg1_receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
+**leg2_sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
+**leg2_receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 
 ## Example
 

@@ -8,6 +8,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **sender_amount** | **str** | Commission sender amount | 
 **receiver_amount** | **str** | Commission receiver amount | 
+**sender_account_id** | **int** | Override commission sender account ID | [optional] 
+**receiver_account_id** | **int** | Override commission receiver account ID | [optional] 
 
 ## Example
 

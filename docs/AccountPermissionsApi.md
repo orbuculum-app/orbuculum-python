@@ -1,6 +1,6 @@
 # orbuculum_client.AccountPermissionsApi
 
-All URIs are relative to *https://s1.orbuculum.app*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -8,6 +8,8 @@ Method | HTTP request | Description
 [**delete_account_permission**](AccountPermissionsApi.md#delete_account_permission) | **POST** /api/permission/account-delete | Delete account permission
 [**edit_account_permission**](AccountPermissionsApi.md#edit_account_permission) | **POST** /api/permission/account-edit | Permission to edit account
 [**get_account_permissions**](AccountPermissionsApi.md#get_account_permissions) | **GET** /api/permission/account | Get account permissions
+[**get_manage_access**](AccountPermissionsApi.md#get_manage_access) | **GET** /api/permission/manage-access | Get manage-access data for account
+[**update_account_tab**](AccountPermissionsApi.md#update_account_tab) | **POST** /api/permission/update-account-tab | Update account permissions (Tab 3)
 
 
 # **create_account_permission**
@@ -28,10 +30,10 @@ from orbuculum_client.models.permission_created_response import PermissionCreate
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -109,10 +111,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -194,10 +196,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -254,6 +256,7 @@ Name | Type | Description  | Notes
 **201** | Account permission created successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | Forbidden - no PERMISSION_MANAGEMENT access |  -  |
 **404** | Resource not found |  -  |
 **500** | Internal server error |  -  |
 
@@ -276,10 +279,10 @@ from orbuculum_client.models.get_account_permissions_response import GetAccountP
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://s1.orbuculum.app
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://s1.orbuculum.app"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -340,6 +343,172 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **404** | Workspace not found |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_manage_access**
+> GetManageAccess200Response get_manage_access(workspace_id, account_id)
+
+Get manage-access data for account
+
+Returns user-centric view of account permissions with computed lock states for the Access modal
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_manage_access200_response import GetManageAccess200Response
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AccountPermissionsApi(api_client)
+    workspace_id = 1 # int | 
+    account_id = 1 # int | 
+
+    try:
+        # Get manage-access data for account
+        api_response = api_instance.get_manage_access(workspace_id, account_id)
+        print("The response of AccountPermissionsApi->get_manage_access:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AccountPermissionsApi->get_manage_access: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+ **account_id** | **int**|  | 
+
+### Return type
+
+[**GetManageAccess200Response**](GetManageAccess200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Manage access data |  -  |
+**400** | Bad request |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**404** | Account not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_account_tab**
+> update_account_tab(update_account_tab_request)
+
+Update account permissions (Tab 3)
+
+Update account-level permissions for a workspace member. Sets per-account access (full access, read-only, or no access) with balance visibility and transaction hiding options.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.update_account_tab_request import UpdateAccountTabRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AccountPermissionsApi(api_client)
+    update_account_tab_request = orbuculum_client.UpdateAccountTabRequest() # UpdateAccountTabRequest | 
+
+    try:
+        # Update account permissions (Tab 3)
+        api_instance.update_account_tab(update_account_tab_request)
+    except Exception as e:
+        print("Exception when calling AccountPermissionsApi->update_account_tab: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **update_account_tab_request** | [**UpdateAccountTabRequest**](UpdateAccountTabRequest.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Account permissions updated successfully |  -  |
+**400** | Validation error |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**404** | User not found |  -  |
+**409** | User has full access |  -  |
+**500** | Internal error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

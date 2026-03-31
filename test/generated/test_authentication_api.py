@@ -26,10 +26,24 @@ class TestAuthenticationApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_disconnect_social(self) -> None:
+        """Test case for disconnect_social
+
+        Disconnect a social auth provider
+        """
+        pass
+
     def test_login(self) -> None:
         """Test case for login
 
         Login and get JWT token
+        """
+        pass
+
+    def test_register(self) -> None:
+        """Test case for register
+
+        Register a new user and get JWT token
         """
         pass
 

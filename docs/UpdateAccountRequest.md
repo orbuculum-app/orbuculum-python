@@ -10,9 +10,17 @@ Name | Type | Description | Notes
 **id** | **int** | Account ID to update | 
 **name** | **str** | New account name | [optional] 
 **currency_id** | **int** | Currency ID | [optional] 
-**commission_type** | **str** | Commission type | [optional] 
-**commission_value** | **float** | Commission value | [optional] 
-**hidden** | **bool** | Whether account is hidden | [optional] 
+**entity_id** | **int** | Entity ID | [optional] 
+**hidden** | **int** | Whether account is hidden | [optional] 
+**hide_balances** | **int** | Whether balances are hidden | [optional] 
+**commission_enabled** | **int** | Whether commission is enabled | [optional] 
+**commission_appliance** | **int** | Commission appliance type | [optional] 
+**commission_sender_account** | **int** | Commission sender account ID | [optional] 
+**commission_receiver_account** | **int** | Commission receiver account ID | [optional] 
+**limited** | **int** | Whether the account has transaction limitations | [optional] 
+**api_id** | **str** | External API ID | [optional] 
+**type** | **int** | Account type | [optional] 
+**tags** | **List[int]** | Array of account group IDs | [optional] 
 
 ## Example
 

@@ -24,14 +24,15 @@ from typing_extensions import Self
 
 class EditAccountPermissionRequest(BaseModel):
     """
-    Request body for editing account permission
+    EditAccountPermissionRequest
     """ # noqa: E501
     workspace_id: StrictInt = Field(description="Workspace ID")
-    permission_id: StrictInt = Field(description="Permission ID to edit")
-    can_read: Optional[StrictBool] = Field(default=None, description="Read permission")
-    can_write: Optional[StrictBool] = Field(default=None, description="Write permission")
-    can_manage: Optional[StrictBool] = Field(default=None, description="Full access")
-    __properties: ClassVar[List[str]] = ["workspace_id", "permission_id", "can_read", "can_write", "can_manage"]
+    role_id: StrictInt = Field(description="Role ID")
+    account_id: StrictInt = Field(description="Account ID")
+    can_manage: Optional[StrictBool] = Field(default=None, description="Whether the role can manage this account. Default: true.")
+    show_balance: Optional[StrictBool] = Field(default=None, description="Whether to show account balance. Default: true.")
+    show_transactions: Optional[StrictBool] = Field(default=None, description="Whether transactions are visible for this account. Default: true.")
+    __properties: ClassVar[List[str]] = ["workspace_id", "role_id", "account_id", "can_manage", "show_balance", "show_transactions"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,10 +86,11 @@ class EditAccountPermissionRequest(BaseModel):
 
         _obj = cls.model_validate({
             "workspace_id": obj.get("workspace_id"),
-            "permission_id": obj.get("permission_id"),
-            "can_read": obj.get("can_read"),
-            "can_write": obj.get("can_write"),
-            "can_manage": obj.get("can_manage")
+            "role_id": obj.get("role_id"),
+            "account_id": obj.get("account_id"),
+            "can_manage": obj.get("can_manage"),
+            "show_balance": obj.get("show_balance"),
+            "show_transactions": obj.get("show_transactions")
         })
         return _obj
 

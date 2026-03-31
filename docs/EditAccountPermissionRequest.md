@@ -1,16 +1,16 @@
 # EditAccountPermissionRequest
 
-Request body for editing account permission
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
-**permission_id** | **int** | Permission ID to edit | 
-**can_read** | **bool** | Read permission | [optional] 
-**can_write** | **bool** | Write permission | [optional] 
-**can_manage** | **bool** | Full access | [optional] 
+**role_id** | **int** | Role ID | 
+**account_id** | **int** | Account ID | 
+**can_manage** | **bool** | Whether the role can manage this account. Default: true. | [optional] 
+**show_balance** | **bool** | Whether to show account balance. Default: true. | [optional] 
+**show_transactions** | **bool** | Whether transactions are visible for this account. Default: true. | [optional] 
 
 ## Example
 

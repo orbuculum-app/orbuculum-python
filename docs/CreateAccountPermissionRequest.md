@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **role_id** | **int** | Role ID | 
 **can_manage** | **bool** | Full access | 
 **show_balance** | **bool** | Show balance permission | 
+**show_transactions** | **bool** | Whether transactions are visible for this account. Default: true. Inverted internally to hide_transactions_without_access. | [optional] 
 
 ## Example
 

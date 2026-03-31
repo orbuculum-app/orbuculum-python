@@ -1,6 +1,6 @@
 [project]
 name = "orbuculum-client"
-version = "0.3.0"
+version = "0.4.0"
 description = "Official Python client for the Orbuculum API - accounting and finance automation"
 authors = [
   {name = "Orbuculum Team", email = "i@orbuculum.app"},
@@ -34,10 +34,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/orbuculum-app/orbuculum-python-client"
-Repository = "https://github.com/orbuculum-app/orbuculum-python-client"
-Issues = "https://github.com/orbuculum-app/orbuculum-python-client/issues"
-Documentation = "https://s1.orbuculum.app/swagger"
+Homepage = "https://github.com/orbuculum-app/orbuculum-python"
+Repository = "https://github.com/orbuculum-app/orbuculum-python"
+Issues = "https://github.com/orbuculum-app/orbuculum-python/issues"
+Documentation = "https://orbuculum.app/swagger"
 
 [project.optional-dependencies]
 dev = [

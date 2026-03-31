@@ -196,7 +196,7 @@ All version updates and builds must be performed in the standardized Docker envi
 ### Code Generation
 - **Generator library**: urllib3
 - **Generator version**: OpenAPI Generator 7.15.0
-- **Source**: https://s1.orbuculum.app/swagger/json
+- **Source**: https://orbuculum.app/swagger/json
 
 ### Why Standardized Environment?
 1. **Reproducibility**: Same results on all machines

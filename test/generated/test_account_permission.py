@@ -39,7 +39,8 @@ class TestAccountPermission(unittest.TestCase):
                 account_name = '',
                 can_read = True,
                 can_write = True,
-                can_manage = True
+                can_manage = True,
+                show_transactions = True
             )
         else:
             return AccountPermission(

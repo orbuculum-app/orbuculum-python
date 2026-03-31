@@ -41,7 +41,15 @@ class CreateTransactionRequest(BaseModel):
     apikey: Optional[StrictStr] = Field(default=None, description="API key for external integrations")
     sender_commission: Optional[CommissionData] = None
     receiver_commission: Optional[CommissionData] = None
-    __properties: ClassVar[List[str]] = ["workspace_id", "sender_account_id", "receiver_account_id", "sender_amount", "receiver_amount", "dt", "project_id", "comment", "description", "done", "commission_applied", "apikey", "sender_commission", "receiver_commission"]
+    doubler_account_id: Optional[StrictInt] = Field(default=None, description="Doubler account ID for linked doubler transactions")
+    doubler_amount: Optional[StrictStr] = Field(default=None, description="Doubler leg amount (required when doubler_account_id is set)")
+    commission_appliance: Optional[StrictInt] = Field(default=None, description="Commission appliance deduction flag (0 or 1)")
+    timezone: Optional[StrictStr] = Field(default=None, description="IANA timezone for datetime conversion (e.g., Europe/Kyiv)")
+    leg1_sender_commission: Optional[CommissionData] = None
+    leg1_receiver_commission: Optional[CommissionData] = None
+    leg2_sender_commission: Optional[CommissionData] = None
+    leg2_receiver_commission: Optional[CommissionData] = None
+    __properties: ClassVar[List[str]] = ["workspace_id", "sender_account_id", "receiver_account_id", "sender_amount", "receiver_amount", "dt", "project_id", "comment", "description", "done", "commission_applied", "apikey", "sender_commission", "receiver_commission", "doubler_account_id", "doubler_amount", "commission_appliance", "timezone", "leg1_sender_commission", "leg1_receiver_commission", "leg2_sender_commission", "leg2_receiver_commission"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +96,18 @@ class CreateTransactionRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of receiver_commission
         if self.receiver_commission:
             _dict['receiver_commission'] = self.receiver_commission.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of leg1_sender_commission
+        if self.leg1_sender_commission:
+            _dict['leg1_sender_commission'] = self.leg1_sender_commission.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of leg1_receiver_commission
+        if self.leg1_receiver_commission:
+            _dict['leg1_receiver_commission'] = self.leg1_receiver_commission.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of leg2_sender_commission
+        if self.leg2_sender_commission:
+            _dict['leg2_sender_commission'] = self.leg2_sender_commission.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of leg2_receiver_commission
+        if self.leg2_receiver_commission:
+            _dict['leg2_receiver_commission'] = self.leg2_receiver_commission.to_dict()
         # set to None if sender_amount (nullable) is None
         # and model_fields_set contains the field
         if self.sender_amount is None and "sender_amount" in self.model_fields_set:
@@ -133,6 +153,46 @@ class CreateTransactionRequest(BaseModel):
         if self.receiver_commission is None and "receiver_commission" in self.model_fields_set:
             _dict['receiver_commission'] = None
 
+        # set to None if doubler_account_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.doubler_account_id is None and "doubler_account_id" in self.model_fields_set:
+            _dict['doubler_account_id'] = None
+
+        # set to None if doubler_amount (nullable) is None
+        # and model_fields_set contains the field
+        if self.doubler_amount is None and "doubler_amount" in self.model_fields_set:
+            _dict['doubler_amount'] = None
+
+        # set to None if commission_appliance (nullable) is None
+        # and model_fields_set contains the field
+        if self.commission_appliance is None and "commission_appliance" in self.model_fields_set:
+            _dict['commission_appliance'] = None
+
+        # set to None if timezone (nullable) is None
+        # and model_fields_set contains the field
+        if self.timezone is None and "timezone" in self.model_fields_set:
+            _dict['timezone'] = None
+
+        # set to None if leg1_sender_commission (nullable) is None
+        # and model_fields_set contains the field
+        if self.leg1_sender_commission is None and "leg1_sender_commission" in self.model_fields_set:
+            _dict['leg1_sender_commission'] = None
+
+        # set to None if leg1_receiver_commission (nullable) is None
+        # and model_fields_set contains the field
+        if self.leg1_receiver_commission is None and "leg1_receiver_commission" in self.model_fields_set:
+            _dict['leg1_receiver_commission'] = None
+
+        # set to None if leg2_sender_commission (nullable) is None
+        # and model_fields_set contains the field
+        if self.leg2_sender_commission is None and "leg2_sender_commission" in self.model_fields_set:
+            _dict['leg2_sender_commission'] = None
+
+        # set to None if leg2_receiver_commission (nullable) is None
+        # and model_fields_set contains the field
+        if self.leg2_receiver_commission is None and "leg2_receiver_commission" in self.model_fields_set:
+            _dict['leg2_receiver_commission'] = None
+
         return _dict
 
     @classmethod
@@ -158,7 +218,15 @@ class CreateTransactionRequest(BaseModel):
             "commission_applied": obj.get("commission_applied"),
             "apikey": obj.get("apikey"),
             "sender_commission": CommissionData.from_dict(obj["sender_commission"]) if obj.get("sender_commission") is not None else None,
-            "receiver_commission": CommissionData.from_dict(obj["receiver_commission"]) if obj.get("receiver_commission") is not None else None
+            "receiver_commission": CommissionData.from_dict(obj["receiver_commission"]) if obj.get("receiver_commission") is not None else None,
+            "doubler_account_id": obj.get("doubler_account_id"),
+            "doubler_amount": obj.get("doubler_amount"),
+            "commission_appliance": obj.get("commission_appliance"),
+            "timezone": obj.get("timezone"),
+            "leg1_sender_commission": CommissionData.from_dict(obj["leg1_sender_commission"]) if obj.get("leg1_sender_commission") is not None else None,
+            "leg1_receiver_commission": CommissionData.from_dict(obj["leg1_receiver_commission"]) if obj.get("leg1_receiver_commission") is not None else None,
+            "leg2_sender_commission": CommissionData.from_dict(obj["leg2_sender_commission"]) if obj.get("leg2_sender_commission") is not None else None,
+            "leg2_receiver_commission": CommissionData.from_dict(obj["leg2_receiver_commission"]) if obj.get("leg2_receiver_commission") is not None else None
         })
         return _obj
 
