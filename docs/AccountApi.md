@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**get_account**](AccountApi.md#get_account) | **GET** /api/account/get | Get account details
 [**get_account_balance**](AccountApi.md#get_account_balance) | **GET** /api/account/balance | Get account balance at a specific date
 [**get_account_context**](AccountApi.md#get_account_context) | **GET** /api/account/context | Get account form context data
+[**get_account_transactions**](AccountApi.md#get_account_transactions) | **GET** /api/account/transactions | Get account transactions with cursor pagination
 [**get_menu_config**](AccountApi.md#get_menu_config) | **GET** /api/account/get-menu-config | Get sidebar menu configuration
 [**save_account_sorting**](AccountApi.md#save_account_sorting) | **POST** /api/account/save-sorting | Save account sorting preference
 [**update_account**](AccountApi.md#update_account) | **POST** /api/account/update | Update an existing account
@@ -524,6 +525,113 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **404** | Not found |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_account_transactions**
+> AccountTransactionsResponse get_account_transactions(workspace_id, account_id, direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids)
+
+Get account transactions with cursor pagination
+
+Returns paginated list of transactions for a specific account with counterparty enrichment and account-level summary.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.account_transactions_response import AccountTransactionsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AccountApi(api_client)
+    workspace_id = 1 # int | Workspace ID
+    account_id = 10 # int | Account ID to list transactions for
+    direction = 'direction_example' # str | Pagination direction: 'up' (newer) or 'down' (older)
+    limit = 40 # int | Items per page (1-200, default 40) (optional)
+    cursor_dt = '2026-03-30 14:00:00' # str | Cursor: datetime of last item (YYYY-MM-DD HH:MM:SS) (optional)
+    cursor_id = 460 # int | Cursor: ID of last item (optional)
+    date_from = '2026-01-01' # str | Date filter start (YYYY-MM-DD) (optional)
+    date_to = '2026-12-31' # str | Date filter end (YYYY-MM-DD) (optional)
+    counterparty = '101_205_300' # str | Counterparty account IDs separated by underscore (optional)
+    amount_from = '100.00' # str | Min amount filter (optional)
+    amount_to = '5000.00' # str | Max amount filter (optional)
+    comment = 'Supplies' # str | Text search in comment field (optional)
+    label_ids = '1_5_12' # str | Label IDs separated by underscore (optional)
+
+    try:
+        # Get account transactions with cursor pagination
+        api_response = api_instance.get_account_transactions(workspace_id, account_id, direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids)
+        print("The response of AccountApi->get_account_transactions:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AccountApi->get_account_transactions: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID | 
+ **account_id** | **int**| Account ID to list transactions for | 
+ **direction** | **str**| Pagination direction: &#39;up&#39; (newer) or &#39;down&#39; (older) | 
+ **limit** | **int**| Items per page (1-200, default 40) | [optional] 
+ **cursor_dt** | **str**| Cursor: datetime of last item (YYYY-MM-DD HH:MM:SS) | [optional] 
+ **cursor_id** | **int**| Cursor: ID of last item | [optional] 
+ **date_from** | **str**| Date filter start (YYYY-MM-DD) | [optional] 
+ **date_to** | **str**| Date filter end (YYYY-MM-DD) | [optional] 
+ **counterparty** | **str**| Counterparty account IDs separated by underscore | [optional] 
+ **amount_from** | **str**| Min amount filter | [optional] 
+ **amount_to** | **str**| Max amount filter | [optional] 
+ **comment** | **str**| Text search in comment field | [optional] 
+ **label_ids** | **str**| Label IDs separated by underscore | [optional] 
+
+### Return type
+
+[**AccountTransactionsResponse**](AccountTransactionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**400** | Invalid parameters |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden — no access to workspace or account |  -  |
+**404** | Account not found |  -  |
 **500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

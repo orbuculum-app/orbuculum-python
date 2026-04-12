@@ -17,9 +17,9 @@ Name | Type | Description | Notes
 **commission_sender_account** | **int** | Commission sender account ID | [optional] 
 **commission_receiver_account** | **int** | Commission receiver account ID | [optional] 
 **limited** | **bool** | Whether the account has transaction limitations | [optional] 
-**initial_balance** | **str** | Initial balance amount (positive or negative) | [optional] 
 **api_id** | **str** | External API ID | [optional] 
 **type** | **str** | Account type | [optional] 
+**initial_balance** | **str** | Initial balance amount (positive or negative) | [optional] 
 
 ## Example
 

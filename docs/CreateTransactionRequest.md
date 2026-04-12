@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **project_id** | **int** | Project ID (HISTORICAL: maps to label_id in DB) | 
 **comment** | **str** | Transaction comment | [optional] 
 **description** | **str** | Transaction description | [optional] 
-**done** | **str** | Transaction status (true/false) | [optional] 
+**done** | **str** | Transaction status (true/false). Defaults to true when not specified. | [optional] [default to 'true']
 **commission_applied** | **bool** | Whether commission should be applied | [optional] 
 **apikey** | **str** | API key for external integrations | [optional] 
 **sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
@@ -24,6 +24,7 @@ Name | Type | Description | Notes
 **doubler_amount** | **str** | Doubler leg amount (required when doubler_account_id is set) | [optional] 
 **commission_appliance** | **int** | Commission appliance deduction flag (0 or 1) | [optional] 
 **timezone** | **str** | IANA timezone for datetime conversion (e.g., Europe/Kyiv) | [optional] 
+**account_id** | **int** | Account ID for enriched response with transactions and summary | [optional] 
 **leg1_sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **leg1_receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **leg2_sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 

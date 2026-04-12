@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **user_email** | **str** |  | [optional] 
 **is_owner** | **bool** |  | [optional] 
 **timezone** | **str** |  | [optional] 
+**photo_url** | **str** |  | [optional] 
 
 ## Example
 

@@ -184,7 +184,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_rate**
-> GetRateResponse get_rate(workspace_id, currency_id, dt=dt)
+> GetRateResponse get_rate(workspace_id, id=id, currency_id=currency_id, dt=dt)
 
 Get exchange rate for a currency on a date
 
@@ -221,12 +221,13 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.RateApi(api_client)
     workspace_id = 1 # int | Workspace ID
-    currency_id = 2 # int | Currency ID to get rate for
+    id = 56 # int | Rate row ID — if provided, currency_id and dt are ignored (optional)
+    currency_id = 2 # int | Currency ID to get rate for (required when id is not provided) (optional)
     dt = 'Tue Mar 03 00:00:00 UTC 2026' # date | Date in YYYY-MM-DD format (default: today) (optional)
 
     try:
         # Get exchange rate for a currency on a date
-        api_response = api_instance.get_rate(workspace_id, currency_id, dt=dt)
+        api_response = api_instance.get_rate(workspace_id, id=id, currency_id=currency_id, dt=dt)
         print("The response of RateApi->get_rate:\n")
         pprint(api_response)
     except Exception as e:
@@ -241,7 +242,8 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Workspace ID | 
- **currency_id** | **int**| Currency ID to get rate for | 
+ **id** | **int**| Rate row ID — if provided, currency_id and dt are ignored | [optional] 
+ **currency_id** | **int**| Currency ID to get rate for (required when id is not provided) | [optional] 
  **dt** | **date**| Date in YYYY-MM-DD format (default: today) | [optional] 
 
 ### Return type

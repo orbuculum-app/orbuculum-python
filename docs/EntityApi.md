@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**create_entity**](EntityApi.md#create_entity) | **POST** /api/entity/create | Create entity
 [**delete_entity**](EntityApi.md#delete_entity) | **POST** /api/entity/delete | Delete entity
 [**get_entities**](EntityApi.md#get_entities) | **GET** /api/entity/get | Get entities
+[**get_entity_type_icons**](EntityApi.md#get_entity_type_icons) | **GET** /api/entity/type-icons | Get entity type icons
 [**update_entity**](EntityApi.md#update_entity) | **POST** /api/entity/update | Update entity
 
 
@@ -338,6 +339,87 @@ Name | Type | Description  | Notes
 **401** | Unauthorized - invalid or expired token |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Entity not found or workspace not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_type_icons**
+> EntityTypeIconsResponse get_entity_type_icons(workspace_id, pdf=pdf)
+
+Get entity type icons
+
+Returns a mapping of entity type ID to SVG HTML icon. Used by frontend SPA to cache icons on init. Keys are integer type IDs as strings, values are SVG HTML.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.entity_type_icons_response import EntityTypeIconsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.EntityApi(api_client)
+    workspace_id = 1 # int | Workspace ID (required for auth, not used in business logic)
+    pdf = false # bool | If true, returns smaller PDF-optimized icons (width=8). Defaults to false (regular icons, width=21). (optional)
+
+    try:
+        # Get entity type icons
+        api_response = api_instance.get_entity_type_icons(workspace_id, pdf=pdf)
+        print("The response of EntityApi->get_entity_type_icons:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EntityApi->get_entity_type_icons: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID (required for auth, not used in business logic) | 
+ **pdf** | **bool**| If true, returns smaller PDF-optimized icons (width&#x3D;8). Defaults to false (regular icons, width&#x3D;21). | [optional] 
+
+### Return type
+
+[**EntityTypeIconsResponse**](EntityTypeIconsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Entity type icons retrieved successfully |  -  |
+**401** | Unauthorized - invalid or expired token |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

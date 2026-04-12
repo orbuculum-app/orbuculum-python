@@ -4,8 +4,264 @@ All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_workspace**](WorkspaceApi.md#create_workspace) | **POST** /api/workspace/create | Create a new workspace
+[**delete_workspace**](WorkspaceApi.md#delete_workspace) | **POST** /api/workspace/delete | Delete a workspace
+[**get_workspace_context**](WorkspaceApi.md#get_workspace_context) | **GET** /api/workspace/context | Get workspace context for transaction modal
 [**save_workspace_preferences**](WorkspaceApi.md#save_workspace_preferences) | **POST** /api/workspace/save-preferences | Save report preferences
 
+
+# **create_workspace**
+> WorkspaceCreatedResponse create_workspace(create_workspace_request)
+
+Create a new workspace
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.create_workspace_request import CreateWorkspaceRequest
+from orbuculum_client.models.workspace_created_response import WorkspaceCreatedResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    create_workspace_request = orbuculum_client.CreateWorkspaceRequest() # CreateWorkspaceRequest | 
+
+    try:
+        # Create a new workspace
+        api_response = api_instance.create_workspace(create_workspace_request)
+        print("The response of WorkspaceApi->create_workspace:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->create_workspace: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **create_workspace_request** | [**CreateWorkspaceRequest**](CreateWorkspaceRequest.md)|  | 
+
+### Return type
+
+[**WorkspaceCreatedResponse**](WorkspaceCreatedResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Workspace created successfully |  -  |
+**400** | Invalid request format |  -  |
+**401** | Unauthorized |  -  |
+**405** | Method not allowed |  -  |
+**409** | Conflict — db name exists or workspace limit reached |  -  |
+**422** | Validation failed |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_workspace**
+> WorkspaceDeletedResponse delete_workspace(delete_workspace_request)
+
+Delete a workspace
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.delete_workspace_request import DeleteWorkspaceRequest
+from orbuculum_client.models.workspace_deleted_response import WorkspaceDeletedResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    delete_workspace_request = orbuculum_client.DeleteWorkspaceRequest() # DeleteWorkspaceRequest | 
+
+    try:
+        # Delete a workspace
+        api_response = api_instance.delete_workspace(delete_workspace_request)
+        print("The response of WorkspaceApi->delete_workspace:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->delete_workspace: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **delete_workspace_request** | [**DeleteWorkspaceRequest**](DeleteWorkspaceRequest.md)|  | 
+
+### Return type
+
+[**WorkspaceDeletedResponse**](WorkspaceDeletedResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Workspace deleted successfully |  -  |
+**400** | Invalid request format |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden — no access or insufficient role |  -  |
+**404** | Workspace not found |  -  |
+**405** | Method not allowed |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_workspace_context**
+> GetWorkspaceContext200Response get_workspace_context(workspace_id, id=id, account_id=account_id)
+
+Get workspace context for transaction modal
+
+Returns aggregated workspace data needed for the transaction creation/edit modal. Replaces legacy window.* globals.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_workspace_context200_response import GetWorkspaceContext200Response
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    workspace_id = 56 # int | Workspace ID
+    id = 56 # int | Transaction ID for edit mode (optional)
+    account_id = 56 # int | Preselected account ID (optional)
+
+    try:
+        # Get workspace context for transaction modal
+        api_response = api_instance.get_workspace_context(workspace_id, id=id, account_id=account_id)
+        print("The response of WorkspaceApi->get_workspace_context:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->get_workspace_context: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID | 
+ **id** | **int**| Transaction ID for edit mode | [optional] 
+ **account_id** | **int**| Preselected account ID | [optional] 
+
+### Return type
+
+[**GetWorkspaceContext200Response**](GetWorkspaceContext200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Workspace context data |  -  |
+**400** | Invalid parameters |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**404** | Transaction not found (edit mode) |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **save_workspace_preferences**
 > SaveWorkspacePreferences200Response save_workspace_preferences(save_workspace_preferences_request)

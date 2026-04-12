@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **description** | **str** | Transaction description | [optional] 
 **done** | **str** | Transaction status (true/false) | [optional] 
 **commission_applied** | **bool** | Whether commission should be applied | [optional] 
+**account_id** | **int** | Account ID for enriched response with transactions and summary | [optional] 
 
 ## Example
 

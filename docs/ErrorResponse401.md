@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code | 
 **error** | **str** | Error message describing authentication failure | 
+**details** | [**List[ErrorResponse400DetailsInner]**](ErrorResponse400DetailsInner.md) | Structured validation error details. Each item identifies a field and error message. | 
 
 ## Example
 

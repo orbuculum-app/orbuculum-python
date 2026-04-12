@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.4.0
-- **Supported API Version**: 0.11.0
+- **Client Version**: 0.5.0
+- **Supported API Version**: 0.35.1
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -211,6 +211,7 @@ Class | Method | HTTP request | Description
 *AccountApi* | [**get_account**](docs/AccountApi.md#get_account) | **GET** /api/account/get | Get account details
 *AccountApi* | [**get_account_balance**](docs/AccountApi.md#get_account_balance) | **GET** /api/account/balance | Get account balance at a specific date
 *AccountApi* | [**get_account_context**](docs/AccountApi.md#get_account_context) | **GET** /api/account/context | Get account form context data
+*AccountApi* | [**get_account_transactions**](docs/AccountApi.md#get_account_transactions) | **GET** /api/account/transactions | Get account transactions with cursor pagination
 *AccountApi* | [**get_menu_config**](docs/AccountApi.md#get_menu_config) | **GET** /api/account/get-menu-config | Get sidebar menu configuration
 *AccountApi* | [**save_account_sorting**](docs/AccountApi.md#save_account_sorting) | **POST** /api/account/save-sorting | Save account sorting preference
 *AccountApi* | [**update_account**](docs/AccountApi.md#update_account) | **POST** /api/account/update | Update an existing account
@@ -222,9 +223,12 @@ Class | Method | HTTP request | Description
 *AccountPermissionsApi* | [**update_account_tab**](docs/AccountPermissionsApi.md#update_account_tab) | **POST** /api/permission/update-account-tab | Update account permissions (Tab 3)
 *ActivityJournalApi* | [**activity_journal_get_authors**](docs/ActivityJournalApi.md#activity_journal_get_authors) | **GET** /api/activity-journal/get-authors | Get workspace users for activity journal author filter
 *ActivityJournalApi* | [**activity_journal_list**](docs/ActivityJournalApi.md#activity_journal_list) | **GET** /api/activity-journal/list | Get paginated activity journal entries
+*AppContextApi* | [**get_app_context**](docs/AppContextApi.md#get_app_context) | **GET** /api/app-context/index | Get application context for SPA initialization
 *AuthenticationApi* | [**disconnect_social**](docs/AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
 *AuthenticationApi* | [**login**](docs/AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
 *AuthenticationApi* | [**register**](docs/AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
+*AuthenticationApi* | [**request_reset**](docs/AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
+*AuthenticationApi* | [**reset_password**](docs/AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
 *BulkPermissionsApi* | [**bulk_assign_permissions**](docs/BulkPermissionsApi.md#bulk_assign_permissions) | **POST** /api/permission/bulk-assign | Bulk assign permissions to a role
 *ConnectionApi* | [**create_connection_recipient**](docs/ConnectionApi.md#create_connection_recipient) | **POST** /api/connection/create-recipient | Create recipient connection
 *ConnectionApi* | [**create_connection_source**](docs/ConnectionApi.md#create_connection_source) | **POST** /api/connection/create-source | Create source connection
@@ -243,6 +247,7 @@ Class | Method | HTTP request | Description
 *EntityApi* | [**create_entity**](docs/EntityApi.md#create_entity) | **POST** /api/entity/create | Create entity
 *EntityApi* | [**delete_entity**](docs/EntityApi.md#delete_entity) | **POST** /api/entity/delete | Delete entity
 *EntityApi* | [**get_entities**](docs/EntityApi.md#get_entities) | **GET** /api/entity/get | Get entities
+*EntityApi* | [**get_entity_type_icons**](docs/EntityApi.md#get_entity_type_icons) | **GET** /api/entity/type-icons | Get entity type icons
 *EntityApi* | [**update_entity**](docs/EntityApi.md#update_entity) | **POST** /api/entity/update | Update entity
 *EntityPermissionsApi* | [**create_entity_permission**](docs/EntityPermissionsApi.md#create_entity_permission) | **POST** /api/permission/entity-create | Create entity permission
 *EntityPermissionsApi* | [**delete_entity_permission**](docs/EntityPermissionsApi.md#delete_entity_permission) | **POST** /api/permission/entity-delete | Delete entity permission
@@ -280,6 +285,11 @@ Class | Method | HTTP request | Description
 *RateApi* | [**list_rates**](docs/RateApi.md#list_rates) | **GET** /api/rate/list | List exchange rates for currencies
 *RateApi* | [**update_rate**](docs/RateApi.md#update_rate) | **POST** /api/rate/update | Update exchange rate
 *ReportsApi* | [**export_pnl_pdf**](docs/ReportsApi.md#export_pnl_pdf) | **GET** /api/reports/export-pdf | Export P&amp;L report as PDF
+*ReportsApi* | [**export_xlsx**](docs/ReportsApi.md#export_xlsx) | **GET** /api/reports/export-xlsx | Export report as XLSX (Excel)
+*ReportsApi* | [**get_balance_settings**](docs/ReportsApi.md#get_balance_settings) | **GET** /api/reports/get-balance-settings | Get Balance report settings
+*ReportsApi* | [**get_balances_report**](docs/ReportsApi.md#get_balances_report) | **GET** /api/reports/get-balances | Get Balances report data
+*ReportsApi* | [**get_cashflow_report**](docs/ReportsApi.md#get_cashflow_report) | **GET** /api/reports/get-cashflow | Get Cash Flow report data
+*ReportsApi* | [**get_cashflow_settings**](docs/ReportsApi.md#get_cashflow_settings) | **GET** /api/reports/get-cashflow-settings | Get Cash Flow report settings
 *ReportsApi* | [**get_pnl_report**](docs/ReportsApi.md#get_pnl_report) | **GET** /api/reports/get-pnl | Get P&amp;L report data
 *ReportsApi* | [**save_balance_settings**](docs/ReportsApi.md#save_balance_settings) | **POST** /api/reports/save-balance-settings | Save balance report display settings
 *ReportsApi* | [**save_cashflow_settings**](docs/ReportsApi.md#save_cashflow_settings) | **POST** /api/reports/save-cashflow-settings | Save cash flow report display settings
@@ -292,6 +302,7 @@ Class | Method | HTTP request | Description
 *ScheduledTransactionApi* | [**delete_scheduled_transaction**](docs/ScheduledTransactionApi.md#delete_scheduled_transaction) | **POST** /api/scheduled-transaction/delete | Delete a scheduled transaction
 *ScheduledTransactionApi* | [**get_scheduled_transaction**](docs/ScheduledTransactionApi.md#get_scheduled_transaction) | **GET** /api/scheduled-transaction/get | Get scheduled transaction(s)
 *ScheduledTransactionApi* | [**update_scheduled_transaction**](docs/ScheduledTransactionApi.md#update_scheduled_transaction) | **POST** /api/scheduled-transaction/update | Update a scheduled transaction
+*SelectionApi* | [**get_selection_tree**](docs/SelectionApi.md#get_selection_tree) | **GET** /api/selection/tree | Get filtered entity/account tree
 *SystemApi* | [**system_bundle_check**](docs/SystemApi.md#system_bundle_check) | **POST** /api/system/bundle-check | Check bundle version consistency
 *SystemApi* | [**system_error_log**](docs/SystemApi.md#system_error_log) | **POST** /api/system/error-log | Log a frontend error
 *SystemApi* | [**system_version_check**](docs/SystemApi.md#system_version_check) | **GET** /api/system/version-check | Check application version
@@ -319,6 +330,7 @@ Class | Method | HTTP request | Description
 *TransactionApi* | [**set_balance_invalid**](docs/TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
 *TransactionApi* | [**update_transaction**](docs/TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 *TransactionApi* | [**upload_transaction_files**](docs/TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
+*UserApi* | [**call_6b6da4c660f77cac77f6f273e3cb567e**](docs/UserApi.md#call_6b6da4c660f77cac77f6f273e3cb567e) | **GET** /api/user/get-photo | Get user photo binary
 *UserApi* | [**change_email**](docs/UserApi.md#change_email) | **POST** /api/user/change-email | Initiate email change
 *UserApi* | [**change_password**](docs/UserApi.md#change_password) | **POST** /api/user/change-password | Change password
 *UserApi* | [**create_password**](docs/UserApi.md#create_password) | **POST** /api/user/create-password | Create password for OAuth-only user
@@ -329,6 +341,19 @@ Class | Method | HTTP request | Description
 *UserApi* | [**set_timezone**](docs/UserApi.md#set_timezone) | **POST** /api/user/set-timezone | Set workspace timezone
 *UserApi* | [**update_username**](docs/UserApi.md#update_username) | **POST** /api/user/update-username | Update username
 *UserApi* | [**upload_photo**](docs/UserApi.md#upload_photo) | **POST** /api/user/upload-photo | Upload profile photo
+*UserAdminApi* | [**user_admin_create**](docs/UserAdminApi.md#user_admin_create) | **POST** /api/user-admin/create | Create a new user
+*UserAdminApi* | [**user_admin_delete**](docs/UserAdminApi.md#user_admin_delete) | **POST** /api/user-admin/delete | Delete a user
+*UserAdminApi* | [**user_admin_form_data**](docs/UserAdminApi.md#user_admin_form_data) | **GET** /api/user-admin/form-data | Get form data for create/edit user
+*UserAdminApi* | [**user_admin_index**](docs/UserAdminApi.md#user_admin_index) | **GET** /api/user-admin/index | List all users
+*UserAdminApi* | [**user_admin_ownership**](docs/UserAdminApi.md#user_admin_ownership) | **GET** /api/user-admin/ownership | Get user&#39;s workspace ownership
+*UserAdminApi* | [**user_admin_roles**](docs/UserAdminApi.md#user_admin_roles) | **GET** /api/user-admin/roles | Get user&#39;s RBAC roles
+*UserAdminApi* | [**user_admin_save_ownership**](docs/UserAdminApi.md#user_admin_save_ownership) | **POST** /api/user-admin/save-ownership | Save user&#39;s workspace ownership
+*UserAdminApi* | [**user_admin_save_roles**](docs/UserAdminApi.md#user_admin_save_roles) | **POST** /api/user-admin/save-roles | Save user&#39;s RBAC roles
+*UserAdminApi* | [**user_admin_update**](docs/UserAdminApi.md#user_admin_update) | **POST** /api/user-admin/update | Update an existing user
+*UserAdminApi* | [**user_admin_view**](docs/UserAdminApi.md#user_admin_view) | **GET** /api/user-admin/view | Get user details
+*WorkspaceApi* | [**create_workspace**](docs/WorkspaceApi.md#create_workspace) | **POST** /api/workspace/create | Create a new workspace
+*WorkspaceApi* | [**delete_workspace**](docs/WorkspaceApi.md#delete_workspace) | **POST** /api/workspace/delete | Delete a workspace
+*WorkspaceApi* | [**get_workspace_context**](docs/WorkspaceApi.md#get_workspace_context) | **GET** /api/workspace/context | Get workspace context for transaction modal
 *WorkspaceApi* | [**save_workspace_preferences**](docs/WorkspaceApi.md#save_workspace_preferences) | **POST** /api/workspace/save-preferences | Save report preferences
 
 
@@ -348,6 +373,13 @@ Class | Method | HTTP request | Description
  - [AccountDeletedResponse](docs/AccountDeletedResponse.md)
  - [AccountDeletedResponseData](docs/AccountDeletedResponseData.md)
  - [AccountPermission](docs/AccountPermission.md)
+ - [AccountTransactionItem](docs/AccountTransactionItem.md)
+ - [AccountTransactionItemCounterparty](docs/AccountTransactionItemCounterparty.md)
+ - [AccountTransactionsResponse](docs/AccountTransactionsResponse.md)
+ - [AccountTransactionsResponseData](docs/AccountTransactionsResponseData.md)
+ - [AccountTransactionsSummary](docs/AccountTransactionsSummary.md)
+ - [AccountTransactionsSummaryLatest](docs/AccountTransactionsSummaryLatest.md)
+ - [AccountTransactionsSummaryRecent](docs/AccountTransactionsSummaryRecent.md)
  - [AccountUpdatedResponse](docs/AccountUpdatedResponse.md)
  - [AccountUpdatedResponseData](docs/AccountUpdatedResponseData.md)
  - [ActivateAccountRequest](docs/ActivateAccountRequest.md)
@@ -361,6 +393,14 @@ Class | Method | HTTP request | Description
  - [ActivityJournalListResponseData](docs/ActivityJournalListResponseData.md)
  - [ActivityJournalListResponseDataItemsInner](docs/ActivityJournalListResponseDataItemsInner.md)
  - [AddCommissionRequest](docs/AddCommissionRequest.md)
+ - [AppContextResponse](docs/AppContextResponse.md)
+ - [AppContextResponseData](docs/AppContextResponseData.md)
+ - [AppContextResponseDataReportsInner](docs/AppContextResponseDataReportsInner.md)
+ - [AppContextResponseDataUser](docs/AppContextResponseDataUser.md)
+ - [AppContextResponseDataUserLinksInner](docs/AppContextResponseDataUserLinksInner.md)
+ - [AppContextResponseDataUserLinksInnerAdminItemsInner](docs/AppContextResponseDataUserLinksInnerAdminItemsInner.md)
+ - [AppContextResponseDataWorkspace](docs/AppContextResponseDataWorkspace.md)
+ - [AppContextResponseDataWorkspaceProjectsInner](docs/AppContextResponseDataWorkspaceProjectsInner.md)
  - [AssignAccountsToTag200Response](docs/AssignAccountsToTag200Response.md)
  - [AssignAccountsToTag200ResponseData](docs/AssignAccountsToTag200ResponseData.md)
  - [AssignAccountsToTagRequest](docs/AssignAccountsToTagRequest.md)
@@ -369,6 +409,10 @@ Class | Method | HTTP request | Description
  - [BalanceSettingsResponse](docs/BalanceSettingsResponse.md)
  - [BalanceSettingsResponseData](docs/BalanceSettingsResponseData.md)
  - [BalanceSettingsResponseDataSettings](docs/BalanceSettingsResponseDataSettings.md)
+ - [BalancesReportResponse](docs/BalancesReportResponse.md)
+ - [BalancesReportResponseData](docs/BalancesReportResponseData.md)
+ - [BalancesReportResponseDataDataLeftInner](docs/BalancesReportResponseDataDataLeftInner.md)
+ - [BalancesReportResponseDataDataLeftInnerAccount](docs/BalancesReportResponseDataDataLeftInnerAccount.md)
  - [BulkAssignPermissions200Response](docs/BulkAssignPermissions200Response.md)
  - [BulkAssignPermissions200ResponseData](docs/BulkAssignPermissions200ResponseData.md)
  - [BulkAssignPermissions200ResponseDataCreated](docs/BulkAssignPermissions200ResponseDataCreated.md)
@@ -380,6 +424,17 @@ Class | Method | HTTP request | Description
  - [CancelImport200Response](docs/CancelImport200Response.md)
  - [CancelImport200ResponseData](docs/CancelImport200ResponseData.md)
  - [CancelImportRequest](docs/CancelImportRequest.md)
+ - [CashflowReportResponse](docs/CashflowReportResponse.md)
+ - [CashflowReportResponseData](docs/CashflowReportResponseData.md)
+ - [CashflowReportResponseDataEndPeriodBalances](docs/CashflowReportResponseDataEndPeriodBalances.md)
+ - [CashflowReportResponseDataEndPeriodBalancesTotal](docs/CashflowReportResponseDataEndPeriodBalancesTotal.md)
+ - [CashflowReportResponseDataFinancialActivities](docs/CashflowReportResponseDataFinancialActivities.md)
+ - [CashflowReportResponseDataOperatingActivities](docs/CashflowReportResponseDataOperatingActivities.md)
+ - [CashflowReportResponseDataOperatingActivitiesCashInflowValue](docs/CashflowReportResponseDataOperatingActivitiesCashInflowValue.md)
+ - [CashflowReportResponseDataOperatingActivitiesCashInflowValueAccount](docs/CashflowReportResponseDataOperatingActivitiesCashInflowValueAccount.md)
+ - [CashflowReportResponseDataOperatingActivitiesFreeCash](docs/CashflowReportResponseDataOperatingActivitiesFreeCash.md)
+ - [CashflowReportResponseDataQuarterValues](docs/CashflowReportResponseDataQuarterValues.md)
+ - [CashflowReportResponseDataYearValues](docs/CashflowReportResponseDataYearValues.md)
  - [CashflowSettingsRequest](docs/CashflowSettingsRequest.md)
  - [CashflowSettingsRequestSettings](docs/CashflowSettingsRequestSettings.md)
  - [CashflowSettingsResponse](docs/CashflowSettingsResponse.md)
@@ -438,6 +493,7 @@ Class | Method | HTTP request | Description
  - [CreateTransaction201Response](docs/CreateTransaction201Response.md)
  - [CreateTransaction409Response](docs/CreateTransaction409Response.md)
  - [CreateTransactionRequest](docs/CreateTransactionRequest.md)
+ - [CreateWorkspaceRequest](docs/CreateWorkspaceRequest.md)
  - [CurrencyGetResponse](docs/CurrencyGetResponse.md)
  - [CurrencyGetResponseData](docs/CurrencyGetResponseData.md)
  - [CurrencyItem](docs/CurrencyItem.md)
@@ -483,6 +539,7 @@ Class | Method | HTTP request | Description
  - [DeleteTag200ResponseData](docs/DeleteTag200ResponseData.md)
  - [DeleteTagRequest](docs/DeleteTagRequest.md)
  - [DeleteTransactionRequest](docs/DeleteTransactionRequest.md)
+ - [DeleteWorkspaceRequest](docs/DeleteWorkspaceRequest.md)
  - [DisablePassword200Response](docs/DisablePassword200Response.md)
  - [DisablePassword200ResponseData](docs/DisablePassword200ResponseData.md)
  - [DisablePasswordRequest](docs/DisablePasswordRequest.md)
@@ -494,8 +551,10 @@ Class | Method | HTTP request | Description
  - [DoublerTransactionCreatedResponse](docs/DoublerTransactionCreatedResponse.md)
  - [EditAccountPermissionRequest](docs/EditAccountPermissionRequest.md)
  - [EntityPermission](docs/EntityPermission.md)
+ - [EntityTypeIconsResponse](docs/EntityTypeIconsResponse.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [ErrorResponse400](docs/ErrorResponse400.md)
+ - [ErrorResponse400DetailsInner](docs/ErrorResponse400DetailsInner.md)
  - [ErrorResponse401](docs/ErrorResponse401.md)
  - [ErrorResponse403](docs/ErrorResponse403.md)
  - [ErrorResponse404](docs/ErrorResponse404.md)
@@ -510,6 +569,8 @@ Class | Method | HTTP request | Description
  - [GetAccountPermissionsResponseDataPermissions](docs/GetAccountPermissionsResponseDataPermissions.md)
  - [GetAccountResponse](docs/GetAccountResponse.md)
  - [GetAccountResponseData](docs/GetAccountResponseData.md)
+ - [GetAppContext401Response](docs/GetAppContext401Response.md)
+ - [GetAppContext403Response](docs/GetAppContext403Response.md)
  - [GetCustomTablesResponse](docs/GetCustomTablesResponse.md)
  - [GetEntities200Response](docs/GetEntities200Response.md)
  - [GetEntities200ResponseData](docs/GetEntities200ResponseData.md)
@@ -547,6 +608,10 @@ Class | Method | HTTP request | Description
  - [GetRoles200ResponseData](docs/GetRoles200ResponseData.md)
  - [GetRoles200ResponseDataRolesInner](docs/GetRoles200ResponseDataRolesInner.md)
  - [GetScheduledTransaction200Response](docs/GetScheduledTransaction200Response.md)
+ - [GetSelectionTree200Response](docs/GetSelectionTree200Response.md)
+ - [GetSelectionTree200ResponseData](docs/GetSelectionTree200ResponseData.md)
+ - [GetSelectionTree200ResponseDataTreeInner](docs/GetSelectionTree200ResponseDataTreeInner.md)
+ - [GetSelectionTree200ResponseDataTreeInnerChildrenInner](docs/GetSelectionTree200ResponseDataTreeInnerChildrenInner.md)
  - [GetTagAccounts200Response](docs/GetTagAccounts200Response.md)
  - [GetTagAccounts200ResponseData](docs/GetTagAccounts200ResponseData.md)
  - [GetTagAccounts200ResponseDataAccountsInner](docs/GetTagAccounts200ResponseDataAccountsInner.md)
@@ -555,6 +620,8 @@ Class | Method | HTTP request | Description
  - [GetUserWorkspaces200Response](docs/GetUserWorkspaces200Response.md)
  - [GetUserWorkspaces200ResponseData](docs/GetUserWorkspaces200ResponseData.md)
  - [GetUserWorkspaces200ResponseDataWorkspacesInner](docs/GetUserWorkspaces200ResponseDataWorkspacesInner.md)
+ - [GetWorkspaceContext200Response](docs/GetWorkspaceContext200Response.md)
+ - [GetWorkspaceContext200ResponseData](docs/GetWorkspaceContext200ResponseData.md)
  - [InviteMember201Response](docs/InviteMember201Response.md)
  - [InviteMember201ResponseData](docs/InviteMember201ResponseData.md)
  - [InviteMember201ResponseDataMember](docs/InviteMember201ResponseDataMember.md)
@@ -595,6 +662,11 @@ Class | Method | HTTP request | Description
  - [Model715f0758591c4b040bb95d00236e14e4Request](docs/Model715f0758591c4b040bb95d00236e14e4Request.md)
  - [PaginationMeta](docs/PaginationMeta.md)
  - [PermissionCreatedResponse](docs/PermissionCreatedResponse.md)
+ - [PnlReportResponse](docs/PnlReportResponse.md)
+ - [PnlReportResponseData](docs/PnlReportResponseData.md)
+ - [PnlReportResponseDataData](docs/PnlReportResponseDataData.md)
+ - [PnlReportResponseDataDataNetRevenueValuesResultInner](docs/PnlReportResponseDataDataNetRevenueValuesResultInner.md)
+ - [PnlReportResponseDataDataNetRevenueValuesResultInnerAccount](docs/PnlReportResponseDataDataNetRevenueValuesResultInnerAccount.md)
  - [PnlSettingsRequest](docs/PnlSettingsRequest.md)
  - [PnlSettingsRequestSettings](docs/PnlSettingsRequestSettings.md)
  - [PnlSettingsResponse](docs/PnlSettingsResponse.md)
@@ -622,6 +694,16 @@ Class | Method | HTTP request | Description
  - [RemoveMemberRequest](docs/RemoveMemberRequest.md)
  - [RemovePhoto200Response](docs/RemovePhoto200Response.md)
  - [RemovePhoto200ResponseData](docs/RemovePhoto200ResponseData.md)
+ - [ReportBasicCurrency](docs/ReportBasicCurrency.md)
+ - [ReportColumnInfo](docs/ReportColumnInfo.md)
+ - [ReportLabelItem](docs/ReportLabelItem.md)
+ - [ReportLabelItemWithIcon](docs/ReportLabelItemWithIcon.md)
+ - [RequestResetRequest](docs/RequestResetRequest.md)
+ - [RequestResetResponse](docs/RequestResetResponse.md)
+ - [RequestResetResponseData](docs/RequestResetResponseData.md)
+ - [ResetPasswordRequest](docs/ResetPasswordRequest.md)
+ - [ResetPasswordResponse](docs/ResetPasswordResponse.md)
+ - [ResetPasswordResponseData](docs/ResetPasswordResponseData.md)
  - [SaveSortingRequest](docs/SaveSortingRequest.md)
  - [SaveWorkspacePreferences200Response](docs/SaveWorkspacePreferences200Response.md)
  - [SaveWorkspacePreferences200ResponseData](docs/SaveWorkspacePreferences200ResponseData.md)
@@ -702,6 +784,42 @@ Class | Method | HTTP request | Description
  - [UploadPhoto200ResponseData](docs/UploadPhoto200ResponseData.md)
  - [UploadTransactionFiles413Response](docs/UploadTransactionFiles413Response.md)
  - [UploadTransactionFiles422Response](docs/UploadTransactionFiles422Response.md)
+ - [UserAdminCreate201Response](docs/UserAdminCreate201Response.md)
+ - [UserAdminCreate201ResponseData](docs/UserAdminCreate201ResponseData.md)
+ - [UserAdminCreateRequest](docs/UserAdminCreateRequest.md)
+ - [UserAdminDelete200Response](docs/UserAdminDelete200Response.md)
+ - [UserAdminDelete200ResponseData](docs/UserAdminDelete200ResponseData.md)
+ - [UserAdminDelete409Response](docs/UserAdminDelete409Response.md)
+ - [UserAdminDeleteRequest](docs/UserAdminDeleteRequest.md)
+ - [UserAdminFormData200Response](docs/UserAdminFormData200Response.md)
+ - [UserAdminFormData200ResponseData](docs/UserAdminFormData200ResponseData.md)
+ - [UserAdminFormData200ResponseDataUser](docs/UserAdminFormData200ResponseDataUser.md)
+ - [UserAdminIndex200Response](docs/UserAdminIndex200Response.md)
+ - [UserAdminIndex200ResponseData](docs/UserAdminIndex200ResponseData.md)
+ - [UserAdminIndex200ResponseDataUsersInner](docs/UserAdminIndex200ResponseDataUsersInner.md)
+ - [UserAdminOwnership200Response](docs/UserAdminOwnership200Response.md)
+ - [UserAdminOwnership200ResponseData](docs/UserAdminOwnership200ResponseData.md)
+ - [UserAdminOwnership200ResponseDataOwnershipInner](docs/UserAdminOwnership200ResponseDataOwnershipInner.md)
+ - [UserAdminRoles200Response](docs/UserAdminRoles200Response.md)
+ - [UserAdminRoles200ResponseData](docs/UserAdminRoles200ResponseData.md)
+ - [UserAdminSaveOwnership200Response](docs/UserAdminSaveOwnership200Response.md)
+ - [UserAdminSaveOwnership200ResponseData](docs/UserAdminSaveOwnership200ResponseData.md)
+ - [UserAdminSaveOwnership200ResponseDataOwnershipInner](docs/UserAdminSaveOwnership200ResponseDataOwnershipInner.md)
+ - [UserAdminSaveOwnershipRequest](docs/UserAdminSaveOwnershipRequest.md)
+ - [UserAdminSaveOwnershipRequestOwnershipInner](docs/UserAdminSaveOwnershipRequestOwnershipInner.md)
+ - [UserAdminSaveRoles200Response](docs/UserAdminSaveRoles200Response.md)
+ - [UserAdminSaveRoles200ResponseData](docs/UserAdminSaveRoles200ResponseData.md)
+ - [UserAdminSaveRolesRequest](docs/UserAdminSaveRolesRequest.md)
+ - [UserAdminUpdate200Response](docs/UserAdminUpdate200Response.md)
+ - [UserAdminUpdate200ResponseData](docs/UserAdminUpdate200ResponseData.md)
+ - [UserAdminUpdateRequest](docs/UserAdminUpdateRequest.md)
+ - [UserAdminView200Response](docs/UserAdminView200Response.md)
+ - [UserAdminView200ResponseData](docs/UserAdminView200ResponseData.md)
+ - [UserAdminView200ResponseDataProjectsInner](docs/UserAdminView200ResponseDataProjectsInner.md)
+ - [WorkspaceCreatedResponse](docs/WorkspaceCreatedResponse.md)
+ - [WorkspaceCreatedResponseData](docs/WorkspaceCreatedResponseData.md)
+ - [WorkspaceDeletedResponse](docs/WorkspaceDeletedResponse.md)
+ - [WorkspaceDeletedResponseData](docs/WorkspaceDeletedResponseData.md)
 
 
 <a id="documentation-for-authorization"></a>
@@ -730,16 +848,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.4.0
-print(orbuculum_client.__api_version__)    # API version: 0.11.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.11.0
+print(orbuculum_client.__version__)        # Client version: 0.5.0
+print(orbuculum_client.__api_version__)    # API version: 0.35.1
+print(orbuculum_client.__api_supported__)  # Supported API: 0.35.1
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.4.0 → 0.4.1): Bug fixes, documentation updates
-- **MINOR** (0.4.1 → 0.5.0): New features, backward-compatible
-- **MAJOR** (0.5.0 → 1.0.0): Breaking changes
+- **PATCH** (0.5.0 → 0.5.1): Bug fixes, documentation updates
+- **MINOR** (0.5.1 → 0.6.0): New features, backward-compatible
+- **MAJOR** (0.6.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

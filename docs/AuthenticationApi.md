@@ -7,6 +7,8 @@ Method | HTTP request | Description
 [**disconnect_social**](AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
 [**login**](AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
 [**register**](AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
+[**request_reset**](AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
+[**reset_password**](AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
 
 
 # **disconnect_social**
@@ -235,6 +237,148 @@ No authorization required
 **409** | Email already registered |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **request_reset**
+> RequestResetResponse request_reset(request_reset_request)
+
+Request password reset email
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.request_reset_request import RequestResetRequest
+from orbuculum_client.models.request_reset_response import RequestResetResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    request_reset_request = orbuculum_client.RequestResetRequest() # RequestResetRequest | 
+
+    try:
+        # Request password reset email
+        api_response = api_instance.request_reset(request_reset_request)
+        print("The response of AuthenticationApi->request_reset:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->request_reset: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_reset_request** | [**RequestResetRequest**](RequestResetRequest.md)|  | 
+
+### Return type
+
+[**RequestResetResponse**](RequestResetResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Reset email sent |  -  |
+**400** | Missing parameters |  -  |
+**405** | Method not allowed |  -  |
+**422** | User not found |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **reset_password**
+> ResetPasswordResponse reset_password(reset_password_request)
+
+Reset password using token from email
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.reset_password_request import ResetPasswordRequest
+from orbuculum_client.models.reset_password_response import ResetPasswordResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    reset_password_request = orbuculum_client.ResetPasswordRequest() # ResetPasswordRequest | 
+
+    try:
+        # Reset password using token from email
+        api_response = api_instance.reset_password(reset_password_request)
+        print("The response of AuthenticationApi->reset_password:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->reset_password: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reset_password_request** | [**ResetPasswordRequest**](ResetPasswordRequest.md)|  | 
+
+### Return type
+
+[**ResetPasswordResponse**](ResetPasswordResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Password reset successful |  -  |
+**400** | Missing parameters |  -  |
+**405** | Method not allowed |  -  |
+**422** | Validation error |  -  |
+**500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
