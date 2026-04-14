@@ -92,7 +92,6 @@ docs/CashflowSettingsResponse.md
 docs/CashflowSettingsResponseData.md
 docs/CashflowSettingsResponseDataSettings.md
 docs/CatalogItem.md
-docs/Cb0fd142892ac8ca80dc3e814a353b01Request.md
 docs/ChangeEmail200Response.md
 docs/ChangeEmail200ResponseData.md
 docs/ChangeEmail409Response.md
@@ -100,6 +99,7 @@ docs/ChangeEmailRequest.md
 docs/ChangePassword200Response.md
 docs/ChangePassword200ResponseData.md
 docs/ChangePasswordRequest.md
+docs/CheckChainedTransactionsRequest.md
 docs/ColumnInfo.md
 docs/CommissionCreatedResponse.md
 docs/CommissionData.md
@@ -265,7 +265,6 @@ docs/GetRecalculatedBalancesResponseDataAccountsInner.md
 docs/GetRoles200Response.md
 docs/GetRoles200ResponseData.md
 docs/GetRoles200ResponseDataRolesInner.md
-docs/GetScheduledTransaction200Response.md
 docs/GetSelectionTree200Response.md
 docs/GetSelectionTree200ResponseData.md
 docs/GetSelectionTree200ResponseDataTreeInner.md
@@ -317,13 +316,19 @@ docs/MassDuplicateTransactionsRequest.md
 docs/MassReplaceAccountRequest.md
 docs/MassSetDateRequest.md
 docs/MassSetDoneRequest.md
+docs/MatchingAntiPatternCreateRequest.md
 docs/MatchingApi.md
 docs/MatchingCandidate.md
+docs/MatchingExampleCreateRequest.md
+docs/MatchingExampleListRequest.md
+docs/MatchingExampleUpdateRequest.md
+docs/MatchingKeywordPatternCreateRequest.md
+docs/MatchingKeywordPatternListRequest.md
+docs/MatchingListExamples200Response.md
 docs/MatchingSuggest200Response.md
 docs/MatchingSuggest200ResponseData.md
 docs/MatchingSuggestRequest.md
 docs/MembershipApi.md
-docs/Model715f0758591c4b040bb95d00236e14e4Request.md
 docs/PaginationMeta.md
 docs/PermissionApi.md
 docs/PermissionCreatedResponse.md
@@ -360,6 +365,7 @@ docs/RemoveMember200ResponseData.md
 docs/RemoveMemberRequest.md
 docs/RemovePhoto200Response.md
 docs/RemovePhoto200ResponseData.md
+docs/RemoveWorkspaceImageRequest.md
 docs/ReportBasicCurrency.md
 docs/ReportColumnInfo.md
 docs/ReportLabelItem.md
@@ -618,7 +624,6 @@ orbuculum_client/models/cashflow_settings_response.py
 orbuculum_client/models/cashflow_settings_response_data.py
 orbuculum_client/models/cashflow_settings_response_data_settings.py
 orbuculum_client/models/catalog_item.py
-orbuculum_client/models/cb0fd142892ac8ca80dc3e814a353b01_request.py
 orbuculum_client/models/change_email200_response.py
 orbuculum_client/models/change_email200_response_data.py
 orbuculum_client/models/change_email409_response.py
@@ -626,6 +631,7 @@ orbuculum_client/models/change_email_request.py
 orbuculum_client/models/change_password200_response.py
 orbuculum_client/models/change_password200_response_data.py
 orbuculum_client/models/change_password_request.py
+orbuculum_client/models/check_chained_transactions_request.py
 orbuculum_client/models/column_info.py
 orbuculum_client/models/commission_created_response.py
 orbuculum_client/models/commission_data.py
@@ -785,7 +791,6 @@ orbuculum_client/models/get_recalculated_balances_response_data_accounts_inner.p
 orbuculum_client/models/get_roles200_response.py
 orbuculum_client/models/get_roles200_response_data.py
 orbuculum_client/models/get_roles200_response_data_roles_inner.py
-orbuculum_client/models/get_scheduled_transaction200_response.py
 orbuculum_client/models/get_selection_tree200_response.py
 orbuculum_client/models/get_selection_tree200_response_data.py
 orbuculum_client/models/get_selection_tree200_response_data_tree_inner.py
@@ -833,11 +838,17 @@ orbuculum_client/models/mass_duplicate_transactions_request.py
 orbuculum_client/models/mass_replace_account_request.py
 orbuculum_client/models/mass_set_date_request.py
 orbuculum_client/models/mass_set_done_request.py
+orbuculum_client/models/matching_anti_pattern_create_request.py
 orbuculum_client/models/matching_candidate.py
+orbuculum_client/models/matching_example_create_request.py
+orbuculum_client/models/matching_example_list_request.py
+orbuculum_client/models/matching_example_update_request.py
+orbuculum_client/models/matching_keyword_pattern_create_request.py
+orbuculum_client/models/matching_keyword_pattern_list_request.py
+orbuculum_client/models/matching_list_examples200_response.py
 orbuculum_client/models/matching_suggest200_response.py
 orbuculum_client/models/matching_suggest200_response_data.py
 orbuculum_client/models/matching_suggest_request.py
-orbuculum_client/models/model715f0758591c4b040bb95d00236e14e4_request.py
 orbuculum_client/models/pagination_meta.py
 orbuculum_client/models/permission_created_response.py
 orbuculum_client/models/pnl_report_response.py
@@ -872,6 +883,7 @@ orbuculum_client/models/remove_member200_response_data.py
 orbuculum_client/models/remove_member_request.py
 orbuculum_client/models/remove_photo200_response.py
 orbuculum_client/models/remove_photo200_response_data.py
+orbuculum_client/models/remove_workspace_image_request.py
 orbuculum_client/models/report_basic_currency.py
 orbuculum_client/models/report_column_info.py
 orbuculum_client/models/report_label_item.py
@@ -1096,7 +1108,6 @@ test/test_cashflow_settings_response.py
 test/test_cashflow_settings_response_data.py
 test/test_cashflow_settings_response_data_settings.py
 test/test_catalog_item.py
-test/test_cb0fd142892ac8ca80dc3e814a353b01_request.py
 test/test_change_email200_response.py
 test/test_change_email200_response_data.py
 test/test_change_email409_response.py
@@ -1104,6 +1115,7 @@ test/test_change_email_request.py
 test/test_change_password200_response.py
 test/test_change_password200_response_data.py
 test/test_change_password_request.py
+test/test_check_chained_transactions_request.py
 test/test_column_info.py
 test/test_commission_created_response.py
 test/test_commission_data.py
@@ -1269,7 +1281,6 @@ test/test_get_recalculated_balances_response_data_accounts_inner.py
 test/test_get_roles200_response.py
 test/test_get_roles200_response_data.py
 test/test_get_roles200_response_data_roles_inner.py
-test/test_get_scheduled_transaction200_response.py
 test/test_get_selection_tree200_response.py
 test/test_get_selection_tree200_response_data.py
 test/test_get_selection_tree200_response_data_tree_inner.py
@@ -1321,13 +1332,19 @@ test/test_mass_duplicate_transactions_request.py
 test/test_mass_replace_account_request.py
 test/test_mass_set_date_request.py
 test/test_mass_set_done_request.py
+test/test_matching_anti_pattern_create_request.py
 test/test_matching_api.py
 test/test_matching_candidate.py
+test/test_matching_example_create_request.py
+test/test_matching_example_list_request.py
+test/test_matching_example_update_request.py
+test/test_matching_keyword_pattern_create_request.py
+test/test_matching_keyword_pattern_list_request.py
+test/test_matching_list_examples200_response.py
 test/test_matching_suggest200_response.py
 test/test_matching_suggest200_response_data.py
 test/test_matching_suggest_request.py
 test/test_membership_api.py
-test/test_model715f0758591c4b040bb95d00236e14e4_request.py
 test/test_pagination_meta.py
 test/test_permission_api.py
 test/test_permission_created_response.py
@@ -1364,6 +1381,7 @@ test/test_remove_member200_response_data.py
 test/test_remove_member_request.py
 test/test_remove_photo200_response.py
 test/test_remove_photo200_response_data.py
+test/test_remove_workspace_image_request.py
 test/test_report_basic_currency.py
 test/test_report_column_info.py
 test/test_report_label_item.py

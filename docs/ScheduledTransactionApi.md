@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_scheduled_transaction**
-> GetScheduledTransaction200Response get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled)
+> MatchingListExamples200Response get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled)
 
 Get scheduled transaction(s)
 
@@ -193,7 +193,7 @@ Retrieves a single scheduled transaction by ID, or a list filtered by account an
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.get_scheduled_transaction200_response import GetScheduledTransaction200Response
+from orbuculum_client.models.matching_list_examples200_response import MatchingListExamples200Response
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -245,7 +245,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetScheduledTransaction200Response**](GetScheduledTransaction200Response.md)
+[**MatchingListExamples200Response**](MatchingListExamples200Response.md)
 
 ### Authorization
 

@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.6.0
-- **Supported API Version**: 0.38.0
+- **Client Version**: 0.7.0
+- **Supported API Version**: 0.39.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -272,7 +272,13 @@ Class | Method | HTTP request | Description
 *LimitationApi* | [**get_limitation**](docs/LimitationApi.md#get_limitation) | **GET** /api/limitation/get | Get transaction limitations for an account
 *LimitationApi* | [**manage_account_limitation**](docs/LimitationApi.md#manage_account_limitation) | **POST** /api/limitation/account-manage | Manage account transaction limitations
 *LimitationApi* | [**manage_entity_limitation**](docs/LimitationApi.md#manage_entity_limitation) | **POST** /api/limitation/entity-manage | Manage entity transaction limitations
+*MatchingApi* | [**matching_create_anti_pattern**](docs/MatchingApi.md#matching_create_anti_pattern) | **POST** /api/matching/create-anti-pattern | Create an anti-pattern (negative learning from rejected suggestion)
+*MatchingApi* | [**matching_create_example**](docs/MatchingApi.md#matching_create_example) | **POST** /api/matching/create-example | Create a confirmed matching example (learning loop)
+*MatchingApi* | [**matching_create_keyword_pattern**](docs/MatchingApi.md#matching_create_keyword_pattern) | **POST** /api/matching/create-keyword-pattern | Create or update a keyword pattern (upsert)
+*MatchingApi* | [**matching_list_examples**](docs/MatchingApi.md#matching_list_examples) | **GET** /api/matching/list-examples | List confirmed matching examples for workspace
+*MatchingApi* | [**matching_list_keyword_patterns**](docs/MatchingApi.md#matching_list_keyword_patterns) | **GET** /api/matching/list-keyword-patterns | List keyword patterns for workspace
 *MatchingApi* | [**matching_suggest**](docs/MatchingApi.md#matching_suggest) | **POST** /api/matching/suggest | Get account matching suggestions for counterparty
+*MatchingApi* | [**matching_update_example**](docs/MatchingApi.md#matching_update_example) | **POST** /api/matching/update-example | Update a matching example (confidence, times_matched, is_active)
 *MembershipApi* | [**invite_member**](docs/MembershipApi.md#invite_member) | **POST** /api/membership/invite | Invite user to workspace
 *MembershipApi* | [**list_members**](docs/MembershipApi.md#list_members) | **GET** /api/membership/list | List workspace members
 *MembershipApi* | [**remove_member**](docs/MembershipApi.md#remove_member) | **POST** /api/membership/remove | Remove user from workspace
@@ -314,7 +320,7 @@ Class | Method | HTTP request | Description
 *TagApi* | [**remove_account_from_tag**](docs/TagApi.md#remove_account_from_tag) | **POST** /api/tag/remove-account | Remove an account from a tag
 *TagApi* | [**update_tag**](docs/TagApi.md#update_tag) | **POST** /api/tag/update | Update a tag
 *TransactionApi* | [**add_transaction_commission**](docs/TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
-*TransactionApi* | [**call_715f0758591c4b040bb95d00236e14e4**](docs/TransactionApi.md#call_715f0758591c4b040bb95d00236e14e4) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
+*TransactionApi* | [**check_chained_transactions**](docs/TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 *TransactionApi* | [**create_transaction**](docs/TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
 *TransactionApi* | [**delete_transaction**](docs/TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 *TransactionApi* | [**delete_transaction_file**](docs/TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
@@ -330,11 +336,11 @@ Class | Method | HTTP request | Description
 *TransactionApi* | [**set_balance_invalid**](docs/TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
 *TransactionApi* | [**update_transaction**](docs/TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 *TransactionApi* | [**upload_transaction_files**](docs/TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
-*UserApi* | [**call_6b6da4c660f77cac77f6f273e3cb567e**](docs/UserApi.md#call_6b6da4c660f77cac77f6f273e3cb567e) | **GET** /api/user/get-photo | Get user photo binary
 *UserApi* | [**change_email**](docs/UserApi.md#change_email) | **POST** /api/user/change-email | Initiate email change
 *UserApi* | [**change_password**](docs/UserApi.md#change_password) | **POST** /api/user/change-password | Change password
 *UserApi* | [**create_password**](docs/UserApi.md#create_password) | **POST** /api/user/create-password | Create password for OAuth-only user
 *UserApi* | [**disable_password**](docs/UserApi.md#disable_password) | **POST** /api/user/disable-password | Disable password authentication
+*UserApi* | [**get_user_photo**](docs/UserApi.md#get_user_photo) | **GET** /api/user/get-photo | Get user photo binary
 *UserApi* | [**get_user_profile**](docs/UserApi.md#get_user_profile) | **GET** /api/user/get-profile | Get current user profile
 *UserApi* | [**get_user_workspaces**](docs/UserApi.md#get_user_workspaces) | **GET** /api/user/get-workspaces | Get user workspaces
 *UserApi* | [**remove_photo**](docs/UserApi.md#remove_photo) | **POST** /api/user/remove-photo | Remove profile photo
@@ -351,13 +357,13 @@ Class | Method | HTTP request | Description
 *UserAdminApi* | [**user_admin_save_roles**](docs/UserAdminApi.md#user_admin_save_roles) | **POST** /api/user-admin/save-roles | Save user&#39;s RBAC roles
 *UserAdminApi* | [**user_admin_update**](docs/UserAdminApi.md#user_admin_update) | **POST** /api/user-admin/update | Update an existing user
 *UserAdminApi* | [**user_admin_view**](docs/UserAdminApi.md#user_admin_view) | **GET** /api/user-admin/view | Get user details
-*WorkspaceApi* | [**call_2c12a0c65bacbd8d943b89866e51718a**](docs/WorkspaceApi.md#call_2c12a0c65bacbd8d943b89866e51718a) | **POST** /api/workspace/upload-image | Upload workspace image
-*WorkspaceApi* | [**call_94cd6b16f54e4f7f14f2518cf54d2c83**](docs/WorkspaceApi.md#call_94cd6b16f54e4f7f14f2518cf54d2c83) | **GET** /api/workspace/get-image | Get workspace image
-*WorkspaceApi* | [**cb0fd142892ac8ca80dc3e814a353b01**](docs/WorkspaceApi.md#cb0fd142892ac8ca80dc3e814a353b01) | **POST** /api/workspace/remove-image | Remove workspace image
 *WorkspaceApi* | [**create_workspace**](docs/WorkspaceApi.md#create_workspace) | **POST** /api/workspace/create | Create a new workspace
 *WorkspaceApi* | [**delete_workspace**](docs/WorkspaceApi.md#delete_workspace) | **POST** /api/workspace/delete | Delete a workspace
 *WorkspaceApi* | [**get_workspace_context**](docs/WorkspaceApi.md#get_workspace_context) | **GET** /api/workspace/context | Get workspace context for transaction modal
+*WorkspaceApi* | [**get_workspace_image**](docs/WorkspaceApi.md#get_workspace_image) | **GET** /api/workspace/get-image | Get workspace image
+*WorkspaceApi* | [**remove_workspace_image**](docs/WorkspaceApi.md#remove_workspace_image) | **POST** /api/workspace/remove-image | Remove workspace image
 *WorkspaceApi* | [**save_workspace_preferences**](docs/WorkspaceApi.md#save_workspace_preferences) | **POST** /api/workspace/save-preferences | Save report preferences
+*WorkspaceApi* | [**upload_workspace_image**](docs/WorkspaceApi.md#upload_workspace_image) | **POST** /api/workspace/upload-image | Upload workspace image
 
 
 ## Documentation For Models
@@ -444,7 +450,6 @@ Class | Method | HTTP request | Description
  - [CashflowSettingsResponseData](docs/CashflowSettingsResponseData.md)
  - [CashflowSettingsResponseDataSettings](docs/CashflowSettingsResponseDataSettings.md)
  - [CatalogItem](docs/CatalogItem.md)
- - [Cb0fd142892ac8ca80dc3e814a353b01Request](docs/Cb0fd142892ac8ca80dc3e814a353b01Request.md)
  - [ChangeEmail200Response](docs/ChangeEmail200Response.md)
  - [ChangeEmail200ResponseData](docs/ChangeEmail200ResponseData.md)
  - [ChangeEmail409Response](docs/ChangeEmail409Response.md)
@@ -452,6 +457,7 @@ Class | Method | HTTP request | Description
  - [ChangePassword200Response](docs/ChangePassword200Response.md)
  - [ChangePassword200ResponseData](docs/ChangePassword200ResponseData.md)
  - [ChangePasswordRequest](docs/ChangePasswordRequest.md)
+ - [CheckChainedTransactionsRequest](docs/CheckChainedTransactionsRequest.md)
  - [ColumnInfo](docs/ColumnInfo.md)
  - [CommissionCreatedResponse](docs/CommissionCreatedResponse.md)
  - [CommissionData](docs/CommissionData.md)
@@ -611,7 +617,6 @@ Class | Method | HTTP request | Description
  - [GetRoles200Response](docs/GetRoles200Response.md)
  - [GetRoles200ResponseData](docs/GetRoles200ResponseData.md)
  - [GetRoles200ResponseDataRolesInner](docs/GetRoles200ResponseDataRolesInner.md)
- - [GetScheduledTransaction200Response](docs/GetScheduledTransaction200Response.md)
  - [GetSelectionTree200Response](docs/GetSelectionTree200Response.md)
  - [GetSelectionTree200ResponseData](docs/GetSelectionTree200ResponseData.md)
  - [GetSelectionTree200ResponseDataTreeInner](docs/GetSelectionTree200ResponseDataTreeInner.md)
@@ -659,11 +664,17 @@ Class | Method | HTTP request | Description
  - [MassReplaceAccountRequest](docs/MassReplaceAccountRequest.md)
  - [MassSetDateRequest](docs/MassSetDateRequest.md)
  - [MassSetDoneRequest](docs/MassSetDoneRequest.md)
+ - [MatchingAntiPatternCreateRequest](docs/MatchingAntiPatternCreateRequest.md)
  - [MatchingCandidate](docs/MatchingCandidate.md)
+ - [MatchingExampleCreateRequest](docs/MatchingExampleCreateRequest.md)
+ - [MatchingExampleListRequest](docs/MatchingExampleListRequest.md)
+ - [MatchingExampleUpdateRequest](docs/MatchingExampleUpdateRequest.md)
+ - [MatchingKeywordPatternCreateRequest](docs/MatchingKeywordPatternCreateRequest.md)
+ - [MatchingKeywordPatternListRequest](docs/MatchingKeywordPatternListRequest.md)
+ - [MatchingListExamples200Response](docs/MatchingListExamples200Response.md)
  - [MatchingSuggest200Response](docs/MatchingSuggest200Response.md)
  - [MatchingSuggest200ResponseData](docs/MatchingSuggest200ResponseData.md)
  - [MatchingSuggestRequest](docs/MatchingSuggestRequest.md)
- - [Model715f0758591c4b040bb95d00236e14e4Request](docs/Model715f0758591c4b040bb95d00236e14e4Request.md)
  - [PaginationMeta](docs/PaginationMeta.md)
  - [PermissionCreatedResponse](docs/PermissionCreatedResponse.md)
  - [PnlReportResponse](docs/PnlReportResponse.md)
@@ -698,6 +709,7 @@ Class | Method | HTTP request | Description
  - [RemoveMemberRequest](docs/RemoveMemberRequest.md)
  - [RemovePhoto200Response](docs/RemovePhoto200Response.md)
  - [RemovePhoto200ResponseData](docs/RemovePhoto200ResponseData.md)
+ - [RemoveWorkspaceImageRequest](docs/RemoveWorkspaceImageRequest.md)
  - [ReportBasicCurrency](docs/ReportBasicCurrency.md)
  - [ReportColumnInfo](docs/ReportColumnInfo.md)
  - [ReportLabelItem](docs/ReportLabelItem.md)
@@ -854,16 +866,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.6.0
-print(orbuculum_client.__api_version__)    # API version: 0.38.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.38.0
+print(orbuculum_client.__version__)        # Client version: 0.7.0
+print(orbuculum_client.__api_version__)    # API version: 0.39.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.39.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.6.0 → 0.6.1): Bug fixes, documentation updates
-- **MINOR** (0.6.1 → 0.7.0): New features, backward-compatible
-- **MAJOR** (0.7.0 → 1.0.0): Breaking changes
+- **PATCH** (0.7.0 → 0.7.1): Bug fixes, documentation updates
+- **MINOR** (0.7.1 → 0.8.0): New features, backward-compatible
+- **MAJOR** (0.8.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

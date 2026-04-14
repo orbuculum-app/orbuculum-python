@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call_6b6da4c660f77cac77f6f273e3cb567e**](UserApi.md#call_6b6da4c660f77cac77f6f273e3cb567e) | **GET** /api/user/get-photo | Get user photo binary
 [**change_email**](UserApi.md#change_email) | **POST** /api/user/change-email | Initiate email change
 [**change_password**](UserApi.md#change_password) | **POST** /api/user/change-password | Change password
 [**create_password**](UserApi.md#create_password) | **POST** /api/user/create-password | Create password for OAuth-only user
 [**disable_password**](UserApi.md#disable_password) | **POST** /api/user/disable-password | Disable password authentication
+[**get_user_photo**](UserApi.md#get_user_photo) | **GET** /api/user/get-photo | Get user photo binary
 [**get_user_profile**](UserApi.md#get_user_profile) | **GET** /api/user/get-profile | Get current user profile
 [**get_user_workspaces**](UserApi.md#get_user_workspaces) | **GET** /api/user/get-workspaces | Get user workspaces
 [**remove_photo**](UserApi.md#remove_photo) | **POST** /api/user/remove-photo | Remove profile photo
@@ -16,73 +16,6 @@ Method | HTTP request | Description
 [**update_username**](UserApi.md#update_username) | **POST** /api/user/update-username | Update username
 [**upload_photo**](UserApi.md#upload_photo) | **POST** /api/user/upload-photo | Upload profile photo
 
-
-# **call_6b6da4c660f77cac77f6f273e3cb567e**
-> bytearray call_6b6da4c660f77cac77f6f273e3cb567e(user_id)
-
-Get user photo binary
-
-### Example
-
-
-```python
-import orbuculum_client
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to http://localhost
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
-)
-
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.UserApi(api_client)
-    user_id = 56 # int | User ID
-
-    try:
-        # Get user photo binary
-        api_response = api_instance.call_6b6da4c660f77cac77f6f273e3cb567e(user_id)
-        print("The response of UserApi->call_6b6da4c660f77cac77f6f273e3cb567e:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling UserApi->call_6b6da4c660f77cac77f6f273e3cb567e: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user_id** | **int**| User ID | 
-
-### Return type
-
-**bytearray**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: image/*
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Photo binary |  -  |
-**400** | Invalid user_id |  -  |
-**404** | No photo found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **change_email**
 > ChangeEmail200Response change_email(change_email_request)
@@ -418,6 +351,73 @@ Name | Type | Description  | Notes
 **403** | Wrong password |  -  |
 **404** | No local auth to disable |  -  |
 **405** | Method not allowed |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_user_photo**
+> bytearray get_user_photo(user_id)
+
+Get user photo binary
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.UserApi(api_client)
+    user_id = 56 # int | User ID
+
+    try:
+        # Get user photo binary
+        api_response = api_instance.get_user_photo(user_id)
+        print("The response of UserApi->get_user_photo:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling UserApi->get_user_photo: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user_id** | **int**| User ID | 
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: image/*
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Photo binary |  -  |
+**400** | Invalid user_id |  -  |
+**404** | No photo found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

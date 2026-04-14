@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_transaction_commission**](TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
-[**call_715f0758591c4b040bb95d00236e14e4**](TransactionApi.md#call_715f0758591c4b040bb95d00236e14e4) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
+[**check_chained_transactions**](TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 [**create_transaction**](TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
 [**delete_transaction**](TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 [**delete_transaction_file**](TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
@@ -108,8 +108,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **call_715f0758591c4b040bb95d00236e14e4**
-> call_715f0758591c4b040bb95d00236e14e4(model715f0758591c4b040bb95d00236e14e4_request)
+# **check_chained_transactions**
+> check_chained_transactions(check_chained_transactions_request)
 
 Check chained transactions affected by mass action
 
@@ -117,10 +117,11 @@ Check chained transactions for mass action pre-flight
 
 ### Example
 
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.model715f0758591c4b040bb95d00236e14e4_request import Model715f0758591c4b040bb95d00236e14e4Request
+from orbuculum_client.models.check_chained_transactions_request import CheckChainedTransactionsRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -130,18 +131,27 @@ configuration = orbuculum_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
-    model715f0758591c4b040bb95d00236e14e4_request = orbuculum_client.Model715f0758591c4b040bb95d00236e14e4Request() # Model715f0758591c4b040bb95d00236e14e4Request | 
+    check_chained_transactions_request = orbuculum_client.CheckChainedTransactionsRequest() # CheckChainedTransactionsRequest | 
 
     try:
         # Check chained transactions affected by mass action
-        api_instance.call_715f0758591c4b040bb95d00236e14e4(model715f0758591c4b040bb95d00236e14e4_request)
+        api_instance.check_chained_transactions(check_chained_transactions_request)
     except Exception as e:
-        print("Exception when calling TransactionApi->call_715f0758591c4b040bb95d00236e14e4: %s\n" % e)
+        print("Exception when calling TransactionApi->check_chained_transactions: %s\n" % e)
 ```
 
 
@@ -151,7 +161,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **model715f0758591c4b040bb95d00236e14e4_request** | [**Model715f0758591c4b040bb95d00236e14e4Request**](Model715f0758591c4b040bb95d00236e14e4Request.md)|  | 
+ **check_chained_transactions_request** | [**CheckChainedTransactionsRequest**](CheckChainedTransactionsRequest.md)|  | 
 
 ### Return type
 
@@ -159,7 +169,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
