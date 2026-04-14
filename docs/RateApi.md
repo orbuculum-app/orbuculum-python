@@ -1,6 +1,6 @@
 # orbuculum_client.RateApi
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -30,10 +30,10 @@ from orbuculum_client.models.create_rate_request import CreateRateRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -116,10 +116,10 @@ from orbuculum_client.models.delete_rate_request import DeleteRateRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -200,10 +200,10 @@ from orbuculum_client.models.get_rate_response import GetRateResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -289,10 +289,10 @@ from orbuculum_client.models.get_rate_history200_response import GetRateHistory2
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -378,10 +378,10 @@ from orbuculum_client.models.rate_list_response import RateListResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -468,10 +468,10 @@ from orbuculum_client.models.update_rate_request import UpdateRateRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters

@@ -1,17 +1,22 @@
 # MatchingCandidate
 
+A matching candidate suggestion with full sender and receiver account pair
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**account_id** | **int** |  | [optional] 
-**account_name** | **str** |  | [optional] 
-**entity_id** | **int** |  | [optional] 
-**entity_name** | **str** |  | [optional] 
-**score** | **float** |  | [optional] 
-**strategy** | **str** |  | [optional] 
-**reason** | **str** |  | [optional] 
+**sender_account_id** | **int** | Sender account ID | 
+**sender_account_name** | **str** | Sender account name | 
+**sender_entity_id** | **int** | Sender entity (counterparty) ID | 
+**sender_entity_name** | **str** | Sender entity name | 
+**receiver_account_id** | **int** | Receiver account ID | 
+**receiver_account_name** | **str** | Receiver account name | 
+**receiver_entity_id** | **int** | Receiver entity (counterparty) ID | 
+**receiver_entity_name** | **str** | Receiver entity name | 
+**score** | **float** | Confidence score (0.0 to 1.0) | 
+**strategy** | **str** | Strategy name(s) that produced this candidate, joined with + if multiple | 
+**reason** | **str** | Human-readable explanation of the match | 
 
 ## Example
 

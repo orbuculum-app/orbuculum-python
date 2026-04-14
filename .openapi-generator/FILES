@@ -92,6 +92,7 @@ docs/CashflowSettingsResponse.md
 docs/CashflowSettingsResponseData.md
 docs/CashflowSettingsResponseDataSettings.md
 docs/CatalogItem.md
+docs/Cb0fd142892ac8ca80dc3e814a353b01Request.md
 docs/ChangeEmail200Response.md
 docs/ChangeEmail200ResponseData.md
 docs/ChangeEmail409Response.md
@@ -495,6 +496,8 @@ docs/WorkspaceCreatedResponse.md
 docs/WorkspaceCreatedResponseData.md
 docs/WorkspaceDeletedResponse.md
 docs/WorkspaceDeletedResponseData.md
+docs/WorkspaceImageResponse.md
+docs/WorkspaceImageResponseData.md
 git_push.sh
 orbuculum_client/__init__.py
 orbuculum_client/api/__init__.py
@@ -615,6 +618,7 @@ orbuculum_client/models/cashflow_settings_response.py
 orbuculum_client/models/cashflow_settings_response_data.py
 orbuculum_client/models/cashflow_settings_response_data_settings.py
 orbuculum_client/models/catalog_item.py
+orbuculum_client/models/cb0fd142892ac8ca80dc3e814a353b01_request.py
 orbuculum_client/models/change_email200_response.py
 orbuculum_client/models/change_email200_response_data.py
 orbuculum_client/models/change_email409_response.py
@@ -994,6 +998,8 @@ orbuculum_client/models/workspace_created_response.py
 orbuculum_client/models/workspace_created_response_data.py
 orbuculum_client/models/workspace_deleted_response.py
 orbuculum_client/models/workspace_deleted_response_data.py
+orbuculum_client/models/workspace_image_response.py
+orbuculum_client/models/workspace_image_response_data.py
 orbuculum_client/py.typed
 orbuculum_client/rest.py
 pyproject.toml
@@ -1090,6 +1096,7 @@ test/test_cashflow_settings_response.py
 test/test_cashflow_settings_response_data.py
 test/test_cashflow_settings_response_data_settings.py
 test/test_catalog_item.py
+test/test_cb0fd142892ac8ca80dc3e814a353b01_request.py
 test/test_change_email200_response.py
 test/test_change_email200_response_data.py
 test/test_change_email409_response.py
@@ -1493,4 +1500,6 @@ test/test_workspace_created_response.py
 test/test_workspace_created_response_data.py
 test/test_workspace_deleted_response.py
 test/test_workspace_deleted_response_data.py
+test/test_workspace_image_response.py
+test/test_workspace_image_response_data.py
 tox.ini

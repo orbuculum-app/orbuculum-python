@@ -1,14 +1,249 @@
 # orbuculum_client.WorkspaceApi
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**call_2c12a0c65bacbd8d943b89866e51718a**](WorkspaceApi.md#call_2c12a0c65bacbd8d943b89866e51718a) | **POST** /api/workspace/upload-image | Upload workspace image
+[**call_94cd6b16f54e4f7f14f2518cf54d2c83**](WorkspaceApi.md#call_94cd6b16f54e4f7f14f2518cf54d2c83) | **GET** /api/workspace/get-image | Get workspace image
+[**cb0fd142892ac8ca80dc3e814a353b01**](WorkspaceApi.md#cb0fd142892ac8ca80dc3e814a353b01) | **POST** /api/workspace/remove-image | Remove workspace image
 [**create_workspace**](WorkspaceApi.md#create_workspace) | **POST** /api/workspace/create | Create a new workspace
 [**delete_workspace**](WorkspaceApi.md#delete_workspace) | **POST** /api/workspace/delete | Delete a workspace
 [**get_workspace_context**](WorkspaceApi.md#get_workspace_context) | **GET** /api/workspace/context | Get workspace context for transaction modal
 [**save_workspace_preferences**](WorkspaceApi.md#save_workspace_preferences) | **POST** /api/workspace/save-preferences | Save report preferences
 
+
+# **call_2c12a0c65bacbd8d943b89866e51718a**
+> WorkspaceImageResponse call_2c12a0c65bacbd8d943b89866e51718a(workspace_id=workspace_id, image=image)
+
+Upload workspace image
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.workspace_image_response import WorkspaceImageResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    workspace_id = 56 # int |  (optional)
+    image = None # bytearray |  (optional)
+
+    try:
+        # Upload workspace image
+        api_response = api_instance.call_2c12a0c65bacbd8d943b89866e51718a(workspace_id=workspace_id, image=image)
+        print("The response of WorkspaceApi->call_2c12a0c65bacbd8d943b89866e51718a:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->call_2c12a0c65bacbd8d943b89866e51718a: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | [optional] 
+ **image** | **bytearray**|  | [optional] 
+
+### Return type
+
+[**WorkspaceImageResponse**](WorkspaceImageResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**400** | Bad Request |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**405** | Method Not Allowed |  -  |
+**422** | Validation Error |  -  |
+**500** | Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **call_94cd6b16f54e4f7f14f2518cf54d2c83**
+> bytearray call_94cd6b16f54e4f7f14f2518cf54d2c83(workspace_id)
+
+Get workspace image
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    workspace_id = 56 # int | 
+
+    try:
+        # Get workspace image
+        api_response = api_instance.call_94cd6b16f54e4f7f14f2518cf54d2c83(workspace_id)
+        print("The response of WorkspaceApi->call_94cd6b16f54e4f7f14f2518cf54d2c83:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->call_94cd6b16f54e4f7f14f2518cf54d2c83: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: image/*
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Binary image data |  -  |
+**304** | Not Modified |  -  |
+**400** | Bad Request |  -  |
+**404** | Not Found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **cb0fd142892ac8ca80dc3e814a353b01**
+> cb0fd142892ac8ca80dc3e814a353b01(cb0fd142892ac8ca80dc3e814a353b01_request=cb0fd142892ac8ca80dc3e814a353b01_request)
+
+Remove workspace image
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.cb0fd142892ac8ca80dc3e814a353b01_request import Cb0fd142892ac8ca80dc3e814a353b01Request
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    cb0fd142892ac8ca80dc3e814a353b01_request = orbuculum_client.Cb0fd142892ac8ca80dc3e814a353b01Request() # Cb0fd142892ac8ca80dc3e814a353b01Request |  (optional)
+
+    try:
+        # Remove workspace image
+        api_instance.cb0fd142892ac8ca80dc3e814a353b01(cb0fd142892ac8ca80dc3e814a353b01_request=cb0fd142892ac8ca80dc3e814a353b01_request)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->cb0fd142892ac8ca80dc3e814a353b01: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **cb0fd142892ac8ca80dc3e814a353b01_request** | [**Cb0fd142892ac8ca80dc3e814a353b01Request**](Cb0fd142892ac8ca80dc3e814a353b01Request.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+**400** | Bad Request |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**404** | Not Found |  -  |
+**405** | Method Not Allowed |  -  |
+**500** | Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_workspace**
 > WorkspaceCreatedResponse create_workspace(create_workspace_request)
@@ -26,10 +261,10 @@ from orbuculum_client.models.workspace_created_response import WorkspaceCreatedR
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -109,10 +344,10 @@ from orbuculum_client.models.workspace_deleted_response import WorkspaceDeletedR
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -193,10 +428,10 @@ from orbuculum_client.models.get_workspace_context200_response import GetWorkspa
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -281,10 +516,10 @@ from orbuculum_client.models.save_workspace_preferences_request import SaveWorks
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters

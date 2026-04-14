@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.5.0
-- **Supported API Version**: 0.35.1
+- **Client Version**: 0.6.0
+- **Supported API Version**: 0.38.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -201,7 +201,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -351,6 +351,9 @@ Class | Method | HTTP request | Description
 *UserAdminApi* | [**user_admin_save_roles**](docs/UserAdminApi.md#user_admin_save_roles) | **POST** /api/user-admin/save-roles | Save user&#39;s RBAC roles
 *UserAdminApi* | [**user_admin_update**](docs/UserAdminApi.md#user_admin_update) | **POST** /api/user-admin/update | Update an existing user
 *UserAdminApi* | [**user_admin_view**](docs/UserAdminApi.md#user_admin_view) | **GET** /api/user-admin/view | Get user details
+*WorkspaceApi* | [**call_2c12a0c65bacbd8d943b89866e51718a**](docs/WorkspaceApi.md#call_2c12a0c65bacbd8d943b89866e51718a) | **POST** /api/workspace/upload-image | Upload workspace image
+*WorkspaceApi* | [**call_94cd6b16f54e4f7f14f2518cf54d2c83**](docs/WorkspaceApi.md#call_94cd6b16f54e4f7f14f2518cf54d2c83) | **GET** /api/workspace/get-image | Get workspace image
+*WorkspaceApi* | [**cb0fd142892ac8ca80dc3e814a353b01**](docs/WorkspaceApi.md#cb0fd142892ac8ca80dc3e814a353b01) | **POST** /api/workspace/remove-image | Remove workspace image
 *WorkspaceApi* | [**create_workspace**](docs/WorkspaceApi.md#create_workspace) | **POST** /api/workspace/create | Create a new workspace
 *WorkspaceApi* | [**delete_workspace**](docs/WorkspaceApi.md#delete_workspace) | **POST** /api/workspace/delete | Delete a workspace
 *WorkspaceApi* | [**get_workspace_context**](docs/WorkspaceApi.md#get_workspace_context) | **GET** /api/workspace/context | Get workspace context for transaction modal
@@ -441,6 +444,7 @@ Class | Method | HTTP request | Description
  - [CashflowSettingsResponseData](docs/CashflowSettingsResponseData.md)
  - [CashflowSettingsResponseDataSettings](docs/CashflowSettingsResponseDataSettings.md)
  - [CatalogItem](docs/CatalogItem.md)
+ - [Cb0fd142892ac8ca80dc3e814a353b01Request](docs/Cb0fd142892ac8ca80dc3e814a353b01Request.md)
  - [ChangeEmail200Response](docs/ChangeEmail200Response.md)
  - [ChangeEmail200ResponseData](docs/ChangeEmail200ResponseData.md)
  - [ChangeEmail409Response](docs/ChangeEmail409Response.md)
@@ -820,6 +824,8 @@ Class | Method | HTTP request | Description
  - [WorkspaceCreatedResponseData](docs/WorkspaceCreatedResponseData.md)
  - [WorkspaceDeletedResponse](docs/WorkspaceDeletedResponse.md)
  - [WorkspaceDeletedResponseData](docs/WorkspaceDeletedResponseData.md)
+ - [WorkspaceImageResponse](docs/WorkspaceImageResponse.md)
+ - [WorkspaceImageResponseData](docs/WorkspaceImageResponseData.md)
 
 
 <a id="documentation-for-authorization"></a>
@@ -848,16 +854,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.5.0
-print(orbuculum_client.__api_version__)    # API version: 0.35.1
-print(orbuculum_client.__api_supported__)  # Supported API: 0.35.1
+print(orbuculum_client.__version__)        # Client version: 0.6.0
+print(orbuculum_client.__api_version__)    # API version: 0.38.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.38.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.5.0 → 0.5.1): Bug fixes, documentation updates
-- **MINOR** (0.5.1 → 0.6.0): New features, backward-compatible
-- **MAJOR** (0.6.0 → 1.0.0): Breaking changes
+- **PATCH** (0.6.0 → 0.6.1): Bug fixes, documentation updates
+- **MINOR** (0.6.1 → 0.7.0): New features, backward-compatible
+- **MAJOR** (0.7.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 
