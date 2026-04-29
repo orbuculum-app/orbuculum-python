@@ -1,6 +1,6 @@
 # orbuculum_client.AccountApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**get_account_transactions**](AccountApi.md#get_account_transactions) | **GET** /api/account/transactions | Get account transactions with cursor pagination
 [**get_menu_config**](AccountApi.md#get_menu_config) | **GET** /api/account/get-menu-config | Get sidebar menu configuration
 [**save_account_sorting**](AccountApi.md#save_account_sorting) | **POST** /api/account/save-sorting | Save account sorting preference
+[**search_accounts**](AccountApi.md#search_accounts) | **GET** /api/account/search | Search accounts in workspace
 [**update_account**](AccountApi.md#update_account) | **POST** /api/account/update | Update an existing account
 
 
@@ -34,10 +35,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -119,10 +120,10 @@ from orbuculum_client.models.create_account_request import CreateAccountRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -203,10 +204,10 @@ from orbuculum_client.models.delete_account_request import DeleteAccountRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -285,10 +286,10 @@ from orbuculum_client.models.get_account_response import GetAccountResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -372,10 +373,10 @@ from orbuculum_client.models.get_account_balance_response import GetAccountBalan
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -459,10 +460,10 @@ from orbuculum_client.models.account_context_response import AccountContextRespo
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -546,10 +547,10 @@ from orbuculum_client.models.account_transactions_response import AccountTransac
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -653,10 +654,10 @@ from orbuculum_client.models.get_menu_config200_response import GetMenuConfig200
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -742,10 +743,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -807,6 +808,96 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **search_accounts**
+> SearchAccounts200Response search_accounts(workspace_id, q=q, type=type, entity_id=entity_id, limit=limit)
+
+Search accounts in workspace
+
+Searches accounts by name (ILIKE), type, and entity_id with permission-aware filtering. Returns matching accounts with currency details. Used by MCP, chatbots, and UI autocomplete.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.search_accounts200_response import SearchAccounts200Response
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AccountApi(api_client)
+    workspace_id = 1 # int | Workspace ID
+    q = 'cash' # str | Search query string for account name (ILIKE). Empty or omitted = no name filter. (optional)
+    type = 2 # int | Account type filter. Omit = no type filter. Use type=0 to filter P&L accounts (where type IS NULL in DB). (optional)
+    entity_id = 5 # int | Entity ID filter. Omit = no entity filter. (optional)
+    limit = 20 # int | Maximum number of results to return (default 20, max 100) (optional)
+
+    try:
+        # Search accounts in workspace
+        api_response = api_instance.search_accounts(workspace_id, q=q, type=type, entity_id=entity_id, limit=limit)
+        print("The response of AccountApi->search_accounts:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AccountApi->search_accounts: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID | 
+ **q** | **str**| Search query string for account name (ILIKE). Empty or omitted &#x3D; no name filter. | [optional] 
+ **type** | **int**| Account type filter. Omit &#x3D; no type filter. Use type&#x3D;0 to filter P&amp;L accounts (where type IS NULL in DB). | [optional] 
+ **entity_id** | **int**| Entity ID filter. Omit &#x3D; no entity filter. | [optional] 
+ **limit** | **int**| Maximum number of results to return (default 20, max 100) | [optional] 
+
+### Return type
+
+[**SearchAccounts200Response**](SearchAccounts200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Search results returned successfully |  -  |
+**400** | Bad request - validation failed |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - insufficient permissions |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_account**
 > AccountUpdatedResponse update_account(update_account_request)
 
@@ -825,10 +916,10 @@ from orbuculum_client.models.update_account_request import UpdateAccountRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters

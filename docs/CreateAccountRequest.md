@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **entity_id** | **int** | Entity ID | 
-**name** | **str** | Account name | 
+**name** | **str** | Account name (optional, defaults to empty string when omitted; OMM-1868) | [optional] 
 **currency_id** | **int** | Currency ID | [optional] 
 **hidden** | **str** | Whether account is hidden (0 or 1) | [optional] 
 **hide_balances** | **str** | Whether balances are hidden (0 or 1) | [optional] 

@@ -6,11 +6,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | 
-**dt** | **str** |  | 
+**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS (24-hour, space-separated, no timezone). | 
 **sender_account_id** | **int** |  | 
 **receiver_account_id** | **int** |  | 
-**sender_amount** | **str** |  | 
-**receiver_amount** | **str** |  | 
+**sender_amount** | **str** | Sender amount. Decimal value serialized as string to preserve precision (typically 2 decimal places); avoids JSON float rounding. | 
+**receiver_amount** | **str** | Receiver amount. Decimal value serialized as string to preserve precision (typically 2 decimal places); avoids JSON float rounding. | 
 **comment** | **str** |  | [optional] 
 **label_id** | **int** |  | [optional] 
 **done** | **bool** |  | 

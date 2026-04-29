@@ -1,12 +1,12 @@
 # TransactionCreatedResponse
 
-Response after successfully creating a transaction
+Response after successfully creating a non-intermediary transaction. `data` matches the full Transaction shape returned by /api/transaction/get; optional enrichment fields are present only when the request supplied `account_id`.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | HTTP status code | 
+**status** | **int** | HTTP status code. | 
 **data** | [**TransactionCreatedData**](TransactionCreatedData.md) |  | 
 
 ## Example

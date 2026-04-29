@@ -1,6 +1,6 @@
 # orbuculum_client.EntityApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -30,10 +30,10 @@ from orbuculum_client.models.activate_entity_request import ActivateEntityReques
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -112,10 +112,10 @@ from orbuculum_client.models.create_entity_request import CreateEntityRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -174,6 +174,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no permission to create entities |  -  |
 **409** | Conflict - entity name already exists |  -  |
+**422** | Validation failed - invalid type (must be one of: null, 1, 2, 3, 5, 8, 9, 10) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -195,10 +196,10 @@ from orbuculum_client.models.delete_entity_request import DeleteEntityRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -276,10 +277,10 @@ from orbuculum_client.models.get_entities200_response import GetEntities200Respo
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -359,10 +360,10 @@ from orbuculum_client.models.entity_type_icons_response import EntityTypeIconsRe
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -441,10 +442,10 @@ from orbuculum_client.models.update_entity_request import UpdateEntityRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -502,6 +503,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized - invalid or expired token |  -  |
 **403** | Forbidden - no manage permission for this entity |  -  |
 **404** | Entity not found |  -  |
+**422** | Validation failed - invalid type (must be one of: null, 1, 2, 3, 5, 8, 9, 10) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

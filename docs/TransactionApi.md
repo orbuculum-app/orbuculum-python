@@ -1,6 +1,6 @@
 # orbuculum_client.TransactionApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -41,10 +41,10 @@ from orbuculum_client.models.commission_created_response import CommissionCreate
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -125,10 +125,10 @@ from orbuculum_client.models.check_chained_transactions_request import CheckChai
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -187,11 +187,11 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_transaction**
-> CreateTransaction201Response create_transaction(create_transaction_request)
+> CreateTransaction200Response create_transaction(create_transaction_request)
 
 Create a new transaction
 
-Creates a new transaction in the system. Auto-calculation feature: at least one amount (sender_amount or receiver_amount) must be provided. If only one is provided, the other will be calculated automatically using the exchange rate for the transaction date.
+Creates a new transaction in the system. Auto-calculation feature: at least one amount (sender_amount or receiver_amount) must be provided. If only one is provided, the other will be calculated automatically using the exchange rate for the transaction date. The `project_id` field is optional — if omitted (or null/empty), the workspace's default label is used (OMM-1849).
 
 ### Example
 
@@ -199,15 +199,15 @@ Creates a new transaction in the system. Auto-calculation feature: at least one 
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.create_transaction201_response import CreateTransaction201Response
+from orbuculum_client.models.create_transaction200_response import CreateTransaction200Response
 from orbuculum_client.models.create_transaction_request import CreateTransactionRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -246,7 +246,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CreateTransaction201Response**](CreateTransaction201Response.md)
+[**CreateTransaction200Response**](CreateTransaction200Response.md)
 
 ### Authorization
 
@@ -262,6 +262,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **201** | Transaction created |  -  |
+**200** | Dry-run preview (returned when request body has dry_run&#x3D;true). No DB writes performed. |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
@@ -290,10 +291,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -375,10 +376,10 @@ from orbuculum_client.models.delete_file_response import DeleteFileResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -458,10 +459,10 @@ import orbuculum_client
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -546,10 +547,10 @@ from orbuculum_client.models.get_recalculated_balances_response import GetRecalc
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -628,10 +629,10 @@ from orbuculum_client.models.transaction import Transaction
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -730,10 +731,10 @@ from orbuculum_client.models.list_files_response import ListFilesResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -817,10 +818,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -902,10 +903,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -987,10 +988,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -1072,10 +1073,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -1157,10 +1158,10 @@ from orbuculum_client.models.success_response import SuccessResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -1242,10 +1243,10 @@ from orbuculum_client.models.set_balance_invalid_response import SetBalanceInval
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -1309,11 +1310,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_transaction**
-> SuccessResponse update_transaction(update_transaction_request)
+> UpdateTransaction200Response update_transaction(update_transaction_request)
 
 Update an existing transaction
 
-Updates an existing transaction with new amount, description, or other details. Auto-calculation feature (XOR logic): if only one amount is updated, the other will be recalculated automatically using the exchange rate. If both amounts are updated, no auto-calculation occurs.
+Updates an existing transaction with new amount, description, or other details. Auto-calculation feature (XOR logic): if only one amount is updated, the other will be recalculated automatically using the exchange rate. If both amounts are updated, no auto-calculation occurs. When the transaction is part of an intermediary pair (chained_id) OR when intermediary_account_id is provided, the update applies atomically to both legs in a single DB transaction (OMM-1834).
 
 ### Example
 
@@ -1321,15 +1322,15 @@ Updates an existing transaction with new amount, description, or other details. 
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.update_transaction200_response import UpdateTransaction200Response
 from orbuculum_client.models.update_transaction_request import UpdateTransactionRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -1368,7 +1369,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**UpdateTransaction200Response**](UpdateTransaction200Response.md)
 
 ### Authorization
 
@@ -1383,13 +1384,13 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Transaction updated successfully |  -  |
+**200** | Transaction updated successfully (regular or intermediary atomic two-leg update) |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict - duplicate apikey |  -  |
+**409** | Conflict — duplicate apikey OR intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1411,10 +1412,10 @@ from orbuculum_client.models.upload_files_response import UploadFilesResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters

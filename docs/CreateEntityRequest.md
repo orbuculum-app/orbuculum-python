@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **name** | **str** | Entity name | 
-**type** | **int** | Entity type (optional, defaults to 2 - regular account) | [optional] 
+**type** | **int** | Entity type. Allowed: null, 1 (DEBT), 2 (ACC, default), 3 (IGNORE), 5 (CFONLY_ACCOUNT), 8 (CFONLY_SOURCE), 9 (REVENUE), 10 (COSTS). | [optional] 
 
 ## Example
 

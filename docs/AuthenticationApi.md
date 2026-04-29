@@ -1,11 +1,12 @@
 # orbuculum_client.AuthenticationApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**disconnect_social**](AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
 [**login**](AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
+[**refresh**](AuthenticationApi.md#refresh) | **POST** /api/auth/refresh | Refresh JWT access token
 [**register**](AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
 [**request_reset**](AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
 [**reset_password**](AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
@@ -29,10 +30,10 @@ from orbuculum_client.models.disconnect_social_request import DisconnectSocialRe
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -112,10 +113,10 @@ from orbuculum_client.models.login_response import LoginResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 
@@ -167,6 +168,79 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **refresh**
+> RefreshTokenResponse refresh(refresh_token_request)
+
+Refresh JWT access token
+
+Exchanges an existing JWT (which may be expired) for a new JWT with a fresh 1-hour expiry. The old token's signature and the user's auth_key are validated; tokens whose auth_key no longer matches (e.g., after password change) are rejected.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.refresh_token_request import RefreshTokenRequest
+from orbuculum_client.models.refresh_token_response import RefreshTokenResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    refresh_token_request = orbuculum_client.RefreshTokenRequest() # RefreshTokenRequest | 
+
+    try:
+        # Refresh JWT access token
+        api_response = api_instance.refresh(refresh_token_request)
+        print("The response of AuthenticationApi->refresh:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->refresh: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **refresh_token_request** | [**RefreshTokenRequest**](RefreshTokenRequest.md)|  | 
+
+### Return type
+
+[**RefreshTokenResponse**](RefreshTokenResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Token refreshed successfully |  -  |
+**400** | Validation error (missing token) |  -  |
+**401** | Invalid, expired, or revoked token |  -  |
+**405** | Method not allowed |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **register**
 > Register201Response register(register_request)
 
@@ -184,10 +258,10 @@ from orbuculum_client.models.register_request import RegisterRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 
@@ -255,10 +329,10 @@ from orbuculum_client.models.request_reset_response import RequestResetResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 
@@ -326,10 +400,10 @@ from orbuculum_client.models.reset_password_response import ResetPasswordRespons
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 

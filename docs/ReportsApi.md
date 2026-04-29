@@ -1,6 +1,6 @@
 # orbuculum_client.ReportsApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -30,10 +30,10 @@ import orbuculum_client
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -123,10 +123,10 @@ import orbuculum_client
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -222,10 +222,10 @@ from orbuculum_client.models.balance_settings_response import BalanceSettingsRes
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -301,10 +301,10 @@ from orbuculum_client.models.balances_report_response import BalancesReportRespo
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -396,10 +396,10 @@ from orbuculum_client.models.cashflow_report_response import CashflowReportRespo
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -499,10 +499,10 @@ from orbuculum_client.models.cashflow_settings_response import CashflowSettingsR
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -578,10 +578,10 @@ from orbuculum_client.models.pnl_report_response import PnlReportResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -676,10 +676,10 @@ from orbuculum_client.models.balance_settings_response import BalanceSettingsRes
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -756,10 +756,10 @@ from orbuculum_client.models.cashflow_settings_response import CashflowSettingsR
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -836,10 +836,10 @@ from orbuculum_client.models.pnl_settings_response import PnlSettingsResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to https://orbuculum.app
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "http://localhost"
+    host = "https://orbuculum.app"
 )
 
 # The client must configure the authentication and authorization parameters

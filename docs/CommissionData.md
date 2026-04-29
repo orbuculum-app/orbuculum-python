@@ -6,8 +6,8 @@ Commission calculation data
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**sender_amount** | **str** | Commission sender amount | 
-**receiver_amount** | **str** | Commission receiver amount | 
+**sender_amount** | **str** | Commission sender amount. Decimal value serialized as string to preserve precision (typically 2 decimal places); avoids JSON float rounding. | 
+**receiver_amount** | **str** | Commission receiver amount. Decimal value serialized as string to preserve precision (typically 2 decimal places); avoids JSON float rounding. | 
 **sender_account_id** | **int** | Override commission sender account ID | [optional] 
 **receiver_account_id** | **int** | Override commission receiver account ID | [optional] 
 

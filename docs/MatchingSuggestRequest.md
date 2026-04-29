@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **receiver_account_id** | **int** |  | [optional] 
 **amount** | **str** |  | [optional] 
 **description** | **str** |  | [optional] 
-**source** | **str** |  | 
+**source** | **str** |  | [optional] 
 **limit** | **int** |  | [optional] [default to 5]
 **counterparty_hash** | **str** |  | [optional] 
 **import_id** | **int** |  | [optional] 

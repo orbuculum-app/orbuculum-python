@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **id** | **int** | Scheduled transaction ID | 
 **edit_type** | **int** | Edit type: 1&#x3D;ALL, 2&#x3D;SINGLE, 3&#x3D;THIS_AND_FUTURE | 
 **trx_id** | **int** | Transaction ID (required for edit_type&#x3D;2) | [optional] 
-**trx_id_2** | **int** | Second transaction ID for doubler (edit_type&#x3D;2) | [optional] 
+**trx_id_2** | **int** | Second transaction ID for intermediary (edit_type&#x3D;2) | [optional] 
 **override** | **bool** | Override edited transactions | [optional] 
 **sender_account_id** | **int** | Sender account ID | [optional] 
 **receiver_account_id** | **int** | Receiver account ID | [optional] 

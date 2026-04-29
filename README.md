@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.7.0
-- **Supported API Version**: 0.39.0
+- **Client Version**: 0.8.0
+- **Supported API Version**: 0.49.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -201,7 +201,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -214,6 +214,7 @@ Class | Method | HTTP request | Description
 *AccountApi* | [**get_account_transactions**](docs/AccountApi.md#get_account_transactions) | **GET** /api/account/transactions | Get account transactions with cursor pagination
 *AccountApi* | [**get_menu_config**](docs/AccountApi.md#get_menu_config) | **GET** /api/account/get-menu-config | Get sidebar menu configuration
 *AccountApi* | [**save_account_sorting**](docs/AccountApi.md#save_account_sorting) | **POST** /api/account/save-sorting | Save account sorting preference
+*AccountApi* | [**search_accounts**](docs/AccountApi.md#search_accounts) | **GET** /api/account/search | Search accounts in workspace
 *AccountApi* | [**update_account**](docs/AccountApi.md#update_account) | **POST** /api/account/update | Update an existing account
 *AccountPermissionsApi* | [**create_account_permission**](docs/AccountPermissionsApi.md#create_account_permission) | **POST** /api/permission/account-create | Create account permission
 *AccountPermissionsApi* | [**delete_account_permission**](docs/AccountPermissionsApi.md#delete_account_permission) | **POST** /api/permission/account-delete | Delete account permission
@@ -226,6 +227,7 @@ Class | Method | HTTP request | Description
 *AppContextApi* | [**get_app_context**](docs/AppContextApi.md#get_app_context) | **GET** /api/app-context/index | Get application context for SPA initialization
 *AuthenticationApi* | [**disconnect_social**](docs/AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
 *AuthenticationApi* | [**login**](docs/AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
+*AuthenticationApi* | [**refresh**](docs/AuthenticationApi.md#refresh) | **POST** /api/auth/refresh | Refresh JWT access token
 *AuthenticationApi* | [**register**](docs/AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
 *AuthenticationApi* | [**request_reset**](docs/AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
 *AuthenticationApi* | [**reset_password**](docs/AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
@@ -382,6 +384,8 @@ Class | Method | HTTP request | Description
  - [AccountDeletedResponse](docs/AccountDeletedResponse.md)
  - [AccountDeletedResponseData](docs/AccountDeletedResponseData.md)
  - [AccountPermission](docs/AccountPermission.md)
+ - [AccountSummary](docs/AccountSummary.md)
+ - [AccountSummaryHalf](docs/AccountSummaryHalf.md)
  - [AccountTransactionItem](docs/AccountTransactionItem.md)
  - [AccountTransactionItemCounterparty](docs/AccountTransactionItemCounterparty.md)
  - [AccountTransactionsResponse](docs/AccountTransactionsResponse.md)
@@ -500,6 +504,7 @@ Class | Method | HTTP request | Description
  - [CreateTag201Response](docs/CreateTag201Response.md)
  - [CreateTag201ResponseData](docs/CreateTag201ResponseData.md)
  - [CreateTagRequest](docs/CreateTagRequest.md)
+ - [CreateTransaction200Response](docs/CreateTransaction200Response.md)
  - [CreateTransaction201Response](docs/CreateTransaction201Response.md)
  - [CreateTransaction409Response](docs/CreateTransaction409Response.md)
  - [CreateTransactionRequest](docs/CreateTransactionRequest.md)
@@ -557,9 +562,9 @@ Class | Method | HTTP request | Description
  - [DisconnectSocial200ResponseData](docs/DisconnectSocial200ResponseData.md)
  - [DisconnectSocial409Response](docs/DisconnectSocial409Response.md)
  - [DisconnectSocialRequest](docs/DisconnectSocialRequest.md)
- - [DoublerTransactionCreatedData](docs/DoublerTransactionCreatedData.md)
- - [DoublerTransactionCreatedResponse](docs/DoublerTransactionCreatedResponse.md)
  - [EditAccountPermissionRequest](docs/EditAccountPermissionRequest.md)
+ - [EnrichedTransactionItem](docs/EnrichedTransactionItem.md)
+ - [EnrichedTransactionItemCounterparty](docs/EnrichedTransactionItemCounterparty.md)
  - [EntityPermission](docs/EntityPermission.md)
  - [EntityTypeIconsResponse](docs/EntityTypeIconsResponse.md)
  - [ErrorResponse](docs/ErrorResponse.md)
@@ -631,6 +636,12 @@ Class | Method | HTTP request | Description
  - [GetUserWorkspaces200ResponseDataWorkspacesInner](docs/GetUserWorkspaces200ResponseDataWorkspacesInner.md)
  - [GetWorkspaceContext200Response](docs/GetWorkspaceContext200Response.md)
  - [GetWorkspaceContext200ResponseData](docs/GetWorkspaceContext200ResponseData.md)
+ - [IntermediaryTransactionCreatedData](docs/IntermediaryTransactionCreatedData.md)
+ - [IntermediaryTransactionCreatedDataLabelsInner](docs/IntermediaryTransactionCreatedDataLabelsInner.md)
+ - [IntermediaryTransactionCreatedDataSchedule](docs/IntermediaryTransactionCreatedDataSchedule.md)
+ - [IntermediaryTransactionCreatedResponse](docs/IntermediaryTransactionCreatedResponse.md)
+ - [IntermediaryTransactionUpdatedData](docs/IntermediaryTransactionUpdatedData.md)
+ - [IntermediaryTransactionUpdatedResponse](docs/IntermediaryTransactionUpdatedResponse.md)
  - [InviteMember201Response](docs/InviteMember201Response.md)
  - [InviteMember201ResponseData](docs/InviteMember201ResponseData.md)
  - [InviteMember201ResponseDataMember](docs/InviteMember201ResponseDataMember.md)
@@ -696,6 +707,9 @@ Class | Method | HTTP request | Description
  - [RateListResponseDataRatesValueInner](docs/RateListResponseDataRatesValueInner.md)
  - [ReadCustomRecordsRequest](docs/ReadCustomRecordsRequest.md)
  - [ReadCustomRecordsResponse](docs/ReadCustomRecordsResponse.md)
+ - [RefreshTokenRequest](docs/RefreshTokenRequest.md)
+ - [RefreshTokenResponse](docs/RefreshTokenResponse.md)
+ - [RefreshTokenResponseData](docs/RefreshTokenResponseData.md)
  - [Register201Response](docs/Register201Response.md)
  - [Register201ResponseData](docs/Register201ResponseData.md)
  - [Register201ResponseDataUser](docs/Register201ResponseDataUser.md)
@@ -724,6 +738,9 @@ Class | Method | HTTP request | Description
  - [SaveWorkspacePreferences200Response](docs/SaveWorkspacePreferences200Response.md)
  - [SaveWorkspacePreferences200ResponseData](docs/SaveWorkspacePreferences200ResponseData.md)
  - [SaveWorkspacePreferencesRequest](docs/SaveWorkspacePreferencesRequest.md)
+ - [SearchAccounts200Response](docs/SearchAccounts200Response.md)
+ - [SearchAccounts200ResponseData](docs/SearchAccounts200ResponseData.md)
+ - [SearchAccounts200ResponseDataItemsInner](docs/SearchAccounts200ResponseDataItemsInner.md)
  - [SetBalanceInvalidRequest](docs/SetBalanceInvalidRequest.md)
  - [SetBalanceInvalidRequestAccountsInner](docs/SetBalanceInvalidRequestAccountsInner.md)
  - [SetBalanceInvalidResponse](docs/SetBalanceInvalidResponse.md)
@@ -749,14 +766,23 @@ Class | Method | HTTP request | Description
  - [ToggleFullAccess200ResponseData](docs/ToggleFullAccess200ResponseData.md)
  - [ToggleFullAccessRequest](docs/ToggleFullAccessRequest.md)
  - [Transaction](docs/Transaction.md)
+ - [TransactionChainedTransaction](docs/TransactionChainedTransaction.md)
  - [TransactionCreatedData](docs/TransactionCreatedData.md)
  - [TransactionCreatedResponse](docs/TransactionCreatedResponse.md)
  - [TransactionFile](docs/TransactionFile.md)
+ - [TransactionIntermediaryPreview](docs/TransactionIntermediaryPreview.md)
+ - [TransactionIntermediaryPreviewData](docs/TransactionIntermediaryPreviewData.md)
  - [TransactionListResponse](docs/TransactionListResponse.md)
+ - [TransactionPreview](docs/TransactionPreview.md)
+ - [TransactionPreviewData](docs/TransactionPreviewData.md)
+ - [TransactionReceiverCommission](docs/TransactionReceiverCommission.md)
+ - [TransactionSchedule](docs/TransactionSchedule.md)
+ - [TransactionSenderCommission](docs/TransactionSenderCommission.md)
  - [UpdateAccount409Response](docs/UpdateAccount409Response.md)
  - [UpdateAccountRequest](docs/UpdateAccountRequest.md)
  - [UpdateAccountTabRequest](docs/UpdateAccountTabRequest.md)
  - [UpdateAccountTabRequestAccountsValue](docs/UpdateAccountTabRequestAccountsValue.md)
+ - [UpdateCommissionResult](docs/UpdateCommissionResult.md)
  - [UpdateCurrencyRequest](docs/UpdateCurrencyRequest.md)
  - [UpdateCurrencyResponse](docs/UpdateCurrencyResponse.md)
  - [UpdateCurrencyResponseData](docs/UpdateCurrencyResponseData.md)
@@ -789,8 +815,12 @@ Class | Method | HTTP request | Description
  - [UpdateTag200ResponseData](docs/UpdateTag200ResponseData.md)
  - [UpdateTagRequest](docs/UpdateTagRequest.md)
  - [UpdateTagTabRequest](docs/UpdateTagTabRequest.md)
+ - [UpdateTransaction200Response](docs/UpdateTransaction200Response.md)
  - [UpdateTransaction409Response](docs/UpdateTransaction409Response.md)
  - [UpdateTransactionRequest](docs/UpdateTransactionRequest.md)
+ - [UpdateTransactionResponse](docs/UpdateTransactionResponse.md)
+ - [UpdateTransactionResponseData](docs/UpdateTransactionResponseData.md)
+ - [UpdateTransactionResponseDataCommissions](docs/UpdateTransactionResponseDataCommissions.md)
  - [UpdateUsername200Response](docs/UpdateUsername200Response.md)
  - [UpdateUsername200ResponseData](docs/UpdateUsername200ResponseData.md)
  - [UpdateUsernameRequest](docs/UpdateUsernameRequest.md)
@@ -866,16 +896,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.7.0
-print(orbuculum_client.__api_version__)    # API version: 0.39.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.39.0
+print(orbuculum_client.__version__)        # Client version: 0.8.0
+print(orbuculum_client.__api_version__)    # API version: 0.49.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.49.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.7.0 → 0.7.1): Bug fixes, documentation updates
-- **MINOR** (0.7.1 → 0.8.0): New features, backward-compatible
-- **MAJOR** (0.8.0 → 1.0.0): Breaking changes
+- **PATCH** (0.8.0 → 0.8.1): Bug fixes, documentation updates
+- **MINOR** (0.8.1 → 0.9.0): New features, backward-compatible
+- **MAJOR** (0.9.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

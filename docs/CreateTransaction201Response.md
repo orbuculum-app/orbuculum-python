@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | HTTP status code | 
-**data** | [**DoublerTransactionCreatedData**](DoublerTransactionCreatedData.md) |  | 
+**status** | **int** | HTTP status code. | 
+**data** | [**IntermediaryTransactionCreatedData**](IntermediaryTransactionCreatedData.md) |  | 
 
 ## Example
 
