@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.8.0
-- **Supported API Version**: 0.49.0
+- **Client Version**: 0.9.0
+- **Supported API Version**: 0.59.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -250,11 +250,13 @@ Class | Method | HTTP request | Description
 *EntityApi* | [**delete_entity**](docs/EntityApi.md#delete_entity) | **POST** /api/entity/delete | Delete entity
 *EntityApi* | [**get_entities**](docs/EntityApi.md#get_entities) | **GET** /api/entity/get | Get entities
 *EntityApi* | [**get_entity_type_icons**](docs/EntityApi.md#get_entity_type_icons) | **GET** /api/entity/type-icons | Get entity type icons
+*EntityApi* | [**get_entity_types**](docs/EntityApi.md#get_entity_types) | **GET** /api/entity/types | Get entity types catalog
 *EntityApi* | [**update_entity**](docs/EntityApi.md#update_entity) | **POST** /api/entity/update | Update entity
 *EntityPermissionsApi* | [**create_entity_permission**](docs/EntityPermissionsApi.md#create_entity_permission) | **POST** /api/permission/entity-create | Create entity permission
 *EntityPermissionsApi* | [**delete_entity_permission**](docs/EntityPermissionsApi.md#delete_entity_permission) | **POST** /api/permission/entity-delete | Delete entity permission
 *EntityPermissionsApi* | [**get_entity_permissions**](docs/EntityPermissionsApi.md#get_entity_permissions) | **GET** /api/permission/entity | Get entity permissions
 *EntityPermissionsApi* | [**update_entity_tab**](docs/EntityPermissionsApi.md#update_entity_tab) | **POST** /api/permission/update-entity-tab | Update entity permissions (Tab 2)
+*GeneralPermissionsApi* | [**get_general_permissions**](docs/GeneralPermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get general permissions for a role
 *GeneralPermissionsApi* | [**toggle_flag**](docs/GeneralPermissionsApi.md#toggle_flag) | **POST** /api/permission/toggle-flag | Toggle a general permission flag for a workspace member
 *GeneralPermissionsApi* | [**toggle_full_access**](docs/GeneralPermissionsApi.md#toggle_full_access) | **POST** /api/permission/toggle-full-access | Toggle full access for a workspace member
 *GeneralPermissionsApi* | [**update_tag_tab**](docs/GeneralPermissionsApi.md#update_tag_tab) | **POST** /api/permission/update-tag-tab | Update tag permissions (Tab 5)
@@ -322,6 +324,7 @@ Class | Method | HTTP request | Description
 *TagApi* | [**remove_account_from_tag**](docs/TagApi.md#remove_account_from_tag) | **POST** /api/tag/remove-account | Remove an account from a tag
 *TagApi* | [**update_tag**](docs/TagApi.md#update_tag) | **POST** /api/tag/update | Update a tag
 *TransactionApi* | [**add_transaction_commission**](docs/TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
+*TransactionApi* | [**bulk_create_transactions**](docs/TransactionApi.md#bulk_create_transactions) | **POST** /api/transaction/bulk-create | Create multiple transactions in a single request
 *TransactionApi* | [**check_chained_transactions**](docs/TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 *TransactionApi* | [**create_transaction**](docs/TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
 *TransactionApi* | [**delete_transaction**](docs/TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
@@ -408,11 +411,13 @@ Class | Method | HTTP request | Description
  - [AddCommissionRequest](docs/AddCommissionRequest.md)
  - [AppContextResponse](docs/AppContextResponse.md)
  - [AppContextResponseData](docs/AppContextResponseData.md)
+ - [AppContextResponseDataAccountTransactions](docs/AppContextResponseDataAccountTransactions.md)
  - [AppContextResponseDataReportsInner](docs/AppContextResponseDataReportsInner.md)
  - [AppContextResponseDataUser](docs/AppContextResponseDataUser.md)
  - [AppContextResponseDataUserLinksInner](docs/AppContextResponseDataUserLinksInner.md)
- - [AppContextResponseDataUserLinksInnerAdminItemsInner](docs/AppContextResponseDataUserLinksInnerAdminItemsInner.md)
+ - [AppContextResponseDataUserLinksInnerChildrenInner](docs/AppContextResponseDataUserLinksInnerChildrenInner.md)
  - [AppContextResponseDataWorkspace](docs/AppContextResponseDataWorkspace.md)
+ - [AppContextResponseDataWorkspaceLinksInner](docs/AppContextResponseDataWorkspaceLinksInner.md)
  - [AppContextResponseDataWorkspaceProjectsInner](docs/AppContextResponseDataWorkspaceProjectsInner.md)
  - [AssignAccountsToTag200Response](docs/AssignAccountsToTag200Response.md)
  - [AssignAccountsToTag200ResponseData](docs/AssignAccountsToTag200ResponseData.md)
@@ -426,6 +431,7 @@ Class | Method | HTTP request | Description
  - [BalancesReportResponseData](docs/BalancesReportResponseData.md)
  - [BalancesReportResponseDataDataLeftInner](docs/BalancesReportResponseDataDataLeftInner.md)
  - [BalancesReportResponseDataDataLeftInnerAccount](docs/BalancesReportResponseDataDataLeftInnerAccount.md)
+ - [BalancesReportResponseDataUserReportSettings](docs/BalancesReportResponseDataUserReportSettings.md)
  - [BulkAssignPermissions200Response](docs/BulkAssignPermissions200Response.md)
  - [BulkAssignPermissions200ResponseData](docs/BulkAssignPermissions200ResponseData.md)
  - [BulkAssignPermissions200ResponseDataCreated](docs/BulkAssignPermissions200ResponseDataCreated.md)
@@ -434,6 +440,11 @@ Class | Method | HTTP request | Description
  - [BulkAssignPermissionsRequestPermissionsAccountGroupsInner](docs/BulkAssignPermissionsRequestPermissionsAccountGroupsInner.md)
  - [BulkAssignPermissionsRequestPermissionsEntitiesInner](docs/BulkAssignPermissionsRequestPermissionsEntitiesInner.md)
  - [BulkAssignPermissionsRequestPermissionsLabelsInner](docs/BulkAssignPermissionsRequestPermissionsLabelsInner.md)
+ - [BulkCreateTransactionsRequest](docs/BulkCreateTransactionsRequest.md)
+ - [BulkCreateTransactionsResponse](docs/BulkCreateTransactionsResponse.md)
+ - [BulkCreateTransactionsResponseData](docs/BulkCreateTransactionsResponseData.md)
+ - [BulkCreateTransactionsResponseDataItemsInner](docs/BulkCreateTransactionsResponseDataItemsInner.md)
+ - [BulkCreateTransactionsResponseDataItemsInnerErrorsInner](docs/BulkCreateTransactionsResponseDataItemsInnerErrorsInner.md)
  - [CancelImport200Response](docs/CancelImport200Response.md)
  - [CancelImport200ResponseData](docs/CancelImport200ResponseData.md)
  - [CancelImportRequest](docs/CancelImportRequest.md)
@@ -447,6 +458,7 @@ Class | Method | HTTP request | Description
  - [CashflowReportResponseDataOperatingActivitiesCashInflowValueAccount](docs/CashflowReportResponseDataOperatingActivitiesCashInflowValueAccount.md)
  - [CashflowReportResponseDataOperatingActivitiesFreeCash](docs/CashflowReportResponseDataOperatingActivitiesFreeCash.md)
  - [CashflowReportResponseDataQuarterValues](docs/CashflowReportResponseDataQuarterValues.md)
+ - [CashflowReportResponseDataUserReportSettings](docs/CashflowReportResponseDataUserReportSettings.md)
  - [CashflowReportResponseDataYearValues](docs/CashflowReportResponseDataYearValues.md)
  - [CashflowSettingsRequest](docs/CashflowSettingsRequest.md)
  - [CashflowSettingsRequestSettings](docs/CashflowSettingsRequestSettings.md)
@@ -567,6 +579,9 @@ Class | Method | HTTP request | Description
  - [EnrichedTransactionItemCounterparty](docs/EnrichedTransactionItemCounterparty.md)
  - [EntityPermission](docs/EntityPermission.md)
  - [EntityTypeIconsResponse](docs/EntityTypeIconsResponse.md)
+ - [EntityTypesResponse](docs/EntityTypesResponse.md)
+ - [EntityTypesResponseData](docs/EntityTypesResponseData.md)
+ - [EntityTypesResponseDataTypesInner](docs/EntityTypesResponseDataTypesInner.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [ErrorResponse400](docs/ErrorResponse400.md)
  - [ErrorResponse400DetailsInner](docs/ErrorResponse400DetailsInner.md)
@@ -593,6 +608,8 @@ Class | Method | HTTP request | Description
  - [GetEntityPermissionsResponse](docs/GetEntityPermissionsResponse.md)
  - [GetEntityPermissionsResponseData](docs/GetEntityPermissionsResponseData.md)
  - [GetEntityPermissionsResponseDataPermissions](docs/GetEntityPermissionsResponseDataPermissions.md)
+ - [GetGeneralPermissionsResponse](docs/GetGeneralPermissionsResponse.md)
+ - [GetGeneralPermissionsResponseData](docs/GetGeneralPermissionsResponseData.md)
  - [GetImportForm200Response](docs/GetImportForm200Response.md)
  - [GetImportForm200ResponseData](docs/GetImportForm200ResponseData.md)
  - [GetLabelPermissionsResponse](docs/GetLabelPermissionsResponse.md)
@@ -693,6 +710,7 @@ Class | Method | HTTP request | Description
  - [PnlReportResponseDataData](docs/PnlReportResponseDataData.md)
  - [PnlReportResponseDataDataNetRevenueValuesResultInner](docs/PnlReportResponseDataDataNetRevenueValuesResultInner.md)
  - [PnlReportResponseDataDataNetRevenueValuesResultInnerAccount](docs/PnlReportResponseDataDataNetRevenueValuesResultInnerAccount.md)
+ - [PnlReportResponseDataUserReportSettings](docs/PnlReportResponseDataUserReportSettings.md)
  - [PnlSettingsRequest](docs/PnlSettingsRequest.md)
  - [PnlSettingsRequestSettings](docs/PnlSettingsRequestSettings.md)
  - [PnlSettingsResponse](docs/PnlSettingsResponse.md)
@@ -896,16 +914,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.8.0
-print(orbuculum_client.__api_version__)    # API version: 0.49.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.49.0
+print(orbuculum_client.__version__)        # Client version: 0.9.0
+print(orbuculum_client.__api_version__)    # API version: 0.59.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.59.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.8.0 → 0.8.1): Bug fixes, documentation updates
-- **MINOR** (0.8.1 → 0.9.0): New features, backward-compatible
-- **MAJOR** (0.9.0 → 1.0.0): Breaking changes
+- **PATCH** (0.9.0 → 0.9.1): Bug fixes, documentation updates
+- **MINOR** (0.9.1 → 0.10.0): New features, backward-compatible
+- **MAJOR** (0.10.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

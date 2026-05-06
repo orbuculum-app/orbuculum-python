@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **user_name** | **str** |  | [optional] 
 **user_email** | **str** |  | [optional] 
 **is_owner** | **bool** |  | [optional] 
+**role_id** | **int** |  | [optional] 
+**role_name** | **str** |  | [optional] 
 **timezone** | **str** |  | [optional] 
 **photo_url** | **str** |  | [optional] 
 

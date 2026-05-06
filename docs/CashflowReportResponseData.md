@@ -28,6 +28,7 @@ Name | Type | Description | Notes
 **first_label** | [**ReportLabelItem**](ReportLabelItem.md) |  | [optional] 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
 **currencies** | [**Dict[str, ReportBasicCurrency]**](ReportBasicCurrency.md) | Available currencies keyed by currency ID | [optional] 
+**user_report_settings** | [**CashflowReportResponseDataUserReportSettings**](CashflowReportResponseDataUserReportSettings.md) |  | [optional] 
 
 ## Example
 

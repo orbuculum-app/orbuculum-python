@@ -21,6 +21,7 @@ Name | Type | Description | Notes
 **api_id** | **str** | External API ID | [optional] 
 **type** | **int** | Account type | [optional] 
 **tags** | **List[int]** | Array of account group IDs | [optional] 
+**initial_balance** | **str** | Account initial balance amount (positive or negative numeric string). Accepts &#39;&#39;, &#39;0&#39;, &#39;0.00&#39; to delete an existing initial balance transaction. Omit / null to leave initial balance unchanged. | [optional] 
 
 ## Example
 

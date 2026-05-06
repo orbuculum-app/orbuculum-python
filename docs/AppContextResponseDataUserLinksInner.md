@@ -5,10 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **str** |  | [optional] 
+**type** | **str** |  | [optional] 
 **name** | **str** |  | [optional] 
-**href** | **str** |  | [optional] 
-**icon** | **str** |  | [optional] 
-**admin_items** | [**List[AppContextResponseDataUserLinksInnerAdminItemsInner]**](AppContextResponseDataUserLinksInnerAdminItemsInner.md) |  | [optional] 
+**params** | **Dict[str, object]** |  | [optional] 
+**icon_key** | **str** |  | [optional] 
+**children** | [**List[AppContextResponseDataUserLinksInnerChildrenInner]**](AppContextResponseDataUserLinksInnerChildrenInner.md) | Present only on group entries (e.g. Admin). Nested items share the link-item shape. | [optional] 
 
 ## Example
 

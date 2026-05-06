@@ -5,6 +5,7 @@ All URIs are relative to *https://orbuculum.app*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_transaction_commission**](TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
+[**bulk_create_transactions**](TransactionApi.md#bulk_create_transactions) | **POST** /api/transaction/bulk-create | Create multiple transactions in a single request
 [**check_chained_transactions**](TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 [**create_transaction**](TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
 [**delete_transaction**](TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
@@ -104,6 +105,91 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_create_transactions**
+> BulkCreateTransactionsResponse bulk_create_transactions(bulk_create_transactions_request)
+
+Create multiple transactions in a single request
+
+Creates 1–500 transactions with optional stop_on_error (atomic vs partial success) and dry_run (validation-only) flags. Per-item results are returned in items[]. Permission errors always abort with 403 in real-run mode (in dry_run mode permission errors are reported per-item without aborting).
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.bulk_create_transactions_request import BulkCreateTransactionsRequest
+from orbuculum_client.models.bulk_create_transactions_response import BulkCreateTransactionsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TransactionApi(api_client)
+    bulk_create_transactions_request = orbuculum_client.BulkCreateTransactionsRequest() # BulkCreateTransactionsRequest | 
+
+    try:
+        # Create multiple transactions in a single request
+        api_response = api_instance.bulk_create_transactions(bulk_create_transactions_request)
+        print("The response of TransactionApi->bulk_create_transactions:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TransactionApi->bulk_create_transactions: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bulk_create_transactions_request** | [**BulkCreateTransactionsRequest**](BulkCreateTransactionsRequest.md)|  | 
+
+### Return type
+
+[**BulkCreateTransactionsResponse**](BulkCreateTransactionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Bulk operation completed (success or partial success). |  -  |
+**400** | Bad request - missing/invalid top-level parameter. |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - caller has no workspace access OR an item failed permission checks (real-run only). |  -  |
+**405** | Method not allowed |  -  |
+**422** | Validation failed (batch &gt; 500, or stop_on_error&#x3D;true and an item failed business rules). |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

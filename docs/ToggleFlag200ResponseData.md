@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **user_id** | **int** |  | [optional] 
 **permission** | **str** |  | [optional] 
 **granted** | **bool** |  | [optional] 
+**message** | **str** |  | [optional] 
 
 ## Example
 

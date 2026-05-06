@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**delete_entity**](EntityApi.md#delete_entity) | **POST** /api/entity/delete | Delete entity
 [**get_entities**](EntityApi.md#get_entities) | **GET** /api/entity/get | Get entities
 [**get_entity_type_icons**](EntityApi.md#get_entity_type_icons) | **GET** /api/entity/type-icons | Get entity type icons
+[**get_entity_types**](EntityApi.md#get_entity_types) | **GET** /api/entity/types | Get entity types catalog
 [**update_entity**](EntityApi.md#update_entity) | **POST** /api/entity/update | Update entity
 
 
@@ -257,6 +258,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized - invalid or expired token |  -  |
 **403** | Forbidden - no manage permission for this entity |  -  |
 **404** | Entity not found |  -  |
+**422** | System-row constraint: cannot delete a system entity (OMM-1939) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -421,6 +423,86 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Entity type icons retrieved successfully |  -  |
 **401** | Unauthorized - invalid or expired token |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_types**
+> EntityTypesResponse get_entity_types(workspace_id)
+
+Get entity types catalog
+
+Returns the catalog of entity types (id + localized name) as an array of objects in definition order. Includes TYPE_PoL with id=null. Static data — no DB access. Used by frontend SPA to populate type selectors.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.entity_types_response import EntityTypesResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.EntityApi(api_client)
+    workspace_id = 1 # int | Workspace ID (required for auth, not used in business logic — types are global constants)
+
+    try:
+        # Get entity types catalog
+        api_response = api_instance.get_entity_types(workspace_id)
+        print("The response of EntityApi->get_entity_types:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EntityApi->get_entity_types: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID (required for auth, not used in business logic — types are global constants) | 
+
+### Return type
+
+[**EntityTypesResponse**](EntityTypesResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Entity types retrieved successfully |  -  |
+**401** | Unauthorized - invalid or expired token |  -  |
+**403** | Forbidden - user does not have access to workspace |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

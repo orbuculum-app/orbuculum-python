@@ -24,6 +24,7 @@ Name | Type | Description | Notes
 **include_future_periods** | **bool** |  | [optional] 
 **timezone** | **str** |  | [optional] 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
+**user_report_settings** | [**BalancesReportResponseDataUserReportSettings**](BalancesReportResponseDataUserReportSettings.md) |  | [optional] 
 
 ## Example
 

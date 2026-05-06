@@ -5,9 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **str** |  | [optional] 
+**type** | **str** |  | [optional] 
 **name** | **str** |  | [optional] 
-**href** | **str** |  | [optional] 
-**icon** | **str** |  | [optional] 
+**params** | **Dict[str, object]** |  | [optional] 
+**icon_key** | **str** |  | [optional] 
 
 ## Example
 

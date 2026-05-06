@@ -1,6 +1,6 @@
 # AppContextResponse
 
-Response for GET /api/app-context/index — SPA bootstrap data
+Response for GET /api/app-context/index — SPA bootstrap data. Every navigation item is structured {id, type, params, icon_key} (with `children` for nested entries). Frontend owns routing — backend never builds URLs.
 
 ## Properties
 

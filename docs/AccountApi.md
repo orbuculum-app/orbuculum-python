@@ -182,6 +182,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
+**422** | System-row constraint: cannot create an account under a system entity (OMM-1939) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -265,6 +266,7 @@ Name | Type | Description  | Notes
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
 **404** | Resource not found |  -  |
+**422** | System-row constraint: cannot delete a system account or account in a system entity (OMM-1939) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -980,6 +982,7 @@ Name | Type | Description  | Notes
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — cannot change currency on account with existing transactions |  -  |
+**422** | System-row constraint: cannot modify a system account or account in a system entity (OMM-1939) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

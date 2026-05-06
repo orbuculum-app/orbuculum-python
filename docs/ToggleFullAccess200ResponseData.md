@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **user_id** | **int** |  | [optional] 
 **has_full_access** | **bool** |  | [optional] 
+**message** | **str** |  | [optional] 
 
 ## Example
 

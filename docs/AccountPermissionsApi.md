@@ -90,6 +90,7 @@ Name | Type | Description  | Notes
 **201** | Account permission created successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**422** | Cannot manage permissions for system account or entity |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -174,6 +175,7 @@ Name | Type | Description  | Notes
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
 **404** | Resource not found |  -  |
+**422** | Cannot manage permissions for system account or entity |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -258,6 +260,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no PERMISSION_MANAGEMENT access |  -  |
 **404** | Resource not found |  -  |
+**422** | Cannot manage permissions for system account or entity |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -508,6 +511,7 @@ void (empty response body)
 **403** | Forbidden |  -  |
 **404** | User not found |  -  |
 **409** | User has full access |  -  |
+**422** | Cannot manage permissions for system account/entity |  -  |
 **500** | Internal error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

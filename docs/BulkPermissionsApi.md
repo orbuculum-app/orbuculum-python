@@ -87,6 +87,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no PERMISSION_MANAGEMENT access or target role is default |  -  |
 **404** | Role or referenced entity/account/label not found |  -  |
+**422** | Cannot manage permissions for system account or entity |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

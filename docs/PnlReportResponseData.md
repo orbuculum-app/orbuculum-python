@@ -31,6 +31,7 @@ Name | Type | Description | Notes
 **available_labels** | [**List[ReportLabelItem]**](ReportLabelItem.md) |  | [optional] 
 **first_label** | [**ReportLabelItem**](ReportLabelItem.md) |  | [optional] 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
+**user_report_settings** | [**PnlReportResponseDataUserReportSettings**](PnlReportResponseDataUserReportSettings.md) |  | [optional] 
 
 ## Example
 

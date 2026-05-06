@@ -5,9 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** |  | [optional] 
+**id** | **int** | Workspace primary key (integer, not the kebab-case strings used elsewhere). | [optional] 
+**type** | **str** |  | [optional] 
 **name** | **str** |  | [optional] 
-**href** | **str** |  | [optional] 
+**params** | **Dict[str, object]** |  | [optional] 
 **image_url** | **str** |  | [optional] 
 
 ## Example

@@ -7,8 +7,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | [optional] 
 **image_url** | **str** |  | [optional] 
-**links** | [**List[AppContextResponseDataReportsInner]**](AppContextResponseDataReportsInner.md) |  | [optional] 
+**links** | [**List[AppContextResponseDataWorkspaceLinksInner]**](AppContextResponseDataWorkspaceLinksInner.md) |  | [optional] 
 **projects** | [**List[AppContextResponseDataWorkspaceProjectsInner]**](AppContextResponseDataWorkspaceProjectsInner.md) |  | [optional] 
+**can_manage_workspace** | **bool** | Whether the caller has permission to manage workspace-level settings (photo, branding, etc.). When true, /api/workspace/upload-image and /api/workspace/remove-image will succeed for this user; when false, they return 403. | [optional] 
 
 ## Example
 

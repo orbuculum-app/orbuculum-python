@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **is_reports_page** | **bool** |  | [optional] 
 **is_user_area_page** | **bool** |  | [optional] 
 **is_workspace_area_page** | **bool** |  | [optional] 
-**account_transactions_href** | **str** |  | [optional] 
+**account_transactions** | [**AppContextResponseDataAccountTransactions**](AppContextResponseDataAccountTransactions.md) |  | [optional] 
 **reports** | [**List[AppContextResponseDataReportsInner]**](AppContextResponseDataReportsInner.md) |  | [optional] 
 **user** | [**AppContextResponseDataUser**](AppContextResponseDataUser.md) |  | [optional] 
 **workspace** | [**AppContextResponseDataWorkspace**](AppContextResponseDataWorkspace.md) |  | [optional] 
