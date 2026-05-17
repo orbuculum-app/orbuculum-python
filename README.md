@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.9.0
-- **Supported API Version**: 0.59.0
+- **Client Version**: 0.10.0
+- **Supported API Version**: 0.62.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -257,6 +257,7 @@ Class | Method | HTTP request | Description
 *EntityPermissionsApi* | [**get_entity_permissions**](docs/EntityPermissionsApi.md#get_entity_permissions) | **GET** /api/permission/entity | Get entity permissions
 *EntityPermissionsApi* | [**update_entity_tab**](docs/EntityPermissionsApi.md#update_entity_tab) | **POST** /api/permission/update-entity-tab | Update entity permissions (Tab 2)
 *GeneralPermissionsApi* | [**get_general_permissions**](docs/GeneralPermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get general permissions for a role
+*GeneralPermissionsApi* | [**get_tag_permissions**](docs/GeneralPermissionsApi.md#get_tag_permissions) | **GET** /api/permission/tag | Get tag permissions
 *GeneralPermissionsApi* | [**toggle_flag**](docs/GeneralPermissionsApi.md#toggle_flag) | **POST** /api/permission/toggle-flag | Toggle a general permission flag for a workspace member
 *GeneralPermissionsApi* | [**toggle_full_access**](docs/GeneralPermissionsApi.md#toggle_full_access) | **POST** /api/permission/toggle-full-access | Toggle full access for a workspace member
 *GeneralPermissionsApi* | [**update_tag_tab**](docs/GeneralPermissionsApi.md#update_tag_tab) | **POST** /api/permission/update-tag-tab | Update tag permissions (Tab 5)
@@ -646,6 +647,9 @@ Class | Method | HTTP request | Description
  - [GetTagAccounts200Response](docs/GetTagAccounts200Response.md)
  - [GetTagAccounts200ResponseData](docs/GetTagAccounts200ResponseData.md)
  - [GetTagAccounts200ResponseDataAccountsInner](docs/GetTagAccounts200ResponseDataAccountsInner.md)
+ - [GetTagPermissionsResponse](docs/GetTagPermissionsResponse.md)
+ - [GetTagPermissionsResponseData](docs/GetTagPermissionsResponseData.md)
+ - [GetTagPermissionsResponseDataPermissions](docs/GetTagPermissionsResponseDataPermissions.md)
  - [GetUserProfile200Response](docs/GetUserProfile200Response.md)
  - [GetUserProfile200ResponseData](docs/GetUserProfile200ResponseData.md)
  - [GetUserWorkspaces200Response](docs/GetUserWorkspaces200Response.md)
@@ -776,6 +780,7 @@ Class | Method | HTTP request | Description
  - [SystemErrorLogRequest](docs/SystemErrorLogRequest.md)
  - [SystemVersionCheck200Response](docs/SystemVersionCheck200Response.md)
  - [SystemVersionCheck200ResponseData](docs/SystemVersionCheck200ResponseData.md)
+ - [TagPermission](docs/TagPermission.md)
  - [ToggleFlag200Response](docs/ToggleFlag200Response.md)
  - [ToggleFlag200ResponseData](docs/ToggleFlag200ResponseData.md)
  - [ToggleFlag409Response](docs/ToggleFlag409Response.md)
@@ -914,16 +919,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.9.0
-print(orbuculum_client.__api_version__)    # API version: 0.59.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.59.0
+print(orbuculum_client.__version__)        # Client version: 0.10.0
+print(orbuculum_client.__api_version__)    # API version: 0.62.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.62.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.9.0 → 0.9.1): Bug fixes, documentation updates
-- **MINOR** (0.9.1 → 0.10.0): New features, backward-compatible
-- **MAJOR** (0.10.0 → 1.0.0): Breaking changes
+- **PATCH** (0.10.0 → 0.10.1): Bug fixes, documentation updates
+- **MINOR** (0.10.1 → 0.11.0): New features, backward-compatible
+- **MAJOR** (0.11.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

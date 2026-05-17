@@ -5,6 +5,7 @@ All URIs are relative to *https://orbuculum.app*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_general_permissions**](GeneralPermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get general permissions for a role
+[**get_tag_permissions**](GeneralPermissionsApi.md#get_tag_permissions) | **GET** /api/permission/tag | Get tag permissions
 [**toggle_flag**](GeneralPermissionsApi.md#toggle_flag) | **POST** /api/permission/toggle-flag | Toggle a general permission flag for a workspace member
 [**toggle_full_access**](GeneralPermissionsApi.md#toggle_full_access) | **POST** /api/permission/toggle-full-access | Toggle full access for a workspace member
 [**update_tag_tab**](GeneralPermissionsApi.md#update_tag_tab) | **POST** /api/permission/update-tag-tab | Update tag permissions (Tab 5)
@@ -90,6 +91,92 @@ Name | Type | Description  | Notes
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - caller lacks PERMISSION_MANAGEMENT |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_tag_permissions**
+> GetTagPermissionsResponse get_tag_permissions(workspace_id, tag_id=tag_id, role_id=role_id)
+
+Get tag permissions
+
+Retrieves tag (account group) permissions including read and manage access levels
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_tag_permissions_response import GetTagPermissionsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.GeneralPermissionsApi(api_client)
+    workspace_id = 1 # int | Workspace ID
+    tag_id = 1 # int | Specific tag (account group) ID to filter permissions (optional)
+    role_id = 1 # int | Role ID to filter permissions (optional)
+
+    try:
+        # Get tag permissions
+        api_response = api_instance.get_tag_permissions(workspace_id, tag_id=tag_id, role_id=role_id)
+        print("The response of GeneralPermissionsApi->get_tag_permissions:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GeneralPermissionsApi->get_tag_permissions: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID | 
+ **tag_id** | **int**| Specific tag (account group) ID to filter permissions | [optional] 
+ **role_id** | **int**| Role ID to filter permissions | [optional] 
+
+### Return type
+
+[**GetTagPermissionsResponse**](GetTagPermissionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Tag permissions retrieved successfully |  -  |
+**400** | Bad request - validation failed |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - no PERMISSION_MANAGEMENT access |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

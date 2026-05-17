@@ -1,6 +1,6 @@
 # CreateTransactionRequest
 
-Request body for creating a new transaction. At least one amount (sender_amount or receiver_amount) must be provided.
+Request body for creating a new transaction. At least one amount (sender_amount or receiver_amount) must be provided. The `dt` field is optional — when omitted or empty, the server fills it with the current UTC datetime (Y-m-d H:i:s).
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **receiver_account_id** | **int** | Receiver account ID | 
 **sender_amount** | **str** | Sender amount. Optional if receiver_amount is provided. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;100.00\&quot;); avoids JSON float rounding. | [optional] 
 **receiver_amount** | **str** | Receiver amount. Optional if sender_amount is provided. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;85.50\&quot;); avoids JSON float rounding. | [optional] 
-**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS (24-hour, space-separated, no timezone). | 
+**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS (24-hour, space-separated, no timezone). Optional — when omitted or empty, the server fills it with the current UTC datetime. Note: the &#x60;timezone&#x60; parameter only converts user-supplied &#x60;dt&#x60;; server-generated defaults are always UTC. | [optional] 
 **project_id** | **int** | Project ID — optional. If omitted (or null/empty), the workspace&#39;s default label is used. HISTORICAL: maps to label_id in DB. | [optional] 
 **comment** | **str** | Transaction comment | [optional] 
 **description** | **str** | Transaction description | [optional] 

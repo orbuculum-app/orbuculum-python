@@ -289,6 +289,9 @@ docs/GetSelectionTree200ResponseDataTreeInnerChildrenInner.md
 docs/GetTagAccounts200Response.md
 docs/GetTagAccounts200ResponseData.md
 docs/GetTagAccounts200ResponseDataAccountsInner.md
+docs/GetTagPermissionsResponse.md
+docs/GetTagPermissionsResponseData.md
+docs/GetTagPermissionsResponseDataPermissions.md
 docs/GetUserProfile200Response.md
 docs/GetUserProfile200ResponseData.md
 docs/GetUserWorkspaces200Response.md
@@ -433,6 +436,7 @@ docs/SystemErrorLogRequest.md
 docs/SystemVersionCheck200Response.md
 docs/SystemVersionCheck200ResponseData.md
 docs/TagApi.md
+docs/TagPermission.md
 docs/ToggleFlag200Response.md
 docs/ToggleFlag200ResponseData.md
 docs/ToggleFlag409Response.md
@@ -858,6 +862,9 @@ orbuculum_client/models/get_selection_tree200_response_data_tree_inner_children_
 orbuculum_client/models/get_tag_accounts200_response.py
 orbuculum_client/models/get_tag_accounts200_response_data.py
 orbuculum_client/models/get_tag_accounts200_response_data_accounts_inner.py
+orbuculum_client/models/get_tag_permissions_response.py
+orbuculum_client/models/get_tag_permissions_response_data.py
+orbuculum_client/models/get_tag_permissions_response_data_permissions.py
 orbuculum_client/models/get_user_profile200_response.py
 orbuculum_client/models/get_user_profile200_response_data.py
 orbuculum_client/models/get_user_workspaces200_response.py
@@ -988,6 +995,7 @@ orbuculum_client/models/system_error_log200_response_data.py
 orbuculum_client/models/system_error_log_request.py
 orbuculum_client/models/system_version_check200_response.py
 orbuculum_client/models/system_version_check200_response_data.py
+orbuculum_client/models/tag_permission.py
 orbuculum_client/models/toggle_flag200_response.py
 orbuculum_client/models/toggle_flag200_response_data.py
 orbuculum_client/models/toggle_flag409_response.py
@@ -1391,6 +1399,9 @@ test/test_get_selection_tree200_response_data_tree_inner_children_inner.py
 test/test_get_tag_accounts200_response.py
 test/test_get_tag_accounts200_response_data.py
 test/test_get_tag_accounts200_response_data_accounts_inner.py
+test/test_get_tag_permissions_response.py
+test/test_get_tag_permissions_response_data.py
+test/test_get_tag_permissions_response_data_permissions.py
 test/test_get_user_profile200_response.py
 test/test_get_user_profile200_response_data.py
 test/test_get_user_workspaces200_response.py
@@ -1535,6 +1546,7 @@ test/test_system_error_log_request.py
 test/test_system_version_check200_response.py
 test/test_system_version_check200_response_data.py
 test/test_tag_api.py
+test/test_tag_permission.py
 test/test_toggle_flag200_response.py
 test/test_toggle_flag200_response_data.py
 test/test_toggle_flag409_response.py

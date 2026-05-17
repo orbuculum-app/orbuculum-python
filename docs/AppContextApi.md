@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **get_app_context**
-> AppContextResponse get_app_context(workspace_id=workspace_id, path=path)
+> AppContextResponse get_app_context(workspace_id=workspace_id)
 
 Get application context for SPA initialization
 
@@ -45,11 +45,10 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AppContextApi(api_client)
     workspace_id = 1 # int | Active workspace ID. If omitted, returns user-only data. (optional)
-    path = '/account/account-transactions' # str | Current URL path for page-type detection (optional)
 
     try:
         # Get application context for SPA initialization
-        api_response = api_instance.get_app_context(workspace_id=workspace_id, path=path)
+        api_response = api_instance.get_app_context(workspace_id=workspace_id)
         print("The response of AppContextApi->get_app_context:\n")
         pprint(api_response)
     except Exception as e:
@@ -64,7 +63,6 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Active workspace ID. If omitted, returns user-only data. | [optional] 
- **path** | **str**| Current URL path for page-type detection | [optional] 
 
 ### Return type
 

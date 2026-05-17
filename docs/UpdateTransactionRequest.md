@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 **intermediary_account_id** | **int** | Intermediary account ID for linked intermediary transactions | [optional] 
 **intermediary_amount** | **str** | Intermediary leg amount (required when intermediary_account_id is set) | [optional] 
 **commission_appliance** | **int** | Commission appliance deduction flag (0 or 1) | [optional] 
-**timezone** | **str** | IANA timezone for datetime conversion (e.g., Europe/Kyiv) | [optional] 
+**timezone** | **str** | IANA timezone for datetime conversion (e.g., Europe/Kyiv). When provided, &#x60;dt&#x60; is interpreted as local wall-clock time in this zone and converted to UTC for storage. When omitted, &#x60;dt&#x60; is stored verbatim. | [optional] 
 **sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **leg1_sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
