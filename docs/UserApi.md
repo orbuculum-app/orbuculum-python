@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**get_user_profile**](UserApi.md#get_user_profile) | **GET** /api/user/get-profile | Get current user profile
 [**get_user_workspaces**](UserApi.md#get_user_workspaces) | **GET** /api/user/get-workspaces | Get user workspaces
 [**remove_photo**](UserApi.md#remove_photo) | **POST** /api/user/remove-photo | Remove profile photo
+[**set_locale**](UserApi.md#set_locale) | **POST** /api/user/set-locale | Set user locale (BCP 47)
 [**set_timezone**](UserApi.md#set_timezone) | **POST** /api/user/set-timezone | Set workspace timezone
 [**update_username**](UserApi.md#update_username) | **POST** /api/user/update-username | Update username
 [**upload_photo**](UserApi.md#upload_photo) | **POST** /api/user/upload-photo | Upload profile photo
@@ -647,6 +648,90 @@ This endpoint does not need any parameter.
 **401** | Unauthorized |  -  |
 **404** | No photo to remove |  -  |
 **405** | Method not allowed |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **set_locale**
+> GetUserProfile200Response set_locale(set_locale_request)
+
+Set user locale (BCP 47)
+
+Sets the user's UI locale preference (account-wide). Value must be one of User::ALLOWED_LOCALES. Returns the updated profile.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_user_profile200_response import GetUserProfile200Response
+from orbuculum_client.models.set_locale_request import SetLocaleRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.UserApi(api_client)
+    set_locale_request = orbuculum_client.SetLocaleRequest() # SetLocaleRequest | 
+
+    try:
+        # Set user locale (BCP 47)
+        api_response = api_instance.set_locale(set_locale_request)
+        print("The response of UserApi->set_locale:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling UserApi->set_locale: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **set_locale_request** | [**SetLocaleRequest**](SetLocaleRequest.md)|  | 
+
+### Return type
+
+[**GetUserProfile200Response**](GetUserProfile200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Locale updated; returns full profile |  -  |
+**400** | Missing parameters |  -  |
+**401** | Unauthorized |  -  |
+**405** | Method not allowed |  -  |
+**422** | Invalid locale |  -  |
+**500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

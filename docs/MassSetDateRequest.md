@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **transaction_ids** | **List[int]** | Array of transaction IDs to update (max 500) | 
-**var_date** | **str** | New date in Y-m-d H:i:s format | 
+**var_date** | **datetime** | New date. Accepted input formats: \&quot;YYYY-MM-DD HH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SSZ\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS+HH:MM\&quot;. Stored as YYYY-MM-DD HH:MM:SS (UTC). | 
 
 ## Example
 

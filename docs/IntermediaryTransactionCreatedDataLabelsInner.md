@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | 
 **name** | **str** |  | [optional] 
-**color** | **str** |  | [optional] 
+**color** | **int** |  | [optional] 
 
 ## Example
 

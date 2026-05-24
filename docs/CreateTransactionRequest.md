@@ -1,6 +1,6 @@
 # CreateTransactionRequest
 
-Request body for creating a new transaction. At least one amount (sender_amount or receiver_amount) must be provided. The `dt` field is optional — when omitted or empty, the server fills it with the current UTC datetime (Y-m-d H:i:s).
+Request body for creating a new transaction. At least one amount (sender_amount or receiver_amount) must be provided. The `dt` field is optional — when omitted or empty, the server fills it with the current UTC datetime (Y-m-d H:i:s). The `dt` field accepts multiple input formats (space-separated `Y-m-d H:i:s`, ISO 8601 with `T`, RFC 3339 with `Z` or `±HH:MM` offset); responses always return `Y-m-d H:i:s`.
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **receiver_account_id** | **int** | Receiver account ID | 
 **sender_amount** | **str** | Sender amount. Optional if receiver_amount is provided. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;100.00\&quot;); avoids JSON float rounding. | [optional] 
 **receiver_amount** | **str** | Receiver amount. Optional if sender_amount is provided. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;85.50\&quot;); avoids JSON float rounding. | [optional] 
-**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS (24-hour, space-separated, no timezone). Optional — when omitted or empty, the server fills it with the current UTC datetime. Note: the &#x60;timezone&#x60; parameter only converts user-supplied &#x60;dt&#x60;; server-generated defaults are always UTC. | [optional] 
+**dt** | **datetime** | Transaction date and time. Accepted input formats: \&quot;YYYY-MM-DD HH:MM:SS\&quot; (space-separated, no timezone), \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), \&quot;YYYY-MM-DDTHH:MM:SSZ\&quot; (UTC), \&quot;YYYY-MM-DDTHH:MM:SS+HH:MM\&quot; (with timezone offset). Stored and returned as YYYY-MM-DD HH:MM:SS (UTC). When omitted or empty, the server fills it with the current UTC datetime. Note: when input contains an embedded timezone, the optional &#x60;timezone&#x60; field must not also be set (HTTP 422). | [optional] 
 **project_id** | **int** | Project ID — optional. If omitted (or null/empty), the workspace&#39;s default label is used. HISTORICAL: maps to label_id in DB. | [optional] 
 **comment** | **str** | Transaction comment | [optional] 
 **description** | **str** | Transaction description | [optional] 

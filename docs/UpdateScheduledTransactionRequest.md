@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **receiver_account_id** | **int** | Receiver account ID | [optional] 
 **sender_amount** | **str** | Sender amount | [optional] 
 **receiver_amount** | **str** | Receiver amount | [optional] 
-**dt** | **date** | Date | [optional] 
+**dt** | **datetime** | Schedule date/time. Accepted formats: \&quot;YYYY-MM-DD\&quot; (interpreted as midnight in the timezone field), \&quot;YYYY-MM-DD HH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), with optional Z/offset suffix. | [optional] 
 **time** | **str** | Time | [optional] 
 **timezone** | **str** | Timezone | [optional] 
 **schedule_type** | **int** | Schedule type (1-8) | [optional] 

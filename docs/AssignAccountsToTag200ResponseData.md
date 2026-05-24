@@ -9,6 +9,10 @@ Name | Type | Description | Notes
 **assigned_count** | **int** |  | [optional] 
 **already_assigned_count** | **int** |  | [optional] 
 **message** | **str** |  | [optional] 
+**processed_count** | **int** |  | [optional] 
+**skipped_count** | **int** |  | [optional] 
+**skipped_ids** | **List[int]** |  | [optional] 
+**skipped_reasons** | **Dict[str, str]** | Map of skipped account ID (as string) → reason constant | [optional] 
 
 ## Example
 

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **email** | **str** |  | [optional] 
 **photo_url** | **str** |  | [optional] 
 **has_local_auth** | **bool** |  | [optional] 
+**locale** | **str** |  | [optional] 
 
 ## Example
 

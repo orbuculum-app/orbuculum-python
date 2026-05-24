@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **current_project_id** | **int** |  | [optional] 
 **timezone** | **str** |  | [optional] 
 **basic_currency_precision** | **int** |  | [optional] 
+**basic_currency_code** | **str** | ISO/short code of the workspace basic currency (Currency.name). Present only when workspace_id is provided AND a basic currency exists; null otherwise — symmetric with basic_currency_precision. | [optional] 
 **app_version** | **str** |  | [optional] 
 **csrf_param** | **str** |  | [optional] 
 **csrf_token** | **str** |  | [optional] 

@@ -887,7 +887,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **mass_delete_transactions**
-> SuccessResponse mass_delete_transactions(mass_delete_transactions_request)
+> MassDeleteTransactionsResponse mass_delete_transactions(mass_delete_transactions_request)
 
 Delete multiple transactions
 
@@ -900,7 +900,7 @@ Permanently deletes a batch of transactions from the system. This action cannot 
 ```python
 import orbuculum_client
 from orbuculum_client.models.mass_delete_transactions_request import MassDeleteTransactionsRequest
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.mass_delete_transactions_response import MassDeleteTransactionsResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -946,7 +946,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**MassDeleteTransactionsResponse**](MassDeleteTransactionsResponse.md)
 
 ### Authorization
 
@@ -1057,7 +1057,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **mass_replace_account**
-> SuccessResponse mass_replace_account(mass_replace_account_request)
+> MassReplaceAccountResponse mass_replace_account(mass_replace_account_request)
 
 Replace account on multiple transactions
 
@@ -1070,7 +1070,7 @@ Replaces the current account with a new account on a batch of transactions. All 
 ```python
 import orbuculum_client
 from orbuculum_client.models.mass_replace_account_request import MassReplaceAccountRequest
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.mass_replace_account_response import MassReplaceAccountResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -1116,7 +1116,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**MassReplaceAccountResponse**](MassReplaceAccountResponse.md)
 
 ### Authorization
 
@@ -1142,11 +1142,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **mass_set_date**
-> SuccessResponse mass_set_date(mass_set_date_request)
+> MassSetDateResponse mass_set_date(mass_set_date_request)
 
 Set date on multiple transactions
 
-Sets a new date on a batch of transactions. Date must be in Y-m-d H:i:s format. All operations run inside a single DB transaction for correctness.
+Sets a new date on a batch of transactions. Date accepts ISO 8601 / RFC 3339 formats; stored as Y-m-d H:i:s (UTC). All operations run inside a single DB transaction for correctness.
 
 ### Example
 
@@ -1155,7 +1155,7 @@ Sets a new date on a batch of transactions. Date must be in Y-m-d H:i:s format. 
 ```python
 import orbuculum_client
 from orbuculum_client.models.mass_set_date_request import MassSetDateRequest
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.mass_set_date_response import MassSetDateResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -1201,7 +1201,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**MassSetDateResponse**](MassSetDateResponse.md)
 
 ### Authorization
 
@@ -1227,7 +1227,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **mass_set_done**
-> SuccessResponse mass_set_done(mass_set_done_request)
+> MassSetDoneResponse mass_set_done(mass_set_done_request)
 
 Set done/undone on multiple transactions
 
@@ -1240,7 +1240,7 @@ Sets the done status on a batch of transactions. Chained commissions and debt pa
 ```python
 import orbuculum_client
 from orbuculum_client.models.mass_set_done_request import MassSetDoneRequest
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.mass_set_done_response import MassSetDoneResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -1286,7 +1286,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**MassSetDoneResponse**](MassSetDoneResponse.md)
 
 ### Authorization
 

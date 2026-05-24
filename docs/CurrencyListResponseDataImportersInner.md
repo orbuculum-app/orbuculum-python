@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Importer ID | [optional] 
 **name** | **str** | Importer name | [optional] 
+**pairs** | **List[str]** | Currency pairs supported by this importer (e.g. \&quot;usd-eur\&quot;). Empty array when importer registers no pairs. | [optional] 
 
 ## Example
 

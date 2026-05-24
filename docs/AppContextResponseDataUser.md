@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **name** | **str** |  | [optional] 
 **email** | **str** |  | [optional] 
 **photo_url** | **str** |  | [optional] 
-**last_project_id** | **int** |  | [optional] 
+**last_workspace_id** | **int** | ID of the workspace the user last had context on (mirrors user.last_project DB column). | [optional] 
 **links** | [**List[AppContextResponseDataUserLinksInner]**](AppContextResponseDataUserLinksInner.md) |  | [optional] 
 
 ## Example
