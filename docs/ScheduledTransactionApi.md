@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **create_scheduled_transaction**
-> CreateScheduledTransaction200Response create_scheduled_transaction(create_scheduled_transaction_request)
+> CreateScheduledTransaction200Response create_scheduled_transaction(create_scheduled_transaction_request, x_timezone=x_timezone)
 
 Create a new scheduled transaction
 
@@ -49,10 +49,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     create_scheduled_transaction_request = orbuculum_client.CreateScheduledTransactionRequest() # CreateScheduledTransactionRequest | 
+    x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
         # Create a new scheduled transaction
-        api_response = api_instance.create_scheduled_transaction(create_scheduled_transaction_request)
+        api_response = api_instance.create_scheduled_transaction(create_scheduled_transaction_request, x_timezone=x_timezone)
         print("The response of ScheduledTransactionApi->create_scheduled_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -67,6 +68,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_scheduled_transaction_request** | [**CreateScheduledTransactionRequest**](CreateScheduledTransactionRequest.md)|  | 
+ **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
 
@@ -88,7 +90,7 @@ Name | Type | Description  | Notes
 **200** | Scheduled transaction created successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
+**403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **405** | Method not allowed |  -  |
 **422** | Validation failed |  -  |
 **500** | Internal server error |  -  |
@@ -173,7 +175,7 @@ Name | Type | Description  | Notes
 **200** | Scheduled transaction deleted successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
+**403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
@@ -181,7 +183,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_scheduled_transaction**
-> MatchingListExamples200Response get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled)
+> MatchingListExamples200Response get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled, x_timezone=x_timezone)
 
 Get scheduled transaction(s)
 
@@ -221,10 +223,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     id = 42 # int | Scheduled transaction ID (returns single record if provided) (optional)
     account_id = 1 # int | Filter by account ID (sender or receiver) (optional)
     enabled = 'true' # str | Filter by enabled status (true/false) (optional)
+    x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit each schedule's `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
         # Get scheduled transaction(s)
-        api_response = api_instance.get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled)
+        api_response = api_instance.get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled, x_timezone=x_timezone)
         print("The response of ScheduledTransactionApi->get_scheduled_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -242,6 +245,7 @@ Name | Type | Description  | Notes
  **id** | **int**| Scheduled transaction ID (returns single record if provided) | [optional] 
  **account_id** | **int**| Filter by account ID (sender or receiver) | [optional] 
  **enabled** | **str**| Filter by enabled status (true/false) | [optional] 
+ **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit each schedule&#39;s &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
 
@@ -263,14 +267,14 @@ Name | Type | Description  | Notes
 **200** | Scheduled transaction(s) retrieved successfully |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden - insufficient 3-way label permission (PLP must grant view-or-manage on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_scheduled_transaction**
-> UpdateScheduledTransaction200Response update_scheduled_transaction(update_scheduled_transaction_request)
+> UpdateScheduledTransaction200Response update_scheduled_transaction(update_scheduled_transaction_request, x_timezone=x_timezone)
 
 Update a scheduled transaction
 
@@ -308,10 +312,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     update_scheduled_transaction_request = orbuculum_client.UpdateScheduledTransactionRequest() # UpdateScheduledTransactionRequest | 
+    x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
         # Update a scheduled transaction
-        api_response = api_instance.update_scheduled_transaction(update_scheduled_transaction_request)
+        api_response = api_instance.update_scheduled_transaction(update_scheduled_transaction_request, x_timezone=x_timezone)
         print("The response of ScheduledTransactionApi->update_scheduled_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -326,6 +331,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_scheduled_transaction_request** | [**UpdateScheduledTransactionRequest**](UpdateScheduledTransactionRequest.md)|  | 
+ **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
 
@@ -347,7 +353,7 @@ Name | Type | Description  | Notes
 **200** | Scheduled transaction updated successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
+**403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
 **405** | Method not allowed |  -  |
 **422** | Validation failed |  -  |

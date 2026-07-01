@@ -1,15 +1,14 @@
 # AddCommissionRequest
 
-Request body for adding commission to a transaction
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
-**id** | **int** | Transaction ID | 
+**id** | **int** | Parent transaction ID | 
+**commission_side** | **str** | Which side of the parent transaction the commission belongs to. | [optional] [default to 'sender']
 **commission** | [**CommissionData**](CommissionData.md) |  | 
-**commission_side** | **str** | Commission side (sender/receiver) | [optional] 
 
 ## Example
 

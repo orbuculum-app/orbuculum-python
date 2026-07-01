@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **ids** | **List[int]** |  | [optional] 
 **sender_account_id** | **int** |  | [optional] 
 **receiver_account_id** | **int** |  | [optional] 
-**dt** | **str** |  | [optional] 
+**dt** | **str** | OMM-2124: schedule date/time emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC …Z when absent/invalid). The schedule&#39;s stored wall-clock is interpreted in its own &#x60;timezone&#x60; field. | [optional] 
 
 ## Example
 

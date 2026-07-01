@@ -1,14 +1,13 @@
 # UpdateCustomRecordsResponse
 
-Response after updating custom records
+Response after updating a record in a custom table. `data.id` is the updated record's primary key.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | HTTP status code | [optional] 
-**message** | **str** | Success message | [optional] 
-**result** | **int** | Number of affected rows | [optional] 
+**status** | **int** | HTTP status code | 
+**data** | [**UpdateCustomRecordsResponseData**](UpdateCustomRecordsResponseData.md) |  | 
 
 ## Example
 

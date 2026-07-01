@@ -6,7 +6,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** |  | 
-**transaction_ids** | **List[int]** |  | 
+**transaction_ids** | **List[int]** | Legacy explicit-id mode. Provide this OR &#x60;selection&#x60;. | [optional] 
+**selection** | **object** | BE-22 envelope mode: int[] or the literal &#39;all&#39;. When present, takes precedence over transaction_ids; the server materializes the same set /mutate would (filter minus unselected). | [optional] 
+**account_id** | **int** | Active account scope; required when selection &#x3D;&#x3D; &#39;all&#39;. | [optional] 
+**filter** | **object** | Filter scope (mirrors /mutate); consumed only when selection &#x3D;&#x3D; &#39;all&#39;. | [optional] 
+**unselected** | **List[int]** | Ids to exclude; honored only when selection &#x3D;&#x3D; &#39;all&#39;. | [optional] 
 **action** | **str** |  | [optional] 
 
 ## Example

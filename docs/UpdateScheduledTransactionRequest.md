@@ -21,6 +21,7 @@ Name | Type | Description | Notes
 **schedule_type** | **int** | Schedule type (1-8) | [optional] 
 **comment** | **str** | Comment | [optional] 
 **description** | **str** | Description | [optional] 
+**project_id** | **int** | Project ID | [optional] 
 
 ## Example
 

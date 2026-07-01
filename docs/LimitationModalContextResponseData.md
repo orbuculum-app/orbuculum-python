@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**labels** | [**List[LimitationModalContextResponseDataLabelsInner]**](LimitationModalContextResponseDataLabelsInner.md) |  | [optional] 
+**projects** | [**List[LimitationModalContextResponseDataProjectsInner]**](LimitationModalContextResponseDataProjectsInner.md) |  | [optional] 
 **entities** | [**List[LimitationModalContextResponseDataEntitiesInner]**](LimitationModalContextResponseDataEntitiesInner.md) |  | [optional] 
-**first_label_id** | **int** |  | [optional] 
+**first_project_id** | **int** |  | [optional] 
 **current_account** | [**LimitationModalContextResponseDataCurrentAccount**](LimitationModalContextResponseDataCurrentAccount.md) |  | [optional] 
 **limitations** | [**LimitationModalContextResponseDataLimitations**](LimitationModalContextResponseDataLimitations.md) |  | [optional] 
 **is_limited** | **bool** |  | [optional] 

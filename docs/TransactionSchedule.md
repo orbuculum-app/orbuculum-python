@@ -7,7 +7,7 @@ Recurring schedule (Future) that generated this transaction, when applicable. Nu
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
-**future_date** | **str** | Anchor date of the schedule (Y-m-d H:i:s). | [optional] 
+**future_date** | **str** | Anchor date of the schedule, emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC rendered with trailing Z when absent/invalid). | [optional] 
 **schedule_type** | **str** |  | [optional] 
 **schedule_interval** | **int** |  | [optional] 
 **schedule_interval_type** | **str** |  | [optional] 

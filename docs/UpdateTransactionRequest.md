@@ -1,6 +1,6 @@
 # UpdateTransactionRequest
 
-Request body for updating transaction. All fields optional except workspace_id and id.
+Request body for updating transaction. All fields optional except workspace_id and id. For cross-currency transactions, updating exactly one amount re-derives the other at the transaction-date rate and resets forex to 0; updating both computes forex from the implied rate. To clear phantom forex, update only sender_amount (the statement-anchored side). (OMM-2148)
 
 ## Properties
 
@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **id** | **int** | Transaction ID to update | 
 **sender_account_id** | **int** | Sender account ID | [optional] 
 **receiver_account_id** | **int** | Receiver account ID | [optional] 
-**sender_amount** | **str** | Sender amount. If updated alone, receiver_amount will be recalculated. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;100.00\&quot;); avoids JSON float rounding. | [optional] 
-**receiver_amount** | **str** | Receiver amount. If updated alone, sender_amount will be recalculated. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;85.50\&quot;); avoids JSON float rounding. | [optional] 
+**sender_amount** | **str** | Sender amount. If updated alone, receiver_amount will be recalculated. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;100.00\&quot;); avoids JSON float rounding. Update this alone to re-derive receiver_amount at the date&#39;s rate and reset forex to 0 (preferred for forex cleanup; keeps the statement-anchored side fixed). | [optional] 
+**receiver_amount** | **str** | Receiver amount. If updated alone, sender_amount will be recalculated. Decimal value serialized as string to preserve precision (typically 2 decimal places, e.g. \&quot;85.50\&quot;); avoids JSON float rounding. Updating this alone re-derives sender_amount at the date&#39;s rate — this MOVES the statement-anchored side; avoid for forex cleanup. | [optional] 
 **dt** | **datetime** | Transaction date and time. Accepted input formats: \&quot;YYYY-MM-DD HH:MM:SS\&quot; (space-separated, no timezone), \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), \&quot;YYYY-MM-DDTHH:MM:SSZ\&quot; (UTC), \&quot;YYYY-MM-DDTHH:MM:SS+HH:MM\&quot; (with timezone offset). Stored and returned as YYYY-MM-DD HH:MM:SS (UTC). Note: when input contains an embedded timezone, the optional &#x60;timezone&#x60; field must not also be set (HTTP 422). | [optional] 
 **project_id** | **int** | Project ID (HISTORICAL: maps to label_id in DB) | [optional] 
 **comment** | **str** | Transaction comment | [optional] 

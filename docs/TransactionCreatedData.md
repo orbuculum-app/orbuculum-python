@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Transaction ID. Always null inside a dry_run preview (&#x60;preview_data&#x60;) since no row is persisted. | [optional] 
 **workspace_id** | **int** | Workspace ID | [optional] 
-**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS (24-hour, space-separated, no timezone). | [optional] 
+**dt** | **datetime** | Transaction date-time, emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC rendered with trailing Z when the header is absent or invalid). | [optional] 
 **comment** | **str** | Transaction comment | [optional] 
 **description** | **str** | Transaction description | [optional] 
 **sender_account_id** | **int** | Sender account ID | [optional] 
@@ -34,6 +34,8 @@ Name | Type | Description | Notes
 **labels** | [**List[IntermediaryTransactionCreatedDataLabelsInner]**](IntermediaryTransactionCreatedDataLabelsInner.md) | Labels attached to this transaction. Currently at most one element (the &#x60;label_id&#x60; of the transaction); always returned as an array for forward compatibility. | [optional] 
 **schedule** | [**TransactionSchedule**](TransactionSchedule.md) |  | [optional] 
 **chained_transaction** | [**TransactionChainedTransaction**](TransactionChainedTransaction.md) |  | [optional] 
+**canonical_row** | [**TransactionCanonicalRow**](TransactionCanonicalRow.md) |  | [optional] 
+**context** | [**Dict[str, AccountTransactionContextEntry]**](AccountTransactionContextEntry.md) | Map keyed by stringified account id → counterparty enrichment {account_name, entity_name, currency_code} for the transaction&#39;s sender, receiver, and commission accounts. Present on single-transaction GET responses (OMM-2110). Empty object {} when no accounts are resolvable. Accounts that are null/external are omitted. | [optional] 
 **transactions** | [**List[EnrichedTransactionItem]**](EnrichedTransactionItem.md) | Perspective-aware enriched transaction rows. Present only when the request included &#x60;account_id&#x60;. | [optional] 
 **removed_ids** | **List[int]** | Always an empty array on the create path; included for shape parity with update/delete enrichment. | [optional] 
 **summary** | [**AccountSummary**](AccountSummary.md) |  | [optional] 

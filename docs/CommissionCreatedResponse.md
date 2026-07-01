@@ -1,13 +1,13 @@
 # CommissionCreatedResponse
 
-Response after successfully adding commission
+Response after successfully adding commission. `data.commission_id` is the created commission transaction ID.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code | 
-**commission_id** | **int** | Created commission transaction ID | 
+**data** | [**CommissionCreatedResponseData**](CommissionCreatedResponseData.md) |  | 
 
 ## Example
 

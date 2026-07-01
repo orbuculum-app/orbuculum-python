@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **amount** | **str** | Commission amount. Decimal value as string to preserve precision. | [optional] 
 **account_id** | **int** |  | [optional] 
-**account_name** | **str** |  | [optional] 
 
 ## Example
 

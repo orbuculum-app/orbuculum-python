@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **activity_journal_list**
-> ActivityJournalListResponse activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id)
+> ActivityJournalList200Response activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id, x_timezone=x_timezone)
 
 Get paginated activity journal entries
 
@@ -103,7 +103,7 @@ Retrieves a paginated list of activity journal entries with optional filters. Su
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.activity_journal_list_response import ActivityJournalListResponse
+from orbuculum_client.models.activity_journal_list200_response import ActivityJournalList200Response
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -132,12 +132,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     per_page = 20 # int | Items per page, 1-100 (offset mode only) (optional) (default to 20)
     limit = 80 # int | Items per page in cursor mode (1-200, default 80) (optional) (default to 80)
     direction = down # str | Pagination direction in cursor mode: 'up' (newer) or 'down' (older) (optional) (default to down)
-    cursor_dt = '2013-10-20T19:20:30+01:00' # datetime | Datetime of last seen entry for cursor pagination (must be provided together with cursor_id) (optional)
+    cursor_dt = '2026-01-15T10:30+02:00' # datetime | Datetime of last seen entry for cursor pagination (must be provided together with cursor_id). In cursor mode, pass back the offset-ISO `pagination.nextCursor.dt` from a previous page (e.g. 2026-01-15T10:30:00+02:00). A naive 'YYYY-MM-DD HH:MM:SS' value is also accepted and interpreted as UTC. (optional)
     cursor_id = 12345 # int | ID of last seen entry for cursor pagination (must be provided together with cursor_dt) (optional)
     author_id = 56 # int | Filter by author user ID (legacy, use 'authors' for multi-select) (optional)
     authors = 'user_1,2,3;api_4' # str | Filter by multiple authors, format: user_1,2,3;api_4 (takes priority over author_id) (optional)
-    date_from = 'Thu Jan 01 00:00:00 UTC 2026' # date | Filter from date (YYYY-MM-DD) (optional)
-    date_to = 'Thu Dec 31 00:00:00 UTC 2026' # date | Filter to date (YYYY-MM-DD) (optional)
+    date_from = 'Thu Jan 01 00:00:00 UTC 2026' # date | Filter from date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
+    date_to = 'Thu Dec 31 00:00:00 UTC 2026' # date | Filter to date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
     action_type = 'action_type_example' # str | Filter by action type (optional)
     model_type = 'model_type_example' # str | Filter by model type (transaction, account, user, category) (optional)
     user_id = 'user_id_example' # str | Filter by specific user (when model_type=user) (optional)
@@ -146,10 +146,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     transaction_account_id = 'transaction_account_id_example' # str | Filter by account as sender or receiver (optional)
     sender_account_id = 'sender_account_id_example' # str | Filter by sender account (optional)
     receiver_account_id = 'receiver_account_id_example' # str | Filter by receiver account (optional)
+    x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used in cursor mode to emit all datetime instants as explicit-offset ISO-8601 and to interpret the date_from/date_to day window. Absent or invalid → UTC (…Z). Does not affect offset mode (page/per_page). (optional)
 
     try:
         # Get paginated activity journal entries
-        api_response = api_instance.activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id)
+        api_response = api_instance.activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id, x_timezone=x_timezone)
         print("The response of ActivityJournalApi->activity_journal_list:\n")
         pprint(api_response)
     except Exception as e:
@@ -168,12 +169,12 @@ Name | Type | Description  | Notes
  **per_page** | **int**| Items per page, 1-100 (offset mode only) | [optional] [default to 20]
  **limit** | **int**| Items per page in cursor mode (1-200, default 80) | [optional] [default to 80]
  **direction** | **str**| Pagination direction in cursor mode: &#39;up&#39; (newer) or &#39;down&#39; (older) | [optional] [default to down]
- **cursor_dt** | **datetime**| Datetime of last seen entry for cursor pagination (must be provided together with cursor_id) | [optional] 
+ **cursor_dt** | **datetime**| Datetime of last seen entry for cursor pagination (must be provided together with cursor_id). In cursor mode, pass back the offset-ISO &#x60;pagination.nextCursor.dt&#x60; from a previous page (e.g. 2026-01-15T10:30:00+02:00). A naive &#39;YYYY-MM-DD HH:MM:SS&#39; value is also accepted and interpreted as UTC. | [optional] 
  **cursor_id** | **int**| ID of last seen entry for cursor pagination (must be provided together with cursor_dt) | [optional] 
  **author_id** | **int**| Filter by author user ID (legacy, use &#39;authors&#39; for multi-select) | [optional] 
  **authors** | **str**| Filter by multiple authors, format: user_1,2,3;api_4 (takes priority over author_id) | [optional] 
- **date_from** | **date**| Filter from date (YYYY-MM-DD) | [optional] 
- **date_to** | **date**| Filter to date (YYYY-MM-DD) | [optional] 
+ **date_from** | **date**| Filter from date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
+ **date_to** | **date**| Filter to date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
  **action_type** | **str**| Filter by action type | [optional] 
  **model_type** | **str**| Filter by model type (transaction, account, user, category) | [optional] 
  **user_id** | **str**| Filter by specific user (when model_type&#x3D;user) | [optional] 
@@ -182,10 +183,11 @@ Name | Type | Description  | Notes
  **transaction_account_id** | **str**| Filter by account as sender or receiver | [optional] 
  **sender_account_id** | **str**| Filter by sender account | [optional] 
  **receiver_account_id** | **str**| Filter by receiver account | [optional] 
+ **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used in cursor mode to emit all datetime instants as explicit-offset ISO-8601 and to interpret the date_from/date_to day window. Absent or invalid → UTC (…Z). Does not affect offset mode (page/per_page). | [optional] 
 
 ### Return type
 
-[**ActivityJournalListResponse**](ActivityJournalListResponse.md)
+[**ActivityJournalList200Response**](ActivityJournalList200Response.md)
 
 ### Authorization
 
@@ -200,7 +202,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Activity journal entries retrieved. Offset mode returns: items, total_count, page, per_page, total_pages. Cursor mode returns: items, has_more. |  -  |
+**200** | Paginated activity journal entries. Offset mode (page/per_page) returns ActivityJournalListResponse; cursor mode (cursor_dt/cursor_id) returns ActivityJournalCursorListResponse. |  -  |
 **400** | Bad request - invalid parameters |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no workspace access |  -  |

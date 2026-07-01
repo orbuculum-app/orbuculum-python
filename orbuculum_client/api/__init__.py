@@ -11,9 +11,11 @@ if __import__("typing").TYPE_CHECKING:
     from orbuculum_client.api.custom_api import CustomApi
     from orbuculum_client.api.entity_api import EntityApi
     from orbuculum_client.api.import_api import ImportApi
-    from orbuculum_client.api.label_api import LabelApi
     from orbuculum_client.api.limitation_api import LimitationApi
     from orbuculum_client.api.matching_api import MatchingApi
+    from orbuculum_client.api.membership_api import MembershipApi
+    from orbuculum_client.api.permissions_api import PermissionsApi
+    from orbuculum_client.api.project_api import ProjectApi
     from orbuculum_client.api.rate_api import RateApi
     from orbuculum_client.api.reports_api import ReportsApi
     from orbuculum_client.api.scheduled_transaction_api import ScheduledTransactionApi
@@ -41,9 +43,11 @@ from orbuculum_client.api.currency_api import CurrencyApi
 from orbuculum_client.api.custom_api import CustomApi
 from orbuculum_client.api.entity_api import EntityApi
 from orbuculum_client.api.import_api import ImportApi
-from orbuculum_client.api.label_api import LabelApi
 from orbuculum_client.api.limitation_api import LimitationApi
 from orbuculum_client.api.matching_api import MatchingApi
+from orbuculum_client.api.membership_api import MembershipApi
+from orbuculum_client.api.permissions_api import PermissionsApi
+from orbuculum_client.api.project_api import ProjectApi
 from orbuculum_client.api.rate_api import RateApi
 from orbuculum_client.api.reports_api import ReportsApi
 from orbuculum_client.api.scheduled_transaction_api import ScheduledTransactionApi

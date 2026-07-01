@@ -5,20 +5,16 @@ All URIs are relative to *https://orbuculum.app*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_transaction_commission**](TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
-[**bulk_create_transactions**](TransactionApi.md#bulk_create_transactions) | **POST** /api/transaction/bulk-create | Create multiple transactions in a single request
 [**check_chained_transactions**](TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 [**create_transaction**](TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
 [**delete_transaction**](TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 [**delete_transaction_file**](TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
 [**download_transaction_file**](TransactionApi.md#download_transaction_file) | **GET** /api/transaction/download-file | Download a transaction file
 [**get_recalculated_balances**](TransactionApi.md#get_recalculated_balances) | **GET** /api/transaction/get-recalculated-balances | Poll for balance recalculation status
-[**get_transaction**](TransactionApi.md#get_transaction) | **GET** /api/transaction/get | Get transaction(s) with enriched data, pagination and filters
+[**get_transaction**](TransactionApi.md#get_transaction) | **GET** /api/transaction/get | Get a single transaction by id or apikey with enriched data
 [**list_transaction_files**](TransactionApi.md#list_transaction_files) | **GET** /api/transaction/list-files | List files for a transaction
-[**mass_delete_transactions**](TransactionApi.md#mass_delete_transactions) | **POST** /api/transaction/mass-delete | Delete multiple transactions
-[**mass_duplicate_transactions**](TransactionApi.md#mass_duplicate_transactions) | **POST** /api/transaction/mass-duplicate | Duplicate multiple transactions
-[**mass_replace_account**](TransactionApi.md#mass_replace_account) | **POST** /api/transaction/mass-replace-account | Replace account on multiple transactions
-[**mass_set_date**](TransactionApi.md#mass_set_date) | **POST** /api/transaction/mass-set-date | Set date on multiple transactions
-[**mass_set_done**](TransactionApi.md#mass_set_done) | **POST** /api/transaction/mass-set-done | Set done/undone on multiple transactions
+[**list_transactions**](TransactionApi.md#list_transactions) | **GET** /api/transaction/list | List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
+[**mutate_transactions**](TransactionApi.md#mutate_transactions) | **POST** /api/transaction/mutate | Unified transaction mutation endpoint
 [**set_balance_invalid**](TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
 [**update_transaction**](TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 [**upload_transaction_files**](TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
@@ -100,96 +96,12 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **201** | Commission added successfully |  -  |
-**400** | Bad request - validation failed |  -  |
+**400** | Malformed JSON body. |  -  |
+**422** | Validation failure: malformed commission payload, invalid side, missing required fields, or non-positive amounts. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
-**500** | Internal server error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **bulk_create_transactions**
-> BulkCreateTransactionsResponse bulk_create_transactions(bulk_create_transactions_request)
-
-Create multiple transactions in a single request
-
-Creates 1–500 transactions with optional stop_on_error (atomic vs partial success) and dry_run (validation-only) flags. Per-item results are returned in items[]. Permission errors always abort with 403 in real-run mode (in dry_run mode permission errors are reported per-item without aborting).
-
-### Example
-
-* Bearer (JWT) Authentication (bearerAuth):
-
-```python
-import orbuculum_client
-from orbuculum_client.models.bulk_create_transactions_request import BulkCreateTransactionsRequest
-from orbuculum_client.models.bulk_create_transactions_response import BulkCreateTransactionsResponse
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://orbuculum.app
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = orbuculum_client.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.TransactionApi(api_client)
-    bulk_create_transactions_request = orbuculum_client.BulkCreateTransactionsRequest() # BulkCreateTransactionsRequest | 
-
-    try:
-        # Create multiple transactions in a single request
-        api_response = api_instance.bulk_create_transactions(bulk_create_transactions_request)
-        print("The response of TransactionApi->bulk_create_transactions:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling TransactionApi->bulk_create_transactions: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **bulk_create_transactions_request** | [**BulkCreateTransactionsRequest**](BulkCreateTransactionsRequest.md)|  | 
-
-### Return type
-
-[**BulkCreateTransactionsResponse**](BulkCreateTransactionsResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Bulk operation completed (success or partial success). |  -  |
-**400** | Bad request - missing/invalid top-level parameter. |  -  |
-**401** | Unauthorized |  -  |
-**403** | Forbidden - caller has no workspace access OR an item failed permission checks (real-run only). |  -  |
-**405** | Method not allowed |  -  |
-**422** | Validation failed (batch &gt; 500, or stop_on_error&#x3D;true and an item failed business rules). |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -279,6 +191,10 @@ Create a new transaction
 
 Creates a new transaction in the system. Auto-calculation feature: at least one amount (sender_amount or receiver_amount) must be provided. If only one is provided, the other will be calculated automatically using the exchange rate for the transaction date. The `project_id` field is optional — if omitted (or null/empty), the workspace's default label is used (OMM-1849).
 
+Single-amount semantic (cross-currency): for a transaction whose sender and receiver accounts are in different currencies, provide EXACTLY ONE of `sender_amount` or `receiver_amount`. The backend derives the other side from the transaction-date exchange rate and forex is 0. Providing BOTH amounts makes the backend treat them as factum and compute forex from the implied rate (receiver_amount / sender_amount vs the official rate), so sending two EQUAL amounts on a cross-currency pair fabricates phantom forex.
+
+Example — record a 57 EUR cost paid from an EUR account into a USD account: send {"sender_account_id": <EUR account>, "receiver_account_id": <USD account>, "sender_amount": "57.00"} and OMIT receiver_amount. The backend computes receiver_amount at the date's EUR→USD rate and forex = 0. Do NOT send "receiver_amount": "57.00" alongside it — that implies a 1:1 rate and creates phantom forex. (OMM-2148)
+
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):
@@ -355,6 +271,7 @@ Name | Type | Description  | Notes
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - duplicate apikey |  -  |
+**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -440,6 +357,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be deleted (OMM-2133) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -701,9 +619,19 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_transaction**
-> Transaction get_transaction(workspace_id, id=id, apikey=apikey, limit=limit, offset=offset, date_from=date_from, date_to=date_to, account_id=account_id, label_id=label_id, search=search)
+> TransactionGetSingleResponse get_transaction(workspace_id, id=id, apikey=apikey)
 
-Get transaction(s) with enriched data, pagination and filters
+Get a single transaction by id or apikey with enriched data
+
+Get a single transaction by `id` or `apikey`.
+
+SINGLE mode only: returns ONE transaction wrapped in
+`{status, data: Transaction}` (TransactionGetSingleResponse).
+
+BE-11: the legacy offset list mode of this endpoint was removed —
+the canonical cursor listing now lives at GET /api/transaction/list.
+(OMM-2049: the wrapped envelope avoids silent payload loss in
+Pydantic-based SDK clients.)
 
 ### Example
 
@@ -711,7 +639,7 @@ Get transaction(s) with enriched data, pagination and filters
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.transaction import Transaction
+from orbuculum_client.models.transaction_get_single_response import TransactionGetSingleResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -736,19 +664,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     workspace_id = 1 # int | Workspace ID
-    id = 1 # int | Transaction ID (optional, single mode) (optional)
-    apikey = 'apikey_example' # str | API key for additional access (single mode) (optional)
-    limit = 50 # int | Items per page (list mode) (optional) (default to 50)
-    offset = 0 # int | Number of items to skip (list mode) (optional) (default to 0)
-    date_from = '2013-10-20' # date | Filter: start date inclusive (YYYY-MM-DD) (optional)
-    date_to = '2013-10-20' # date | Filter: end date inclusive (YYYY-MM-DD) (optional)
-    account_id = 56 # int | Filter: transactions involving this account (optional)
-    label_id = 56 # int | Filter: transactions with this label (optional)
-    search = 'search_example' # str | Filter: text search on comment and description (optional)
+    id = 1 # int | Transaction ID (id or apikey required) (optional)
+    apikey = 'apikey_example' # str | API key for additional access (id or apikey required) (optional)
 
     try:
-        # Get transaction(s) with enriched data, pagination and filters
-        api_response = api_instance.get_transaction(workspace_id, id=id, apikey=apikey, limit=limit, offset=offset, date_from=date_from, date_to=date_to, account_id=account_id, label_id=label_id, search=search)
+        # Get a single transaction by id or apikey with enriched data
+        api_response = api_instance.get_transaction(workspace_id, id=id, apikey=apikey)
         print("The response of TransactionApi->get_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -763,19 +684,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Workspace ID | 
- **id** | **int**| Transaction ID (optional, single mode) | [optional] 
- **apikey** | **str**| API key for additional access (single mode) | [optional] 
- **limit** | **int**| Items per page (list mode) | [optional] [default to 50]
- **offset** | **int**| Number of items to skip (list mode) | [optional] [default to 0]
- **date_from** | **date**| Filter: start date inclusive (YYYY-MM-DD) | [optional] 
- **date_to** | **date**| Filter: end date inclusive (YYYY-MM-DD) | [optional] 
- **account_id** | **int**| Filter: transactions involving this account | [optional] 
- **label_id** | **int**| Filter: transactions with this label | [optional] 
- **search** | **str**| Filter: text search on comment and description | [optional] 
+ **id** | **int**| Transaction ID (id or apikey required) | [optional] 
+ **apikey** | **str**| API key for additional access (id or apikey required) | [optional] 
 
 ### Return type
 
-[**Transaction**](Transaction.md)
+[**TransactionGetSingleResponse**](TransactionGetSingleResponse.md)
 
 ### Authorization
 
@@ -790,7 +704,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Transaction details retrieved successfully |  -  |
+**200** | Transaction details retrieved successfully (TransactionGetSingleResponse). |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
@@ -886,12 +800,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **mass_delete_transactions**
-> MassDeleteTransactionsResponse mass_delete_transactions(mass_delete_transactions_request)
+# **list_transactions**
+> AccountTransactionsResponse list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api)
 
-Delete multiple transactions
+List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
 
-Permanently deletes a batch of transactions from the system. This action cannot be undone. All operations run inside a single DB transaction for correctness.
+Canonical cursor-based transaction listing. When account_id is supplied, returns that account's ledger with an account-level summary; when omitted, returns every transaction the role is permitted to see across the workspace with summary: null. The now-based seam keeps future-dated rows off the first page by default (direction=down).
 
 ### Example
 
@@ -899,8 +813,7 @@ Permanently deletes a batch of transactions from the system. This action cannot 
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.mass_delete_transactions_request import MassDeleteTransactionsRequest
-from orbuculum_client.models.mass_delete_transactions_response import MassDeleteTransactionsResponse
+from orbuculum_client.models.account_transactions_response import AccountTransactionsResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -924,15 +837,29 @@ configuration = orbuculum_client.Configuration(
 with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
-    mass_delete_transactions_request = orbuculum_client.MassDeleteTransactionsRequest() # MassDeleteTransactionsRequest | 
+    workspace_id = 1 # int | Workspace ID
+    account_id = 10 # int | Account ID to list transactions for. Omit for a workspace-wide listing (summary will be null). (optional)
+    direction = down # str | Pagination direction: 'up' (newer) or 'down' (older). Default 'down' (past/current rows, latest first). (optional) (default to down)
+    limit = 40 # int | Items per page (1-200, default 40) (optional)
+    cursor_dt = '2026-03-30T14:00:00+03:00' # str | Cursor: datetime of last item. Pass back the offset-ISO `pagination.nextCursor.dt` value from a previous page (e.g. 2026-03-30T14:00:00+03:00). A naive 'YYYY-MM-DD HH:MM:SS' value is also accepted and interpreted as UTC. (optional)
+    cursor_id = 460 # int | Cursor: ID of last item (optional)
+    date_from = '2026-01-01' # str | Date filter start (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
+    date_to = '2026-12-31' # str | Date filter end (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
+    x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit all datetime instants as explicit-offset ISO-8601 and to interpret the date_from/date_to day window. Absent or invalid → UTC (…Z). (optional)
+    counterparty = '101_205_300' # str | Counterparty account IDs separated by underscore (optional)
+    amount_from = '100.00' # str | Min amount filter. Per-account: the leg facing the account; workspace-wide: either leg. (optional)
+    amount_to = '5000.00' # str | Max amount filter. Per-account: the leg facing the account; workspace-wide: either leg. (optional)
+    comment = 'Supplies' # str | Text search in comment field (optional)
+    label_ids = '1_5_12' # str | Label IDs separated by underscore (optional)
+    api = 'only' # str | API-source filter. 'only' returns only API-created transactions (apikey IS NOT NULL); 'hide' excludes them (apikey IS NULL); omit or any other value returns all. (optional)
 
     try:
-        # Delete multiple transactions
-        api_response = api_instance.mass_delete_transactions(mass_delete_transactions_request)
-        print("The response of TransactionApi->mass_delete_transactions:\n")
+        # List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
+        api_response = api_instance.list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api)
+        print("The response of TransactionApi->list_transactions:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling TransactionApi->mass_delete_transactions: %s\n" % e)
+        print("Exception when calling TransactionApi->list_transactions: %s\n" % e)
 ```
 
 
@@ -942,11 +869,25 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **mass_delete_transactions_request** | [**MassDeleteTransactionsRequest**](MassDeleteTransactionsRequest.md)|  | 
+ **workspace_id** | **int**| Workspace ID | 
+ **account_id** | **int**| Account ID to list transactions for. Omit for a workspace-wide listing (summary will be null). | [optional] 
+ **direction** | **str**| Pagination direction: &#39;up&#39; (newer) or &#39;down&#39; (older). Default &#39;down&#39; (past/current rows, latest first). | [optional] [default to down]
+ **limit** | **int**| Items per page (1-200, default 40) | [optional] 
+ **cursor_dt** | **str**| Cursor: datetime of last item. Pass back the offset-ISO &#x60;pagination.nextCursor.dt&#x60; value from a previous page (e.g. 2026-03-30T14:00:00+03:00). A naive &#39;YYYY-MM-DD HH:MM:SS&#39; value is also accepted and interpreted as UTC. | [optional] 
+ **cursor_id** | **int**| Cursor: ID of last item | [optional] 
+ **date_from** | **str**| Date filter start (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
+ **date_to** | **str**| Date filter end (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
+ **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit all datetime instants as explicit-offset ISO-8601 and to interpret the date_from/date_to day window. Absent or invalid → UTC (…Z). | [optional] 
+ **counterparty** | **str**| Counterparty account IDs separated by underscore | [optional] 
+ **amount_from** | **str**| Min amount filter. Per-account: the leg facing the account; workspace-wide: either leg. | [optional] 
+ **amount_to** | **str**| Max amount filter. Per-account: the leg facing the account; workspace-wide: either leg. | [optional] 
+ **comment** | **str**| Text search in comment field | [optional] 
+ **label_ids** | **str**| Label IDs separated by underscore | [optional] 
+ **api** | **str**| API-source filter. &#39;only&#39; returns only API-created transactions (apikey IS NOT NULL); &#39;hide&#39; excludes them (apikey IS NULL); omit or any other value returns all. | [optional] 
 
 ### Return type
 
-[**MassDeleteTransactionsResponse**](MassDeleteTransactionsResponse.md)
+[**AccountTransactionsResponse**](AccountTransactionsResponse.md)
 
 ### Authorization
 
@@ -954,29 +895,28 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Transactions deleted successfully |  -  |
-**400** | Bad request - validation failed |  -  |
-**422** | Unprocessable Entity - batch size exceeds limit (max 500) |  -  |
+**200** | Success |  -  |
+**400** | Invalid parameters |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
-**405** | Method not allowed |  -  |
-**500** | Internal server error |  -  |
+**403** | Forbidden — no access to workspace; or (per-account mode only) the role has no permission on account_id. Not raised in workspace-wide mode. |  -  |
+**404** | Account not found (per-account mode only) |  -  |
+**500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **mass_duplicate_transactions**
-> SuccessResponse mass_duplicate_transactions(mass_duplicate_transactions_request)
+# **mutate_transactions**
+> MutateTransactionsResponse mutate_transactions(mutate_transactions_request, x_timezone=x_timezone)
 
-Duplicate multiple transactions
+Unified transaction mutation endpoint
 
-Creates copies of a batch of transactions. All operations run inside a single DB transaction for correctness.
+Single entry point for create/update/delete/duplicate/replace_account/set_date/mark_done/mark_undone. Validates the camelCase envelope, dispatches to the legacy transaction services, and returns a structured diff: drops (ids to remove), upserts (canonical rows with isOut), and inline cascade balanceUpdates. The optional `window` is response-shaping only — it never restricts what gets mutated. For id-based delete/duplicate, accountId may be omitted (account-less bulk mode): the response is flat — drops = all deleted ids, upserts carry no isOut, and balanceUpdates is omitted.
 
 ### Example
 
@@ -984,8 +924,8 @@ Creates copies of a batch of transactions. All operations run inside a single DB
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.mass_duplicate_transactions_request import MassDuplicateTransactionsRequest
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.mutate_transactions_request import MutateTransactionsRequest
+from orbuculum_client.models.mutate_transactions_response import MutateTransactionsResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -1009,15 +949,16 @@ configuration = orbuculum_client.Configuration(
 with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
-    mass_duplicate_transactions_request = orbuculum_client.MassDuplicateTransactionsRequest() # MassDuplicateTransactionsRequest | 
+    mutate_transactions_request = orbuculum_client.MutateTransactionsRequest() # MutateTransactionsRequest | 
+    x_timezone = 'Europe/Kyiv' # str | OMM-2127: IANA timezone name (e.g. Europe/Kyiv). Upsert `dt` instants are emitted as explicit-offset ISO-8601 (matching the list endpoint) and the filter date_from/date_to day window is interpreted in this zone. Absent or invalid → UTC (…Z). (optional)
 
     try:
-        # Duplicate multiple transactions
-        api_response = api_instance.mass_duplicate_transactions(mass_duplicate_transactions_request)
-        print("The response of TransactionApi->mass_duplicate_transactions:\n")
+        # Unified transaction mutation endpoint
+        api_response = api_instance.mutate_transactions(mutate_transactions_request, x_timezone=x_timezone)
+        print("The response of TransactionApi->mutate_transactions:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling TransactionApi->mass_duplicate_transactions: %s\n" % e)
+        print("Exception when calling TransactionApi->mutate_transactions: %s\n" % e)
 ```
 
 
@@ -1027,11 +968,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **mass_duplicate_transactions_request** | [**MassDuplicateTransactionsRequest**](MassDuplicateTransactionsRequest.md)|  | 
+ **mutate_transactions_request** | [**MutateTransactionsRequest**](MutateTransactionsRequest.md)|  | 
+ **x_timezone** | **str**| OMM-2127: IANA timezone name (e.g. Europe/Kyiv). Upsert &#x60;dt&#x60; instants are emitted as explicit-offset ISO-8601 (matching the list endpoint) and the filter date_from/date_to day window is interpreted in this zone. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**MutateTransactionsResponse**](MutateTransactionsResponse.md)
 
 ### Authorization
 
@@ -1046,267 +988,13 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Transactions duplicated successfully |  -  |
+**200** | Mutation diff envelope |  -  |
 **400** | Bad request - validation failed |  -  |
-**422** | Unprocessable Entity - batch size exceeds limit (max 500) |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
-**500** | Internal server error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **mass_replace_account**
-> MassReplaceAccountResponse mass_replace_account(mass_replace_account_request)
-
-Replace account on multiple transactions
-
-Replaces the current account with a new account on a batch of transactions. All operations run inside a single DB transaction for correctness.
-
-### Example
-
-* Bearer (JWT) Authentication (bearerAuth):
-
-```python
-import orbuculum_client
-from orbuculum_client.models.mass_replace_account_request import MassReplaceAccountRequest
-from orbuculum_client.models.mass_replace_account_response import MassReplaceAccountResponse
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://orbuculum.app
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = orbuculum_client.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.TransactionApi(api_client)
-    mass_replace_account_request = orbuculum_client.MassReplaceAccountRequest() # MassReplaceAccountRequest | 
-
-    try:
-        # Replace account on multiple transactions
-        api_response = api_instance.mass_replace_account(mass_replace_account_request)
-        print("The response of TransactionApi->mass_replace_account:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling TransactionApi->mass_replace_account: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mass_replace_account_request** | [**MassReplaceAccountRequest**](MassReplaceAccountRequest.md)|  | 
-
-### Return type
-
-[**MassReplaceAccountResponse**](MassReplaceAccountResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Account replaced successfully |  -  |
-**400** | Bad request - validation failed |  -  |
-**422** | Unprocessable Entity - batch size exceeds limit (max 500) |  -  |
-**401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
-**405** | Method not allowed |  -  |
-**500** | Internal server error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **mass_set_date**
-> MassSetDateResponse mass_set_date(mass_set_date_request)
-
-Set date on multiple transactions
-
-Sets a new date on a batch of transactions. Date accepts ISO 8601 / RFC 3339 formats; stored as Y-m-d H:i:s (UTC). All operations run inside a single DB transaction for correctness.
-
-### Example
-
-* Bearer (JWT) Authentication (bearerAuth):
-
-```python
-import orbuculum_client
-from orbuculum_client.models.mass_set_date_request import MassSetDateRequest
-from orbuculum_client.models.mass_set_date_response import MassSetDateResponse
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://orbuculum.app
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = orbuculum_client.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.TransactionApi(api_client)
-    mass_set_date_request = orbuculum_client.MassSetDateRequest() # MassSetDateRequest | 
-
-    try:
-        # Set date on multiple transactions
-        api_response = api_instance.mass_set_date(mass_set_date_request)
-        print("The response of TransactionApi->mass_set_date:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling TransactionApi->mass_set_date: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mass_set_date_request** | [**MassSetDateRequest**](MassSetDateRequest.md)|  | 
-
-### Return type
-
-[**MassSetDateResponse**](MassSetDateResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Date set successfully |  -  |
-**400** | Bad request - validation failed |  -  |
-**422** | Unprocessable Entity - batch size exceeds limit (max 500) |  -  |
-**401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
-**405** | Method not allowed |  -  |
-**500** | Internal server error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **mass_set_done**
-> MassSetDoneResponse mass_set_done(mass_set_done_request)
-
-Set done/undone on multiple transactions
-
-Sets the done status on a batch of transactions. Chained commissions and debt pairs are also updated. All operations run inside a single DB transaction for correctness.
-
-### Example
-
-* Bearer (JWT) Authentication (bearerAuth):
-
-```python
-import orbuculum_client
-from orbuculum_client.models.mass_set_done_request import MassSetDoneRequest
-from orbuculum_client.models.mass_set_done_response import MassSetDoneResponse
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://orbuculum.app
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = orbuculum_client.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.TransactionApi(api_client)
-    mass_set_done_request = orbuculum_client.MassSetDoneRequest() # MassSetDoneRequest | 
-
-    try:
-        # Set done/undone on multiple transactions
-        api_response = api_instance.mass_set_done(mass_set_done_request)
-        print("The response of TransactionApi->mass_set_done:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling TransactionApi->mass_set_done: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mass_set_done_request** | [**MassSetDoneRequest**](MassSetDoneRequest.md)|  | 
-
-### Return type
-
-[**MassSetDoneResponse**](MassSetDoneResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Done status set successfully |  -  |
-**400** | Bad request - validation failed |  -  |
-**422** | Unprocessable Entity - batch size exceeds limit (max 500) |  -  |
-**401** | Unauthorized |  -  |
-**403** | Forbidden - insufficient permissions |  -  |
-**405** | Method not allowed |  -  |
+**409** | Conflict - duplicate apikey on create |  -  |
+**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1402,6 +1090,10 @@ Update an existing transaction
 
 Updates an existing transaction with new amount, description, or other details. Auto-calculation feature (XOR logic): if only one amount is updated, the other will be recalculated automatically using the exchange rate. If both amounts are updated, no auto-calculation occurs. When the transaction is part of an intermediary pair (chained_id) OR when intermediary_account_id is provided, the update applies atomically to both legs in a single DB transaction (OMM-1834).
 
+Single-amount semantic (cross-currency, XOR): updating EXACTLY ONE of `sender_amount` or `receiver_amount` makes the backend recompute the other side at the transaction-date exchange rate and reset forex to 0. Updating BOTH amounts stores them as factum and computes forex from the implied rate — two equal amounts on a cross-currency pair fabricate phantom forex.
+
+Cleanup rule — to remove phantom forex from an existing cross-currency transaction, update ONLY `sender_amount` (the side anchored to the historical bank statement). The backend re-derives `receiver_amount` at the transaction-date rate and forex returns to 0 without moving the anchored sender side. Do NOT update only `receiver_amount` for cleanup: that re-derives and SHIFTS `sender_amount` off the historical statement (sender drift). (OMM-2148)
+
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):
@@ -1477,6 +1169,7 @@ Name | Type | Description  | Notes
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — duplicate apikey OR intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

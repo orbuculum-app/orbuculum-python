@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **basic_currency_id** | **int** | ID of the basic (base) currency | 
 **catalog** | [**List[CatalogItem]**](CatalogItem.md) | Available predefined currencies | 
 **importers** | [**List[CurrencyListResponseDataImportersInner]**](CurrencyListResponseDataImportersInner.md) | Available rate import sources | 
+**available_pairs** | **Dict[str, List[str]]** | Map of importer ID (string key) to the list of currency pairs that importer supports (\&quot;from-to\&quot; lowercase, e.g. \&quot;usd-eur\&quot;). Top-level mirror of importers[i].pairs (OMM-2108). | [optional] 
 **can_manage** | **bool** | Whether current user can create/update/delete currencies | 
 
 ## Example

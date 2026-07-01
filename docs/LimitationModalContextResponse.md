@@ -6,7 +6,7 @@ Aggregated context for the Detailed Limitations modal
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | Response schema for GET /api/limitation/modal-context.  Aggregated context for the Detailed Limitations modal — labels (filtered to those with &gt;&#x3D;2 manageable accounts for the calling role), entity-grouped visible accounts, default label id, current account display info (edit only), existing limitation rules, and isLimited flag. | [optional] 
+**status** | **int** | Response schema for GET /api/limitation/modal-context.  Aggregated context for the Detailed Limitations modal — projects (filtered to those with &gt;&#x3D;2 manageable accounts for the calling role), entity-grouped visible accounts, default project id, current account display info (edit only), existing limitation rules, and isLimited flag. | [optional] 
 **data** | [**LimitationModalContextResponseData**](LimitationModalContextResponseData.md) |  | [optional] 
 
 ## Example

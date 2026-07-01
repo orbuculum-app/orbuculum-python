@@ -5,9 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**transactions** | [**List[AccountTransactionItem]**](AccountTransactionItem.md) |  | 
-**has_more** | **bool** |  | 
-**summary** | [**AccountTransactionsSummary**](AccountTransactionsSummary.md) |  | 
+**chunk** | [**List[AccountTransactionsChunkItem]**](AccountTransactionsChunkItem.md) |  | 
+**pagination** | [**AccountTransactionsPagination**](AccountTransactionsPagination.md) |  | 
+**summary** | [**AccountTransactionsSummary**](AccountTransactionsSummary.md) |  | [optional] 
+**context** | [**Dict[str, AccountTransactionContextEntry]**](AccountTransactionContextEntry.md) | Map keyed by stringified account id → counterparty enrichment for every sender/receiver account referenced in the chunk. | 
 
 ## Example
 

@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **schedule_type** | **int** | Schedule type (1-8) | 
 **comment** | **str** | Comment | [optional] 
 **description** | **str** | Description | [optional] 
-**label_id** | **int** | Label ID | [optional] 
+**project_id** | **int** | Project ID | [optional] 
 **intermediary_account_id** | **int** | Intermediary account ID for three-way transfer | [optional] 
 **intermediary_amount** | **str** | Intermediary amount | [optional] 
 **schedule_interval** | **int** | Interval for TYPE_OTHER(8) | [optional] 

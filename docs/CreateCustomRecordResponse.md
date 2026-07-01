@@ -1,14 +1,13 @@
 # CreateCustomRecordResponse
 
-Response after creating a custom record
+Response after creating a record in a custom table. `data.id` is the created record's primary key.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | HTTP status code | [optional] 
-**message** | **str** | Success message | [optional] 
-**result** | **int** | Number of affected rows | [optional] 
+**status** | **int** | HTTP status code | 
+**data** | [**CreateCustomRecordResponseData**](CreateCustomRecordResponseData.md) |  | 
 
 ## Example
 
