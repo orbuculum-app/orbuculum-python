@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **password** | **str** | Password | 
 **status** | **int** | User status (0 &#x3D; disabled, 10 &#x3D; active) | [optional] 
 **project_ids** | **List[int]** | Array of project IDs to assign | [optional] 
+**is_super_admin** | **bool** | Whether the user is a global super-admin (maps to the &#39;root&#39; RBAC role) | [optional] 
 
 ## Example
 

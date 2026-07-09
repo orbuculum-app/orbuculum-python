@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **status_label** | **str** |  | [optional] 
 **created_at** | **int** |  | [optional] 
 **updated_at** | **int** |  | [optional] 
+**is_super_admin** | **bool** |  | [optional] 
 
 ## Example
 

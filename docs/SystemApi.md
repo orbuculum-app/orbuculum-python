@@ -1,6 +1,6 @@
 # orbuculum_client.SystemApi
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -26,10 +26,10 @@ from orbuculum_client.models.system_bundle_check_request import SystemBundleChec
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 
@@ -97,10 +97,10 @@ from orbuculum_client.models.system_error_log_request import SystemErrorLogReque
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 
@@ -168,10 +168,10 @@ from orbuculum_client.models.system_version_check200_response import SystemVersi
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 

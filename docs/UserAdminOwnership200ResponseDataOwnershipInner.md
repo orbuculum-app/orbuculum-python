@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **project_id** | **int** |  | [optional] 
 **project_name** | **str** |  | [optional] 
 **is_owner** | **bool** |  | [optional] 
-**role_id** | **int** |  | [optional] 
 
 ## Example
 

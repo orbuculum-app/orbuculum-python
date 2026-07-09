@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.12.0
-- **Supported API Version**: 0.100.0
+- **Client Version**: 0.13.0
+- **Supported API Version**: 0.102.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -201,7 +201,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -264,6 +264,7 @@ Class | Method | HTTP request | Description
 *MembershipApi* | [**membership_invite**](docs/MembershipApi.md#membership_invite) | **POST** /api/membership/invite | Invite an existing user to the workspace (role-free)
 *MembershipApi* | [**membership_list**](docs/MembershipApi.md#membership_list) | **GET** /api/membership/list | List workspace members (role-free)
 *MembershipApi* | [**membership_remove**](docs/MembershipApi.md#membership_remove) | **POST** /api/membership/remove | Remove a member from the workspace
+*PermissionsApi* | [**get_general_permissions**](docs/PermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get a workspace member&#39;s general permission flags (role-free, by user_id)
 *PermissionsApi* | [**permission_manage_access**](docs/PermissionsApi.md#permission_manage_access) | **GET** /api/permission/manage-access | Get manage-access data for account
 *PermissionsApi* | [**permission_manage_access_save**](docs/PermissionsApi.md#permission_manage_access_save) | **POST** /api/permission/manage-access-save | Bulk save access permissions for an account
 *PermissionsApi* | [**permission_toggle_flag**](docs/PermissionsApi.md#permission_toggle_flag) | **POST** /api/permission/toggle-flag | Toggle a general permission flag for a workspace member
@@ -338,9 +339,7 @@ Class | Method | HTTP request | Description
 *UserAdminApi* | [**user_admin_form_data**](docs/UserAdminApi.md#user_admin_form_data) | **GET** /api/user-admin/form-data | Get form data for create/edit user
 *UserAdminApi* | [**user_admin_index**](docs/UserAdminApi.md#user_admin_index) | **GET** /api/user-admin/index | List all users
 *UserAdminApi* | [**user_admin_ownership**](docs/UserAdminApi.md#user_admin_ownership) | **GET** /api/user-admin/ownership | Get user&#39;s workspace ownership
-*UserAdminApi* | [**user_admin_roles**](docs/UserAdminApi.md#user_admin_roles) | **GET** /api/user-admin/roles | Get user&#39;s RBAC roles
 *UserAdminApi* | [**user_admin_save_ownership**](docs/UserAdminApi.md#user_admin_save_ownership) | **POST** /api/user-admin/save-ownership | Save user&#39;s workspace ownership
-*UserAdminApi* | [**user_admin_save_roles**](docs/UserAdminApi.md#user_admin_save_roles) | **POST** /api/user-admin/save-roles | Save user&#39;s RBAC roles
 *UserAdminApi* | [**user_admin_update**](docs/UserAdminApi.md#user_admin_update) | **POST** /api/user-admin/update | Update an existing user
 *UserAdminApi* | [**user_admin_view**](docs/UserAdminApi.md#user_admin_view) | **GET** /api/user-admin/view | Get user details
 *WorkspaceApi* | [**create_workspace**](docs/WorkspaceApi.md#create_workspace) | **POST** /api/workspace/create | Create a new workspace
@@ -851,16 +850,11 @@ Class | Method | HTTP request | Description
  - [UserAdminOwnership200Response](docs/UserAdminOwnership200Response.md)
  - [UserAdminOwnership200ResponseData](docs/UserAdminOwnership200ResponseData.md)
  - [UserAdminOwnership200ResponseDataOwnershipInner](docs/UserAdminOwnership200ResponseDataOwnershipInner.md)
- - [UserAdminRoles200Response](docs/UserAdminRoles200Response.md)
- - [UserAdminRoles200ResponseData](docs/UserAdminRoles200ResponseData.md)
  - [UserAdminSaveOwnership200Response](docs/UserAdminSaveOwnership200Response.md)
  - [UserAdminSaveOwnership200ResponseData](docs/UserAdminSaveOwnership200ResponseData.md)
  - [UserAdminSaveOwnership200ResponseDataOwnershipInner](docs/UserAdminSaveOwnership200ResponseDataOwnershipInner.md)
  - [UserAdminSaveOwnershipRequest](docs/UserAdminSaveOwnershipRequest.md)
  - [UserAdminSaveOwnershipRequestOwnershipInner](docs/UserAdminSaveOwnershipRequestOwnershipInner.md)
- - [UserAdminSaveRoles200Response](docs/UserAdminSaveRoles200Response.md)
- - [UserAdminSaveRoles200ResponseData](docs/UserAdminSaveRoles200ResponseData.md)
- - [UserAdminSaveRolesRequest](docs/UserAdminSaveRolesRequest.md)
  - [UserAdminUpdate200Response](docs/UserAdminUpdate200Response.md)
  - [UserAdminUpdate200ResponseData](docs/UserAdminUpdate200ResponseData.md)
  - [UserAdminUpdateRequest](docs/UserAdminUpdateRequest.md)
@@ -901,16 +895,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.12.0
-print(orbuculum_client.__api_version__)    # API version: 0.100.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.100.0
+print(orbuculum_client.__version__)        # Client version: 0.13.0
+print(orbuculum_client.__api_version__)    # API version: 0.102.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.102.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.12.0 → 0.12.1): Bug fixes, documentation updates
-- **MINOR** (0.12.1 → 0.13.0): New features, backward-compatible
-- **MAJOR** (0.13.0 → 1.0.0): Breaking changes
+- **PATCH** (0.13.0 → 0.13.1): Bug fixes, documentation updates
+- **MINOR** (0.13.1 → 0.14.0): New features, backward-compatible
+- **MAJOR** (0.14.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

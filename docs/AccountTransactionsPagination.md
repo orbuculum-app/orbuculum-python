@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **first_date** | **str** | OMM-2124: offset-ISO in the working timezone (X-Timezone header; UTC …Z when absent/invalid). | [optional] 
 **last_date** | **str** | OMM-2124: offset-ISO in the working timezone (X-Timezone header; UTC …Z when absent/invalid). | [optional] 
-**total_count** | **int** |  | [optional] 
+**total_count** | **int** | BE-28: total rows in the full filtered set. Null unless the request opts in via with_total&#x3D;1 (COUNT(*) is skipped by default to keep cursor paging cheap). When present, identical across all pages of the same filter. | [optional] 
 **next_cursor** | [**AccountTransactionsPaginationNextCursor**](AccountTransactionsPaginationNextCursor.md) |  | [optional] 
 **has_more** | **bool** |  | [optional] 
 

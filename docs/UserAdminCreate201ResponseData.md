@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **status** | **int** |  | [optional] 
 **created_at** | **int** |  | [optional] 
 **updated_at** | **int** |  | [optional] 
+**is_super_admin** | **bool** |  | [optional] 
 **project_ids** | **List[int]** |  | [optional] 
 
 ## Example

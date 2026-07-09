@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **has_full_access** | **bool** | Role has Management access (full access) | [optional] 
 **currency_manage** | **bool** | Role can manage currencies | [optional] 
 **report_access** | **bool** | Role can access reports | [optional] 
-**label_create** | **bool** | Role can create labels | [optional] 
+**project_create** | **bool** | User can create projects (labels) | [optional] 
 
 ## Example
 

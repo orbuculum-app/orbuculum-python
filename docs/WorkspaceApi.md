@@ -1,6 +1,6 @@
 # orbuculum_client.WorkspaceApi
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -29,10 +29,10 @@ from orbuculum_client.models.workspace_created_response import WorkspaceCreatedR
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -112,10 +112,10 @@ from orbuculum_client.models.workspace_deleted_response import WorkspaceDeletedR
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -198,10 +198,10 @@ from orbuculum_client.models.get_workspace_context200_response import GetWorkspa
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -281,10 +281,10 @@ import orbuculum_client
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 
@@ -351,10 +351,10 @@ from orbuculum_client.models.remove_workspace_image_request import RemoveWorkspa
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -434,10 +434,10 @@ from orbuculum_client.models.save_workspace_preferences_request import SaveWorks
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -516,10 +516,10 @@ from orbuculum_client.models.workspace_image_response import WorkspaceImageRespo
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters

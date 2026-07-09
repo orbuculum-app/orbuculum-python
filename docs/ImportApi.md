@@ -1,6 +1,6 @@
 # orbuculum_client.ImportApi
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -29,10 +29,10 @@ from orbuculum_client.models.cancel_import_request import CancelImportRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -113,10 +113,10 @@ from orbuculum_client.models.create_import_request import CreateImportRequest
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -196,10 +196,10 @@ from orbuculum_client.models.get_import_form200_response import GetImportForm200
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -281,10 +281,10 @@ from orbuculum_client.models.preview_import200_response import PreviewImport200R
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -377,10 +377,10 @@ from orbuculum_client.models.update_import_table_request import UpdateImportTabl
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters

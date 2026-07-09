@@ -1,6 +1,6 @@
 # orbuculum_client.UserAdminApi
 
-All URIs are relative to *https://orbuculum.app*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,9 +9,7 @@ Method | HTTP request | Description
 [**user_admin_form_data**](UserAdminApi.md#user_admin_form_data) | **GET** /api/user-admin/form-data | Get form data for create/edit user
 [**user_admin_index**](UserAdminApi.md#user_admin_index) | **GET** /api/user-admin/index | List all users
 [**user_admin_ownership**](UserAdminApi.md#user_admin_ownership) | **GET** /api/user-admin/ownership | Get user&#39;s workspace ownership
-[**user_admin_roles**](UserAdminApi.md#user_admin_roles) | **GET** /api/user-admin/roles | Get user&#39;s RBAC roles
 [**user_admin_save_ownership**](UserAdminApi.md#user_admin_save_ownership) | **POST** /api/user-admin/save-ownership | Save user&#39;s workspace ownership
-[**user_admin_save_roles**](UserAdminApi.md#user_admin_save_roles) | **POST** /api/user-admin/save-roles | Save user&#39;s RBAC roles
 [**user_admin_update**](UserAdminApi.md#user_admin_update) | **POST** /api/user-admin/update | Update an existing user
 [**user_admin_view**](UserAdminApi.md#user_admin_view) | **GET** /api/user-admin/view | Get user details
 
@@ -34,10 +32,10 @@ from orbuculum_client.models.user_admin_create_request import UserAdminCreateReq
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -118,10 +116,10 @@ from orbuculum_client.models.user_admin_delete_request import UserAdminDeleteReq
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -202,10 +200,10 @@ from orbuculum_client.models.user_admin_form_data200_response import UserAdminFo
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -284,10 +282,10 @@ from orbuculum_client.models.user_admin_index200_response import UserAdminIndex2
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -361,10 +359,10 @@ from orbuculum_client.models.user_admin_ownership200_response import UserAdminOw
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -427,89 +425,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **user_admin_roles**
-> UserAdminRoles200Response user_admin_roles(id)
-
-Get user's RBAC roles
-
-Returns the user's assigned global RBAC roles and all available roles. Requires admin access.
-
-### Example
-
-* Bearer (JWT) Authentication (bearerAuth):
-
-```python
-import orbuculum_client
-from orbuculum_client.models.user_admin_roles200_response import UserAdminRoles200Response
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://orbuculum.app
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = orbuculum_client.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.UserAdminApi(api_client)
-    id = 5 # int | User ID
-
-    try:
-        # Get user's RBAC roles
-        api_response = api_instance.user_admin_roles(id)
-        print("The response of UserAdminApi->user_admin_roles:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling UserAdminApi->user_admin_roles: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **int**| User ID | 
-
-### Return type
-
-[**UserAdminRoles200Response**](UserAdminRoles200Response.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | User roles |  -  |
-**400** | Missing or invalid id parameter |  -  |
-**401** | Unauthorized |  -  |
-**403** | Forbidden — no admin access |  -  |
-**404** | User not found |  -  |
-**405** | Method not allowed |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **user_admin_save_ownership**
 > UserAdminSaveOwnership200Response user_admin_save_ownership(user_admin_save_ownership_request)
 
@@ -528,10 +443,10 @@ from orbuculum_client.models.user_admin_save_ownership_request import UserAdminS
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -595,91 +510,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **user_admin_save_roles**
-> UserAdminSaveRoles200Response user_admin_save_roles(user_admin_save_roles_request)
-
-Save user's RBAC roles
-
-Assigns/revokes global RBAC roles for a user. Pass the full list of desired roles. Requires admin access.
-
-### Example
-
-* Bearer (JWT) Authentication (bearerAuth):
-
-```python
-import orbuculum_client
-from orbuculum_client.models.user_admin_save_roles200_response import UserAdminSaveRoles200Response
-from orbuculum_client.models.user_admin_save_roles_request import UserAdminSaveRolesRequest
-from orbuculum_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://orbuculum.app
-# See configuration.py for a list of all supported configuration parameters.
-configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = orbuculum_client.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
-# Enter a context with an instance of the API client
-with orbuculum_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = orbuculum_client.UserAdminApi(api_client)
-    user_admin_save_roles_request = orbuculum_client.UserAdminSaveRolesRequest() # UserAdminSaveRolesRequest | 
-
-    try:
-        # Save user's RBAC roles
-        api_response = api_instance.user_admin_save_roles(user_admin_save_roles_request)
-        print("The response of UserAdminApi->user_admin_save_roles:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling UserAdminApi->user_admin_save_roles: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user_admin_save_roles_request** | [**UserAdminSaveRolesRequest**](UserAdminSaveRolesRequest.md)|  | 
-
-### Return type
-
-[**UserAdminSaveRoles200Response**](UserAdminSaveRoles200Response.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Roles saved |  -  |
-**400** | Invalid request format |  -  |
-**401** | Unauthorized |  -  |
-**403** | Forbidden — no admin access |  -  |
-**404** | User not found |  -  |
-**405** | Method not allowed |  -  |
-**422** | Invalid role names |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **user_admin_update**
 > UserAdminUpdate200Response user_admin_update(user_admin_update_request)
 
@@ -698,10 +528,10 @@ from orbuculum_client.models.user_admin_update_request import UserAdminUpdateReq
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -782,10 +612,10 @@ from orbuculum_client.models.user_admin_view200_response import UserAdminView200
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://orbuculum.app
+# Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
 configuration = orbuculum_client.Configuration(
-    host = "https://orbuculum.app"
+    host = "http://localhost"
 )
 
 # The client must configure the authentication and authorization parameters

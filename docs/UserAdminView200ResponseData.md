@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **status_label** | **str** |  | [optional] 
 **created_at** | **int** |  | [optional] 
 **updated_at** | **int** |  | [optional] 
+**is_super_admin** | **bool** |  | [optional] 
 **project_ids** | **List[int]** |  | [optional] 
 **projects** | [**List[UserAdminView200ResponseDataProjectsInner]**](UserAdminView200ResponseDataProjectsInner.md) |  | [optional] 
 
