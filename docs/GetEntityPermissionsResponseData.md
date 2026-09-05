@@ -1,12 +1,12 @@
 # GetEntityPermissionsResponseData
 
-Permissions grouped by type
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**permissions** | [**GetEntityPermissionsResponseDataPermissions**](GetEntityPermissionsResponseDataPermissions.md) |  | [optional] 
+**create_entity** | **bool** | Whether the member&#39;s role can create entities | [optional] 
+**permissions** | [**List[GetEntityPermissionsResponseDataPermissionsInner]**](GetEntityPermissionsResponseDataPermissionsInner.md) |  | [optional] 
 
 ## Example
 

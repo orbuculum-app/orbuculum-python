@@ -7,7 +7,6 @@ Response after creating a project
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code | [optional] 
-**message** | **str** | Success message | [optional] 
 **data** | [**ProjectCreatedResponseData**](ProjectCreatedResponseData.md) |  | [optional] 
 
 ## Example

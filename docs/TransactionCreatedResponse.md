@@ -7,6 +7,7 @@ Response after successfully creating a non-intermediary transaction. `data` matc
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code. | 
+**response_type** | **str** | Discriminator identifying which oneOf branch this response is. Constant per schema. | 
 **data** | [**TransactionCreatedData**](TransactionCreatedData.md) |  | 
 
 ## Example

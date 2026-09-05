@@ -1,12 +1,12 @@
 # GetTagPermissionsResponseData
 
-Permissions grouped by type
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**permissions** | [**GetTagPermissionsResponseDataPermissions**](GetTagPermissionsResponseDataPermissions.md) |  | [optional] 
+**create_tags** | **bool** | Whether the member&#39;s role can create tags (account groups) | [optional] 
+**permissions** | [**List[GetTagPermissionsResponseDataPermissionsInner]**](GetTagPermissionsResponseDataPermissionsInner.md) |  | [optional] 
 
 ## Example
 

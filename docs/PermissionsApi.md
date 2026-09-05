@@ -4,7 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_entity_permissions_for_user**](PermissionsApi.md#get_entity_permissions_for_user) | **GET** /api/permission/entity | Get a workspace member&#39;s per-entity permissions + create_entity flag (role-free, by user_id)
 [**get_general_permissions**](PermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get a workspace member&#39;s general permission flags (role-free, by user_id)
+[**get_tag_permissions_for_user**](PermissionsApi.md#get_tag_permissions_for_user) | **GET** /api/permission/tag | Get a workspace member&#39;s per-tag permissions + create_tags flag (role-free, by user_id)
 [**permission_manage_access**](PermissionsApi.md#permission_manage_access) | **GET** /api/permission/manage-access | Get manage-access data for account
 [**permission_manage_access_save**](PermissionsApi.md#permission_manage_access_save) | **POST** /api/permission/manage-access-save | Bulk save access permissions for an account
 [**permission_toggle_flag**](PermissionsApi.md#permission_toggle_flag) | **POST** /api/permission/toggle-flag | Toggle a general permission flag for a workspace member
@@ -14,6 +16,91 @@ Method | HTTP request | Description
 [**permission_update_project_group**](PermissionsApi.md#permission_update_project_group) | **POST** /api/permission/update-project-group | Update label permissions (Tab 4)
 [**permission_update_tag_group**](PermissionsApi.md#permission_update_tag_group) | **POST** /api/permission/update-tag-group | Update tag permissions (Tab 5)
 
+
+# **get_entity_permissions_for_user**
+> GetEntityPermissionsResponse get_entity_permissions_for_user(workspace_id, user_id)
+
+Get a workspace member's per-entity permissions + create_entity flag (role-free, by user_id)
+
+Returns per-entity permission levels (read|manage) for a workspace member addressed by user_id, plus the create_entity master flag. Requires PERMISSION_MANAGEMENT.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_entity_permissions_response import GetEntityPermissionsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.PermissionsApi(api_client)
+    workspace_id = 56 # int | 
+    user_id = 56 # int | 
+
+    try:
+        # Get a workspace member's per-entity permissions + create_entity flag (role-free, by user_id)
+        api_response = api_instance.get_entity_permissions_for_user(workspace_id, user_id)
+        print("The response of PermissionsApi->get_entity_permissions_for_user:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PermissionsApi->get_entity_permissions_for_user: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+ **user_id** | **int**|  | 
+
+### Return type
+
+[**GetEntityPermissionsResponse**](GetEntityPermissionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Per-entity permissions |  -  |
+**400** | Missing/invalid parameters |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**404** | User not found in workspace |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_general_permissions**
 > GetGeneralPermissionsResponse get_general_permissions(workspace_id, user_id)
@@ -92,6 +179,91 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | General permission flags |  -  |
+**400** | Missing/invalid parameters |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**404** | User not found in workspace |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_tag_permissions_for_user**
+> GetTagPermissionsResponse get_tag_permissions_for_user(workspace_id, user_id)
+
+Get a workspace member's per-tag permissions + create_tags flag (role-free, by user_id)
+
+Returns per-tag permission levels (read|manage) for a workspace member addressed by user_id, plus the create_tags master flag. Requires PERMISSION_MANAGEMENT.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_tag_permissions_response import GetTagPermissionsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.PermissionsApi(api_client)
+    workspace_id = 56 # int | 
+    user_id = 56 # int | 
+
+    try:
+        # Get a workspace member's per-tag permissions + create_tags flag (role-free, by user_id)
+        api_response = api_instance.get_tag_permissions_for_user(workspace_id, user_id)
+        print("The response of PermissionsApi->get_tag_permissions_for_user:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PermissionsApi->get_tag_permissions_for_user: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+ **user_id** | **int**|  | 
+
+### Return type
+
+[**GetTagPermissionsResponse**](GetTagPermissionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Per-tag permissions |  -  |
 **400** | Missing/invalid parameters |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |

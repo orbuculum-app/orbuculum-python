@@ -7,7 +7,8 @@ Canonical camelCase transaction wire shape (OMM-2102). Real booleans; amounts/ba
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Transaction ID | 
-**dt** | **str** | Transaction date and time, emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC rendered with trailing Z when the header is absent or invalid), e.g. 2026-06-03T15:00:00+03:00. | 
+**dt** | **str** | Transaction date and time, emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC rendered with trailing Z when the header is absent or invalid), e.g. 2026-06-03T15:00:00+03:00. When &#x60;timeUnset&#x60; is true the value is instead the canonical naive &#39;YYYY-MM-DD 00:00:00&#39; (no zone), stable across all X-Timezone values. | 
+**time_unset** | **bool** | True when the transaction was saved with a date but no time. In that case &#x60;dt&#x60; is emitted as the canonical naive &#39;YYYY-MM-DD 00:00:00&#39; and is stable across all X-Timezone values; the client should render date-only. | 
 **comment** | **str** | Transaction comment | [optional] 
 **done** | **bool** | Transaction completion status (real JSON boolean) | 
 **apikey** | **str** | External-integration identifier. NULL for transactions created directly via the UI. | [optional] 
@@ -27,6 +28,8 @@ Name | Type | Description | Notes
 **is_recurrent** | **bool** | True when the transaction is part of a recurring schedule (future_id set). Drives the FE recurrence icon. | 
 **editable** | **bool** | Whether the requesting role may edit this transaction. May be null only in the context-less formatter path. | [optional] 
 **is_read_only** | **bool** | Inverse of editable. May be null only in the context-less formatter path. | [optional] 
+**project_id** | **int** | Label FK — the API&#39;s legacy alias for the DB column &#x60;label_id&#x60; (API &#x60;project_id&#x60; &#x3D;&#x3D; DB &#x60;label_id&#x60;). NULL when the transaction carries no label. NOTE: this is the transaction&#39;s LABEL id, NOT the workspace/tenant id. | [optional] 
+**labels** | [**List[Project]**](Project.md) | Labels attached to this transaction. Currently at most one element, projected from &#x60;projectId&#x60;/&#x60;label_id&#x60;; always returned as an array for forward compatibility. Empty when the transaction has no label. Not permission-filtered: if the row is visible, its label is visible. | [optional] 
 
 ## Example
 

@@ -8,10 +8,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Project ID to update | 
-**name** | **str** | New project name (optional) | [optional] 
-**color** | **int** | New color code (optional) | [optional] 
-**icon** | **int** | New icon code (optional) | [optional] 
-**description** | **str** | Project description (optional) | [optional] 
+**name** | **str** | Project name | [optional] 
+**color** | **str** | Project colour name | [optional] 
+**icon** | **str** | Project icon name | [optional] 
 
 ## Example
 

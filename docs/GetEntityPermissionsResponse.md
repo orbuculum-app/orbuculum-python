@@ -1,12 +1,12 @@
 # GetEntityPermissionsResponse
 
-Response containing entity permissions grouped by type
+Response wrapper for GET /api/permission/entity (role-free, by user_id)
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | HTTP status code | [optional] 
+**status** | **int** | Response schema for GET /api/permission/entity (role-free, by user_id) | [optional] 
 **data** | [**GetEntityPermissionsResponseData**](GetEntityPermissionsResponseData.md) |  | [optional] 
 
 ## Example

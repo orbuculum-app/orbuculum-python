@@ -92,7 +92,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **405** | Method not allowed |  -  |
-**422** | Validation failed |  -  |
+**422** | Validation failed. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -356,7 +356,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
 **405** | Method not allowed |  -  |
-**422** | Validation failed |  -  |
+**422** | Validation failed. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

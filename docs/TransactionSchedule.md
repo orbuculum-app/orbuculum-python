@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **future_date** | **str** | Anchor date of the schedule, emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC rendered with trailing Z when absent/invalid). | [optional] 
+**dt** | **str** | BE-62: alias of &#x60;future_date&#x60; under the name POST /api/scheduled-transaction/create accepts, so a schedule object can be spread into that payload without renaming. Always byte-identical to &#x60;future_date&#x60;. | [optional] 
 **schedule_type** | **str** |  | [optional] 
 **schedule_interval** | **int** |  | [optional] 
 **schedule_interval_type** | **str** |  | [optional] 
@@ -15,7 +16,8 @@ Name | Type | Description | Notes
 **schedule_end_type** | **str** |  | [optional] 
 **schedule_end_specific** | **str** |  | [optional] 
 **timezone** | **str** |  | [optional] 
-**recalculation_base** | **str** |  | [optional] 
+**recalculation_base** | **int** | Which amount is fixed on materialisation: 1&#x3D;sender&#39;s, 2&#x3D;receiver&#39;s, 3&#x3D;intermediary, 4&#x3D;no recalculation (default). | [optional] 
+**recalculate_option** | **int** | BE-62: alias of &#x60;recalculation_base&#x60; under the name POST /api/scheduled-transaction/create accepts. Always identical to &#x60;recalculation_base&#x60;. | [optional] 
 **next_date** | **str** | Next scheduled occurrence (Y-m-d). | [optional] 
 
 ## Example

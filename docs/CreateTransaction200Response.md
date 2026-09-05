@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code (always 200 for preview). | 
+**response_type** | **str** | Discriminator identifying which oneOf branch this response is. Constant per schema. | 
 **data** | [**TransactionIntermediaryPreviewData**](TransactionIntermediaryPreviewData.md) |  | 
 
 ## Example

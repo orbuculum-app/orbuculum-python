@@ -15,13 +15,14 @@ Name | Type | Description | Notes
 **receiver_account_id** | **int** | Receiver account ID | [optional] 
 **sender_amount** | **str** | Sender amount | [optional] 
 **receiver_amount** | **str** | Receiver amount | [optional] 
-**dt** | **datetime** | Schedule date/time. Accepted formats: \&quot;YYYY-MM-DD\&quot; (interpreted as midnight in the timezone field), \&quot;YYYY-MM-DD HH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), with optional Z/offset suffix. | [optional] 
+**dt** | **datetime** | Schedule date/time. Accepted formats: \&quot;YYYY-MM-DD\&quot; (interpreted as midnight in the timezone field), \&quot;YYYY-MM-DD HH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), with optional Z/offset suffix. A Z/offset suffix identifies an instant and is stored as the wall-clock of that instant in the &#x60;timezone&#x60; field; a value without a suffix is taken as a wall-clock in &#x60;timezone&#x60; directly. | [optional] 
 **time** | **str** | Time | [optional] 
 **timezone** | **str** | Timezone | [optional] 
 **schedule_type** | **int** | Schedule type (1-8) | [optional] 
 **comment** | **str** | Comment | [optional] 
 **description** | **str** | Description | [optional] 
 **project_id** | **int** | Project ID | [optional] 
+**subtab** | **str** | BE-66: the transaction-modal sub-tab. ACCEPTED AND IGNORED on update — slot eligibility rules run on create only, and a submitted sub-tab never exempts an update from the direction floor. Edit-only sub-tabs (editing, edit_double_income, edit_double_expenses, edit_any) are rejected. | [optional] 
 
 ## Example
 

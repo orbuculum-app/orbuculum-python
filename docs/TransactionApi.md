@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**delete_transaction_file**](TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
 [**download_transaction_file**](TransactionApi.md#download_transaction_file) | **GET** /api/transaction/download-file | Download a transaction file
 [**get_recalculated_balances**](TransactionApi.md#get_recalculated_balances) | **GET** /api/transaction/get-recalculated-balances | Poll for balance recalculation status
+[**get_selectable_accounts**](TransactionApi.md#get_selectable_accounts) | **GET** /api/transaction/selectable-accounts | Accounts selectable in one transaction-modal slot
 [**get_transaction**](TransactionApi.md#get_transaction) | **GET** /api/transaction/get | Get a single transaction by id or apikey with enriched data
 [**list_transaction_files**](TransactionApi.md#list_transaction_files) | **GET** /api/transaction/list-files | List files for a transaction
 [**list_transactions**](TransactionApi.md#list_transactions) | **GET** /api/transaction/list | List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
@@ -271,7 +272,7 @@ Name | Type | Description  | Notes
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - duplicate apikey |  -  |
-**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted) |  -  |
+**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -618,6 +619,93 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_selectable_accounts**
+> SelectableAccountsResponse get_selectable_accounts(workspace_id, subtab, slot)
+
+Accounts selectable in one transaction-modal slot
+
+Returns the account ids the transaction modal may offer for one (sub-tab, slot) pair. `account_ids` are the accounts a fresh render shows; `hidden_account_ids` are accounts that match the slot but are hidden, supplied so an edit-mode client can un-hide the participants of the transaction being edited. Label-limitation and counterparty-pair filtering remain client-side.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.selectable_accounts_response import SelectableAccountsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TransactionApi(api_client)
+    workspace_id = 56 # int | 
+    subtab = 'expenses' # str | 
+    slot = 'slot_example' # str | 
+
+    try:
+        # Accounts selectable in one transaction-modal slot
+        api_response = api_instance.get_selectable_accounts(workspace_id, subtab, slot)
+        print("The response of TransactionApi->get_selectable_accounts:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TransactionApi->get_selectable_accounts: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+ **subtab** | **str**|  | 
+ **slot** | **str**|  | 
+
+### Return type
+
+[**SelectableAccountsResponse**](SelectableAccountsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Selectable accounts for the slot |  -  |
+**400** | Validation error |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
+**422** | Unknown subtab or slot, or undefined (subtab, slot) pair |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_transaction**
 > TransactionGetSingleResponse get_transaction(workspace_id, id=id, apikey=apikey)
 
@@ -707,8 +795,8 @@ Name | Type | Description  | Notes
 **200** | Transaction details retrieved successfully (TransactionGetSingleResponse). |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
-**404** | Transaction not found |  -  |
+**403** | Forbidden - the transaction exists but the requesting role may not view it (strict 3-way permission gate). A non-existent id returns 404, never 403. |  -  |
+**404** | Transaction not found - no transaction with the given id/apikey exists in this workspace. Returned for any non-existent id, including id&#x3D;0 and negative ids. |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
 
@@ -996,7 +1084,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - duplicate apikey on create |  -  |
-**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation |  -  |
+**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1171,7 +1259,7 @@ Name | Type | Description  | Notes
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — duplicate apikey OR intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
-**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133) |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

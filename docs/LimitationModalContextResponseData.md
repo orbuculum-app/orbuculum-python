@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**projects** | [**List[LimitationModalContextResponseDataProjectsInner]**](LimitationModalContextResponseDataProjectsInner.md) |  | [optional] 
+**projects** | [**List[Project]**](Project.md) |  | [optional] 
 **entities** | [**List[LimitationModalContextResponseDataEntitiesInner]**](LimitationModalContextResponseDataEntitiesInner.md) |  | [optional] 
 **first_project_id** | **int** |  | [optional] 
 **current_account** | [**LimitationModalContextResponseDataCurrentAccount**](LimitationModalContextResponseDataCurrentAccount.md) |  | [optional] 

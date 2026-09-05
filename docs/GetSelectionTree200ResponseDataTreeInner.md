@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **name** | **str** |  | [optional] 
 **icon_html** | **str** |  | [optional] 
 **disabled** | **bool** |  | [optional] 
+**can_create_accounts** | **bool** | Whether the current role may create an account under this entity — 1:1 mirror of the /api/account/create permission. | [optional] 
 **children** | [**List[GetSelectionTree200ResponseDataTreeInnerChildrenInner]**](GetSelectionTree200ResponseDataTreeInnerChildrenInner.md) |  | [optional] 
 
 ## Example

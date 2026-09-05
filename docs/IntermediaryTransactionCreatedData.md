@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **import_hash** | **str** | Content hash used by import dedup. | [optional] 
 **commission_applied** | **bool** | Whether commission_appliance deduction was applied (identical for both legs). | [optional] 
 **schedule** | [**IntermediaryTransactionCreatedDataSchedule**](IntermediaryTransactionCreatedDataSchedule.md) |  | [optional] 
-**labels** | [**List[IntermediaryTransactionCreatedDataLabelsInner]**](IntermediaryTransactionCreatedDataLabelsInner.md) | Labels attached to the transaction (same shape as Transaction.labels). | [optional] 
+**labels** | [**List[Project]**](Project.md) | Labels attached to the transaction (same shape as Transaction.labels). | [optional] 
 **leg1** | [**Transaction**](Transaction.md) |  | 
 **leg2** | [**Transaction**](Transaction.md) |  | 
 **transactions** | [**List[EnrichedTransactionItem]**](EnrichedTransactionItem.md) | Perspective-aware enriched transaction rows. Present only when the request included &#x60;account_id&#x60;. | [optional] 

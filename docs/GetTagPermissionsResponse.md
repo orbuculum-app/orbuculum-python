@@ -1,12 +1,12 @@
 # GetTagPermissionsResponse
 
-Response containing tag permissions
+Response wrapper for GET /api/permission/tag (role-free, by user_id)
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** | HTTP status code | [optional] 
+**status** | **int** | Response schema for GET /api/permission/tag (role-free, by user_id) | [optional] 
 **data** | [**GetTagPermissionsResponseData**](GetTagPermissionsResponseData.md) |  | [optional] 
 
 ## Example

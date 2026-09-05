@@ -182,7 +182,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_workspace_context**
-> GetWorkspaceContext200Response get_workspace_context(workspace_id, id=id, account_id=account_id)
+> GetWorkspaceContext200Response get_workspace_context(workspace_id, id=id, account_id=account_id, label_id=label_id)
 
 Get workspace context for transaction modal
 
@@ -221,10 +221,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     workspace_id = 56 # int | Workspace ID
     id = 56 # int | Transaction ID for edit mode (optional)
     account_id = 56 # int | Preselected account ID (optional)
+    label_id = 56 # int | BE-58: label to compute modal_defaults under. When present and manageable by the caller it overrides the preferred-label cascade; otherwise the cascade decides. (optional)
 
     try:
         # Get workspace context for transaction modal
-        api_response = api_instance.get_workspace_context(workspace_id, id=id, account_id=account_id)
+        api_response = api_instance.get_workspace_context(workspace_id, id=id, account_id=account_id, label_id=label_id)
         print("The response of WorkspaceApi->get_workspace_context:\n")
         pprint(api_response)
     except Exception as e:
@@ -241,6 +242,7 @@ Name | Type | Description  | Notes
  **workspace_id** | **int**| Workspace ID | 
  **id** | **int**| Transaction ID for edit mode | [optional] 
  **account_id** | **int**| Preselected account ID | [optional] 
+ **label_id** | **int**| BE-58: label to compute modal_defaults under. When present and manageable by the caller it overrides the preferred-label cascade; otherwise the cascade decides. | [optional] 
 
 ### Return type
 

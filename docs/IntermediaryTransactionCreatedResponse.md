@@ -7,6 +7,7 @@ Response after successfully creating an intermediary transaction (two linked leg
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code. | 
+**response_type** | **str** | Discriminator identifying which oneOf branch this response is. Constant per schema. | 
 **data** | [**IntermediaryTransactionCreatedData**](IntermediaryTransactionCreatedData.md) |  | 
 
 ## Example

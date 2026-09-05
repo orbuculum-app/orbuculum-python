@@ -7,7 +7,8 @@ Perspective-aware transaction row used in the `transactions[]` enrichment of mut
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Transaction ID. | 
-**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS. | 
+**dt** | **datetime** | Transaction date and time. Format: YYYY-MM-DD HH:MM:SS. When &#x60;time_unset&#x60; is true this is the stable canonical &#39;YYYY-MM-DD 00:00:00&#39; regardless of X-Timezone. | 
+**time_unset** | **bool** | True when the transaction was saved with a date but no time; &#x60;dt&#x60; is then the stable canonical &#39;YYYY-MM-DD 00:00:00&#39;. | 
 **sender_account_id** | **int** | Sender account ID. | 
 **receiver_account_id** | **int** | Receiver account ID. | 
 **sender_amount** | **str** | Sender amount. Decimal value as number_format-style string. | 

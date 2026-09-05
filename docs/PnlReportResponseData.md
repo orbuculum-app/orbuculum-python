@@ -28,8 +28,8 @@ Name | Type | Description | Notes
 **show_totals** | **bool** |  | [optional] 
 **include_future_periods** | **bool** |  | [optional] 
 **timezone** | **str** |  | [optional] 
-**available_labels** | [**List[ReportLabelItem]**](ReportLabelItem.md) |  | [optional] 
-**first_label** | [**ReportLabelItem**](ReportLabelItem.md) |  | [optional] 
+**available_labels** | [**Dict[str, Project]**](Project.md) |  | [optional] 
+**first_label** | [**Project**](Project.md) |  | [optional] 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
 **user_report_settings** | [**PnlReportResponseDataUserReportSettings**](PnlReportResponseDataUserReportSettings.md) |  | [optional] 
 

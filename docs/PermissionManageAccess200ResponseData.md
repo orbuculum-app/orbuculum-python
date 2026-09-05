@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **selectable_users** | [**List[PermissionManageAccess200ResponseDataSelectableUsersInner]**](PermissionManageAccess200ResponseDataSelectableUsersInner.md) |  | [optional] 
 **managed_users** | [**List[PermissionManageAccess200ResponseDataManagedUsersInner]**](PermissionManageAccess200ResponseDataManagedUsersInner.md) |  | [optional] 
-**projects_catalog** | [**List[PermissionManageAccess200ResponseDataProjectsCatalogInner]**](PermissionManageAccess200ResponseDataProjectsCatalogInner.md) |  | [optional] 
+**projects_catalog** | [**List[Project]**](Project.md) |  | [optional] 
 **allow_show_balances_switch** | **bool** |  | [optional] 
 
 ## Example

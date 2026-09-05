@@ -5,8 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **int** | Project ID | 
+**name** | **str** | Project name | 
+**color** | **str** | Project colour name | 
+**icon** | **str** | Project icon name | 
+**is_default** | **bool** | Whether this is a default project | 
 **project_id** | **int** |  | [optional] 
-**name** | **str** |  | [optional] 
 **access_level** | **int** |  | [optional] 
 
 ## Example

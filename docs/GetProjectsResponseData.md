@@ -6,11 +6,11 @@ Project data - array when getting all projects, object when getting by ID
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** | Project ID | [optional] 
-**name** | **str** | Project name | [optional] 
-**color** | **int** | Project color code | [optional] 
-**icon** | **int** | Project icon code | [optional] 
-**is_default** | **bool** | Whether this is a default project | [optional] 
+**id** | **int** | Project ID | 
+**name** | **str** | Project name | 
+**color** | **str** | Project colour name | 
+**icon** | **str** | Project icon name | 
+**is_default** | **bool** | Whether this is a default project | 
 
 ## Example
 

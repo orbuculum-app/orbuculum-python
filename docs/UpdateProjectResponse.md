@@ -7,7 +7,6 @@ Response after updating a project
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | HTTP status code | [optional] 
-**message** | **str** | Success message | [optional] 
 **data** | [**UpdateProjectResponseData**](UpdateProjectResponseData.md) |  | [optional] 
 
 ## Example

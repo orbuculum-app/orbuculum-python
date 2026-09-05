@@ -181,7 +181,8 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
-**422** | System-row constraint: cannot create an account under a system entity (OMM-1939) |  -  |
+**409** | Conflict — a concurrent request created an account with the same name and currency in this category (unique constraint violation). Single-request duplicates are reported as 422. |  -  |
+**422** | Validation failed — an account with this name and currency already exists in this category (name may be empty), or system-row constraint: cannot create an account under a system entity (OMM-1939) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -873,8 +874,8 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict — cannot change currency on account with existing transactions |  -  |
-**422** | System-row constraint: cannot modify a system account or account in a system entity (OMM-1939) |  -  |
+**409** | Conflict — currency change blocked by existing transactions, or a concurrent request created a conflicting name and currency in this category (unique constraint violation). Single-request duplicates are reported as 422. |  -  |
+**422** | Validation failed — an account with this name and currency already exists in this category (name may be empty), or system-row constraint: cannot modify a system account or account in a system entity (OMM-1939) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

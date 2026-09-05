@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **future_date** | **str** |  | [optional] 
+**dt** | **str** |  | [optional] 
 **schedule_type** | **str** |  | [optional] 
 **schedule_interval** | **int** |  | [optional] 
 **schedule_interval_type** | **str** |  | [optional] 
@@ -15,7 +16,8 @@ Name | Type | Description | Notes
 **schedule_end_type** | **str** |  | [optional] 
 **schedule_end_specific** | **str** |  | [optional] 
 **timezone** | **str** |  | [optional] 
-**recalculation_base** | **str** |  | [optional] 
+**recalculation_base** | **int** |  | [optional] 
+**recalculate_option** | **int** |  | [optional] 
 **next_date** | **str** |  | [optional] 
 
 ## Example

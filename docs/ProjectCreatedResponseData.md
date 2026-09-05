@@ -6,10 +6,12 @@ Created project data
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** | Created project ID | [optional] 
-**name** | **str** | Project name | [optional] 
-**color** | **int** | Project color code | [optional] 
-**icon** | **int** | Project icon code | [optional] 
+**id** | **int** | Project ID | 
+**name** | **str** | Project name | 
+**color** | **str** | Project colour name | 
+**icon** | **str** | Project icon name | 
+**is_default** | **bool** | Whether this is a default project | 
+**message** | **str** | Success message | [optional] 
 
 ## Example
 

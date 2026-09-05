@@ -14,13 +14,16 @@ Name | Type | Description | Notes
 **sender_order** | **object** | Sender account ordering | [optional] 
 **available_accounts_count** | **int** | Total available accounts count | [optional] 
 **account_to_project** | **object** | Account-to-label permission mapping | [optional] 
-**projects** | **List[object]** | Available projects | [optional] 
+**preferred_labels_by_account** | **object** | Most-recently-used label IDs per account, grouped by Add-modal tab (expenses/income/transfer/any); empty groups omitted | [optional] 
+**preferred_labels_by_pair** | **object** | Most-recently-used label IDs per \&quot;&lt;sender_id&gt;:&lt;receiver_id&gt;\&quot; pair, grouped by Add-modal tab (expenses/income/transfer/any); empty groups omitted | [optional] 
+**projects** | [**List[Project]**](Project.md) | Available projects | [optional] 
 **selected_project_id** | **int** | Default selected project ID | [optional] 
 **preselected_receiver** | **int** | Preselected receiver account ID | [optional] 
 **transaction** | **object** | Transaction data (edit mode only) | [optional] 
 **commission** | **object** | Commission data (edit mode only) | [optional] 
 **receiver_commission** | **object** | Receiver commission data (edit mode only) | [optional] 
 **future_data** | **object** | Future schedule data (edit mode only) | [optional] 
+**modal_defaults** | [**GetWorkspaceContext200ResponseDataModalDefaults**](GetWorkspaceContext200ResponseDataModalDefaults.md) |  | [optional] 
 
 ## Example
 

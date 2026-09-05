@@ -23,8 +23,8 @@ if __import__("typing").TYPE_CHECKING:
     from orbuculum_client.api.system_api import SystemApi
     from orbuculum_client.api.tag_api import TagApi
     from orbuculum_client.api.transaction_api import TransactionApi
+    from orbuculum_client.api.transaction_draft_api import TransactionDraftApi
     from orbuculum_client.api.user_api import UserApi
-    from orbuculum_client.api.user_admin_api import UserAdminApi
     from orbuculum_client.api.workspace_api import WorkspaceApi
     
 else:
@@ -55,8 +55,8 @@ from orbuculum_client.api.selection_api import SelectionApi
 from orbuculum_client.api.system_api import SystemApi
 from orbuculum_client.api.tag_api import TagApi
 from orbuculum_client.api.transaction_api import TransactionApi
+from orbuculum_client.api.transaction_draft_api import TransactionDraftApi
 from orbuculum_client.api.user_api import UserApi
-from orbuculum_client.api.user_admin_api import UserAdminApi
 from orbuculum_client.api.workspace_api import WorkspaceApi
 
 """,

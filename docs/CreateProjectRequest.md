@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **name** | **str** | Project name | 
-**color** | **int** | Project color ID | 
-**icon** | **int** | Project icon ID | 
+**color** | **str** | Project colour name | 
+**icon** | **str** | Project icon name | 
 
 ## Example
 
