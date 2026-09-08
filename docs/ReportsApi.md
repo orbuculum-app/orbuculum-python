@@ -427,8 +427,8 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     timezone = 'timezone_example' # str |  (optional)
     current_only = 0 # int | Return only current month data (first day of month to today) (optional) (default to 0)
     entity_ids = 'entity_ids_example' # str | Comma-separated entity IDs to filter by (optional)
-    summary_only = 0 # int | Return only summary rows (1=yes, 0=no) (optional) (default to 0)
-    granularity = month # str | Data granularity: month or quarter (optional) (default to month)
+    summary_only = 0 # int | Return only summary rows (1=yes, 0=no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to 0)
+    granularity = month # str | Data granularity: month or quarter (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to month)
 
     try:
         # Get Cash Flow report data
@@ -457,8 +457,8 @@ Name | Type | Description  | Notes
  **timezone** | **str**|  | [optional] 
  **current_only** | **int**| Return only current month data (first day of month to today) | [optional] [default to 0]
  **entity_ids** | **str**| Comma-separated entity IDs to filter by | [optional] 
- **summary_only** | **int**| Return only summary rows (1&#x3D;yes, 0&#x3D;no) | [optional] [default to 0]
- **granularity** | **str**| Data granularity: month or quarter | [optional] [default to month]
+ **summary_only** | **int**| Return only summary rows (1&#x3D;yes, 0&#x3D;no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to 0]
+ **granularity** | **str**| Data granularity: month or quarter (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to month]
 
 ### Return type
 
@@ -653,7 +653,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | P&amp;L report data |  -  |
+**200** | P&amp;L report data (render-ready periods[]) |  -  |
 **400** | Invalid parameters |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |

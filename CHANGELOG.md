@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.15.0 — 2026-09-08 — Supports API 0.127.0
+
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
+
+- **Render-ready report responses** (train BE-82/BE-83/BE-84/BE-85): P&L, cashflow and balances report models rewritten. Rows are structured objects (`account` DTO + numeric `amount`), amounts and totals are raw numbers in base currency, enums are strings, lists are real JSON arrays (`available_labels` is a list, no longer a map keyed by id). Formatted strings, icon/display HTML and per-cell render hints are gone from the wire.
+- Account `type` is a closed string enum on report rows; `direct_revenue_expense` and `costs_of_revenue` drive the P&L totals chain server-side — `totals` now carries every number the report screens show, clients must not sum rows themselves.
+- Removed response schemas that left the spec (old report response inner shapes, `ReportColumnInfo`, quarter/year value blobs). Code reading those must move to the new period/row models.
+- Regenerated from the API 0.127.0 OpenAPI specification.
+
+
 ## 0.14.0 — 2026-09-05 — Supports API 0.124.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).

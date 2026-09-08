@@ -6,7 +6,7 @@ User-saved Balances report preferences. Null if user has not saved any.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**period** | **int** |  | [optional] 
+**period** | **object** |  | [optional] 
 **options** | **List[int]** |  | [optional] 
 **left_section** | **List[int]** |  | [optional] 
 **right_section** | **List[int]** |  | [optional] 

@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.14.0
-- **Supported API Version**: 0.124.0
+- **Client Version**: 0.15.0
+- **Supported API Version**: 0.127.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -412,24 +412,36 @@ Class | Method | HTTP request | Description
  - [BalanceUpdate](docs/BalanceUpdate.md)
  - [BalancesReportResponse](docs/BalancesReportResponse.md)
  - [BalancesReportResponseData](docs/BalancesReportResponseData.md)
- - [BalancesReportResponseDataDataLeftInner](docs/BalancesReportResponseDataDataLeftInner.md)
- - [BalancesReportResponseDataDataLeftInnerAccount](docs/BalancesReportResponseDataDataLeftInnerAccount.md)
+ - [BalancesReportResponseDataPeriodsInner](docs/BalancesReportResponseDataPeriodsInner.md)
+ - [BalancesReportResponseDataPeriodsInnerCredit](docs/BalancesReportResponseDataPeriodsInnerCredit.md)
+ - [BalancesReportResponseDataPeriodsInnerCreditCategoriesInner](docs/BalancesReportResponseDataPeriodsInnerCreditCategoriesInner.md)
+ - [BalancesReportResponseDataPeriodsInnerCreditCategoriesInnerAccountsInner](docs/BalancesReportResponseDataPeriodsInnerCreditCategoriesInnerAccountsInner.md)
+ - [BalancesReportResponseDataPeriodsInnerCreditCategoriesInnerAccountsInnerAccount](docs/BalancesReportResponseDataPeriodsInnerCreditCategoriesInnerAccountsInnerAccount.md)
+ - [BalancesReportResponseDataPeriodsInnerCreditFinancialActivity](docs/BalancesReportResponseDataPeriodsInnerCreditFinancialActivity.md)
+ - [BalancesReportResponseDataPeriodsInnerDebit](docs/BalancesReportResponseDataPeriodsInnerDebit.md)
+ - [BalancesReportResponseDataPeriodsInnerDebitCategoriesInner](docs/BalancesReportResponseDataPeriodsInnerDebitCategoriesInner.md)
+ - [BalancesReportResponseDataPeriodsInnerDebitCategoriesInnerAccountsInner](docs/BalancesReportResponseDataPeriodsInnerDebitCategoriesInnerAccountsInner.md)
+ - [BalancesReportResponseDataPeriodsInnerDebitCategoriesInnerAccountsInnerAccount](docs/BalancesReportResponseDataPeriodsInnerDebitCategoriesInnerAccountsInnerAccount.md)
+ - [BalancesReportResponseDataPeriodsInnerDebitFinancialActivity](docs/BalancesReportResponseDataPeriodsInnerDebitFinancialActivity.md)
+ - [BalancesReportResponseDataPeriodsInnerPeriod](docs/BalancesReportResponseDataPeriodsInnerPeriod.md)
  - [BalancesReportResponseDataUserReportSettings](docs/BalancesReportResponseDataUserReportSettings.md)
  - [CancelImport200Response](docs/CancelImport200Response.md)
  - [CancelImport200ResponseData](docs/CancelImport200ResponseData.md)
  - [CancelImportRequest](docs/CancelImportRequest.md)
  - [CashflowReportResponse](docs/CashflowReportResponse.md)
  - [CashflowReportResponseData](docs/CashflowReportResponseData.md)
- - [CashflowReportResponseDataEndPeriodBalances](docs/CashflowReportResponseDataEndPeriodBalances.md)
- - [CashflowReportResponseDataEndPeriodBalancesTotal](docs/CashflowReportResponseDataEndPeriodBalancesTotal.md)
- - [CashflowReportResponseDataFinancialActivities](docs/CashflowReportResponseDataFinancialActivities.md)
- - [CashflowReportResponseDataOperatingActivities](docs/CashflowReportResponseDataOperatingActivities.md)
- - [CashflowReportResponseDataOperatingActivitiesCashInflowValue](docs/CashflowReportResponseDataOperatingActivitiesCashInflowValue.md)
- - [CashflowReportResponseDataOperatingActivitiesCashInflowValueAccount](docs/CashflowReportResponseDataOperatingActivitiesCashInflowValueAccount.md)
- - [CashflowReportResponseDataOperatingActivitiesFreeCash](docs/CashflowReportResponseDataOperatingActivitiesFreeCash.md)
- - [CashflowReportResponseDataQuarterValues](docs/CashflowReportResponseDataQuarterValues.md)
- - [CashflowReportResponseDataUserReportSettings](docs/CashflowReportResponseDataUserReportSettings.md)
- - [CashflowReportResponseDataYearValues](docs/CashflowReportResponseDataYearValues.md)
+ - [CashflowReportResponseDataPeriodsInner](docs/CashflowReportResponseDataPeriodsInner.md)
+ - [CashflowReportResponseDataPeriodsInnerBalancesInner](docs/CashflowReportResponseDataPeriodsInnerBalancesInner.md)
+ - [CashflowReportResponseDataPeriodsInnerBalancesInnerAccount](docs/CashflowReportResponseDataPeriodsInnerBalancesInnerAccount.md)
+ - [CashflowReportResponseDataPeriodsInnerFinancingInner](docs/CashflowReportResponseDataPeriodsInnerFinancingInner.md)
+ - [CashflowReportResponseDataPeriodsInnerFinancingInnerAccount](docs/CashflowReportResponseDataPeriodsInnerFinancingInnerAccount.md)
+ - [CashflowReportResponseDataPeriodsInnerInflowInner](docs/CashflowReportResponseDataPeriodsInnerInflowInner.md)
+ - [CashflowReportResponseDataPeriodsInnerInflowInnerAccount](docs/CashflowReportResponseDataPeriodsInnerInflowInnerAccount.md)
+ - [CashflowReportResponseDataPeriodsInnerOutflowInner](docs/CashflowReportResponseDataPeriodsInnerOutflowInner.md)
+ - [CashflowReportResponseDataPeriodsInnerOutflowInnerAccount](docs/CashflowReportResponseDataPeriodsInnerOutflowInnerAccount.md)
+ - [CashflowReportResponseDataPeriodsInnerPeriod](docs/CashflowReportResponseDataPeriodsInnerPeriod.md)
+ - [CashflowReportResponseDataPeriodsInnerTotals](docs/CashflowReportResponseDataPeriodsInnerTotals.md)
+ - [CashflowReportResponseDataPeriodsInnerTotalsBalances](docs/CashflowReportResponseDataPeriodsInnerTotalsBalances.md)
  - [CashflowSettingsRequest](docs/CashflowSettingsRequest.md)
  - [CashflowSettingsRequestSettings](docs/CashflowSettingsRequestSettings.md)
  - [CashflowSettingsResponse](docs/CashflowSettingsResponse.md)
@@ -689,9 +701,15 @@ Class | Method | HTTP request | Description
  - [PermissionUpdateTagGroupRequest](docs/PermissionUpdateTagGroupRequest.md)
  - [PnlReportResponse](docs/PnlReportResponse.md)
  - [PnlReportResponseData](docs/PnlReportResponseData.md)
- - [PnlReportResponseDataData](docs/PnlReportResponseDataData.md)
- - [PnlReportResponseDataDataNetRevenueValuesResultInner](docs/PnlReportResponseDataDataNetRevenueValuesResultInner.md)
- - [PnlReportResponseDataDataNetRevenueValuesResultInnerAccount](docs/PnlReportResponseDataDataNetRevenueValuesResultInnerAccount.md)
+ - [PnlReportResponseDataPeriodsInner](docs/PnlReportResponseDataPeriodsInner.md)
+ - [PnlReportResponseDataPeriodsInnerCostsInner](docs/PnlReportResponseDataPeriodsInnerCostsInner.md)
+ - [PnlReportResponseDataPeriodsInnerCostsInnerCategory](docs/PnlReportResponseDataPeriodsInnerCostsInnerCategory.md)
+ - [PnlReportResponseDataPeriodsInnerPeriod](docs/PnlReportResponseDataPeriodsInnerPeriod.md)
+ - [PnlReportResponseDataPeriodsInnerRevenueInner](docs/PnlReportResponseDataPeriodsInnerRevenueInner.md)
+ - [PnlReportResponseDataPeriodsInnerRevenueInnerCategory](docs/PnlReportResponseDataPeriodsInnerRevenueInnerCategory.md)
+ - [PnlReportResponseDataPeriodsInnerTotals](docs/PnlReportResponseDataPeriodsInnerTotals.md)
+ - [PnlReportResponseDataPeriodsInnerTotalsGrossProfit](docs/PnlReportResponseDataPeriodsInnerTotalsGrossProfit.md)
+ - [PnlReportResponseDataPeriodsInnerTotalsNetProfit](docs/PnlReportResponseDataPeriodsInnerTotalsNetProfit.md)
  - [PnlReportResponseDataUserReportSettings](docs/PnlReportResponseDataUserReportSettings.md)
  - [PnlSettingsRequest](docs/PnlSettingsRequest.md)
  - [PnlSettingsRequestSettings](docs/PnlSettingsRequestSettings.md)
@@ -731,7 +749,6 @@ Class | Method | HTTP request | Description
  - [RemovePhoto200ResponseData](docs/RemovePhoto200ResponseData.md)
  - [RemoveWorkspaceImageRequest](docs/RemoveWorkspaceImageRequest.md)
  - [ReportBasicCurrency](docs/ReportBasicCurrency.md)
- - [ReportColumnInfo](docs/ReportColumnInfo.md)
  - [RequestResetRequest](docs/RequestResetRequest.md)
  - [RequestResetResponse](docs/RequestResetResponse.md)
  - [RequestResetResponseData](docs/RequestResetResponseData.md)
@@ -871,16 +888,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.14.0
-print(orbuculum_client.__api_version__)    # API version: 0.124.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.124.0
+print(orbuculum_client.__version__)        # Client version: 0.15.0
+print(orbuculum_client.__api_version__)    # API version: 0.127.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.127.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.14.0 → 0.14.1): Bug fixes, documentation updates
-- **MINOR** (0.14.1 → 0.15.0): New features, backward-compatible
-- **MAJOR** (0.15.0 → 1.0.0): Breaking changes
+- **PATCH** (0.15.0 → 0.15.1): Bug fixes, documentation updates
+- **MINOR** (0.15.1 → 0.16.0): New features, backward-compatible
+- **MAJOR** (0.16.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

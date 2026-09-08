@@ -6,7 +6,7 @@ User-saved PnL report preferences. Null if user has not saved any.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**period** | **int** |  | [optional] 
+**period** | **object** |  | [optional] 
 **sections** | **List[int]** |  | [optional] 
 **options** | **List[int]** |  | [optional] 
 

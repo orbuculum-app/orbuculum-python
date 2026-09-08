@@ -6,29 +6,12 @@ Cash Flow report payload
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**operating_activities** | [**CashflowReportResponseDataOperatingActivities**](CashflowReportResponseDataOperatingActivities.md) |  | [optional] 
-**financial_activities** | [**CashflowReportResponseDataFinancialActivities**](CashflowReportResponseDataFinancialActivities.md) |  | [optional] 
-**free_cash** | **Dict[str, float]** | Free cash values keyed by date column | [optional] 
-**end_period_balances** | [**CashflowReportResponseDataEndPeriodBalances**](CashflowReportResponseDataEndPeriodBalances.md) |  | [optional] 
-**forex_gains** | **Dict[str, float]** | Forex gains values keyed by date column | [optional] 
-**quarter_values** | [**CashflowReportResponseDataQuarterValues**](CashflowReportResponseDataQuarterValues.md) |  | [optional] 
-**year_values** | [**CashflowReportResponseDataYearValues**](CashflowReportResponseDataYearValues.md) |  | [optional] 
-**columns** | **List[str]** | Date column keys | [optional] 
-**project_id** | **int** |  | [optional] 
-**date_range_from** | **str** |  | [optional] 
-**date_range_to** | **str** |  | [optional] 
-**range** | **int** |  | [optional] 
-**label_id** | **int** |  | [optional] 
-**selected_label_id** | **int** |  | [optional] 
-**full_period** | **bool** |  | [optional] 
-**show_totals** | **bool** |  | [optional] 
-**include_future_periods** | **bool** |  | [optional] 
-**timezone** | **str** |  | [optional] 
-**available_labels** | [**Dict[str, Project]**](Project.md) |  | [optional] 
+**periods** | [**List[CashflowReportResponseDataPeriodsInner]**](CashflowReportResponseDataPeriodsInner.md) | One entry per reported period, ascending. The warm-up column that precedes date_range_from is not on the wire. | 
+**basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | 
+**timezone** | **str** |  | 
+**available_labels** | [**List[Project]**](Project.md) | Labels the caller may pick from, as a real list. | 
 **first_label** | [**Project**](Project.md) |  | [optional] 
-**basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
-**currencies** | [**Dict[str, ReportBasicCurrency]**](ReportBasicCurrency.md) | Available currencies keyed by currency ID | [optional] 
-**user_report_settings** | [**CashflowReportResponseDataUserReportSettings**](CashflowReportResponseDataUserReportSettings.md) |  | [optional] 
+**selected_label_id** | **int** | The label the report actually ran on. The only way to interpret an empty financing[]. | 
 
 ## Example
 

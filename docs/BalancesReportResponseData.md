@@ -6,24 +6,9 @@ Balances report payload
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data_left** | [**List[BalancesReportResponseDataDataLeftInner]**](BalancesReportResponseDataDataLeftInner.md) | Left-side data rows with dynamic attribute keys | [optional] 
-**data_right** | [**List[BalancesReportResponseDataDataLeftInner]**](BalancesReportResponseDataDataLeftInner.md) | Right-side data rows with dynamic attribute keys | [optional] 
-**left_classes** | **Dict[str, str]** | CSS classes for left-side rows, keyed by row index | [optional] 
-**right_classes** | **Dict[str, str]** | CSS classes for right-side rows, keyed by row index | [optional] 
-**left_columns** | [**List[ReportColumnInfo]**](ReportColumnInfo.md) | Column descriptors for left-side GridView | [optional] 
-**right_columns** | [**List[ReportColumnInfo]**](ReportColumnInfo.md) | Column descriptors for right-side GridView | [optional] 
-**result_columns** | **List[str]** | Result column keys | [optional] 
-**total** | **float** | Combined total value | [optional] 
-**left_total** | **float** | Left-side total value | [optional] 
-**right_total** | **float** | Right-side total value | [optional] 
-**project_id** | **int** |  | [optional] 
-**date_range_from** | **str** |  | [optional] 
-**date_range_to** | **str** |  | [optional] 
-**range** | **int** |  | [optional] 
-**full_period** | **bool** |  | [optional] 
-**include_future_periods** | **bool** |  | [optional] 
-**timezone** | **str** |  | [optional] 
+**periods** | [**List[BalancesReportResponseDataPeriodsInner]**](BalancesReportResponseDataPeriodsInner.md) | One entry per report column, ascending by period start. A period is a snapshot at its end, not a sum over the period. | [optional] 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
+**timezone** | **str** |  | [optional] 
 **user_report_settings** | [**BalancesReportResponseDataUserReportSettings**](BalancesReportResponseDataUserReportSettings.md) |  | [optional] 
 
 ## Example
