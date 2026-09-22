@@ -6,13 +6,13 @@ P&L report payload
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**periods** | [**List[PnlReportResponseDataPeriodsInner]**](PnlReportResponseDataPeriodsInner.md) | One entry per reported period, ascending. Quarter and year rollups are ordinary entries carrying period.kind &#x3D; quarter / year, emitted inline in column order and only when show_totals is on and range is 1-4. A rollup&#39;s from/to span only the base columns that roll into it, never the calendar quarter or year. | 
+**periods** | [**List[PnlReportResponseDataPeriodsInner]**](PnlReportResponseDataPeriodsInner.md) | One entry per reported period, ascending. Quarter and year rollups are ordinary entries carrying period.kind &#x3D; quarter / year, emitted inline in column order and only when show_totals is on and range is quarter, month, week or day. A rollup&#39;s from/to span only the base columns that roll into it, never the calendar quarter or year. | 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | 
 **timezone** | **str** |  | 
 **available_labels** | [**List[Project]**](Project.md) | Labels the caller may pick from, as a real list. | 
 **first_label** | [**Project**](Project.md) |  | [optional] 
 **selected_label_id** | **int** | The label the report actually ran on. | 
-**user_report_settings** | [**PnlReportResponseDataUserReportSettings**](PnlReportResponseDataUserReportSettings.md) |  | [optional] 
+**effective_filters** | [**ReportEffectiveFilters**](ReportEffectiveFilters.md) |  | 
 
 ## Example
 

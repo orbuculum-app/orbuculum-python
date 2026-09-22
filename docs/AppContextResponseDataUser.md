@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **photo_url** | **str** |  | [optional] 
 **last_workspace_id** | **int** | ID of the workspace the user last had context on (mirrors user.last_project DB column). | [optional] 
 **links** | [**List[AppContextResponseDataUserLinksInner]**](AppContextResponseDataUserLinksInner.md) |  | [optional] 
+**auth_providers** | **List[str]** | Connected social login providers; empty when none. | [optional] 
+**has_password** | **bool** | True when the user has a local password set. | [optional] 
 
 ## Example
 

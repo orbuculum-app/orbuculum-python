@@ -1,6 +1,6 @@
 # TransactionDraftSelectableAccount
 
-An account the slot may offer, with the two dim marks the modal renders
+An account the slot offers. Limitation-locked accounts are excluded from the list; label_restricted still only dims
 
 ## Properties
 
@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **account_id** | **int** | Account ID | 
 **entity_id** | **int** | Owning entity, so the client can group into category strips without a second call | 
 **hidden** | **bool** | The account is hidden; the modal removes these outside edit mode | 
-**drops_counterparty** | **bool** | Choosing this account would invalidate the account already chosen opposite it (the pairwise limitation rule). Dimmed, not hidden. Always false while that opposite side is unset. | 
+**drops_counterparty** | **bool** | True only for a stored leg of the transaction being edited whose stored pair violates a current limitation — those legs are the one kind of entry the pairwise limitation rule keeps instead of removing, so the client may badge them. False for every other entry, and always false on POST /api/transaction-draft. | 
 **label_restricted** | **bool** | The account is not manageable under the resolved label echoed in form.label_id. Dimmed, not hidden. | 
 
 ## Example

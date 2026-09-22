@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **periods** | [**List[BalancesReportResponseDataPeriodsInner]**](BalancesReportResponseDataPeriodsInner.md) | One entry per report column, ascending by period start. A period is a snapshot at its end, not a sum over the period. | [optional] 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
 **timezone** | **str** |  | [optional] 
-**user_report_settings** | [**BalancesReportResponseDataUserReportSettings**](BalancesReportResponseDataUserReportSettings.md) |  | [optional] 
+**effective_filters** | [**ReportEffectiveFilters**](ReportEffectiveFilters.md) |  | [optional] 
 
 ## Example
 

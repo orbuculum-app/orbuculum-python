@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_entity_permissions_for_user**](PermissionsApi.md#get_entity_permissions_for_user) | **GET** /api/permission/entity | Get a workspace member&#39;s per-entity permissions + create_entity flag (role-free, by user_id)
 [**get_general_permissions**](PermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get a workspace member&#39;s general permission flags (role-free, by user_id)
+[**get_project_permissions_for_user**](PermissionsApi.md#get_project_permissions_for_user) | **GET** /api/permission/project | Get a workspace member&#39;s per-project account permissions (role-free, by user_id)
 [**get_tag_permissions_for_user**](PermissionsApi.md#get_tag_permissions_for_user) | **GET** /api/permission/tag | Get a workspace member&#39;s per-tag permissions + create_tags flag (role-free, by user_id)
 [**permission_manage_access**](PermissionsApi.md#permission_manage_access) | **GET** /api/permission/manage-access | Get manage-access data for account
 [**permission_manage_access_save**](PermissionsApi.md#permission_manage_access_save) | **POST** /api/permission/manage-access-save | Bulk save access permissions for an account
@@ -179,6 +180,91 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | General permission flags |  -  |
+**400** | Missing/invalid parameters |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**404** | User not found in workspace |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_project_permissions_for_user**
+> GetProjectPermissionsResponse get_project_permissions_for_user(workspace_id, user_id)
+
+Get a workspace member's per-project account permissions (role-free, by user_id)
+
+Returns, per project, the account_id → access level map (2=read, 3=manage; absent = 1 none) for a workspace member addressed by user_id — the same project_id + accounts payload POST /api/permission/update-project-group accepts. Accounts that update-project-group rejects (system accounts, accounts of system entities) are omitted. Requires PERMISSION_MANAGEMENT.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.get_project_permissions_response import GetProjectPermissionsResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "http://localhost"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.PermissionsApi(api_client)
+    workspace_id = 56 # int | 
+    user_id = 56 # int | 
+
+    try:
+        # Get a workspace member's per-project account permissions (role-free, by user_id)
+        api_response = api_instance.get_project_permissions_for_user(workspace_id, user_id)
+        print("The response of PermissionsApi->get_project_permissions_for_user:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PermissionsApi->get_project_permissions_for_user: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+ **user_id** | **int**|  | 
+
+### Return type
+
+[**GetProjectPermissionsResponse**](GetProjectPermissionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Per-project account permissions |  -  |
 **400** | Missing/invalid parameters |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |

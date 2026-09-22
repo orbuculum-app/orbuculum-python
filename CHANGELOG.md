@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.16.0 — 2026-09-22 — Supports API 0.134.0
+
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
+
+- **Social login is Google-only** (BE-96): `DisconnectSocialRequest.provider` accepts only `google`; `facebook` and `linkedin` were removed from the enum (the API now rejects them with `400`).
+- **Report settings endpoints removed**: `get_balance_settings`, `get_cashflow_settings`, `save_balance_settings`, `save_cashflow_settings`, `save_pnl_settings` and their `*SettingsRequest`/`*SettingsResponse` models are gone. Report views are remembered via the new `remember` flag on `get_pnl_report` / `get_cashflow_report` / `get_balances_report`, and stored through `SaveWorkspacePreferencesRequest.settings`.
+- **Report `range` is a period-kind word** (the same vocabulary as `periods[].period.kind`, e.g. `quarter`, `month`, `week`, `day`) instead of an integer `0-4`.
+- Report responses: `user_report_settings` removed from P&L and balances data; new `effective_filters` (`ReportEffectiveFilters`) on P&L, cashflow and balances data.
+- Removed schemas that left the spec: account/entity/label/tag permission models (`AccountPermission`, `Create*PermissionRequest`, `EditAccountPermissionRequest`, `DeleteLabelPermissionRequest`, `GetAccountPermissionsResponse*`, `GetLabelPermissionsResponse*`, `PermissionCreatedResponse`, …), `ErrorResponse`, `PaginationMeta`, `TransactionListResponse`.
+
+**Added**
+
+- Google sign-in (BE-95): `AuthenticationApi.google_sign_in_start` (`GET /api/auth/google/start`) and `google_sign_in_callback` (`GET /api/auth/google/callback`).
+- `AppContextResponseDataUser`: `auth_providers` (connected social providers) and `has_password`.
+- `PermissionsApi.get_project_permissions_for_user` (`GET /api/permission/project`) with `GetProjectPermissionsResponse*` models.
+- `TransactionDraftSelectableAccount.drops_counterparty` semantics narrowed (documentation only).
+- Regenerated from the API 0.134.0 OpenAPI specification.
+
+
 ## 0.15.0 — 2026-09-08 — Supports API 0.127.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
