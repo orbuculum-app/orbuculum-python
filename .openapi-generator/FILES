@@ -134,7 +134,6 @@ docs/CreatePassword409Response.md
 docs/CreatePasswordRequest.md
 docs/CreateProjectRequest.md
 docs/CreateScheduledTransaction200Response.md
-docs/CreateScheduledTransaction200ResponseData.md
 docs/CreateScheduledTransactionRequest.md
 docs/CreateTag201Response.md
 docs/CreateTag201ResponseData.md
@@ -402,6 +401,10 @@ docs/SaveWorkspacePreferences200Response.md
 docs/SaveWorkspacePreferences200ResponseData.md
 docs/SaveWorkspacePreferencesRequest.md
 docs/ScheduledTransactionApi.md
+docs/ScheduledTransactionCreatedResponse.md
+docs/ScheduledTransactionCreatedResponseData.md
+docs/ScheduledTransactionPreview.md
+docs/ScheduledTransactionPreviewData.md
 docs/SearchAccounts200Response.md
 docs/SearchAccounts200ResponseData.md
 docs/SearchAccounts200ResponseDataItemsInner.md
@@ -665,7 +668,6 @@ orbuculum_client/models/create_password409_response.py
 orbuculum_client/models/create_password_request.py
 orbuculum_client/models/create_project_request.py
 orbuculum_client/models/create_scheduled_transaction200_response.py
-orbuculum_client/models/create_scheduled_transaction200_response_data.py
 orbuculum_client/models/create_scheduled_transaction_request.py
 orbuculum_client/models/create_tag201_response.py
 orbuculum_client/models/create_tag201_response_data.py
@@ -921,6 +923,10 @@ orbuculum_client/models/save_sorting_request.py
 orbuculum_client/models/save_workspace_preferences200_response.py
 orbuculum_client/models/save_workspace_preferences200_response_data.py
 orbuculum_client/models/save_workspace_preferences_request.py
+orbuculum_client/models/scheduled_transaction_created_response.py
+orbuculum_client/models/scheduled_transaction_created_response_data.py
+orbuculum_client/models/scheduled_transaction_preview.py
+orbuculum_client/models/scheduled_transaction_preview_data.py
 orbuculum_client/models/search_accounts200_response.py
 orbuculum_client/models/search_accounts200_response_data.py
 orbuculum_client/models/search_accounts200_response_data_items_inner.py
@@ -1158,7 +1164,6 @@ test/test_create_password409_response.py
 test/test_create_password_request.py
 test/test_create_project_request.py
 test/test_create_scheduled_transaction200_response.py
-test/test_create_scheduled_transaction200_response_data.py
 test/test_create_scheduled_transaction_request.py
 test/test_create_tag201_response.py
 test/test_create_tag201_response_data.py
@@ -1426,6 +1431,10 @@ test/test_save_workspace_preferences200_response.py
 test/test_save_workspace_preferences200_response_data.py
 test/test_save_workspace_preferences_request.py
 test/test_scheduled_transaction_api.py
+test/test_scheduled_transaction_created_response.py
+test/test_scheduled_transaction_created_response_data.py
+test/test_scheduled_transaction_preview.py
+test/test_scheduled_transaction_preview_data.py
 test/test_search_accounts200_response.py
 test/test_search_accounts200_response_data.py
 test/test_search_accounts200_response_data_items_inner.py

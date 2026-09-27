@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.18.0 — 2026-09-27 — Supports API 0.138.0
+
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
+
+- **Scheduled transaction create returns one of two shapes** (BE-102): `CreateScheduledTransaction200Response` is now a oneOf wrapper — read the payload from `actual_instance`, which is either `ScheduledTransactionCreatedResponse` (a real create: `data.id`, `transaction_ids`, `sender_account_id`, `receiver_account_id`, `dt` — the former inline shape) or `ScheduledTransactionPreview` (a dry run: `data.preview` (always true), `dates`, `count`). `CreateScheduledTransaction200ResponseData` is replaced by `ScheduledTransactionCreatedResponseData`.
+
+**Added**
+
+- `CreateScheduledTransactionRequest.dry_run` (BE-102): when true, the API runs every check of a real create and returns the computed schedule (`ScheduledTransactionPreview`: occurrence instants as offset ISO-8601 in the X-Timezone zone, and their count) without writing anything. Omitted, null or false → a real create.
+- Regenerated from the API 0.138.0 OpenAPI specification.
+
+
 ## 0.17.0 — 2026-09-27 — Supports API 0.137.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).

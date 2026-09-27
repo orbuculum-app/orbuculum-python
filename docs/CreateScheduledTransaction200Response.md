@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **int** |  | [optional] 
-**data** | [**CreateScheduledTransaction200ResponseData**](CreateScheduledTransaction200ResponseData.md) |  | [optional] 
+**status** | **int** | HTTP status code (always 200 for a preview). | 
+**data** | [**ScheduledTransactionPreviewData**](ScheduledTransactionPreviewData.md) |  | 
 
 ## Example
 

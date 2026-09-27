@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.17.0
-- **Supported API Version**: 0.137.0
+- **Client Version**: 0.18.0
+- **Supported API Version**: 0.138.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -472,7 +472,6 @@ Class | Method | HTTP request | Description
  - [CreatePasswordRequest](docs/CreatePasswordRequest.md)
  - [CreateProjectRequest](docs/CreateProjectRequest.md)
  - [CreateScheduledTransaction200Response](docs/CreateScheduledTransaction200Response.md)
- - [CreateScheduledTransaction200ResponseData](docs/CreateScheduledTransaction200ResponseData.md)
  - [CreateScheduledTransactionRequest](docs/CreateScheduledTransactionRequest.md)
  - [CreateTag201Response](docs/CreateTag201Response.md)
  - [CreateTag201ResponseData](docs/CreateTag201ResponseData.md)
@@ -728,6 +727,10 @@ Class | Method | HTTP request | Description
  - [SaveWorkspacePreferences200Response](docs/SaveWorkspacePreferences200Response.md)
  - [SaveWorkspacePreferences200ResponseData](docs/SaveWorkspacePreferences200ResponseData.md)
  - [SaveWorkspacePreferencesRequest](docs/SaveWorkspacePreferencesRequest.md)
+ - [ScheduledTransactionCreatedResponse](docs/ScheduledTransactionCreatedResponse.md)
+ - [ScheduledTransactionCreatedResponseData](docs/ScheduledTransactionCreatedResponseData.md)
+ - [ScheduledTransactionPreview](docs/ScheduledTransactionPreview.md)
+ - [ScheduledTransactionPreviewData](docs/ScheduledTransactionPreviewData.md)
  - [SearchAccounts200Response](docs/SearchAccounts200Response.md)
  - [SearchAccounts200ResponseData](docs/SearchAccounts200ResponseData.md)
  - [SearchAccounts200ResponseDataItemsInner](docs/SearchAccounts200ResponseDataItemsInner.md)
@@ -855,16 +858,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.17.0
-print(orbuculum_client.__api_version__)    # API version: 0.137.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.137.0
+print(orbuculum_client.__version__)        # Client version: 0.18.0
+print(orbuculum_client.__api_version__)    # API version: 0.138.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.138.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.17.0 → 0.17.1): Bug fixes, documentation updates
-- **MINOR** (0.17.1 → 0.18.0): New features, backward-compatible
-- **MAJOR** (0.18.0 → 1.0.0): Breaking changes
+- **PATCH** (0.18.0 → 0.18.1): Bug fixes, documentation updates
+- **MINOR** (0.18.1 → 0.19.0): New features, backward-compatible
+- **MAJOR** (0.19.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

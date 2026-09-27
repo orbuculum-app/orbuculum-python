@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 Create a new scheduled transaction
 
-Creates a new scheduled/recurring transaction with specified schedule type and parameters
+Creates a new scheduled/recurring transaction with specified schedule type and parameters. With dry_run=true it runs every check of a real create and returns the computed schedule without writing anything (BE-102).
 
 ### Example
 
@@ -87,8 +87,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Scheduled transaction created successfully |  -  |
-**400** | Bad request - validation failed |  -  |
+**200** | Scheduled transaction created; or, when dry_run&#x3D;true, a preview of the schedule it would create (BE-102, nothing written). data.id exists only on a create; data.preview/dates/count only on a preview. |  -  |
+**400** | Bad request - validation failed (including a non-boolean dry_run) |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **405** | Method not allowed |  -  |
