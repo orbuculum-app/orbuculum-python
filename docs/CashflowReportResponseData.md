@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **timezone** | **str** |  | 
 **available_labels** | [**List[Project]**](Project.md) | Labels the caller may pick from, as a real list. | 
 **first_label** | [**Project**](Project.md) |  | [optional] 
-**selected_label_id** | **int** | The label the report actually ran on. The only way to interpret an empty financing[]. | 
+**selected_label_id** | **int** | The label the report actually ran on. | 
 **effective_filters** | [**ReportEffectiveFilters**](ReportEffectiveFilters.md) |  | 
 
 ## Example

@@ -9,8 +9,6 @@ Name | Type | Description | Notes
 **inflow** | **int** |  | 
 **outflow** | **int** |  | 
 **free_cash** | **int** |  | 
-**financing** | **int** |  | 
-**free_cash_after_financing** | **int** |  | 
 **balances** | [**CashflowReportResponseDataPeriodsInnerTotalsBalances**](CashflowReportResponseDataPeriodsInnerTotalsBalances.md) |  | 
 
 ## Example

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.17.0 — 2026-09-27 — Supports API 0.137.0
+
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
+
+- **Cash flow financing is one group per period** (BE-100): `CashflowReportResponseDataPeriodsInner.financing` is now an optional `CashflowReportResponseDataPeriodsInnerFinancing` object — `rows` (financing account rows), `revaluation`, `total` (revaluation included) and `free_cash_after_financing`. It is sent on the workspace's default label (even when every amount is 0) and is `null` on any other label and on All data (`project_id=0`). The period-level `revaluation` field and `totals.financing` / `totals.free_cash_after_financing` moved into this group and are gone from their old places. `CashflowReportResponseDataPeriodsInnerFinancingInner*` models are replaced by `CashflowReportResponseDataPeriodsInnerFinancingRowsInner*`.
+
+**Added**
+
+- `ReportsApi.export_pnl_pdf` takes a `type` parameter (BE-99): `1` = P&L (default), `2` = Cash Flow, `3` = Balances; a `500` response is declared.
+- `ReportEffectiveFilters.date_range_from` / `date_range_to` are filled on every report response (BE-101): when the request sent no dates they carry the first and last day the report's columns cover, in the request timezone; `null` only when no dates were sent and `periods[]` is empty. Export date parameters document that they apply only with `full_period=0`.
+- Regenerated from the API 0.137.0 OpenAPI specification.
+
+
 ## 0.16.0 — 2026-09-22 — Supports API 0.134.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).

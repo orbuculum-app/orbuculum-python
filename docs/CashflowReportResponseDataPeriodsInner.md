@@ -8,8 +8,7 @@ Name | Type | Description | Notes
 **period** | [**CashflowReportResponseDataPeriodsInnerPeriod**](CashflowReportResponseDataPeriodsInnerPeriod.md) |  | 
 **inflow** | [**List[CashflowReportResponseDataPeriodsInnerInflowInner]**](CashflowReportResponseDataPeriodsInnerInflowInner.md) | Operating cash inflow rows. Signs are emitted exactly as the backend computes them. | 
 **outflow** | [**List[CashflowReportResponseDataPeriodsInnerOutflowInner]**](CashflowReportResponseDataPeriodsInnerOutflowInner.md) | Operating cash outflow rows. Amounts arrive negative; nothing is inverted. | 
-**financing** | [**List[CashflowReportResponseDataPeriodsInnerFinancingInner]**](CashflowReportResponseDataPeriodsInnerFinancingInner.md) | Financing rows. Empty off the workspace&#39;s default label, where the report computes no financing section. | 
-**revaluation** | **int** | Cash revaluation for the period — the value the legacy response shipped under forex_gains. On the default label it is already folded into totals.financing and is not added again. | 
+**financing** | [**CashflowReportResponseDataPeriodsInnerFinancing**](CashflowReportResponseDataPeriodsInnerFinancing.md) |  | [optional] 
 **balances** | [**List[CashflowReportResponseDataPeriodsInnerBalancesInner]**](CashflowReportResponseDataPeriodsInnerBalancesInner.md) | End-of-period balances, concatenated accounts then debts then other. account.type is one of debt, account, cf_account. | 
 **totals** | [**CashflowReportResponseDataPeriodsInnerTotals**](CashflowReportResponseDataPeriodsInnerTotals.md) |  | 
 

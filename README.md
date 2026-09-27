@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.16.0
-- **Supported API Version**: 0.134.0
+- **Client Version**: 0.17.0
+- **Supported API Version**: 0.137.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -288,7 +288,7 @@ Class | Method | HTTP request | Description
 *RateApi* | [**rate_create**](docs/RateApi.md#rate_create) | **POST** /api/rate/create | Create an exchange rate (Owner or Currency manage access)
 *RateApi* | [**rate_delete**](docs/RateApi.md#rate_delete) | **POST** /api/rate/delete | Delete an exchange rate (Owner or Currency manage access)
 *RateApi* | [**rate_update**](docs/RateApi.md#rate_update) | **POST** /api/rate/update | Update an exchange rate (Owner or Currency manage access)
-*ReportsApi* | [**export_pnl_pdf**](docs/ReportsApi.md#export_pnl_pdf) | **GET** /api/reports/export-pdf | Export P&amp;L report as PDF
+*ReportsApi* | [**export_pnl_pdf**](docs/ReportsApi.md#export_pnl_pdf) | **GET** /api/reports/export-pdf | Export report as PDF
 *ReportsApi* | [**export_xlsx**](docs/ReportsApi.md#export_xlsx) | **GET** /api/reports/export-xlsx | Export report as XLSX (Excel)
 *ReportsApi* | [**get_balances_report**](docs/ReportsApi.md#get_balances_report) | **GET** /api/reports/get-balances | Get Balances report data
 *ReportsApi* | [**get_cashflow_report**](docs/ReportsApi.md#get_cashflow_report) | **GET** /api/reports/get-cashflow | Get Cash Flow report data
@@ -424,8 +424,9 @@ Class | Method | HTTP request | Description
  - [CashflowReportResponseDataPeriodsInner](docs/CashflowReportResponseDataPeriodsInner.md)
  - [CashflowReportResponseDataPeriodsInnerBalancesInner](docs/CashflowReportResponseDataPeriodsInnerBalancesInner.md)
  - [CashflowReportResponseDataPeriodsInnerBalancesInnerAccount](docs/CashflowReportResponseDataPeriodsInnerBalancesInnerAccount.md)
- - [CashflowReportResponseDataPeriodsInnerFinancingInner](docs/CashflowReportResponseDataPeriodsInnerFinancingInner.md)
- - [CashflowReportResponseDataPeriodsInnerFinancingInnerAccount](docs/CashflowReportResponseDataPeriodsInnerFinancingInnerAccount.md)
+ - [CashflowReportResponseDataPeriodsInnerFinancing](docs/CashflowReportResponseDataPeriodsInnerFinancing.md)
+ - [CashflowReportResponseDataPeriodsInnerFinancingRowsInner](docs/CashflowReportResponseDataPeriodsInnerFinancingRowsInner.md)
+ - [CashflowReportResponseDataPeriodsInnerFinancingRowsInnerAccount](docs/CashflowReportResponseDataPeriodsInnerFinancingRowsInnerAccount.md)
  - [CashflowReportResponseDataPeriodsInnerInflowInner](docs/CashflowReportResponseDataPeriodsInnerInflowInner.md)
  - [CashflowReportResponseDataPeriodsInnerInflowInnerAccount](docs/CashflowReportResponseDataPeriodsInnerInflowInnerAccount.md)
  - [CashflowReportResponseDataPeriodsInnerOutflowInner](docs/CashflowReportResponseDataPeriodsInnerOutflowInner.md)
@@ -854,16 +855,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.16.0
-print(orbuculum_client.__api_version__)    # API version: 0.134.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.134.0
+print(orbuculum_client.__version__)        # Client version: 0.17.0
+print(orbuculum_client.__api_version__)    # API version: 0.137.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.137.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.16.0 → 0.16.1): Bug fixes, documentation updates
-- **MINOR** (0.16.1 → 0.17.0): New features, backward-compatible
-- **MAJOR** (0.17.0 → 1.0.0): Breaking changes
+- **PATCH** (0.17.0 → 0.17.1): Bug fixes, documentation updates
+- **MINOR** (0.17.1 → 0.18.0): New features, backward-compatible
+- **MAJOR** (0.18.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 
