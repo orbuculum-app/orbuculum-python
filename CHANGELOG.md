@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.20.0 — 2026-10-01 — Supports API 0.140.0
+
+**Behaviour change** (no deprecation window: this client serves internal consumers only).
+
+- **Dates sent without `full_period` compute the report for those dates** (BE-112): an explicitly sent `full_period` always decides, dates or not; if it is omitted and a date range is given, the request runs and echoes `full_period=0` for this request only — the remembered view keeps its saved value. Omitted without dates: the saved value with `remember=1`, else `1`. The same rule on get-pnl / get-cashflow / get-balances; the export endpoints document it with `full_period` defaulting to `0`. `ReportEffectiveFilters.full_period` is the value this request resolved to.
+- Regenerated from the API 0.140.0 OpenAPI specification.
+
+
 ## 0.19.0 — 2026-10-01 — Supports API 0.139.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
