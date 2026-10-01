@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | [optional] 
 **timezone** | **str** |  | [optional] 
 **effective_filters** | [**ReportEffectiveFilters**](ReportEffectiveFilters.md) |  | [optional] 
+**date_min** | **date** | First day of the window the report ran on, in the request timezone: the applied date_from (full_period off, including the current_only window), else the earliest periods[].period.from. Always present on a 200; null only when no date was applied and periods[] is empty. The SPA&#39;s calendar fallback (BE-108). | [optional] 
+**date_max** | **date** | Last day of the window the report ran on, inclusive, in the request timezone: the applied date_to (full_period off, including the current_only window), else the latest periods[].period.to. Always present on a 200; null only when no date was applied and periods[] is empty. | [optional] 
 
 ## Example
 

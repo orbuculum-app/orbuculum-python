@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.19.0 — 2026-10-01 — Supports API 0.139.0
+
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
+
+- **Sent dates no longer switch full-period mode off.** `full_period` is the Full period checkbox: a `date_from` / `date_to` on the request does not turn it off — not for the run, not in the `effective_filters` echo, not in the stored view. With `full_period=1` the report runs on the whole period and the sent dates are ignored for the calculation (they are still echoed). Applies to the get-* reports and to the export date parameters.
+- **`ReportEffectiveFilters.date_range_from` / `date_range_to` are the request echo only:** `null` when the request sent no dates (0.17.0 filled them with the covered window). The window the report actually ran on is now `data.date_min` / `data.date_max`.
+
+**Added**
+
+- `PnlReportResponseData`, `CashflowReportResponseData`, `BalancesReportResponseData`: `date_min` / `date_max` — first and last day of the window the report ran on, in the request timezone; always present on a 200, `null` only when no date was applied and `periods[]` is empty (BE-108).
+- Regenerated from the API 0.139.0 OpenAPI specification.
+
+
 ## 0.18.0 — 2026-09-27 — Supports API 0.138.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
