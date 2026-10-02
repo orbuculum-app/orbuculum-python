@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Scheduled transaction ID | 
 **edit_type** | **int** | Edit type: 1&#x3D;ALL, 2&#x3D;SINGLE, 3&#x3D;THIS_AND_FUTURE | 
-**trx_id** | **int** | Transaction ID (required for edit_type&#x3D;2) | [optional] 
+**trx_id** | **int** | Transaction ID (required for edit_type&#x3D;2; for edit_type&#x3D;3 the occurrence to split at — required unless dt is after the series start; with it, omitted fields keep the schedule&#39;s current values) | [optional] 
 **trx_id_2** | **int** | Second transaction ID for intermediary (edit_type&#x3D;2) | [optional] 
 **override** | **bool** | Override edited transactions | [optional] 
 **sender_account_id** | **int** | Sender account ID | [optional] 
 **receiver_account_id** | **int** | Receiver account ID | [optional] 
 **sender_amount** | **str** | Sender amount | [optional] 
 **receiver_amount** | **str** | Receiver amount | [optional] 
-**dt** | **datetime** | Schedule date/time. Accepted formats: \&quot;YYYY-MM-DD\&quot; (interpreted as midnight in the timezone field), \&quot;YYYY-MM-DD HH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), with optional Z/offset suffix. A Z/offset suffix identifies an instant and is stored as the wall-clock of that instant in the &#x60;timezone&#x60; field; a value without a suffix is taken as a wall-clock in &#x60;timezone&#x60; directly. | [optional] 
+**dt** | **datetime** | Schedule date/time. Accepted formats: \&quot;YYYY-MM-DD\&quot; (interpreted as midnight in the timezone field), \&quot;YYYY-MM-DD HH:MM:SS\&quot;, \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), with optional Z/offset suffix. A Z/offset suffix identifies an instant and is stored as the wall-clock of that instant in the &#x60;timezone&#x60; field; a value without a suffix is taken as a wall-clock in &#x60;timezone&#x60; directly. For edit_type&#x3D;3: the start of the new series (default: the trx_id occurrence&#39;s date/time); without trx_id it is also the split point and must fall on a day after the series start. | [optional] 
 **time** | **str** | Time | [optional] 
 **timezone** | **str** | Timezone | [optional] 
 **schedule_type** | **int** | Schedule type (1-8) | [optional] 

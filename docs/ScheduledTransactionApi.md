@@ -278,7 +278,7 @@ Name | Type | Description  | Notes
 
 Update a scheduled transaction
 
-Updates a scheduled transaction with support for three edit types: ALL (1), SINGLE (2), THIS_AND_FUTURE (3)
+Updates a scheduled transaction with support for three edit types: ALL (1), SINGLE (2), THIS_AND_FUTURE (3). THIS_AND_FUTURE splits the series. With trx_id the split point is that occurrence's date (the series' first occurrence behaves as ALL), and fields you omit keep the schedule's current values, as with ALL. Without trx_id the split point is dt, which must fall on a day after the series start, and the new series is built from the request fields alone. Occurrences dated before the split point are never changed.
 
 ### Example
 
@@ -356,7 +356,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
 **405** | Method not allowed |  -  |
-**422** | Validation failed. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
+**422** | Validation failed. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. Also returned for edit_type&#x3D;3 when trx_id is not an occurrence of this schedule, or when trx_id is absent and dt is absent or not on a day after the series start. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

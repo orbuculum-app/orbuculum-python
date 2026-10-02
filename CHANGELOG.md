@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.23.0 — 2026-10-02 — Supports API 0.143.0
+
+**No code-shape change** (no fields, types or method signatures changed); the regenerated descriptions document a server behaviour change.
+
+- **POST /api/scheduled-transaction/update, `edit_type=3` (THIS_AND_FUTURE) now honours `trx_id`** (BE-116): with `trx_id` the split point is that occurrence's date (the series' first occurrence behaves as ALL) and omitted fields keep the schedule's current values, as with ALL; without `trx_id` the split point is `dt`, which must fall on a day after the series start, and the new series is built from the request fields alone. Occurrences dated before the split point are never changed. The `update_scheduled_transaction` docstrings, `UpdateScheduledTransactionRequest.trx_id` / `.dt` descriptions and `docs/ScheduledTransactionApi.md` say so.
+- **New 422 cases on that endpoint:** `edit_type=3` with a `trx_id` that is not an occurrence of this schedule, or without `trx_id` when `dt` is absent or not on a day after the series start.
+- `CreateScheduledTransactionRequest.schedule_end_specific` description clarified: an end date (YYYY-MM-DD) is the series' last day, and an occurrence at any time of that day is included.
+- Default host stays `https://orbuculum.app` (generated from the production specification, which declares its server). Regenerated from the API 0.143.0 OpenAPI specification.
+
+
 ## 0.22.0 — 2026-10-02 — Supports API 0.142.0
 
 **Additive**, plus one changed default (the default host, below).
