@@ -368,7 +368,7 @@ fi
 sed -i.bak "s/__version__ = \".*\"/__version__ = \"${NEW_CLIENT_VERSION}\"/" "${WORKSPACE}/orbuculum_client/__init__.py"
 
 # Add __api_version__ and __api_supported__ after __version__ if they don't exist
-if ! grep -q "__api_version__" "${WORKSPACE}/orbuculum_client/__init__.py"; then
+if ! grep -q '^__api_version__ = ' "${WORKSPACE}/orbuculum_client/__init__.py"; then
     sed -i.bak "/__version__ = /a\\
 __api_version__ = \"${API_VERSION}\"\\
 __api_supported__ = \"${API_VERSION}\"
@@ -377,6 +377,18 @@ else
     # If they exist, update them
     sed -i.bak "s/__api_version__ = \".*\"/__api_version__ = \"${API_VERSION}\"/" "${WORKSPACE}/orbuculum_client/__init__.py"
     sed -i.bak "s/__api_supported__ = \".*\"/__api_supported__ = \"${API_VERSION}\"/" "${WORKSPACE}/orbuculum_client/__init__.py"
+fi
+
+# Pass __api_version__ and __api_supported__ through the LazyModule(...) call: the
+# generated call re-exports only __version__ and __all__, and the lazy module the
+# package is replaced with drops every other module-level name
+if ! grep -qF '("__api_version__", __api_version__),' "${WORKSPACE}/orbuculum_client/__init__.py"; then
+    sed -i.bak 's/^\( *\)("__version__", __version__),$/&\n\1("__api_version__", __api_version__),\n\1("__api_supported__", __api_supported__),/' "${WORKSPACE}/orbuculum_client/__init__.py"
+fi
+if ! grep -qF '("__api_version__", __api_version__),' "${WORKSPACE}/orbuculum_client/__init__.py" \
+    || ! grep -qF '("__api_supported__", __api_supported__),' "${WORKSPACE}/orbuculum_client/__init__.py"; then
+    echo -e "${RED}✗ Could not add the __api_version__ / __api_supported__ tuples to the LazyModule(...) call in orbuculum_client/__init__.py: anchor line (\"__version__\", __version__), not found${NC}"
+    exit 1
 fi
 
 # Remove backup files

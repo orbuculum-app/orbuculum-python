@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+**Additive** (no breaking changes).
+
+- **`orbuculum_client.__api_version__` and `orbuculum_client.__api_supported__` now work on the imported package** (SDK-1): the package's `LazyModule` wrapper passed through only `__version__` and `__all__`, so both attributes raised `AttributeError` in every release up to 0.23.0, although the README and VERSIONING.md document them. `scripts/update_api.sh` now adds both to the `LazyModule(...)` call on every regeneration.
+
+
 ## 0.23.0 — 2026-10-02 — Supports API 0.143.0
 
 **No code-shape change** (no fields, types or method signatures changed); the regenerated descriptions document a server behaviour change.

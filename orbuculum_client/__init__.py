@@ -1068,6 +1068,8 @@ else:
         LazyModule(
             *as_package(__file__),
             ("__version__", __version__),
+            ("__api_version__", __api_version__),
+            ("__api_supported__", __api_supported__),
             ("__all__", __all__),
             """# import apis into sdk package
 from orbuculum_client.api.account_api import AccountApi as AccountApi
