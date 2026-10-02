@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.22.0 — 2026-10-02 — Supports API 0.142.0
+
+**Additive**, plus one changed default (the default host, below).
+
+- **Transactions carry `created_at`** (BE-114): `Transaction`, `TransactionCanonicalRow`, `TransactionCreatedData` and `TransactionPreviewData` gain the optional, nullable `created_at` (datetime, UTC) — when the row was added. It is null for transactions created before the field existed, and it is not the operation date (that stays `dt`).
+- The `TransactionCreatedData` / `TransactionPreviewData` descriptions no longer state a fixed field count ("Full Transaction shape").
+- **Default host is now `https://orbuculum.app`:** this release is generated from the production specification, which declares its server; `Configuration()` without `host` now targets `https://orbuculum.app` instead of `http://localhost` (0.13.0–0.21.0 were generated from a specification without a `servers` entry). Clients that pass `host` explicitly are unaffected.
+- BE-115 brings no contract change. Regenerated from the API 0.142.0 OpenAPI specification.
+
+
 ## 0.21.0 — 2026-10-02 — Supports API 0.141.0
 
 **Additive** (no breaking changes).

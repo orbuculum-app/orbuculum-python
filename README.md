@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.21.0
-- **Supported API Version**: 0.141.0
+- **Client Version**: 0.22.0
+- **Supported API Version**: 0.142.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -201,7 +201,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://orbuculum.app*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -858,16 +858,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.21.0
-print(orbuculum_client.__api_version__)    # API version: 0.141.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.141.0
+print(orbuculum_client.__version__)        # Client version: 0.22.0
+print(orbuculum_client.__api_version__)    # API version: 0.142.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.142.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.21.0 → 0.21.1): Bug fixes, documentation updates
-- **MINOR** (0.21.1 → 0.22.0): New features, backward-compatible
-- **MAJOR** (0.22.0 → 1.0.0): Breaking changes
+- **PATCH** (0.22.0 → 0.22.1): Bug fixes, documentation updates
+- **MINOR** (0.22.1 → 0.23.0): New features, backward-compatible
+- **MAJOR** (0.23.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

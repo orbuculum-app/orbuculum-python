@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **id** | **int** | Transaction ID | 
 **dt** | **str** | Transaction date and time, emitted as explicit-offset ISO-8601 in the working timezone (X-Timezone header; UTC rendered with trailing Z when the header is absent or invalid), e.g. 2026-06-03T15:00:00+03:00. When &#x60;timeUnset&#x60; is true the value is instead the canonical naive &#39;YYYY-MM-DD 00:00:00&#39; (no zone), stable across all X-Timezone values. | 
 **time_unset** | **bool** | True when the transaction was saved with a date but no time. In that case &#x60;dt&#x60; is emitted as the canonical naive &#39;YYYY-MM-DD 00:00:00&#39; and is stable across all X-Timezone values; the client should render date-only. | 
+**created_at** | **datetime** | When the row was added (UTC). Null for transactions created before this field existed. Not the operation date — see dt. | [optional] 
 **comment** | **str** | Transaction comment | [optional] 
 **done** | **bool** | Transaction completion status (real JSON boolean) | 
 **apikey** | **str** | External-integration identifier. NULL for transactions created directly via the UI. | [optional] 
