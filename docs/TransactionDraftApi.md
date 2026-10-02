@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 
 Compose the Edit-transaction modal's complete state
 
-The same payload for a stored transaction. `tab`, `subtab`, `visible_subtabs` and `suggested` are always null; the account lists apply limitations and label permissions only, with no slot rules (the `edit_any` vocabulary declares every slot unfiltered).
+The same payload for a stored transaction and the Edit draft the client sends: `sender_id`, `receiver_id`, `double_id` and `label_id` replace the stored values, and each one absent or null keeps the stored value, so the client can send the whole draft on every change. The single/double shape stays the stored one. `tab`, `subtab`, `visible_subtabs` and `suggested` are always null; the account lists apply limitations and label permissions only, with no slot rules (the `edit_any` vocabulary declares every slot unfiltered).
 
 ### Example
 
@@ -174,7 +174,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - no access to this workspace |  -  |
 **404** | Not found - no such transaction, or a leg outside the caller&#39;s accessible accounts |  -  |
 **405** | Method not allowed |  -  |
-**422** | Unprocessable Entity - a rule failure (non-positive id, malformed dt) |  -  |
+**422** | Unprocessable Entity - a rule failure (non-positive id, malformed dt, a non-positive or non-integer sender_id/receiver_id/double_id/label_id), or a sender_id/receiver_id/double_id/label_id that differs from the stored value and is not available in this workspace (&#x60;details[].field&#x60; names it) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

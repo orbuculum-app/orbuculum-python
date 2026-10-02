@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.21.0 — 2026-10-02 — Supports API 0.141.0
+
+**Additive** (no breaking changes).
+
+- **POST /api/transaction-draft/edit accepts optional `label_id`, `sender_id`, `receiver_id`, `double_id`** (BE-113): `TransactionDraftEditRequest` gains the four optional, nullable fields — the Edit draft's current inputs. Each one absent or null keeps the stored value, so the client can send the whole draft on every change; the single/double shape stays the stored one (on a stored single transaction `double_id` is checked, then ignored). A value that differs from the stored one and is not available in this workspace returns 422 (`details[].field` names it), as does a non-positive or non-integer id.
+- The endpoint description and its 422 response text are updated accordingly; no other changes between the API 0.140.0 and 0.141.0 specifications.
+- Regenerated from the API 0.141.0 OpenAPI specification.
+
+
 ## 0.20.0 — 2026-10-01 — Supports API 0.140.0
 
 **Behaviour change** (no deprecation window: this client serves internal consumers only).
