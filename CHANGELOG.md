@@ -1,10 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.24.0 — 2026-10-04 — Supports API 0.144.0
 
-**Additive** (no breaking changes).
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
 
+- **POST /api/transaction-draft and POST /api/transaction-draft/edit: `selectable[]` entries carry the required `recent`** (BE-120): `TransactionDraftSelectableAccount` gains the required boolean `recent` — true only for an account in the slot's counterparty pair map (accounts already paired with the account chosen opposite; for the double slot, with the sender). Those are exactly the entries sorted first, so they form a prefix of `selectable[]`; with no counterparty chosen, or one without pair history, every entry is false. The order of `selectable[]` and the other fields are unchanged. The field has no default: a draft response without it (API 0.143.0 or older) fails this client's validation, and constructing `TransactionDraftSelectableAccount` by hand now requires `recent=`.
 - **`orbuculum_client.__api_version__` and `orbuculum_client.__api_supported__` now work on the imported package** (SDK-1): the package's `LazyModule` wrapper passed through only `__version__` and `__all__`, so both attributes raised `AttributeError` in every release up to 0.23.0, although the README and VERSIONING.md document them. `scripts/update_api.sh` now adds both to the `LazyModule(...)` call on every regeneration.
+- Regenerated from the API 0.144.0 OpenAPI specification.
 
 
 ## 0.23.0 — 2026-10-02 — Supports API 0.143.0
