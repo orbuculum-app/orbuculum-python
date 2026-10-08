@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.24.1 — 2026-10-08 — Supports API 0.144.1
+
+**Behaviour change** (server-side only: no fields, types or method signatures changed).
+
+- **Bearer (JWT) authentication fails closed and resolves the user by `sub` + `auth_key`** (BE-122): every endpoint secured by `bearerAuth` now rejects with 401 a token that lacks a numeric `sub` (an integer or a digit string) or a string `auth_key`, a token whose user is missing or inactive or whose `auth_key` no longer matches (revoked), and every token while the server has no usable signing key (none configured, or one shorter than 32 bytes) — there is no fallback key any more, and the `email` claim no longer selects the user. POST /api/auth/refresh applies the same check to the refresh token and answers 401 when it fails. POST /api/auth/login, POST /api/auth/refresh and POST /api/auth/register answer 500 while the signing key is unusable, whatever the credentials (all three already declare 500). Tokens issued by POST /api/auth/login carry both claims and keep working.
+- Regenerated from the API 0.144.1 OpenAPI specification.
+
+
 ## 0.24.0 — 2026-10-04 — Supports API 0.144.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
