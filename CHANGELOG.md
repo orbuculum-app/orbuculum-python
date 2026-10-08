@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.25.0 — 2026-10-08 — Supports API 0.145.0
+
+**Behaviour change** (server-side only: no fields, types or method signatures changed).
+
+- **POST /api/transaction/create: same-currency amounts must be equal** (BE-125): when the sender and receiver accounts use the same currency, a single sent amount is copied to the other side (no exchange rate), and two different amounts return 422 `Validation failed` with a `details[]` item `{field: "receiver_amount", message}` and no `reason`. With `commission_appliance: 0` the compared sender amount is `sender_amount` minus the included commission. On an intermediary transfer the rule applies to each leg whose two accounts share a currency (`details[].field` `intermediary_amount` for leg 1, `receiver_amount` for leg 2). The `create_transaction` docstrings, the `CreateTransactionRequest` descriptions (`sender_amount`, `receiver_amount`, `intermediary_amount`) and `docs/TransactionApi.md` say so.
+- **POST /api/transaction/update: the same rule on update** (BE-125): updating only one amount of a same-currency pair copies it to the other side (no exchange rate), and two different amounts return the same 422. On an intermediary pair, a same-currency leg that gets only one of its two amounts takes the other as a copy, a copy into `intermediary_amount` carries on into the neighbouring same-currency leg, and cross-currency legs keep the amounts as sent. An existing same-currency transaction whose stored amounts already differ can still be updated while the request leaves both amounts unchanged; any request that changes an amount, or that makes a pair same-currency, must end with equal amounts. The `update_transaction` docstrings, the `UpdateTransactionRequest` descriptions (`sender_amount`, `receiver_amount`, `intermediary_amount`) and `docs/TransactionApi.md` say so.
+- **POST /api/transaction/mutate: the 422 response documents the same case** (BE-125): a same-currency pair, or an intermediary leg whose two accounts share a currency, with different amounts gets 422 with `details[]` items `{field, message}` and no `reason`. Only the 422 row in `docs/TransactionApi.md` changes for this endpoint.
+- Regenerated from the API 0.145.0 OpenAPI specification.
+
+
 ## 0.24.1 — 2026-10-08 — Supports API 0.144.1
 
 **Behaviour change** (server-side only: no fields, types or method signatures changed).

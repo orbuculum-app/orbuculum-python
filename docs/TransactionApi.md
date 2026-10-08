@@ -190,7 +190,9 @@ void (empty response body)
 
 Create a new transaction
 
-Creates a new transaction in the system. Auto-calculation feature: at least one amount (sender_amount or receiver_amount) must be provided. If only one is provided, the other will be calculated automatically using the exchange rate for the transaction date. The `project_id` field is optional — if omitted (or null/empty), the workspace's default label is used (OMM-1849).
+Creates a new transaction in the system. Auto-calculation feature: at least one amount (sender_amount or receiver_amount) must be provided. If only one is provided, the other will be calculated automatically using the exchange rate for the transaction date — or copied as-is when both accounts use the same currency. The `project_id` field is optional — if omitted (or null/empty), the workspace's default label is used (OMM-1849).
+
+Same-currency rule (BE-125): when the sender and receiver accounts use the same currency the two amounts must be equal — no forex can exist. If only one amount is sent the other is a copy (no rate). Different amounts return 422 `Validation failed` with a `details[]` item `{field: "receiver_amount", message}`. With `commission_appliance: 0` the compared sender amount is `sender_amount` minus the included commission. For an intermediary transfer the rule applies to each leg whose two accounts share a currency (`details[].field` `intermediary_amount` for leg 1, `receiver_amount` for leg 2).
 
 Single-amount semantic (cross-currency): for a transaction whose sender and receiver accounts are in different currencies, provide EXACTLY ONE of `sender_amount` or `receiver_amount`. The backend derives the other side from the transaction-date exchange rate and forex is 0. Providing BOTH amounts makes the backend treat them as factum and compute forex from the implied rate (receiver_amount / sender_amount vs the official rate), so sending two EQUAL amounts on a cross-currency pair fabricates phantom forex.
 
@@ -272,7 +274,7 @@ Name | Type | Description  | Notes
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - duplicate apikey |  -  |
-**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
+**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1084,7 +1086,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - duplicate apikey on create |  -  |
-**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
+**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1178,7 +1180,9 @@ Name | Type | Description  | Notes
 
 Update an existing transaction
 
-Updates an existing transaction with new amount, description, or other details. Auto-calculation feature (XOR logic): if only one amount is updated, the other will be recalculated automatically using the exchange rate. If both amounts are updated, no auto-calculation occurs. When the transaction is part of an intermediary pair (chained_id) OR when intermediary_account_id is provided, the update applies atomically to both legs in a single DB transaction (OMM-1834).
+Updates an existing transaction with new amount, description, or other details. Auto-calculation feature (XOR logic): if only one amount is updated, the other will be recalculated automatically using the exchange rate — or copied as-is when both accounts use the same currency. If both amounts are updated, no auto-calculation occurs. When the transaction is part of an intermediary pair (chained_id) OR when intermediary_account_id is provided, the update applies atomically to both legs in a single DB transaction (OMM-1834).
+
+Same-currency rule (BE-125): when the sender and receiver accounts use the same currency the two amounts must be equal — no forex can exist. Updating only one amount copies it to the other side (no rate). Different amounts return 422 `Validation failed` with a `details[]` item `{field: "receiver_amount", message}`. With `commission_appliance: 0` the compared sender amount is `sender_amount` minus the included commission. For an intermediary pair the rule applies to each leg whose two accounts share a currency (`details[].field` `intermediary_amount` for leg 1, `receiver_amount` for leg 2). For an intermediary pair, a leg whose two accounts share a currency and that gets only one of its two amounts takes the other as a copy; a copy into `intermediary_amount` carries on into the neighbouring same-currency leg, and cross-currency legs keep the amounts as sent. An existing same-currency transaction whose stored amounts already differ can still be updated when the request leaves both amounts unchanged; any request that changes an amount, or that makes a pair same-currency, must result in equal amounts.
 
 Single-amount semantic (cross-currency, XOR): updating EXACTLY ONE of `sender_amount` or `receiver_amount` makes the backend recompute the other side at the transaction-date exchange rate and reset forex to 0. Updating BOTH amounts stores them as factum and computes forex from the implied rate — two equal amounts on a cross-currency pair fabricate phantom forex.
 
@@ -1259,7 +1263,7 @@ Name | Type | Description  | Notes
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — duplicate apikey OR intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
-**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
