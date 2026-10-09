@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **export_pnl_pdf**
-> bytearray export_pnl_pdf(workspace_id, type=type, range=range, project_ids=project_ids, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, timezone=timezone)
+> bytearray export_pnl_pdf(workspace_id, type=type, range=range, project_ids=project_ids, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, date_range_from=date_range_from, date_range_to=date_range_to, timezone=timezone)
 
 Export report as PDF
 
@@ -54,11 +54,13 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     full_period = 0 # int |  (optional) (default to 0)
     show_totals = 1 # int |  (optional) (default to 1)
     include_future_periods = 0 # int |  (optional) (default to 0)
+    date_range_from = '2013-10-20' # date | Custom date range start (Y-m-d). Applied only with full_period=0; with full_period=1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. (optional)
+    date_range_to = '2013-10-20' # date | Custom date range end (Y-m-d). Applied only with full_period=0; with full_period=1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. (optional)
     timezone = 'timezone_example' # str |  (optional)
 
     try:
         # Export report as PDF
-        api_response = api_instance.export_pnl_pdf(workspace_id, type=type, range=range, project_ids=project_ids, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, timezone=timezone)
+        api_response = api_instance.export_pnl_pdf(workspace_id, type=type, range=range, project_ids=project_ids, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, date_range_from=date_range_from, date_range_to=date_range_to, timezone=timezone)
         print("The response of ReportsApi->export_pnl_pdf:\n")
         pprint(api_response)
     except Exception as e:
@@ -79,6 +81,8 @@ Name | Type | Description  | Notes
  **full_period** | **int**|  | [optional] [default to 0]
  **show_totals** | **int**|  | [optional] [default to 1]
  **include_future_periods** | **int**|  | [optional] [default to 0]
+ **date_range_from** | **date**| Custom date range start (Y-m-d). Applied only with full_period&#x3D;0; with full_period&#x3D;1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. | [optional] 
+ **date_range_to** | **date**| Custom date range end (Y-m-d). Applied only with full_period&#x3D;0; with full_period&#x3D;1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. | [optional] 
  **timezone** | **str**|  | [optional] 
 
 ### Return type
