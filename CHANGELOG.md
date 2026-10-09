@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.26.0 — 2026-10-09 — Supports API 0.146.0
+
+**Additive** (no breaking changes).
+
+- **GET /api/reports/export-pdf accepts optional `date_range_from` and `date_range_to`** (BE-127): `ReportsApi.export_pnl_pdf` (and its `_with_http_info` / `_without_preload_content` variants) gains the two optional `date` query parameters (Y-m-d), the custom range's start and end. They apply only with `full_period=0`; with `full_period=1` they are ignored and the report runs on the whole period — the same rule GET /api/reports/get-pnl, get-cashflow and get-balances apply, so a PDF built from their `effective_filters` echo (`full_period`, `date_range_from`, `date_range_to`) matches the screen. The two parameters come before `timezone` in the signature, so pass `timezone` by keyword. The `export_pnl_pdf` docstrings and `docs/ReportsApi.md` say so.
+- No other changes between the API 0.145.0 and 0.146.0 specifications.
+- Regenerated from the API 0.146.0 OpenAPI specification.
+
+
 ## 0.25.0 — 2026-10-08 — Supports API 0.145.0
 
 **Behaviour change** (server-side only: no fields, types or method signatures changed).
