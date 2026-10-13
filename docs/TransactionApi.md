@@ -1008,7 +1008,7 @@ Name | Type | Description  | Notes
 
 Unified transaction mutation endpoint
 
-Single entry point for create/update/delete/duplicate/replace_account/set_date/mark_done/mark_undone. Validates the camelCase envelope, dispatches to the legacy transaction services, and returns a structured diff: drops (ids to remove), upserts (canonical rows with isOut), and inline cascade balanceUpdates. The optional `window` is response-shaping only — it never restricts what gets mutated. For id-based delete/duplicate, accountId may be omitted (account-less bulk mode): the response is flat — drops = all deleted ids, upserts carry no isOut, and balanceUpdates is omitted.
+Single entry point for create/update/delete/duplicate/replace_account/set_date/mark_done/mark_undone/set_label. Validates the camelCase envelope, dispatches to the legacy transaction services, and returns a structured diff: drops (ids to remove), upserts (canonical rows with isOut), and inline cascade balanceUpdates. set_label re-labels the selected rows together with their chained (intermediary) partner leg and their commission rows; a group that fails the permission or account-limitation check is skipped as a whole. The optional `window` is response-shaping only — it never restricts what gets mutated. For id-based delete/duplicate, accountId may be omitted (account-less bulk mode): the response is flat — drops = all deleted ids, upserts carry no isOut, and balanceUpdates is omitted.
 
 ### Example
 
@@ -1086,7 +1086,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - duplicate apikey on create |  -  |
-**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. |  -  |
+**422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. set_label: payload.projectId names no label in this workspace. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.27.0 — 2026-10-13 — Supports API 0.147.1
+
+**Additive** (no breaking changes).
+
+- **POST /api/transaction/mutate: new mass action `set_label`** (BE-134): `MutateTransactionsRequest.action` now accepts `set_label` besides the eight existing values; the label id goes in `payload.projectId`. `set_label` re-labels the selected rows together with their chained (intermediary) partner leg and their commission rows; a group that fails the permission or account-limitation check is skipped as a whole. A `payload.projectId` that names no label of the workspace returns 422. The `action` validator of `MutateTransactionsRequest`, the `payload` description, the `mutate_transactions` docstrings (and its `_with_http_info` / `_without_preload_content` variants), the description and 422 row of `docs/TransactionApi.md` and the `payload` row of `docs/MutateTransactionsRequest.md` say so. There is no enum class: the value is a plain string checked by `MutateTransactionsRequest.action_validate_enum`.
+- BE-133 (API 0.147.0 and 0.147.1) changed no description or schema in the specification; the only differences from 0.146.0 are the `set_label` ones above.
+- Source: the PRODUCTION specification (`https://orbuculum.app/swagger/json`), API 0.147.1; the default `Configuration().host` stays `https://orbuculum.app`.
+- Regenerated from the API 0.147.1 OpenAPI specification; the conformance fixture `test/custom/fixtures/openapi_document.json` is re-recorded from it.
+
 ## 0.26.0 — 2026-10-09 — Supports API 0.146.0
 
 **Additive** (no breaking changes).

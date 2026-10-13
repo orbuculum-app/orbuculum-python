@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **window** | **object** | Loaded-window descriptor for response shaping: { pastOldest:{dt,id}|null, futureNewest:{dt,id}|null }. | [optional] 
 **selection** | **object** | Either an array of transaction ids or the literal &#39;all&#39;. Required for every action except create. | [optional] 
 **unselected** | **List[int]** | BE-22: transaction ids to EXCLUDE. Honored ONLY when selection &#x3D;&#x3D; &#39;all&#39; (select-all-minus-N). Ignored for an explicit id-array selection. | [optional] 
-**payload** | **object** | Action-specific payload (e.g. transaction fields for create/update, newAccountId for replace_account, dt for set_date). | [optional] 
+**payload** | **object** | Action-specific payload (e.g. transaction fields for create/update, newAccountId for replace_account, dt for set_date, projectId (label id) for set_label). | [optional] 
 
 ## Example
 
