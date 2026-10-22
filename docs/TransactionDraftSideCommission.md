@@ -6,9 +6,9 @@ Commission configuration of the chosen account; null when no account is chosen
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**commission_account_id** | **int** |  | [optional] 
-**custom_commission_sender_id** | **int** |  | [optional] 
-**commission_appliance** | **bool** |  | [optional] 
+**commission_account_id** | **int** |  | 
+**custom_commission_sender_id** | **int** |  | 
+**commission_appliance** | **bool** |  | 
 
 ## Example
 

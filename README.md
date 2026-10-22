@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.27.0
-- **Supported API Version**: 0.147.1
+- **Client Version**: 0.28.0
+- **Supported API Version**: 0.152.3
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -591,10 +591,6 @@ Class | Method | HTTP request | Description
  - [GetUserWorkspaces200Response](docs/GetUserWorkspaces200Response.md)
  - [GetUserWorkspaces200ResponseData](docs/GetUserWorkspaces200ResponseData.md)
  - [GetUserWorkspaces200ResponseDataWorkspacesInner](docs/GetUserWorkspaces200ResponseDataWorkspacesInner.md)
- - [GetWorkspaceContext200Response](docs/GetWorkspaceContext200Response.md)
- - [GetWorkspaceContext200ResponseData](docs/GetWorkspaceContext200ResponseData.md)
- - [GetWorkspaceContext200ResponseDataModalDefaults](docs/GetWorkspaceContext200ResponseDataModalDefaults.md)
- - [GetWorkspaceContext200ResponseDataModalDefaultsSuggestion](docs/GetWorkspaceContext200ResponseDataModalDefaultsSuggestion.md)
  - [ImportCreateResponse](docs/ImportCreateResponse.md)
  - [ImportCreateResponseData](docs/ImportCreateResponseData.md)
  - [ImportCreateResponseDataSkippedRowsInner](docs/ImportCreateResponseDataSkippedRowsInner.md)
@@ -764,6 +760,8 @@ Class | Method | HTTP request | Description
  - [TransactionChainedTransaction](docs/TransactionChainedTransaction.md)
  - [TransactionCreatedData](docs/TransactionCreatedData.md)
  - [TransactionCreatedResponse](docs/TransactionCreatedResponse.md)
+ - [TransactionDeletedResponse](docs/TransactionDeletedResponse.md)
+ - [TransactionDeletedResponseData](docs/TransactionDeletedResponseData.md)
  - [TransactionDraftEditRequest](docs/TransactionDraftEditRequest.md)
  - [TransactionDraftRequest](docs/TransactionDraftRequest.md)
  - [TransactionDraftResponse](docs/TransactionDraftResponse.md)
@@ -777,9 +775,20 @@ Class | Method | HTTP request | Description
  - [TransactionGetSingleResponse](docs/TransactionGetSingleResponse.md)
  - [TransactionIntermediaryPreview](docs/TransactionIntermediaryPreview.md)
  - [TransactionIntermediaryPreviewData](docs/TransactionIntermediaryPreviewData.md)
+ - [TransactionListDiff](docs/TransactionListDiff.md)
+ - [TransactionListScope](docs/TransactionListScope.md)
  - [TransactionPreview](docs/TransactionPreview.md)
  - [TransactionPreviewData](docs/TransactionPreviewData.md)
  - [TransactionReceiverCommission](docs/TransactionReceiverCommission.md)
+ - [TransactionRules](docs/TransactionRules.md)
+ - [TransactionRulesTable](docs/TransactionRulesTable.md)
+ - [TransactionRulesTableFloor](docs/TransactionRulesTableFloor.md)
+ - [TransactionRulesTableSlotClassesValue](docs/TransactionRulesTableSlotClassesValue.md)
+ - [TransactionRulesTableSubtabsValue](docs/TransactionRulesTableSubtabsValue.md)
+ - [TransactionRulesTableWriteFloor](docs/TransactionRulesTableWriteFloor.md)
+ - [TransactionRulesTableWriteFloorClassesValue](docs/TransactionRulesTableWriteFloorClassesValue.md)
+ - [TransactionRulesTableWriteFloorForbiddenPairsInner](docs/TransactionRulesTableWriteFloorForbiddenPairsInner.md)
+ - [TransactionRulesVocabulary](docs/TransactionRulesVocabulary.md)
  - [TransactionSchedule](docs/TransactionSchedule.md)
  - [TransactionSenderCommission](docs/TransactionSenderCommission.md)
  - [UpdateAccountRequest](docs/UpdateAccountRequest.md)
@@ -824,6 +833,19 @@ Class | Method | HTTP request | Description
  - [UserAdminSaveOwnershipRequest](docs/UserAdminSaveOwnershipRequest.md)
  - [UserAdminSaveOwnershipRequestOwnershipInner](docs/UserAdminSaveOwnershipRequestOwnershipInner.md)
  - [UserAdminUpdateRequest](docs/UserAdminUpdateRequest.md)
+ - [WorkspaceContextAccountType](docs/WorkspaceContextAccountType.md)
+ - [WorkspaceContextCommissionLeg](docs/WorkspaceContextCommissionLeg.md)
+ - [WorkspaceContextCurrency](docs/WorkspaceContextCurrency.md)
+ - [WorkspaceContextEditTransaction](docs/WorkspaceContextEditTransaction.md)
+ - [WorkspaceContextFutureData](docs/WorkspaceContextFutureData.md)
+ - [WorkspaceContextIsDouble](docs/WorkspaceContextIsDouble.md)
+ - [WorkspaceContextModalDefaults](docs/WorkspaceContextModalDefaults.md)
+ - [WorkspaceContextModalDefaultsSuggestion](docs/WorkspaceContextModalDefaultsSuggestion.md)
+ - [WorkspaceContextPairOrder](docs/WorkspaceContextPairOrder.md)
+ - [WorkspaceContextPairOrderAccountsValue](docs/WorkspaceContextPairOrderAccountsValue.md)
+ - [WorkspaceContextPreferredLabels](docs/WorkspaceContextPreferredLabels.md)
+ - [WorkspaceContextResponse](docs/WorkspaceContextResponse.md)
+ - [WorkspaceContextResponseData](docs/WorkspaceContextResponseData.md)
  - [WorkspaceCreatedResponse](docs/WorkspaceCreatedResponse.md)
  - [WorkspaceCreatedResponseData](docs/WorkspaceCreatedResponseData.md)
  - [WorkspaceDeletedResponse](docs/WorkspaceDeletedResponse.md)
@@ -858,16 +880,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.27.0
-print(orbuculum_client.__api_version__)    # API version: 0.147.1
-print(orbuculum_client.__api_supported__)  # Supported API: 0.147.1
+print(orbuculum_client.__version__)        # Client version: 0.28.0
+print(orbuculum_client.__api_version__)    # API version: 0.152.3
+print(orbuculum_client.__api_supported__)  # Supported API: 0.152.3
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.27.0 → 0.27.1): Bug fixes, documentation updates
-- **MINOR** (0.27.1 → 0.28.0): New features, backward-compatible
-- **MAJOR** (0.28.0 → 1.0.0): Breaking changes
+- **PATCH** (0.28.0 → 0.28.1): Bug fixes, documentation updates
+- **MINOR** (0.28.1 → 0.29.0): New features, backward-compatible
+- **MAJOR** (0.29.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

@@ -6,8 +6,8 @@ One slot of the transaction modal (sender, receiver or double)
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**account** | **int** | Account chosen in this slot, or null when the slot is open | [optional] 
-**commission** | [**TransactionDraftSideCommission**](TransactionDraftSideCommission.md) |  | [optional] 
+**account** | **int** | Account chosen in this slot, or null when the slot is open | 
+**commission** | [**TransactionDraftSideCommission**](TransactionDraftSideCommission.md) |  | 
 **selectable** | [**List[TransactionDraftSelectableAccount]**](TransactionDraftSelectableAccount.md) | Accounts this slot may offer, already ordered: counterparty promotion first, then send_ts/receive_ts DESC, then account_id ASC | 
 
 ## Example

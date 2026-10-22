@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Transaction ID to delete | 
+**list_scope** | [**TransactionListScope**](TransactionListScope.md) |  | [optional] 
 
 ## Example
 

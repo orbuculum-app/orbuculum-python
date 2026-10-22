@@ -182,7 +182,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_workspace_context**
-> GetWorkspaceContext200Response get_workspace_context(workspace_id, id=id, account_id=account_id, label_id=label_id)
+> WorkspaceContextResponse get_workspace_context(workspace_id, id=id, account_id=account_id, label_id=label_id)
 
 Get workspace context for transaction modal
 
@@ -194,7 +194,7 @@ Returns aggregated workspace data needed for the transaction creation/edit modal
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.get_workspace_context200_response import GetWorkspaceContext200Response
+from orbuculum_client.models.workspace_context_response import WorkspaceContextResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -246,7 +246,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetWorkspaceContext200Response**](GetWorkspaceContext200Response.md)
+[**WorkspaceContextResponse**](WorkspaceContextResponse.md)
 
 ### Authorization
 
