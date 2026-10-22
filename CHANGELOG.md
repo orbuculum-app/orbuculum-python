@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.28.1 — 2026-10-22 — Supports API 0.152.4
+
+**Behaviour change** (server-side only: no fields, types or method signatures changed).
+
+- **GET /api/account/get: the initial balance is computed** (BE-165): in single (detail) mode, `Account.initial_balance` now carries the account's initial balance, computed at the currency's precision. Before API 0.152.4 the server failed to compute it (an internal error was logged and swallowed) and returned `"0"` instead. The field's name, type and optionality are unchanged.
+- **GET /api/account/context: the initial balance is computed in edit mode** (BE-165): `AccountContextResponseData.initial_balance` (`initialBalance`) now carries the edited account's initial balance, computed at the currency's precision. Before API 0.152.4 the server failed to compute it (an internal error was logged and swallowed) and returned `""` instead. In create mode it stays `""`. The field's name, type and optionality are unchanged.
+- Regenerated from the API 0.152.4 OpenAPI specification.
+
+
 ## 0.28.0 — 2026-10-22 — Supports API 0.152.3
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
