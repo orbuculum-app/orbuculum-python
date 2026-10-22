@@ -129,6 +129,23 @@ class TestOpenApiConformance(unittest.TestCase):
         self.assertTrue(headers, "no generated file carries a document version header")
         self.assertEqual({path: found for path, found in headers.items() if found != version}, {})
 
+    def test_changelog_release_supports_document_version(self):
+        with open(os.path.join(ROOT, "pyproject.toml"), encoding="utf-8") as pyproject_file:
+            package_version = re.search(r'^version = "(.*)"$', pyproject_file.read(), re.MULTILINE)
+        self.assertIsNotNone(package_version, "no version in pyproject.toml")
+        self.assertEqual(orbuculum_client.__version__, package_version.group(1))
+        with open(os.path.join(ROOT, "CHANGELOG.md"), encoding="utf-8") as changelog_file:
+            changelog = changelog_file.read()
+        version = self.document["info"]["version"]
+        # The release's own section, found by its client version: `## <version> — <date> — Supports API <API version>`.
+        supported = re.findall(
+            r"^## %s — \d{4}-\d{2}-\d{2} — Supports API (.*)$" % re.escape(orbuculum_client.__version__),
+            changelog,
+            re.MULTILINE,
+        )
+        self.assertEqual(supported, [version])
+        self.assertIn("\n- Regenerated from the API %s OpenAPI specification.\n" % version, changelog)
+
     def test_model_class_docstrings_equal_schema_descriptions(self):
         for name, schema in self.document["components"]["schemas"].items():
             if "description" not in schema or name in self.shadowed:
