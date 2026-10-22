@@ -7,11 +7,11 @@ The modal's form state
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **labels** | [**List[Project]**](Project.md) | Labels (\&quot;projects\&quot;) the caller may manage in this workspace | 
-**label_id** | **int** | The resolved label every verdict in this response was computed under | [optional] 
-**sender** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | [optional] 
-**receiver** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | [optional] 
-**double** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | [optional] 
-**rate** | **str** | Sender -&gt; receiver rate in force at the effective &#x60;dt&#x60;, as a bcmath scale-18 decimal STRING (never a JSON number). Null when either side is unset, a currency has no rate rows, or the sender rate is zero. | [optional] 
+**label_id** | **int** | The resolved label every verdict in this response was computed under | 
+**sender** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | 
+**receiver** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | 
+**double** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | 
+**rate** | **str** | Sender -&gt; receiver rate in force at the effective &#x60;dt&#x60;, as a bcmath scale-18 decimal STRING (never a JSON number). Null when either side is unset, a currency has no rate rows, or the sender rate is zero. | 
 **pair_valid** | **bool** | Whether the currently chosen accounts form a pair (and triple) the write path accepts. True while fewer than two sides are set. | 
 **accounts_count** | **int** | Accounts available to the caller in this workspace | 
 

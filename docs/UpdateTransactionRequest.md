@@ -6,6 +6,7 @@ Request body for updating transaction. All fields optional except workspace_id a
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**list_scope** | [**TransactionListScope**](TransactionListScope.md) |  | [optional] 
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Transaction ID to update | 
 **sender_account_id** | **int** | Sender account ID | [optional] 

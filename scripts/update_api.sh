@@ -152,6 +152,12 @@ fi
 TEMP_GEN_DIR="/tmp/orbuculum-gen-$(date +%s)"
 echo -e "  Generating to temporary directory: ${TEMP_GEN_DIR}"
 
+# Template override (SDK-11): scripts/templates/model_generic.mustache is openapi-generator
+# 7.15.0's python/model_generic.mustache (sha256 6c037c88...99ac) with its {{#isMap}} enum
+# validator extended: for a map whose values are arrays of an enum, the embedded template
+# tests each whole list against the enum set (TypeError: unhashable type: 'list'), while the
+# override tests every list item. Re-derive it from the embedded template whenever the
+# generator version changes.
 openapi-generator-cli generate \
     -i "${SPEC_FILE}" \
     -g python \
@@ -159,6 +165,7 @@ openapi-generator-cli generate \
     --package-name orbuculum_client \
     --library urllib3 \
     --skip-validate-spec \
+    -t "${WORKSPACE}/scripts/templates" \
     --additional-properties=projectName=orbuculum-api-client,packageVersion="${API_VERSION}" \
     || {
         echo -e "${RED}✗ OpenAPI Generator failed${NC}"

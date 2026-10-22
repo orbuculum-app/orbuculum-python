@@ -282,6 +282,7 @@ cp -r orbuculum_client orbuculum_client.backup
 java -jar openapi-generator-cli.jar generate \
   -i orbuculum-openapi.json \
   -g python \
+  -t scripts/templates \
   -o . \
   --package-name orbuculum_client \
   --library urllib3

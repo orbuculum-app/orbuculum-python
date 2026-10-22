@@ -6,6 +6,7 @@ Request body for creating a new transaction. At least one amount (sender_amount 
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**list_scope** | [**TransactionListScope**](TransactionListScope.md) |  | [optional] 
 **workspace_id** | **int** | Workspace ID | 
 **sender_account_id** | **int** | Sender account ID | 
 **receiver_account_id** | **int** | Receiver account ID | 

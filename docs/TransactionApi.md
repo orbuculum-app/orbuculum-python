@@ -198,6 +198,8 @@ Single-amount semantic (cross-currency): for a transaction whose sender and rece
 
 Example — record a 57 EUR cost paid from an EUR account into a USD account: send {"sender_account_id": <EUR account>, "receiver_account_id": <USD account>, "sender_amount": "57.00"} and OMIT receiver_amount. The backend computes receiver_amount at the date's EUR→USD rate and forex = 0. Do NOT send "receiver_amount": "57.00" alongside it — that implies a 1:1 rate and creates phantom forex. (OMM-2148)
 
+Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview and on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
+
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):
@@ -280,11 +282,13 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_transaction**
-> SuccessResponse delete_transaction(delete_transaction_request)
+> TransactionDeletedResponse delete_transaction(delete_transaction_request)
 
 Delete an existing transaction
 
 Permanently deletes a transaction from the system. This action cannot be undone. Note: This endpoint uses POST method instead of DELETE because it requires a JSON request body.
+
+Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
 
 ### Example
 
@@ -293,7 +297,7 @@ Permanently deletes a transaction from the system. This action cannot be undone.
 ```python
 import orbuculum_client
 from orbuculum_client.models.delete_transaction_request import DeleteTransactionRequest
-from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.models.transaction_deleted_response import TransactionDeletedResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -339,7 +343,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SuccessResponse**](SuccessResponse.md)
+[**TransactionDeletedResponse**](TransactionDeletedResponse.md)
 
 ### Authorization
 
@@ -1187,6 +1191,8 @@ Same-currency rule (BE-125): when the sender and receiver accounts use the same 
 Single-amount semantic (cross-currency, XOR): updating EXACTLY ONE of `sender_amount` or `receiver_amount` makes the backend recompute the other side at the transaction-date exchange rate and reset forex to 0. Updating BOTH amounts stores them as factum and computes forex from the implied rate — two equal amounts on a cross-currency pair fabricate phantom forex.
 
 Cleanup rule — to remove phantom forex from an existing cross-currency transaction, update ONLY `sender_amount` (the side anchored to the historical bank statement). The backend re-derives `receiver_amount` at the transaction-date rate and forex returns to 0 without moving the anchored sender side. Do NOT update only `receiver_amount` for cleanup: that re-derives and SHIFTS `sender_amount` off the historical statement (sender drift). (OMM-2148)
+
+Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview and on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
 
 ### Example
 

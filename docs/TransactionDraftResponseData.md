@@ -7,10 +7,10 @@ Modal state
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **form** | [**TransactionDraftResponseDataForm**](TransactionDraftResponseDataForm.md) |  | 
-**tab** | **str** | Tab the modal opens on, derived from &#x60;subtab&#x60;. Null in edit mode. | [optional] 
-**subtab** | **str** | Sub-tab the modal opens on. Null in edit mode. | [optional] 
-**visible_subtabs** | **List[str]** | Sub-tabs with at least one valid pair (or triple) under the resolved label, in the modal&#39;s DOM order. Null in edit mode. | [optional] 
-**suggested** | [**TransactionDraftResponseDataSuggested**](TransactionDraftResponseDataSuggested.md) |  | [optional] 
+**tab** | **str** | Tab the modal opens on, derived from &#x60;subtab&#x60;. Null in edit mode. | 
+**subtab** | **str** | Sub-tab the modal opens on. Null in edit mode. | 
+**visible_subtabs** | **List[str]** | Sub-tabs with at least one valid pair (or triple) under the resolved label, in the modal&#39;s DOM order. Null in edit mode. | 
+**suggested** | [**TransactionDraftResponseDataSuggested**](TransactionDraftResponseDataSuggested.md) |  | 
 
 ## Example
 
