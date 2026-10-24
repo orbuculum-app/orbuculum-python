@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.29.0 — 2026-10-24 — Supports API 0.154.0
+
+**Additive** (no breaking changes).
+
+- **GET /api/entity/get: every entity carries `can_change_type`** (BE-174): `GetEntities200ResponseDataOneOfInner`, the model of both the list and the single-entity form of `data`, gains the optional boolean `can_change_type`. `true` means the entity's type may change to a type of the other family, currently only when the entity has no accounts. `false` means it may change only within its own family (special: IGNORE, CFONLY_ACCOUNT, CFONLY_SOURCE, PoL, REVENUE, COSTS; regular: DEBT, ACC).
+- **POST /api/workspace/create: optional main currency** (BE-175): `CreateWorkspaceRequest` gains the optional, nullable `basic_currency_code`, a catalog code exactly as in `catalog[].code` of GET /api/currency/list (case-sensitive). When it is given, the workspace is created with that one currency as its basic currency (rate 1, catalog precision). When it is omitted or null, the workspace is created with no currencies, as before. An unknown or malformed code returns 422 and creates no workspace. `WorkspaceCreatedResponseData` gains the optional, nullable `basic_currency_id`: the basic currency's id, or null when no code was sent. The 422 row of `docs/WorkspaceApi.md` says so.
+- Regenerated from the API 0.154.0 OpenAPI specification.
+
+
 ## 0.28.2 — 2026-10-24 — Supports API 0.152.5
 
 **Behaviour change** (server-side only: no fields, types or method signatures changed).

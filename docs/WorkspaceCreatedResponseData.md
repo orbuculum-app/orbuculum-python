@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **name** | **str** |  | [optional] 
 **db** | **str** |  | [optional] 
+**basic_currency_id** | **int** | ID of the workspace&#39;s basic currency (as basic_currency_id of GET /api/currency/list); null when the request had no basic_currency_code | [optional] 
 
 ## Example
 
