@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **type** | **int** |  | [optional] 
 **type_name** | **str** |  | [optional] 
 **hidden** | **bool** |  | [optional] 
+**can_change_type** | **bool** | Whether the entity&#39;s type may change to a type of the other family. true: any type is allowed (currently only when the entity has no accounts). false: the type may change only within its own family — special: IGNORE (3), CFONLY_ACCOUNT (5), CFONLY_SOURCE (8), PoL (null), REVENUE (9), COSTS (10); regular: DEBT (1), ACC (2). | [optional] 
 
 ## Example
 

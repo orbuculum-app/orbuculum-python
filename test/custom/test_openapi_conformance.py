@@ -23,12 +23,14 @@ import os
 import re
 import typing
 import unittest
+from types import SimpleNamespace
 from unittest import mock
 from urllib.parse import parse_qsl, urlsplit
 
 import orbuculum_client
 import orbuculum_client.api as apis
 import orbuculum_client.models as models
+from orbuculum_client import rest
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -48,6 +50,10 @@ RESERVED = frozenset(keyword.kwlist) | {
 # A date the default date format and a day-first one write differently.
 DATE = datetime.date(2026, 1, 2)
 DATE_FORMAT = "%d.%m.%Y"
+
+# The operations whose bodies the last regeneration changed: each body the
+# document declares must reach the caller, and the server, whole.
+CHANGED_OPERATIONS = ("getEntities", "createWorkspace")
 
 # The generator HTML-escapes descriptions in the Markdown docs.
 MD_ESCAPE = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;", "`": "&#x60;", "=": "&#x3D;"}
@@ -83,6 +89,47 @@ def _section(markdown, method):
     """Return the part of docs/<Tag>Api.md under `# **<method>**`, up to the next method heading."""
     match = re.search(r"^# \*\*%s\*\*$(.*?)(?=^# \*\*|\Z)" % re.escape(method), markdown, re.MULTILINE | re.DOTALL)
     return match.group(1) if match else None
+
+
+def _resolved(document, schema):
+    """Return the component schema a `$ref` names, or the schema itself."""
+    if "$ref" in schema:
+        return document["components"]["schemas"][schema["$ref"].rsplit("/", 1)[-1]]
+    return schema
+
+
+def _example(document, schema, branch, case):
+    """Return a body built from the schema's examples, its oneOf as member `branch`.
+
+    `case` varies what the examples alone leave unsaid: `negated` flips every
+    boolean, `null` sends every nullable property as null, and `required`
+    sends only the required properties (the shape of a server that does not
+    know the optional ones yet).
+    """
+    schema = _resolved(document, schema)
+    if "oneOf" in schema:
+        return _example(document, schema["oneOf"][branch], branch, case)
+    if "properties" in schema:
+        return {
+            name: _example(document, prop, branch, case)
+            for name, prop in schema["properties"].items()
+            if case != "required" or name in schema.get("required", ())
+        }
+    if schema.get("type") == "array":
+        return [_example(document, schema["items"], branch, case)]
+    if case == "null" and schema.get("nullable"):
+        return None
+    if case == "negated" and isinstance(schema["example"], bool):
+        return not schema["example"]
+    return schema["example"]
+
+
+def _without_nulls(value):
+    if isinstance(value, dict):
+        return {key: _without_nulls(item) for key, item in value.items() if item is not None}
+    if isinstance(value, list):
+        return [_without_nulls(item) for item in value]
+    return value
 
 
 class TestOpenApiConformance(unittest.TestCase):
@@ -282,6 +329,60 @@ class TestOpenApiConformance(unittest.TestCase):
                 with self.subTest(operation=operation["operationId"], response=code):
                     row = "**%s** | %s | " % (code, _md_escaped(response.get("description", "")))
                     self.assertIn(row, markdown)
+
+    def _call(self, operation, status, answer, **arguments):
+        """Return the body an API method sent, and what it returned, when the server answered `status` with `answer`."""
+        api, _ = self._api(operation)
+        client = orbuculum_client.ApiClient(orbuculum_client.Configuration(host="https://api.example.com"))
+        response = rest.RESTResponse(SimpleNamespace(
+            status=status, reason="", data=json.dumps(answer).encode("utf-8"), headers={"content-type": "application/json"},
+        ))
+        with mock.patch.object(client, "call_api", return_value=response) as call_api:
+            returned = getattr(api(client), _snake(operation["operationId"]))(**arguments)
+        return call_api.call_args.args[3], client.sanitize_for_serialization(returned)
+
+    def _arguments(self, operation, case):
+        """Return a call's arguments, 1 for each required parameter and the request body built from the examples, and that body."""
+        arguments = {_parameter(parameter["name"]): 1 for parameter in operation.get("parameters", []) if parameter.get("required")}
+        body = None
+        for content in operation.get("requestBody", {}).get("content", {}).values():
+            name = content["schema"]["$ref"].rsplit("/", 1)[-1]
+            body = _example(self.document, content["schema"], 0, case)
+            model = getattr(models, name)
+            # A caller that leaves a property out builds the model without it.
+            arguments[_snake(name)] = model(**body) if case == "required" else model.from_dict(body)
+        return arguments, body
+
+    def test_documented_response_bodies_survive_parsing(self):
+        for _, _, operation in self.operations:
+            if operation["operationId"] not in CHANGED_OPERATIONS:
+                continue
+            arguments, _ = self._arguments(operation, "examples")
+            for code, response in operation["responses"].items():
+                if not code.startswith("2"):
+                    continue
+                schema = _resolved(self.document, response["content"]["application/json"]["schema"])
+                for branch in range(len(schema["properties"]["data"].get("oneOf", [None]))):
+                    for case in ("examples", "negated", "null", "required"):
+                        answer = _example(self.document, schema, branch, case)
+                        with self.subTest(operation=operation["operationId"], response=code, branch=branch, case=case):
+                            _, returned = self._call(operation, int(code), answer, **arguments)
+                            if case == "required":
+                                # A property the server did not send reads as unset, never as an error.
+                                returned = _without_nulls(returned)
+                            self.assertEqual(returned, answer)
+
+    def test_documented_request_bodies_are_sent_whole(self):
+        for _, _, operation in self.operations:
+            if operation["operationId"] not in CHANGED_OPERATIONS or "requestBody" not in operation:
+                continue
+            code = next(code for code in operation["responses"] if code.startswith("2"))
+            for case in ("examples", "null", "required"):
+                arguments, body = self._arguments(operation, case)
+                with self.subTest(operation=operation["operationId"], case=case):
+                    sent, _ = self._call(operation, int(code), {}, **arguments)
+                    # A property the caller did not set is not sent, not even as null.
+                    self.assertEqual(sent, body)
 
 
 if __name__ == '__main__':

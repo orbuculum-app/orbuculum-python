@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — db name exists or workspace limit reached |  -  |
-**422** | Validation failed |  -  |
+**422** | Validation failed (including an unknown or malformed basic_currency_code; no workspace is created) |  -  |
 **500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
