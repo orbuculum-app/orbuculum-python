@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.28.2 — 2026-10-24 — Supports API 0.152.5
+
+**Behaviour change** (server-side only: no fields, types or method signatures changed).
+
+- **POST /api/transaction/update: a double (intermediary) transaction's comment keeps the legs' service prefixes** (BE-173): updating `comment` on either leg of an intermediary pair now writes it to both legs, each behind its own prefix: the first leg gets `Debt created. <comment>` and the second `Debt settled. <comment>`, exactly as POST /api/transaction/create builds them. The sent comment is trimmed, and `""` or `"null"` leaves the bare prefixes. A leading `Debt created.` or `Debt settled.` in the sent comment is removed once first, so a comment read back from either leg and sent again is never prefixed twice. Omitting `comment`, or sending JSON `null`, leaves both legs unchanged. Before API 0.152.5 the update wrote the same trimmed text to both legs, which dropped the prefixes, and `"null"` cleared the comment.
+- **POST /api/transaction/mutate, action `update`: the same per-leg prefixes** (BE-173): the `update` action delegates to the same update as POST /api/transaction/update, so a `comment` change on either leg of an intermediary pair gets the same prefixes, trimming and `""`/`"null"` handling. Before API 0.152.5 it wrote the same trimmed text to both legs.
+- Regenerated from the API 0.152.5 OpenAPI specification.
+
+
 ## 0.28.1 — 2026-10-22 — Supports API 0.152.4
 
 **Behaviour change** (server-side only: no fields, types or method signatures changed).
