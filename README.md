@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.29.0
-- **Supported API Version**: 0.154.0
+- **Client Version**: 0.30.0
+- **Supported API Version**: 0.160.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -429,6 +429,7 @@ Class | Method | HTTP request | Description
  - [CashflowReportResponseDataPeriodsInnerFinancingRowsInnerAccount](docs/CashflowReportResponseDataPeriodsInnerFinancingRowsInnerAccount.md)
  - [CashflowReportResponseDataPeriodsInnerInflowInner](docs/CashflowReportResponseDataPeriodsInnerInflowInner.md)
  - [CashflowReportResponseDataPeriodsInnerInflowInnerAccount](docs/CashflowReportResponseDataPeriodsInnerInflowInnerAccount.md)
+ - [CashflowReportResponseDataPeriodsInnerInflowInnerCategory](docs/CashflowReportResponseDataPeriodsInnerInflowInnerCategory.md)
  - [CashflowReportResponseDataPeriodsInnerOutflowInner](docs/CashflowReportResponseDataPeriodsInnerOutflowInner.md)
  - [CashflowReportResponseDataPeriodsInnerOutflowInnerAccount](docs/CashflowReportResponseDataPeriodsInnerOutflowInnerAccount.md)
  - [CashflowReportResponseDataPeriodsInnerPeriod](docs/CashflowReportResponseDataPeriodsInnerPeriod.md)
@@ -880,16 +881,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.29.0
-print(orbuculum_client.__api_version__)    # API version: 0.154.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.154.0
+print(orbuculum_client.__version__)        # Client version: 0.30.0
+print(orbuculum_client.__api_version__)    # API version: 0.160.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.160.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.29.0 → 0.29.1): Bug fixes, documentation updates
-- **MINOR** (0.29.1 → 0.30.0): New features, backward-compatible
-- **MAJOR** (0.30.0 → 1.0.0): Breaking changes
+- **PATCH** (0.30.0 → 0.30.1): Bug fixes, documentation updates
+- **MINOR** (0.30.1 → 0.31.0): New features, backward-compatible
+- **MAJOR** (0.31.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

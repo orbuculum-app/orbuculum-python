@@ -10,7 +10,8 @@ Name | Type | Description | Notes
 **type** | **int** |  | [optional] 
 **type_name** | **str** |  | [optional] 
 **hidden** | **bool** |  | [optional] 
-**can_change_type** | **bool** | Whether the entity&#39;s type may change to a type of the other family. true: any type is allowed (currently only when the entity has no accounts). false: the type may change only within its own family — special: IGNORE (3), CFONLY_ACCOUNT (5), CFONLY_SOURCE (8), PoL (null), REVENUE (9), COSTS (10); regular: DEBT (1), ACC (2). | [optional] 
+**can_change_type** | **bool** | Kept for compatibility (BE-176): true when allowed_types holds a type of the other family than the entity&#39;s current type. Families: basic-currency-only — PoL (null), IGNORE (3), CFONLY_ACCOUNT (5), CFONLY_SOURCE (8), REVENUE (9), COSTS (10); any-currency — DEBT (1), ACC (2). Read allowed_types for the exact list. | [optional] 
+**allowed_types** | **List[Optional[int]]** | Types this entity may be set to with POST /api/entity/update, in the order null, 1, 2, 3, 5, 8, 9, 10. The basic-currency-only types — PoL (null), IGNORE (3), CFONLY_ACCOUNT (5), CFONLY_SOURCE (8), REVENUE (9), COSTS (10) — are listed only when every account of the entity (hidden and system ones included) is in the workspace&#39;s basic currency; DEBT (1) and ACC (2) are always listed. The entity&#39;s current type is always listed. | [optional] 
 
 ## Example
 

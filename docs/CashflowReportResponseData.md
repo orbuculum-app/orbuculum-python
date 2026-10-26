@@ -6,7 +6,7 @@ Cash Flow report payload
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**periods** | [**List[CashflowReportResponseDataPeriodsInner]**](CashflowReportResponseDataPeriodsInner.md) | One entry per reported period, ascending. The warm-up column that precedes date_range_from is not on the wire. | 
+**periods** | [**List[CashflowReportResponseDataPeriodsInner]**](CashflowReportResponseDataPeriodsInner.md) | One entry per reported period, ascending. The warm-up column that precedes date_range_from is not on the wire. With extended&#x3D;1, show_totals on and range quarter, month, week or day, rollup periods are interleaved where the legacy cash-flow page places its Q / TOTAL columns: kind&#x3D;quarter after the last base period of each quarter (month/week/day ranges), kind&#x3D;year after Q4 or the last base period; the last base period is always followed by its rollups (quarter range: year rollups only). A rollup has the same keys and rows as a base period. Its amounts are legacy ReportCf&#39;s own rollups, read and never recomputed: flows are summed over the quarter/year, balances are the value at its last base period. period.from/period.to span only the base periods it rolls up; a flow rollup also includes the report&#39;s hidden warm-up period (the one before the first base period) when that falls into the same quarter/year — legacy behaviour, kept for parity. | 
 **basic_currency** | [**ReportBasicCurrency**](ReportBasicCurrency.md) |  | 
 **timezone** | **str** |  | 
 **available_labels** | [**List[Project]**](Project.md) | Labels the caller may pick from, as a real list. | 

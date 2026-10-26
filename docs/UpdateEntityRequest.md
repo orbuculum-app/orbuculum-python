@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Entity ID to update | 
 **name** | **str** | New entity name (optional) | [optional] 
-**type** | **int** | Entity type. Allowed: null, 1, 2, 3, 5, 8, 9, 10 | [optional] 
+**type** | **int** | Entity type. Allowed: null, 1, 2, 3, 5, 8, 9, 10 — and only a type listed in the entity&#39;s allowed_types (GET /api/entity/get) | [optional] 
 
 ## Example
 

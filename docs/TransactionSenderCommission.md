@@ -8,7 +8,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **amount** | **str** | Commission amount. Decimal value as string to preserve precision. | [optional] 
+**receiver_amount** | **str** | Fee amount received by the fee account, in that account&#39;s currency. Decimal value as string to preserve precision. | [optional] 
 **account_id** | **int** |  | [optional] 
+**payer_account_id** | **int** | Account that paid the fee: the transaction&#39;s own account, or a third account. | [optional] 
+**account_name** | **str** | Fee account name. Present in create, update and dry-run responses; absent in GET /api/transaction/get, where data.context[account_id] carries it. | [optional] 
 
 ## Example
 
