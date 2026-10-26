@@ -309,7 +309,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cashflow_report**
-> CashflowReportResponse get_cashflow_report(workspace_id, range=range, project_id=project_id, date_from=date_from, date_to=date_to, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, timezone=timezone, current_only=current_only, entity_ids=entity_ids, summary_only=summary_only, granularity=granularity, remember=remember)
+> CashflowReportResponse get_cashflow_report(workspace_id, range=range, project_id=project_id, date_from=date_from, date_to=date_to, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, timezone=timezone, current_only=current_only, entity_ids=entity_ids, summary_only=summary_only, granularity=granularity, remember=remember, extended=extended)
 
 Get Cash Flow report data
 
@@ -357,10 +357,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     summary_only = 0 # int | Return only summary rows (1=yes, 0=no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to 0)
     granularity = month # str | Data granularity: month or quarter (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to month)
     remember = 0 # int | 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to 0)
+    extended = 0 # int | 1 = add the legacy ReportCf extras (BE-177): every row carries `category`, and quarter/year rollup periods are interleaved into `periods` when show_totals is on and range is quarter, month, week or day. 0 or omitted = the response is unchanged. Not remembered and not echoed in effective_filters. Any other value is a 400. (optional) (default to 0)
 
     try:
         # Get Cash Flow report data
-        api_response = api_instance.get_cashflow_report(workspace_id, range=range, project_id=project_id, date_from=date_from, date_to=date_to, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, timezone=timezone, current_only=current_only, entity_ids=entity_ids, summary_only=summary_only, granularity=granularity, remember=remember)
+        api_response = api_instance.get_cashflow_report(workspace_id, range=range, project_id=project_id, date_from=date_from, date_to=date_to, full_period=full_period, show_totals=show_totals, include_future_periods=include_future_periods, timezone=timezone, current_only=current_only, entity_ids=entity_ids, summary_only=summary_only, granularity=granularity, remember=remember, extended=extended)
         print("The response of ReportsApi->get_cashflow_report:\n")
         pprint(api_response)
     except Exception as e:
@@ -388,6 +389,7 @@ Name | Type | Description  | Notes
  **summary_only** | **int**| Return only summary rows (1&#x3D;yes, 0&#x3D;no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to 0]
  **granularity** | **str**| Data granularity: month or quarter (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to month]
  **remember** | **int**| 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to 0]
+ **extended** | **int**| 1 &#x3D; add the legacy ReportCf extras (BE-177): every row carries &#x60;category&#x60;, and quarter/year rollup periods are interleaved into &#x60;periods&#x60; when show_totals is on and range is quarter, month, week or day. 0 or omitted &#x3D; the response is unchanged. Not remembered and not echoed in effective_filters. Any other value is a 400. | [optional] [default to 0]
 
 ### Return type
 

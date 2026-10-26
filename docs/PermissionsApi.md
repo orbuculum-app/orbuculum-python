@@ -449,6 +449,8 @@ Bulk save access permissions for an account
 
 Saves all user permission changes from the Access modal in a single atomic operation. Handles permission updates and user access removal.
 
+A user in `users` who holds the shared Guest role is first moved to a personal role, so a grant never lands on the role every Guest shares. Every save that leaves a user with access to the account also grants read access to the account's entity, so the account appears in that user's menu. A user who is not yet a managed user of the account must be sent with `full_access` true or at least one project at `access_level` 2 (read) or 3 (manage); otherwise the request answers 400 with a `projects` field error and nothing is saved.
+
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):

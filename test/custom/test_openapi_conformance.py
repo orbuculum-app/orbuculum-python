@@ -31,6 +31,7 @@ import orbuculum_client
 import orbuculum_client.api as apis
 import orbuculum_client.models as models
 from orbuculum_client import rest
+from pydantic import BaseModel
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -53,7 +54,7 @@ DATE_FORMAT = "%d.%m.%Y"
 
 # The operations whose bodies the last regeneration changed: each body the
 # document declares must reach the caller, and the server, whole.
-CHANGED_OPERATIONS = ("getEntities", "createWorkspace")
+CHANGED_OPERATIONS = ("getEntities", "getCashflowReport", "createAccount")
 
 # The generator HTML-escapes descriptions in the Markdown docs.
 MD_ESCAPE = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;", "`": "&#x60;", "=": "&#x3D;"}
@@ -116,12 +117,52 @@ def _example(document, schema, branch, case):
             if case != "required" or name in schema.get("required", ())
         }
     if schema.get("type") == "array":
+        # An array may declare its example whole, with none on its items.
+        if "example" in schema:
+            return schema["example"]
+        items = _resolved(document, schema["items"])
+        # An array that declares no example, whole or on its items, is sent empty.
+        if not any(key in items for key in ("example", "oneOf", "properties", "items")):
+            return []
         return [_example(document, schema["items"], branch, case)]
     if case == "null" and schema.get("nullable"):
         return None
     if case == "negated" and isinstance(schema["example"], bool):
         return not schema["example"]
     return schema["example"]
+
+
+def _model_of(annotation):
+    """Return the generated model a field's annotation holds, through its Optional and List."""
+    if isinstance(annotation, type) and issubclass(annotation, BaseModel):
+        return annotation
+    for argument in typing.get_args(annotation):
+        model = _model_of(argument)
+        if model is not None:
+            return model
+    return None
+
+
+def _enums(model, schema):
+    """Yield (model, field, values) for each enum property of `schema` and of the inline objects under it.
+
+    A property of an enum's items takes each value as a one-item list, and a
+    property the model lacks is yielded with values None. A `$ref` is not
+    followed (its component is visited on its own), nor a composition.
+    """
+    fields = {field.alias or key: (key, field) for key, field in model.model_fields.items()}
+    for prop, prop_schema in schema.get("properties", {}).items():
+        if prop not in fields:
+            yield model, prop, None
+            continue
+        key, field = fields[prop]
+        inner = prop_schema.get("items", {}) if prop_schema.get("type") == "array" else prop_schema
+        if "enum" in prop_schema:
+            yield model, key, prop_schema["enum"]
+        elif inner is not prop_schema and "enum" in inner:
+            yield model, key, [[value] for value in inner["enum"]]
+        if "properties" in inner:
+            yield from _enums(_model_of(field.annotation), inner)
 
 
 def _without_nulls(value):
@@ -372,15 +413,30 @@ class TestOpenApiConformance(unittest.TestCase):
                                 returned = _without_nulls(returned)
                             self.assertEqual(returned, answer)
 
+    def test_documented_enum_values_are_accepted(self):
+        # A body carrying any value the document declares parses: a model that
+        # rejects one fails every response that carries it.
+        for name, schema in self.document["components"]["schemas"].items():
+            if name in self.shadowed:
+                continue
+            for model, field, values in _enums(getattr(models, name), schema):
+                with self.subTest(model=model.__name__, field=field):
+                    self.assertIsNotNone(values, "no field %s on %s" % (field, model.__name__))
+                for value in values or ():
+                    with self.subTest(model=model.__name__, field=field, value=value):
+                        model.__pydantic_validator__.validate_assignment(model.model_construct(), field, value)
+
     def test_documented_request_bodies_are_sent_whole(self):
         for _, _, operation in self.operations:
             if operation["operationId"] not in CHANGED_OPERATIONS or "requestBody" not in operation:
                 continue
             code = next(code for code in operation["responses"] if code.startswith("2"))
+            # The server answers with its documented body: a response model may require properties.
+            answer = _example(self.document, operation["responses"][code]["content"]["application/json"]["schema"], 0, "examples")
             for case in ("examples", "null", "required"):
                 arguments, body = self._arguments(operation, case)
                 with self.subTest(operation=operation["operationId"], case=case):
-                    sent, _ = self._call(operation, int(code), {}, **arguments)
+                    sent, _ = self._call(operation, int(code), answer, **arguments)
                     # A property the caller did not set is not sent, not even as null.
                     self.assertEqual(sent, body)
 

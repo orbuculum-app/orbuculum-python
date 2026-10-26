@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **api_id** | **str** | External API ID | [optional] 
 **type** | **str** | Account type | [optional] 
 **initial_balance** | **str** | Initial balance amount (positive or negative) | [optional] 
+**tags** | **List[int]** | Array of account group IDs of this workspace, at most 50. More than 50 ids, or an id that is not an account group of this workspace, fails the request with 400; a non-integer id fails it with 422. | [optional] 
 
 ## Example
 

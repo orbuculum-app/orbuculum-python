@@ -585,7 +585,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized - invalid or expired token |  -  |
 **403** | Forbidden - no manage permission for this entity |  -  |
 **404** | Entity not found |  -  |
-**422** | Validation failed - invalid type (must be one of: null, 1, 2, 3, 5, 8, 9, 10) |  -  |
+**422** | Validation failed - invalid type (must be one of: null, 1, 2, 3, 5, 8, 9, 10), or the target type accepts only the basic currency while some account of the entity is in another currency (details[0].field &#x3D; type; the message names those accounts) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

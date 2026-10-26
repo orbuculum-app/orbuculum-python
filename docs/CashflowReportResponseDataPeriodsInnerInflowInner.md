@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **account** | [**CashflowReportResponseDataPeriodsInnerInflowInnerAccount**](CashflowReportResponseDataPeriodsInnerInflowInnerAccount.md) |  | 
+**category** | [**CashflowReportResponseDataPeriodsInnerInflowInnerCategory**](CashflowReportResponseDataPeriodsInnerInflowInnerCategory.md) |  | [optional] 
 **amount** | **int** |  | 
 
 ## Example

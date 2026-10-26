@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **var_from** | **date** |  | 
 **to** | **date** |  | 
-**kind** | **str** |  | 
+**kind** | **str** | The range word (year, quarter, month, week, day) on a base period; quarter or year on a rollup period (extended&#x3D;1 only). A period whose kind differs from effective_filters.range is a rollup. | 
 
 ## Example
 

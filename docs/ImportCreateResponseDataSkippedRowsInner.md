@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **row_index** | **int** |  | 
-**reason** | **str** |  | 
+**reason** | **str** | permission_denied — the role may not create this row; invalid_label — the row&#39;s label does not exist in the workspace; empty_counterparty — the row has no counterparty account (unmatched in preview and not set via update-table) | 
 
 ## Example
 
