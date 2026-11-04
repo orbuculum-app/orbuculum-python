@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**create_scheduled_transaction**](ScheduledTransactionApi.md#create_scheduled_transaction) | **POST** /api/scheduled-transaction/create | Create a new scheduled transaction
 [**delete_scheduled_transaction**](ScheduledTransactionApi.md#delete_scheduled_transaction) | **POST** /api/scheduled-transaction/delete | Delete a scheduled transaction
 [**get_scheduled_transaction**](ScheduledTransactionApi.md#get_scheduled_transaction) | **GET** /api/scheduled-transaction/get | Get scheduled transaction(s)
+[**get_scheduled_transaction_edited_occurrences**](ScheduledTransactionApi.md#get_scheduled_transaction_edited_occurrences) | **GET** /api/scheduled-transaction/edited-occurrences | List the hand-edited occurrences a series update would keep
 [**update_scheduled_transaction**](ScheduledTransactionApi.md#update_scheduled_transaction) | **POST** /api/scheduled-transaction/update | Update a scheduled transaction
 
 
@@ -269,6 +270,96 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant view-or-manage on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_scheduled_transaction_edited_occurrences**
+> ScheduledTransactionEditedOccurrencesResponse get_scheduled_transaction_edited_occurrences(workspace_id, id, edit_type, trx_id=trx_id)
+
+List the hand-edited occurrences a series update would keep
+
+Read-only. The occurrences that POST /api/scheduled-transaction/update with the same edit_type (and trx_id) and override=false keeps because they were edited one by one; override=true overwrites them. edit_type 1 covers the whole series, 3 the occurrences from the local day of trx_id on, in the series' stored timezone. One id per occurrence (its main row); count 0 means there is nothing to ask.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.scheduled_transaction_edited_occurrences_response import ScheduledTransactionEditedOccurrencesResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
+    workspace_id = 1 # int | Workspace ID
+    id = 42 # int | Scheduled transaction (series) ID
+    edit_type = 1 # int | Scope of the planned update: 1=ALL, 3=THIS_AND_FUTURE
+    trx_id = 101 # int | The occurrence being edited; required when edit_type=3 (optional)
+
+    try:
+        # List the hand-edited occurrences a series update would keep
+        api_response = api_instance.get_scheduled_transaction_edited_occurrences(workspace_id, id, edit_type, trx_id=trx_id)
+        print("The response of ScheduledTransactionApi->get_scheduled_transaction_edited_occurrences:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ScheduledTransactionApi->get_scheduled_transaction_edited_occurrences: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**| Workspace ID | 
+ **id** | **int**| Scheduled transaction (series) ID | 
+ **edit_type** | **int**| Scope of the planned update: 1&#x3D;ALL, 3&#x3D;THIS_AND_FUTURE | 
+ **trx_id** | **int**| The occurrence being edited; required when edit_type&#x3D;3 | [optional] 
+
+### Return type
+
+[**ScheduledTransactionEditedOccurrencesResponse**](ScheduledTransactionEditedOccurrencesResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Hand-edited occurrences in the scope of the planned update |  -  |
+**400** | Bad request - missing or invalid id, edit_type or trx_id |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - insufficient 3-way label permission (PLP must grant view-or-manage on (role, sender, label) AND (role, receiver, label)) |  -  |
+**404** | Scheduled transaction not found |  -  |
+**422** | trx_id is not an occurrence of this schedule |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -290,6 +290,8 @@ Permanently deletes a transaction from the system. This action cannot be undone.
 
 Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
 
+Chained pairs (BE-235): deleting either leg of a chained pair deletes both legs and their commissions atomically. The partner leg passes the same initial-balance (422) and permission (403) checks as the requested leg; if either leg fails a check, or any delete fails (500), nothing is deleted. The partner leg and its deleted commissions are listed in `removed_ids` (with `account_id`) and in `list_diff.drops` (with `list_scope`); `data.deleted_commissions` keeps describing the requested leg's own commissions.
+
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):

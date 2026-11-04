@@ -265,7 +265,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **preview_import**
-> PreviewImport200Response preview_import(workspace_id, account_id, import_type, timezone=timezone, with_already_imported=with_already_imported, check_duplicated=check_duplicated, import_file=import_file)
+> PreviewImport200Response preview_import(workspace_id, account_id, import_type, csv_separator=csv_separator, timezone=timezone, with_already_imported=with_already_imported, check_duplicated=check_duplicated, import_file=import_file)
 
 Preview import data
 
@@ -304,6 +304,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     workspace_id = 56 # int | Workspace ID
     account_id = 56 # int | Target account ID
     import_type = 'import_type_example' # str | Import source type
+    csv_separator = 'csv_separator_example' # str | CSV delimiter: coma = comma (,), semicolon = semicolon (;). Required when import_type=csv: missing or any other value returns 400. Ignored for other import types. (optional)
     timezone = 'timezone_example' # str | User timezone (optional)
     with_already_imported = True # bool | Include already imported transactions (optional)
     check_duplicated = True # bool | Check for duplicate transactions (optional)
@@ -311,7 +312,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
     try:
         # Preview import data
-        api_response = api_instance.preview_import(workspace_id, account_id, import_type, timezone=timezone, with_already_imported=with_already_imported, check_duplicated=check_duplicated, import_file=import_file)
+        api_response = api_instance.preview_import(workspace_id, account_id, import_type, csv_separator=csv_separator, timezone=timezone, with_already_imported=with_already_imported, check_duplicated=check_duplicated, import_file=import_file)
         print("The response of ImportApi->preview_import:\n")
         pprint(api_response)
     except Exception as e:
@@ -328,6 +329,7 @@ Name | Type | Description  | Notes
  **workspace_id** | **int**| Workspace ID | 
  **account_id** | **int**| Target account ID | 
  **import_type** | **str**| Import source type | 
+ **csv_separator** | **str**| CSV delimiter: coma &#x3D; comma (,), semicolon &#x3D; semicolon (;). Required when import_type&#x3D;csv: missing or any other value returns 400. Ignored for other import types. | [optional] 
  **timezone** | **str**| User timezone | [optional] 
  **with_already_imported** | **bool**| Include already imported transactions | [optional] 
  **check_duplicated** | **bool**| Check for duplicate transactions | [optional] 
@@ -351,7 +353,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Import preview completed successfully |  -  |
-**400** | Bad request - missing required parameters or invalid import source |  -  |
+**400** | Bad request - missing required parameters, invalid import source, or csv_separator missing or not one of coma, semicolon for import_type&#x3D;csv |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |

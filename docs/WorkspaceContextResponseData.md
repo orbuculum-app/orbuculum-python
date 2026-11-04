@@ -27,6 +27,7 @@ Name | Type | Description | Notes
 **rates_by_date** | **Dict[str, Dict[str, Optional[str]]]** | Rates by date per currency: {currency_id: {dt: rate}}; dt ascending, Y-m-d H:i:s; rate is a decimal string as stored. The rate in force at a date is the greatest dt ≤ that date, else the earliest. | 
 **transaction_rules** | [**TransactionRules**](TransactionRules.md) |  | 
 **transaction_rules_version** | **str** | BE-150: content hash of transaction_rules; changes whenever the rules change | 
+**workspace_locale** | **str** | BE-230: the workspace locale as stored (BCP 47 with a region subtag, e.g. \&quot;en-US\&quot;); null when none is set. Present in both modes. | 
 
 ## Example
 

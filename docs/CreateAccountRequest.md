@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **commission_receiver_account** | **int** | Commission receiver account ID | [optional] 
 **limited** | **bool** | Whether the account has transaction limitations | [optional] 
 **api_id** | **str** | External API ID | [optional] 
-**type** | **str** | Account type | [optional] 
+**type** | **str** | Account type id (integer or integer string). Omitted or null: the entity&#39;s own type. A new account may take only: under entity type 1 → 1; 2 → 2; 9 → 9; 10 → 10, 11, 12; TYPE_IGNORE 3 under any non-legacy entity (an IGNORE entity takes any current type). Legacy types 0 (PoL), 5, 6, 7, 8 and other values answer 422 (details[].field &#x3D; type). | [optional] 
 **initial_balance** | **str** | Initial balance amount (positive or negative) | [optional] 
 **tags** | **List[int]** | Array of account group IDs of this workspace, at most 50. More than 50 ids, or an id that is not an account group of this workspace, fails the request with 400; a non-integer id fails it with 422. | [optional] 
 

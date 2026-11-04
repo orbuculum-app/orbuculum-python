@@ -47,7 +47,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     workspace_id = 1 # int | Workspace ID
     selection_type = all # str | Selection type filter. Allowed: all, author, counterparty, replacement, account_in_tag, commission, sending_commission, import_counterparty_list (optional) (default to all)
     mode = leaf # str | Tree mode. 'leaf' = entities disabled, accounts selectable. 'entities' = entities selectable, accounts disabled. (optional) (default to leaf)
-    manageable = 1 # int | Filter by manage (1) or view (0) permission (optional) (default to 1)
+    manageable = 1 # int | Account permission level: manage (1) or view (0). Entities are always taken at read level, so the tree lists the accounts at the requested level under every entity the role may read, as the web Add-transaction menu does. (optional) (default to 1)
     show_hidden = 0 # int | Include hidden entities/accounts (0 = exclude, 1 = include) (optional) (default to 0)
     account_id = 0 # int | Context account ID (used by counterparty, replacement, commission, sending_commission, import_counterparty_list) (optional) (default to 0)
     tag_id = 0 # int | Context tag/group ID (used by account_in_tag) (optional) (default to 0)
@@ -71,7 +71,7 @@ Name | Type | Description  | Notes
  **workspace_id** | **int**| Workspace ID | 
  **selection_type** | **str**| Selection type filter. Allowed: all, author, counterparty, replacement, account_in_tag, commission, sending_commission, import_counterparty_list | [optional] [default to all]
  **mode** | **str**| Tree mode. &#39;leaf&#39; &#x3D; entities disabled, accounts selectable. &#39;entities&#39; &#x3D; entities selectable, accounts disabled. | [optional] [default to leaf]
- **manageable** | **int**| Filter by manage (1) or view (0) permission | [optional] [default to 1]
+ **manageable** | **int**| Account permission level: manage (1) or view (0). Entities are always taken at read level, so the tree lists the accounts at the requested level under every entity the role may read, as the web Add-transaction menu does. | [optional] [default to 1]
  **show_hidden** | **int**| Include hidden entities/accounts (0 &#x3D; exclude, 1 &#x3D; include) | [optional] [default to 0]
  **account_id** | **int**| Context account ID (used by counterparty, replacement, commission, sending_commission, import_counterparty_list) | [optional] [default to 0]
  **tag_id** | **int**| Context tag/group ID (used by account_in_tag) | [optional] [default to 0]
