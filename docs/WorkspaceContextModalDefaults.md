@@ -1,6 +1,6 @@
 # WorkspaceContextModalDefaults
 
-The Add-modal's opening state, computed server-side
+The Add-modal's opening state, computed server-side. With an account context (account_id) in typed mode three rules hold (BE-220). 1. The tab comes from the context account's newest typed record — an expense, income or transfer pair — and the anchor transaction is that pair's newest transaction or a newer double whose outer pair is an operation of the same tab; the sub-tab follows the anchor. A debt, repayment, debt-transfer, commission or service record, or a double's untyped leg, never becomes the anchor. 2. The context account keeps its slot of the returned sub-tab: a limitation that fails the pair under the returned label drops the counterparty, never the context account, and does not move label_id. 3. A counterparty that survives is returned filled: its side's id is set and suggestion.auto_fill is true. Without an account context in typed mode the anchor is the caller's own last Add-modal save (BE-226): its tab, both outer sides and a double's middle account are returned as saved, whatever its operation date and whoever added newer rows; when that transaction no longer exists, one of its outer sides is hidden or its outer pair is not an expense, income or transfer, the workspace's newest typed pair decides as before. With an account context, no label_id in the request and a placed context account, label_id switches automatically (BE-226) when no visible account of the returned sub-tab's free side is manageable under the cascade's label but all of them and the context account are manageable under a common label: label_id becomes the context account's most recently used label for the sub-tab's tab among those common labels, else the first common label, and the counterparty is resolved under it.
 
 ## Properties
 
@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **suggestion** | [**WorkspaceContextModalDefaultsSuggestion**](WorkspaceContextModalDefaultsSuggestion.md) |  | 
 **label_id** | **int** |  | 
 **visible_subtabs** | **List[str]** |  | 
+**tabs** | [**WorkspaceContextModalDefaultsTabs**](WorkspaceContextModalDefaultsTabs.md) |  | 
 
 ## Example
 

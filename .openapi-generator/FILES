@@ -400,6 +400,8 @@ docs/SaveWorkspacePreferencesRequest.md
 docs/ScheduledTransactionApi.md
 docs/ScheduledTransactionCreatedResponse.md
 docs/ScheduledTransactionCreatedResponseData.md
+docs/ScheduledTransactionEditedOccurrencesResponse.md
+docs/ScheduledTransactionEditedOccurrencesResponseData.md
 docs/ScheduledTransactionPreview.md
 docs/ScheduledTransactionPreviewData.md
 docs/SearchAccounts200Response.md
@@ -503,6 +505,7 @@ docs/UpdateTransactionResponseDataCommissions.md
 docs/UpdateUsername200Response.md
 docs/UpdateUsername200ResponseData.md
 docs/UpdateUsernameRequest.md
+docs/UpdateWorkspaceLocaleRequest.md
 docs/UploadFilesData.md
 docs/UploadFilesResponse.md
 docs/UploadPhoto200Response.md
@@ -523,6 +526,8 @@ docs/WorkspaceContextFutureData.md
 docs/WorkspaceContextIsDouble.md
 docs/WorkspaceContextModalDefaults.md
 docs/WorkspaceContextModalDefaultsSuggestion.md
+docs/WorkspaceContextModalDefaultsTabs.md
+docs/WorkspaceContextModalDefaultsTabsExpenses.md
 docs/WorkspaceContextPairOrder.md
 docs/WorkspaceContextPairOrderAccountsValue.md
 docs/WorkspaceContextPreferredLabels.md
@@ -534,6 +539,8 @@ docs/WorkspaceDeletedResponse.md
 docs/WorkspaceDeletedResponseData.md
 docs/WorkspaceImageResponse.md
 docs/WorkspaceImageResponseData.md
+docs/WorkspaceLocaleResponse.md
+docs/WorkspaceLocaleResponseData.md
 git_push.sh
 orbuculum_client/__init__.py
 orbuculum_client/api/__init__.py
@@ -945,6 +952,8 @@ orbuculum_client/models/save_workspace_preferences200_response_data.py
 orbuculum_client/models/save_workspace_preferences_request.py
 orbuculum_client/models/scheduled_transaction_created_response.py
 orbuculum_client/models/scheduled_transaction_created_response_data.py
+orbuculum_client/models/scheduled_transaction_edited_occurrences_response.py
+orbuculum_client/models/scheduled_transaction_edited_occurrences_response_data.py
 orbuculum_client/models/scheduled_transaction_preview.py
 orbuculum_client/models/scheduled_transaction_preview_data.py
 orbuculum_client/models/search_accounts200_response.py
@@ -1043,6 +1052,7 @@ orbuculum_client/models/update_transaction_response_data_commissions.py
 orbuculum_client/models/update_username200_response.py
 orbuculum_client/models/update_username200_response_data.py
 orbuculum_client/models/update_username_request.py
+orbuculum_client/models/update_workspace_locale_request.py
 orbuculum_client/models/upload_files_data.py
 orbuculum_client/models/upload_files_response.py
 orbuculum_client/models/upload_photo200_response.py
@@ -1061,6 +1071,8 @@ orbuculum_client/models/workspace_context_future_data.py
 orbuculum_client/models/workspace_context_is_double.py
 orbuculum_client/models/workspace_context_modal_defaults.py
 orbuculum_client/models/workspace_context_modal_defaults_suggestion.py
+orbuculum_client/models/workspace_context_modal_defaults_tabs.py
+orbuculum_client/models/workspace_context_modal_defaults_tabs_expenses.py
 orbuculum_client/models/workspace_context_pair_order.py
 orbuculum_client/models/workspace_context_pair_order_accounts_value.py
 orbuculum_client/models/workspace_context_preferred_labels.py
@@ -1072,6 +1084,8 @@ orbuculum_client/models/workspace_deleted_response.py
 orbuculum_client/models/workspace_deleted_response_data.py
 orbuculum_client/models/workspace_image_response.py
 orbuculum_client/models/workspace_image_response_data.py
+orbuculum_client/models/workspace_locale_response.py
+orbuculum_client/models/workspace_locale_response_data.py
 orbuculum_client/py.typed
 orbuculum_client/rest.py
 pyproject.toml
@@ -1476,6 +1490,8 @@ test/test_save_workspace_preferences_request.py
 test/test_scheduled_transaction_api.py
 test/test_scheduled_transaction_created_response.py
 test/test_scheduled_transaction_created_response_data.py
+test/test_scheduled_transaction_edited_occurrences_response.py
+test/test_scheduled_transaction_edited_occurrences_response_data.py
 test/test_scheduled_transaction_preview.py
 test/test_scheduled_transaction_preview_data.py
 test/test_search_accounts200_response.py
@@ -1579,6 +1595,7 @@ test/test_update_transaction_response_data_commissions.py
 test/test_update_username200_response.py
 test/test_update_username200_response_data.py
 test/test_update_username_request.py
+test/test_update_workspace_locale_request.py
 test/test_upload_files_data.py
 test/test_upload_files_response.py
 test/test_upload_photo200_response.py
@@ -1599,6 +1616,8 @@ test/test_workspace_context_future_data.py
 test/test_workspace_context_is_double.py
 test/test_workspace_context_modal_defaults.py
 test/test_workspace_context_modal_defaults_suggestion.py
+test/test_workspace_context_modal_defaults_tabs.py
+test/test_workspace_context_modal_defaults_tabs_expenses.py
 test/test_workspace_context_pair_order.py
 test/test_workspace_context_pair_order_accounts_value.py
 test/test_workspace_context_preferred_labels.py
@@ -1610,4 +1629,6 @@ test/test_workspace_deleted_response.py
 test/test_workspace_deleted_response_data.py
 test/test_workspace_image_response.py
 test/test_workspace_image_response_data.py
+test/test_workspace_locale_response.py
+test/test_workspace_locale_response_data.py
 tox.ini

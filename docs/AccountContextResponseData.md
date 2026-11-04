@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **account** | [**AccountContextResponseDataAccount**](AccountContextResponseDataAccount.md) |  | 
 **entity** | [**AccountContextResponseDataEntity**](AccountContextResponseDataEntity.md) |  | 
 **available_currencies** | [**List[AccountContextResponseDataAvailableCurrenciesInner]**](AccountContextResponseDataAvailableCurrenciesInner.md) | Available currencies for this entity type | 
-**available_subtypes** | [**List[AccountContextResponseDataAvailableSubtypesInner]**](AccountContextResponseDataAvailableSubtypesInner.md) | Available account subtypes for this entity type | 
+**available_subtypes** | [**List[AccountContextResponseDataAvailableSubtypesInner]**](AccountContextResponseDataAvailableSubtypesInner.md) | Account types offered by the form. Create mode: only the types a new account may take under this entity — revenue [9], costs [10, 11, 12], account [2], debt [1], IGNORE [3]; empty for a legacy-typed entity (PoL, cash-flow-only 5/8). Edit mode: unchanged for a current-type account; for a legacy-typed account, the create-mode list plus the account&#39;s own stored type (id 0 &#x3D; PoL). | 
 **commission_sender_account** | [**AccountContextResponseDataCommissionSenderAccount**](AccountContextResponseDataCommissionSenderAccount.md) |  | 
 **commission_receiver_account** | [**AccountContextResponseDataCommissionReceiverAccount**](AccountContextResponseDataCommissionReceiverAccount.md) |  | 
 **has_transactions** | **bool** | Whether the account has any transactions (always false in create mode) | 

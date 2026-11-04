@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**get_workspace_image**](WorkspaceApi.md#get_workspace_image) | **GET** /api/workspace/get-image | Get workspace image
 [**remove_workspace_image**](WorkspaceApi.md#remove_workspace_image) | **POST** /api/workspace/remove-image | Remove workspace image
 [**save_workspace_preferences**](WorkspaceApi.md#save_workspace_preferences) | **POST** /api/workspace/save-preferences | Save report preferences
+[**update_workspace_locale**](WorkspaceApi.md#update_workspace_locale) | **POST** /api/workspace/update-locale | Set or clear the workspace locale
 [**upload_workspace_image**](WorkspaceApi.md#upload_workspace_image) | **POST** /api/workspace/upload-image | Upload workspace image
 
 
@@ -91,7 +92,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — db name exists or workspace limit reached |  -  |
-**422** | Validation failed (including an unknown or malformed basic_currency_code; no workspace is created) |  -  |
+**422** | Validation failed (including an unknown or malformed basic_currency_code, or a locale that is not a BCP 47 tag with a region subtag; no workspace is created) |  -  |
 **500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -499,6 +500,92 @@ Name | Type | Description  | Notes
 **403** | Forbidden - no Report access permission |  -  |
 **404** | User not found in workspace |  -  |
 **405** | Method not allowed |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_workspace_locale**
+> WorkspaceLocaleResponse update_workspace_locale(update_workspace_locale_request)
+
+Set or clear the workspace locale
+
+BE-230: stores the workspace locale (a BCP 47 tag with a region subtag, e.g. "en-US"), or clears it with null. Requires the "Workspace settings management" permission. GET /api/workspace/context publishes the stored value as data.workspace_locale.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.update_workspace_locale_request import UpdateWorkspaceLocaleRequest
+from orbuculum_client.models.workspace_locale_response import WorkspaceLocaleResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.WorkspaceApi(api_client)
+    update_workspace_locale_request = orbuculum_client.UpdateWorkspaceLocaleRequest() # UpdateWorkspaceLocaleRequest | 
+
+    try:
+        # Set or clear the workspace locale
+        api_response = api_instance.update_workspace_locale(update_workspace_locale_request)
+        print("The response of WorkspaceApi->update_workspace_locale:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkspaceApi->update_workspace_locale: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **update_workspace_locale_request** | [**UpdateWorkspaceLocaleRequest**](UpdateWorkspaceLocaleRequest.md)|  | 
+
+### Return type
+
+[**WorkspaceLocaleResponse**](WorkspaceLocaleResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Locale stored |  -  |
+**400** | Invalid request format, or workspace_id missing |  -  |
+**401** | Unauthorized |  -  |
+**403** | No access to this workspace, or the role lacks the Workspace settings management permission; nothing is written |  -  |
+**404** | Workspace not found |  -  |
+**405** | Method not allowed |  -  |
+**422** | Validation failed: locale missing, not a string, or not a BCP 47 tag with a region subtag; nothing is written |  -  |
 **500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

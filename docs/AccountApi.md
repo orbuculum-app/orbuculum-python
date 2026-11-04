@@ -182,7 +182,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — a concurrent request created an account with the same name and currency in this category (unique constraint violation). Single-request duplicates are reported as 422. |  -  |
-**422** | Validation failed — an account with this name and currency already exists in this category (name may be empty), or system-row constraint: cannot create an account under a system entity (OMM-1939) |  -  |
+**422** | Validation failed — an account with this name and currency already exists in this category (name may be empty), or system-row constraint: cannot create an account under a system entity (OMM-1939); or the new-account type rule (BE-231): details[].field &#x3D; entity_id when the entity is legacy-typed (PoL, cash-flow-only 5/8) and takes no new account, details[].field &#x3D; type when the posted type is legacy (0, 5, 6, 7, 8), not an integer, or not allowed under the entity&#39;s type |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -398,7 +398,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     workspace_id = 1 # int | Workspace ID
     account_id = 10 # int | Account ID
     var_date = '2013-10-20T19:20:30+01:00' # datetime | Date/time for balance calculation (ISO 8601). Defaults to current time. (optional)
-    trx_id = 100 # int | Transaction ID to exclude from balance calculation (optional)
+    trx_id = 100 # int | Transaction ID to exclude from balance calculation: the balance just before this transaction in (dt, id) order, the transaction itself excluded (optional)
 
     try:
         # Get account balance at a specific date
@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
  **workspace_id** | **int**| Workspace ID | 
  **account_id** | **int**| Account ID | 
  **var_date** | **datetime**| Date/time for balance calculation (ISO 8601). Defaults to current time. | [optional] 
- **trx_id** | **int**| Transaction ID to exclude from balance calculation | [optional] 
+ **trx_id** | **int**| Transaction ID to exclude from balance calculation: the balance just before this transaction in (dt, id) order, the transaction itself excluded | [optional] 
 
 ### Return type
 

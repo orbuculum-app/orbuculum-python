@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **name** | **str** | Workspace name | 
 **db** | **str** | Custom database name (optional, orb_ prefix added automatically) | [optional] 
 **basic_currency_code** | **str** | Main (basic) currency of the new workspace: a currency catalog code exactly as catalog[].code of GET /api/currency/list (case-sensitive, e.g. \&quot;USD\&quot;). When given, the workspace is created with this one currency as its basic currency (rate 1, catalog precision). Omitted or null: the workspace is created with no currencies. | [optional] 
+**locale** | **str** | BE-230: workspace locale, a BCP 47 tag with a region subtag (language[-Script]-REGION, e.g. \&quot;en-US\&quot;, \&quot;sr-Latn-RS\&quot;, \&quot;es-419\&quot;), stored as given. Omitted or null: the workspace has no locale. | [optional] 
 
 ## Example
 

@@ -1,6 +1,6 @@
 # WorkspaceContextPreferredLabels
 
-Label IDs grouped by Add-modal tab, most recently used first; empty groups are omitted.
+Label IDs grouped by Add-modal tab, most recently used first; labels last used in the same second are ordered by the later-created history row first; empty groups are omitted.
 
 ## Properties
 

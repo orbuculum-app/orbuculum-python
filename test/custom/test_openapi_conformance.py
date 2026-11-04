@@ -54,7 +54,13 @@ DATE_FORMAT = "%d.%m.%Y"
 
 # The operations whose bodies the last regeneration changed: each body the
 # document declares must reach the caller, and the server, whole.
-CHANGED_OPERATIONS = ("getEntities", "getCashflowReport", "createAccount")
+# getWorkspaceContext changed too, but its maps declare no examples to build
+# a body from: test_workspace_context_parsing covers it with a recorded body.
+CHANGED_OPERATIONS = (
+    "getScheduledTransactionEditedOccurrences",
+    "updateWorkspaceLocale",
+    "createWorkspace",
+)
 
 # The generator HTML-escapes descriptions in the Markdown docs.
 MD_ESCAPE = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;", "`": "&#x60;", "=": "&#x3D;"}
@@ -393,6 +399,52 @@ class TestOpenApiConformance(unittest.TestCase):
             # A caller that leaves a property out builds the model without it.
             arguments[_snake(name)] = model(**body) if case == "required" else model.from_dict(body)
         return arguments, body
+
+    def test_api_method_form_fields_follow_body_order(self):
+        for _, _, operation in self.operations:
+            contents = list(operation.get("requestBody", {}).get("content", {}).items())
+            if not contents or contents[0][0] != "multipart/form-data":
+                continue
+            api, _ = self._api(operation)
+            schema = _resolved(self.document, contents[0][1]["schema"])
+            properties = schema.get("properties", {})
+            # The generator puts the required fields first, each group in the document's order.
+            expected = [_parameter(name) for name in sorted(properties, key=lambda name: name not in schema.get("required", ()))]
+            for variant in ("", "_with_http_info", "_without_preload_content"):
+                method = _snake(operation["operationId"]) + variant
+                with self.subTest(method=method):
+                    self.assertTrue(hasattr(api, method), "no %s.%s" % (api.__name__, method))
+                    signature = inspect.signature(getattr(api, method)).parameters
+                    self.assertEqual([name for name in signature if name in expected], expected)
+                    for name in expected:
+                        if name not in schema.get("required", ()):
+                            self.assertIsNone(signature[name].default)
+
+    def test_required_nullable_properties_are_required_and_accept_none(self):
+        def walk(model, schema):
+            fields = {field.alias or key: (key, field) for key, field in model.model_fields.items()}
+            for prop, prop_schema in schema.get("properties", {}).items():
+                if prop in schema.get("required", ()) and prop_schema.get("nullable") and "$ref" not in prop_schema:
+                    yield model, prop, fields.get(prop)
+                if prop in fields and "properties" in prop_schema:
+                    yield from walk(_model_of(fields[prop][1].annotation), prop_schema)
+        for name, schema in self.document["components"]["schemas"].items():
+            if name in self.shadowed:
+                continue
+            for model, prop, found in walk(getattr(models, name), schema):
+                with self.subTest(model=model.__name__, property=prop):
+                    self.assertIsNotNone(found, "no field %s on %s" % (prop, model.__name__))
+                    key, field = found
+                    self.assertTrue(field.is_required(), "%s.%s has a default" % (model.__name__, key))
+                    model.__pydantic_validator__.validate_assignment(model.model_construct(), key, None)
+
+    def test_component_models_are_exported_from_package(self):
+        for name in self.document["components"]["schemas"]:
+            if name in self.shadowed:
+                continue
+            with self.subTest(schema=name):
+                self.assertIs(getattr(orbuculum_client, name, None), getattr(models, name, None))
+                self.assertIsNotNone(getattr(models, name, None), "no generated model %s" % name)
 
     def test_documented_response_bodies_survive_parsing(self):
         for _, _, operation in self.operations:

@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.30.0
-- **Supported API Version**: 0.160.0
+- **Client Version**: 0.31.0
+- **Supported API Version**: 0.166.1
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -296,6 +296,7 @@ Class | Method | HTTP request | Description
 *ScheduledTransactionApi* | [**create_scheduled_transaction**](docs/ScheduledTransactionApi.md#create_scheduled_transaction) | **POST** /api/scheduled-transaction/create | Create a new scheduled transaction
 *ScheduledTransactionApi* | [**delete_scheduled_transaction**](docs/ScheduledTransactionApi.md#delete_scheduled_transaction) | **POST** /api/scheduled-transaction/delete | Delete a scheduled transaction
 *ScheduledTransactionApi* | [**get_scheduled_transaction**](docs/ScheduledTransactionApi.md#get_scheduled_transaction) | **GET** /api/scheduled-transaction/get | Get scheduled transaction(s)
+*ScheduledTransactionApi* | [**get_scheduled_transaction_edited_occurrences**](docs/ScheduledTransactionApi.md#get_scheduled_transaction_edited_occurrences) | **GET** /api/scheduled-transaction/edited-occurrences | List the hand-edited occurrences a series update would keep
 *ScheduledTransactionApi* | [**update_scheduled_transaction**](docs/ScheduledTransactionApi.md#update_scheduled_transaction) | **POST** /api/scheduled-transaction/update | Update a scheduled transaction
 *SelectionApi* | [**get_selection_tree**](docs/SelectionApi.md#get_selection_tree) | **GET** /api/selection/tree | Get filtered entity/account tree
 *SystemApi* | [**system_bundle_check**](docs/SystemApi.md#system_bundle_check) | **POST** /api/system/bundle-check | Check bundle version consistency
@@ -342,6 +343,7 @@ Class | Method | HTTP request | Description
 *WorkspaceApi* | [**get_workspace_image**](docs/WorkspaceApi.md#get_workspace_image) | **GET** /api/workspace/get-image | Get workspace image
 *WorkspaceApi* | [**remove_workspace_image**](docs/WorkspaceApi.md#remove_workspace_image) | **POST** /api/workspace/remove-image | Remove workspace image
 *WorkspaceApi* | [**save_workspace_preferences**](docs/WorkspaceApi.md#save_workspace_preferences) | **POST** /api/workspace/save-preferences | Save report preferences
+*WorkspaceApi* | [**update_workspace_locale**](docs/WorkspaceApi.md#update_workspace_locale) | **POST** /api/workspace/update-locale | Set or clear the workspace locale
 *WorkspaceApi* | [**upload_workspace_image**](docs/WorkspaceApi.md#upload_workspace_image) | **POST** /api/workspace/upload-image | Upload workspace image
 
 
@@ -726,6 +728,8 @@ Class | Method | HTTP request | Description
  - [SaveWorkspacePreferencesRequest](docs/SaveWorkspacePreferencesRequest.md)
  - [ScheduledTransactionCreatedResponse](docs/ScheduledTransactionCreatedResponse.md)
  - [ScheduledTransactionCreatedResponseData](docs/ScheduledTransactionCreatedResponseData.md)
+ - [ScheduledTransactionEditedOccurrencesResponse](docs/ScheduledTransactionEditedOccurrencesResponse.md)
+ - [ScheduledTransactionEditedOccurrencesResponseData](docs/ScheduledTransactionEditedOccurrencesResponseData.md)
  - [ScheduledTransactionPreview](docs/ScheduledTransactionPreview.md)
  - [ScheduledTransactionPreviewData](docs/ScheduledTransactionPreviewData.md)
  - [SearchAccounts200Response](docs/SearchAccounts200Response.md)
@@ -824,6 +828,7 @@ Class | Method | HTTP request | Description
  - [UpdateUsername200Response](docs/UpdateUsername200Response.md)
  - [UpdateUsername200ResponseData](docs/UpdateUsername200ResponseData.md)
  - [UpdateUsernameRequest](docs/UpdateUsernameRequest.md)
+ - [UpdateWorkspaceLocaleRequest](docs/UpdateWorkspaceLocaleRequest.md)
  - [UploadFilesData](docs/UploadFilesData.md)
  - [UploadFilesResponse](docs/UploadFilesResponse.md)
  - [UploadPhoto200Response](docs/UploadPhoto200Response.md)
@@ -842,6 +847,8 @@ Class | Method | HTTP request | Description
  - [WorkspaceContextIsDouble](docs/WorkspaceContextIsDouble.md)
  - [WorkspaceContextModalDefaults](docs/WorkspaceContextModalDefaults.md)
  - [WorkspaceContextModalDefaultsSuggestion](docs/WorkspaceContextModalDefaultsSuggestion.md)
+ - [WorkspaceContextModalDefaultsTabs](docs/WorkspaceContextModalDefaultsTabs.md)
+ - [WorkspaceContextModalDefaultsTabsExpenses](docs/WorkspaceContextModalDefaultsTabsExpenses.md)
  - [WorkspaceContextPairOrder](docs/WorkspaceContextPairOrder.md)
  - [WorkspaceContextPairOrderAccountsValue](docs/WorkspaceContextPairOrderAccountsValue.md)
  - [WorkspaceContextPreferredLabels](docs/WorkspaceContextPreferredLabels.md)
@@ -853,6 +860,8 @@ Class | Method | HTTP request | Description
  - [WorkspaceDeletedResponseData](docs/WorkspaceDeletedResponseData.md)
  - [WorkspaceImageResponse](docs/WorkspaceImageResponse.md)
  - [WorkspaceImageResponseData](docs/WorkspaceImageResponseData.md)
+ - [WorkspaceLocaleResponse](docs/WorkspaceLocaleResponse.md)
+ - [WorkspaceLocaleResponseData](docs/WorkspaceLocaleResponseData.md)
 
 
 <a id="documentation-for-authorization"></a>
@@ -881,16 +890,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.30.0
-print(orbuculum_client.__api_version__)    # API version: 0.160.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.160.0
+print(orbuculum_client.__version__)        # Client version: 0.31.0
+print(orbuculum_client.__api_version__)    # API version: 0.166.1
+print(orbuculum_client.__api_supported__)  # Supported API: 0.166.1
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.30.0 → 0.30.1): Bug fixes, documentation updates
-- **MINOR** (0.30.1 → 0.31.0): New features, backward-compatible
-- **MAJOR** (0.31.0 → 1.0.0): Breaking changes
+- **PATCH** (0.31.0 → 0.31.1): Bug fixes, documentation updates
+- **MINOR** (0.31.1 → 0.32.0): New features, backward-compatible
+- **MAJOR** (0.32.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 
