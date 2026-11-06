@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.32.0 — 2026-11-06 — Supports API 0.167.0
+
+**Additive** (no breaking changes).
+
+- **GET /api/transaction/list: `data.filter_projects`** (BE-266): `AccountTransactionsResponseData` gains the optional `filter_projects`, a list of `Project`: the projects the account's Project filter offers, the distinct projects of all the account's transactions, independent of every filter parameter of the request. It is carried in per-account mode on the first page only (no cursor, either direction) and is absent on cursor pages and in workspace-wide mode; it is `[]` unless the role has more than one readable project and the account's transactions span more than one project value. The `list_transactions` docstrings and `docs/TransactionApi.md` say so.
+- Regenerated from the API 0.167.0 OpenAPI specification.
+
+
 ## 0.31.0 — 2026-11-04 — Supports API 0.166.1
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
