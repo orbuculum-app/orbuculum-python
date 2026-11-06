@@ -31,7 +31,7 @@ import orbuculum_client
 import orbuculum_client.api as apis
 import orbuculum_client.models as models
 from orbuculum_client import rest
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -54,12 +54,8 @@ DATE_FORMAT = "%d.%m.%Y"
 
 # The operations whose bodies the last regeneration changed: each body the
 # document declares must reach the caller, and the server, whole.
-# getWorkspaceContext changed too, but its maps declare no examples to build
-# a body from: test_workspace_context_parsing covers it with a recorded body.
 CHANGED_OPERATIONS = (
-    "getScheduledTransactionEditedOccurrences",
-    "updateWorkspaceLocale",
-    "createWorkspace",
+    "listTransactions",
 )
 
 # The generator HTML-escapes descriptions in the Markdown docs.
@@ -122,6 +118,9 @@ def _example(document, schema, branch, case):
             for name, prop in schema["properties"].items()
             if case != "required" or name in schema.get("required", ())
         }
+    if isinstance(schema.get("additionalProperties"), dict) and "example" not in schema:
+        # A map that declares no example of its own takes one entry from its value's schema.
+        return {"1": _example(document, schema["additionalProperties"], branch, case)}
     if schema.get("type") == "array":
         # An array may declare its example whole, with none on its items.
         if "example" in schema:
@@ -177,6 +176,29 @@ def _without_nulls(value):
     if isinstance(value, list):
         return [_without_nulls(item) for item in value]
     return value
+
+
+def _utc_as_offset(value):
+    """Return `value` with each UTC date-time written `+00:00`, the form the client serialises the same instant in."""
+    if isinstance(value, dict):
+        return {key: _utc_as_offset(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_utc_as_offset(item) for item in value]
+    if isinstance(value, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value):
+        return value[:-1] + "+00:00"
+    return value
+
+
+def _recorded_list(name):
+    """Return the text and the body of a GET /api/transaction/list answer recorded from the monolith."""
+    path = os.path.join(os.path.dirname(FIXTURE), "transaction_list_200_%s.json" % name)
+    with open(path, encoding="utf-8") as fixture_file:
+        text = fixture_file.read()
+    return text, json.loads(text)
+
+
+def _parsed_list(text):
+    return orbuculum_client.ApiClient().deserialize(text, "AccountTransactionsResponse", "application/json")
 
 
 class TestOpenApiConformance(unittest.TestCase):
@@ -463,7 +485,73 @@ class TestOpenApiConformance(unittest.TestCase):
                             if case == "required":
                                 # A property the server did not send reads as unset, never as an error.
                                 returned = _without_nulls(returned)
-                            self.assertEqual(returned, answer)
+                            self.assertEqual(returned, _utc_as_offset(answer))
+
+    def test_recorded_first_page_keeps_filter_projects(self):
+        # BE-266: a first page without a cursor, in either direction, offers the account's projects.
+        for name in ("first_page", "first_page_up"):
+            text, body = _recorded_list(name)
+            raw = body["data"]["filter_projects"]
+            with self.subTest(fixture=name):
+                self.assertEqual({item["is_default"] for item in raw}, {True, False}, "the recording must offer the default project and another")
+                parsed = _parsed_list(text).data.filter_projects
+                self.assertEqual(
+                    [{field: getattr(item, field) for field in ("id", "name", "icon", "color", "is_default")} for item in parsed],
+                    raw,
+                )
+
+    def test_recorded_first_page_comes_back_whole(self):
+        operation = next(item for _, _, item in self.operations if item["operationId"] == "listTransactions")
+        arguments, _ = self._arguments(operation, "examples")
+        for name in ("first_page", "first_page_up"):
+            _, body = _recorded_list(name)
+            expected = _recorded_list(name)[1]
+            # Only the two date-time fields the client parses change form; every other date is a string it keeps.
+            for item in expected["data"]["chunk"]:
+                item["dt"] = _utc_as_offset(item["dt"])
+                item["data"]["created_at"] = _utc_as_offset(item["data"]["created_at"])
+            with self.subTest(fixture=name):
+                _, returned = self._call(operation, 200, body, **arguments)
+                self.assertEqual(returned, expected)
+
+    def test_recorded_empty_filter_projects_stays_empty(self):
+        # BE-266: [] is a first page with nothing to offer, with rows or on an account that has none.
+        for name in ("first_page_no_projects", "first_page_empty_account"):
+            text, body = _recorded_list(name)
+            with self.subTest(fixture=name):
+                self.assertEqual(body["data"]["filter_projects"], [])
+                parsed = _parsed_list(text)
+                self.assertEqual(parsed.data.filter_projects, [])
+                self.assertEqual(parsed.to_dict()["data"]["filter_projects"], [])
+                self.assertEqual(parsed.to_dict()["data"]["context"], body["data"]["context"])
+
+    def test_recorded_body_without_filter_projects_reads_as_none(self):
+        # A cursor page and workspace-wide mode send no key, and neither does a server before BE-266.
+        before = _recorded_list("first_page")[1]
+        del before["data"]["filter_projects"]
+        for name, text in (
+            ("cursor_page", _recorded_list("cursor_page")[0]),
+            ("workspace_wide", _recorded_list("workspace_wide")[0]),
+            ("first_page_before_BE-266", json.dumps(before)),
+        ):
+            with self.subTest(body=name):
+                self.assertNotIn("filter_projects", json.loads(text)["data"])
+                parsed = _parsed_list(text)
+                self.assertIsNone(parsed.data.filter_projects)
+                self.assertNotIn("filter_projects", parsed.to_dict()["data"])
+
+    def test_filter_projects_item_outside_project_is_rejected(self):
+        for case, change in (
+            ("without is_default", lambda item: item.pop("is_default")),
+            ("icon outside the enum", lambda item: item.update(icon=item["icon"] + "s")),
+            ("color outside the enum", lambda item: item.update(color=item["color"] + "s")),
+        ):
+            for position in (0, -1):
+                body = _recorded_list("first_page")[1]
+                change(body["data"]["filter_projects"][position])
+                with self.subTest(case=case, position=position):
+                    with self.assertRaises(ValidationError):
+                        _parsed_list(json.dumps(body))
 
     def test_documented_enum_values_are_accepted(self):
         # A body carrying any value the document declares parses: a model that

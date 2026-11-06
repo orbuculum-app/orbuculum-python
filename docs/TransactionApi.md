@@ -903,6 +903,8 @@ List transactions (cursor pagination); account_id optional (workspace-wide when 
 
 Canonical cursor-based transaction listing. When account_id is supplied, returns that account's ledger with an account-level summary; when omitted, returns every transaction the role is permitted to see across the workspace with summary: null. The now-based seam keeps future-dated rows off the first page by default (direction=down).
 
+In per-account mode the first page (no cursor, either direction) also carries data.filter_projects: the projects the account's Project filter offers, independent of every filter parameter of this request. It is absent on cursor pages and in workspace-wide mode.
+
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):
