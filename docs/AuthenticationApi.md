@@ -12,6 +12,8 @@ Method | HTTP request | Description
 [**register**](AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
 [**request_reset**](AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
 [**reset_password**](AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
+[**session_refresh**](AuthenticationApi.md#session_refresh) | **POST** /api/auth/session/refresh | Renew a long session
+[**session_revoke**](AuthenticationApi.md#session_revoke) | **POST** /api/auth/session/revoke | Revoke a long session
 
 
 # **disconnect_social**
@@ -305,6 +307,7 @@ No authorization required
 **200** | Successful login |  -  |
 **401** | Invalid credentials |  -  |
 **405** | Method not allowed |  -  |
+**422** | Validation error (invalid session or clientLabel) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -522,7 +525,7 @@ No authorization required
 **400** | Missing parameters |  -  |
 **405** | Method not allowed |  -  |
 **422** | User not found |  -  |
-**500** | Server error |  -  |
+**500** | Reset email could not be sent, or server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -594,6 +597,153 @@ No authorization required
 **405** | Method not allowed |  -  |
 **422** | Validation error |  -  |
 **500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **session_refresh**
+> SessionRefreshResponse session_refresh(session_token_request)
+
+Renew a long session
+
+Exchanges a refresh token from POST /api/auth/login (session=long) for a fresh 1-hour JWT and a rotated refresh token. Works however long ago the JWT expired; send no Authorization header. Every successful call extends the session to 90 days from now. The previous refresh token keeps working for 60 seconds after rotation (lost response); presenting it later revokes the whole session. Allow one refresh at a time per session: two parallel calls both succeed, and only the refresh token from the last one stays valid. Persist the new refresh token before using the new JWT. Every refused token gets the same 401.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.session_refresh_response import SessionRefreshResponse
+from orbuculum_client.models.session_token_request import SessionTokenRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    session_token_request = orbuculum_client.SessionTokenRequest() # SessionTokenRequest | 
+
+    try:
+        # Renew a long session
+        api_response = api_instance.session_refresh(session_token_request)
+        print("The response of AuthenticationApi->session_refresh:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->session_refresh: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **session_token_request** | [**SessionTokenRequest**](SessionTokenRequest.md)|  | 
+
+### Return type
+
+[**SessionRefreshResponse**](SessionRefreshResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Session renewed |  -  |
+**400** | Validation error (missing refreshToken) |  -  |
+**401** | Unknown, expired, revoked or reused refresh token, or user not active |  -  |
+**405** | Method not allowed |  -  |
+**422** | Validation error (refreshToken is not a string) |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **session_revoke**
+> SuccessResponse session_revoke(session_token_request)
+
+Revoke a long session
+
+Ends the session the refresh token belongs to; its current or previous token both work. Idempotent: an unknown or already revoked token also answers 200. A JWT already issued stays valid until it expires (up to 1 hour).
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.session_token_request import SessionTokenRequest
+from orbuculum_client.models.success_response import SuccessResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    session_token_request = orbuculum_client.SessionTokenRequest() # SessionTokenRequest | 
+
+    try:
+        # Revoke a long session
+        api_response = api_instance.session_revoke(session_token_request)
+        print("The response of AuthenticationApi->session_revoke:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->session_revoke: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **session_token_request** | [**SessionTokenRequest**](SessionTokenRequest.md)|  | 
+
+### Return type
+
+[**SuccessResponse**](SuccessResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Session revoked, or nothing to revoke |  -  |
+**400** | Validation error (missing refreshToken) |  -  |
+**405** | Method not allowed |  -  |
+**422** | Validation error (refreshToken is not a string) |  -  |
+**500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
