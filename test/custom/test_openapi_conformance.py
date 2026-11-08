@@ -55,7 +55,9 @@ DATE_FORMAT = "%d.%m.%Y"
 # The operations whose bodies the last regeneration changed: each body the
 # document declares must reach the caller, and the server, whole.
 CHANGED_OPERATIONS = (
-    "listTransactions",
+    "login",
+    "sessionRefresh",
+    "sessionRevoke",
 )
 
 # The generator HTML-escapes descriptions in the Markdown docs.
@@ -104,10 +106,13 @@ def _resolved(document, schema):
 def _example(document, schema, branch, case):
     """Return a body built from the schema's examples, its oneOf as member `branch`.
 
-    `case` varies what the examples alone leave unsaid: `negated` flips every
-    boolean, `null` sends every nullable property as null, and `required`
-    sends only the required properties (the shape of a server that does not
-    know the optional ones yet).
+    A leaf that declares no example takes its first enum value, else a value of
+    its format or type: the round trips assert that a body survives, not what
+    its values say. `case` varies what the examples alone leave unsaid: `negated`
+    flips every boolean, `null` sends every nullable property as null, and
+    `required` sends only the required properties (the shape of a server that
+    does not know the optional ones yet) and those with a default, which the
+    generated model always fills in.
     """
     schema = _resolved(document, schema)
     if "oneOf" in schema:
@@ -116,7 +121,7 @@ def _example(document, schema, branch, case):
         return {
             name: _example(document, prop, branch, case)
             for name, prop in schema["properties"].items()
-            if case != "required" or name in schema.get("required", ())
+            if case != "required" or name in schema.get("required", ()) or "default" in prop
         }
     if isinstance(schema.get("additionalProperties"), dict) and "example" not in schema:
         # A map that declares no example of its own takes one entry from its value's schema.
@@ -125,16 +130,18 @@ def _example(document, schema, branch, case):
         # An array may declare its example whole, with none on its items.
         if "example" in schema:
             return schema["example"]
-        items = _resolved(document, schema["items"])
-        # An array that declares no example, whole or on its items, is sent empty.
-        if not any(key in items for key in ("example", "oneOf", "properties", "items")):
-            return []
         return [_example(document, schema["items"], branch, case)]
     if case == "null" and schema.get("nullable"):
         return None
-    if case == "negated" and isinstance(schema["example"], bool):
-        return not schema["example"]
-    return schema["example"]
+    if "example" in schema:
+        value = schema["example"]
+    elif "enum" in schema:
+        value = schema["enum"][0]
+    elif schema.get("format") == "date-time":
+        value = "2026-01-02T03:04:05Z"
+    else:
+        value = {"integer": 1, "number": 1.5, "boolean": True, "object": {}}.get(schema.get("type"), "text")
+    return not value if case == "negated" and isinstance(value, bool) else value
 
 
 def _model_of(annotation):
@@ -192,6 +199,14 @@ def _utc_as_offset(value):
 def _recorded_list(name):
     """Return the text and the body of a GET /api/transaction/list answer recorded from the monolith."""
     path = os.path.join(os.path.dirname(FIXTURE), "transaction_list_200_%s.json" % name)
+    with open(path, encoding="utf-8") as fixture_file:
+        text = fixture_file.read()
+    return text, json.loads(text)
+
+
+def _recorded_auth(name):
+    """Return the text and the body of an auth answer recorded from the monolith, its values substituted."""
+    path = os.path.join(os.path.dirname(FIXTURE), "auth_%s.json" % name)
     with open(path, encoding="utf-8") as fixture_file:
         text = fixture_file.read()
     return text, json.loads(text)
@@ -579,6 +594,136 @@ class TestOpenApiConformance(unittest.TestCase):
                     sent, _ = self._call(operation, int(code), answer, **arguments)
                     # A property the caller did not set is not sent, not even as null.
                     self.assertEqual(sent, body)
+
+    def test_changed_operations_are_documented_and_generated(self):
+        # The round trips above visit only what the constant names: a name the
+        # document lacks would pass them by visiting nothing.
+        documented = {operation["operationId"]: operation for _, _, operation in self.operations}
+        for name in CHANGED_OPERATIONS:
+            with self.subTest(operation=name):
+                self.assertIn(name, documented)
+                api, _ = self._api(documented[name])
+                self.assertTrue(hasattr(api, _snake(name)), "no %s.%s" % (api.__name__, _snake(name)))
+                self.assertTrue(any(code.startswith("2") for code in documented[name]["responses"]))
+
+    def test_recorded_auth_bodies_come_back_whole(self):
+        operations = {operation["operationId"]: operation for _, _, operation in self.operations}
+        plain = {"login_request": models.LoginRequest(email="alice@example.com", password="synthetic-secret")}
+        long_session = {"login_request": models.LoginRequest(email="alice@example.com", password="synthetic-secret", session="long")}
+        token = {"session_token_request": models.SessionTokenRequest(refresh_token="synthetic-refresh-token")}
+        for operation_id, arguments, name, model in (
+            ("login", plain, "login_200", models.LoginResponse),
+            ("login", long_session, "login_200_long_session", models.LoginResponse),
+            ("sessionRefresh", token, "session_refresh_200", models.SessionRefreshResponse),
+            ("sessionRevoke", token, "session_revoke_200", models.SuccessResponse),
+        ):
+            text, body = _recorded_auth(name)
+            with self.subTest(fixture=name):
+                self.assertIsInstance(orbuculum_client.ApiClient().deserialize(text, model.__name__, "application/json"), model)
+                _, returned = self._call(operations[operation_id], 200, body, **arguments)
+                self.assertEqual(returned, _utc_as_offset(body))
+
+    def test_recorded_login_without_session_has_no_refresh_credential(self):
+        text, body = _recorded_auth("login_200")
+        self.assertEqual(sorted(body["data"]), ["token", "user"], "the recording must be a login without session=long")
+        parsed = orbuculum_client.ApiClient().deserialize(text, "LoginResponse", "application/json")
+        self.assertIsNone(parsed.data.refresh_token)
+        self.assertIsNone(parsed.data.refresh_expires_at)
+        self.assertEqual(parsed.to_dict(), body)
+
+    def test_recorded_refresh_credentials_are_typed(self):
+        for name, model in (("login_200_long_session", "LoginResponse"), ("session_refresh_200", "SessionRefreshResponse")):
+            text, body = _recorded_auth(name)
+            with self.subTest(fixture=name):
+                data = orbuculum_client.ApiClient().deserialize(text, model, "application/json").data
+                self.assertIs(type(data.refresh_token), str)
+                self.assertEqual(data.refresh_token, body["data"]["refreshToken"])
+                self.assertIsInstance(data.refresh_expires_at, datetime.datetime)
+                self.assertEqual(data.refresh_expires_at.isoformat(), _utc_as_offset(body["data"]["refreshExpiresAt"]))
+
+    def test_recorded_session_refresh_without_a_credential_is_rejected(self):
+        for key in ("token", "refreshToken", "refreshExpiresAt"):
+            _, body = _recorded_auth("session_refresh_200")
+            del body["data"][key]
+            with self.subTest(missing=key):
+                with self.assertRaises(ValidationError):
+                    orbuculum_client.ApiClient().deserialize(json.dumps(body), "SessionRefreshResponse", "application/json")
+
+    def test_session_route_missing_on_the_server_is_not_a_success(self):
+        # A backend without BE-284 answers HTTP 200 with this body, recorded from
+        # POST /api/auth/session/no-such-route: the HTTP status alone means nothing.
+        operations = {operation["operationId"]: operation for _, _, operation in self.operations}
+        answer = {"status": 404, "error": "Internal server error"}
+        for operation_id in ("sessionRefresh", "sessionRevoke"):
+            with self.subTest(operation=operation_id):
+                with self.assertRaises(ValidationError):
+                    self._call(
+                        operations[operation_id], 200, answer,
+                        session_token_request=models.SessionTokenRequest(refresh_token="synthetic-refresh-token"),
+                    )
+
+    def test_auth_requests_go_out_under_their_wire_names(self):
+        operations = {operation["operationId"]: operation for _, _, operation in self.operations}
+        login = {"email": "alice@example.com", "password": "synthetic-secret"}
+        for operation_id, argument, request, name, sent_body in (
+            ("login", "login_request", models.LoginRequest(**login), "login_200", dict(login, remember=False)),
+            ("login", "login_request", models.LoginRequest(**login, session=None), "login_200", dict(login, remember=False)),
+            (
+                "login", "login_request",
+                models.LoginRequest(**login, session="long", client_label="Synthetic client"),
+                "login_200_long_session",
+                dict(login, remember=False, session="long", clientLabel="Synthetic client"),
+            ),
+            (
+                "sessionRefresh", "session_token_request",
+                models.SessionTokenRequest(refresh_token="synthetic-refresh-token"),
+                "session_refresh_200", {"refreshToken": "synthetic-refresh-token"},
+            ),
+            (
+                "sessionRevoke", "session_token_request",
+                models.SessionTokenRequest(refresh_token="synthetic-refresh-token"),
+                "session_revoke_200", {"refreshToken": "synthetic-refresh-token"},
+            ),
+        ):
+            with self.subTest(operation=operation_id, sent=sorted(sent_body)):
+                sent, _ = self._call(operations[operation_id], 200, _recorded_auth(name)[1], **{argument: request})
+                self.assertEqual(sent, sent_body)
+
+    def test_auth_requests_outside_the_document_are_rejected(self):
+        login = {"email": "alice@example.com", "password": "synthetic-secret"}
+        for case, build in (
+            ("session short", lambda: models.LoginRequest(**login, session="short")),
+            ("session in capitals", lambda: models.LoginRequest(**login, session="LONG")),
+            ("session short from a dict", lambda: models.LoginRequest.from_dict(dict(login, session="short"))),
+            ("no refresh token", lambda: models.SessionTokenRequest()),
+        ):
+            with self.subTest(case=case):
+                with self.assertRaises(ValidationError):
+                    build()
+
+    def test_session_calls_send_exact_content_type_and_no_authorization(self):
+        # The monolith reads a JSON body only under exactly `application/json`:
+        # with a charset it answers 400 (recorded). A session call runs on an
+        # expired JWT, so a configured access token must stay out of it.
+        operations = {operation["operationId"]: operation for _, _, operation in self.operations}
+        client = orbuculum_client.ApiClient(
+            orbuculum_client.Configuration(host="https://api.example.com", access_token="synthetic-access-token")
+        )
+        token = models.SessionTokenRequest(refresh_token="synthetic-refresh-token")
+
+        def headers(operation_id, **arguments):
+            api, _ = self._api(operations[operation_id])
+            with mock.patch.object(client, "call_api") as call_api:
+                getattr(api(client), _snake(operation_id) + "_without_preload_content")(**arguments)
+            return call_api.call_args.args[2]
+
+        # The same client does send the token on a route the document protects.
+        self.assertEqual(headers("getUserProfile")["Authorization"], "Bearer synthetic-access-token")
+        for operation_id in ("sessionRefresh", "sessionRevoke"):
+            with self.subTest(operation=operation_id):
+                sent = headers(operation_id, session_token_request=token)
+                self.assertNotIn("Authorization", sent)
+                self.assertEqual(sent["Content-Type"], "application/json")
 
 
 if __name__ == '__main__':

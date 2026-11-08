@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.32.0
-- **Supported API Version**: 0.167.0
+- **Client Version**: 0.33.0
+- **Supported API Version**: 0.168.2
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -226,6 +226,8 @@ Class | Method | HTTP request | Description
 *AuthenticationApi* | [**register**](docs/AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
 *AuthenticationApi* | [**request_reset**](docs/AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
 *AuthenticationApi* | [**reset_password**](docs/AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
+*AuthenticationApi* | [**session_refresh**](docs/AuthenticationApi.md#session_refresh) | **POST** /api/auth/session/refresh | Renew a long session
+*AuthenticationApi* | [**session_revoke**](docs/AuthenticationApi.md#session_revoke) | **POST** /api/auth/session/revoke | Revoke a long session
 *ConnectionApi* | [**create_connection_recipient**](docs/ConnectionApi.md#create_connection_recipient) | **POST** /api/connection/create-recipient | Create recipient connection
 *ConnectionApi* | [**create_connection_source**](docs/ConnectionApi.md#create_connection_source) | **POST** /api/connection/create-source | Create source connection
 *ConnectionApi* | [**delete_connection**](docs/ConnectionApi.md#delete_connection) | **POST** /api/connection/delete | Delete connection
@@ -737,6 +739,9 @@ Class | Method | HTTP request | Description
  - [SearchAccounts200ResponseDataItemsInner](docs/SearchAccounts200ResponseDataItemsInner.md)
  - [SelectableAccountsResponse](docs/SelectableAccountsResponse.md)
  - [SelectableAccountsResponseData](docs/SelectableAccountsResponseData.md)
+ - [SessionRefreshResponse](docs/SessionRefreshResponse.md)
+ - [SessionRefreshResponseData](docs/SessionRefreshResponseData.md)
+ - [SessionTokenRequest](docs/SessionTokenRequest.md)
  - [SetBalanceInvalidRequest](docs/SetBalanceInvalidRequest.md)
  - [SetBalanceInvalidRequestAccountsInner](docs/SetBalanceInvalidRequestAccountsInner.md)
  - [SetBalanceInvalidResponse](docs/SetBalanceInvalidResponse.md)
@@ -890,16 +895,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.32.0
-print(orbuculum_client.__api_version__)    # API version: 0.167.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.167.0
+print(orbuculum_client.__version__)        # Client version: 0.33.0
+print(orbuculum_client.__api_version__)    # API version: 0.168.2
+print(orbuculum_client.__api_supported__)  # Supported API: 0.168.2
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.32.0 → 0.32.1): Bug fixes, documentation updates
-- **MINOR** (0.32.1 → 0.33.0): New features, backward-compatible
-- **MAJOR** (0.33.0 → 1.0.0): Breaking changes
+- **PATCH** (0.33.0 → 0.33.1): Bug fixes, documentation updates
+- **MINOR** (0.33.1 → 0.34.0): New features, backward-compatible
+- **MAJOR** (0.34.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

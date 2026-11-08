@@ -8,6 +8,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **token** | **str** | JWT token for API authentication | 
 **user** | [**LoginResponseDataUser**](LoginResponseDataUser.md) |  | 
+**refresh_token** | **str** | Opaque refresh credential, present only when the request sent session&#x3D;long. Returned once; the server stores only its hash. | [optional] 
+**refresh_expires_at** | **datetime** | When the session expires unless refreshed before then (ISO 8601 UTC). Present only when the request sent session&#x3D;long. | [optional] 
 
 ## Example
 

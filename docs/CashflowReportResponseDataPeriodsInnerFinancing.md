@@ -7,7 +7,7 @@ Financial activities for the period, as one group: the financing rows, the cash 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **rows** | [**List[CashflowReportResponseDataPeriodsInnerFinancingRowsInner]**](CashflowReportResponseDataPeriodsInnerFinancingRowsInner.md) | Financing account rows. | 
-**revaluation** | **int** | Cash revaluation for the period — the value the legacy response shipped under forex_gains. It is already folded into total and is not added again. | 
+**revaluation** | **int** | Cash revaluation for the period — the value the legacy response shipped under forex_gains. It is already folded into total and is not added again. It is 0 for a role that sees only part of the workspace&#39;s accounts: it is not computed for such a role, and total and free_cash_after_financing come from the flows of its accounts. | 
 **total** | **int** | Financing total for the period, revaluation included. | 
 **free_cash_after_financing** | **int** | Free cash after financing: totals.free_cash plus total. | 
 

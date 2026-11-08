@@ -410,6 +410,9 @@ docs/SearchAccounts200ResponseDataItemsInner.md
 docs/SelectableAccountsResponse.md
 docs/SelectableAccountsResponseData.md
 docs/SelectionApi.md
+docs/SessionRefreshResponse.md
+docs/SessionRefreshResponseData.md
+docs/SessionTokenRequest.md
 docs/SetBalanceInvalidRequest.md
 docs/SetBalanceInvalidRequestAccountsInner.md
 docs/SetBalanceInvalidResponse.md
@@ -961,6 +964,9 @@ orbuculum_client/models/search_accounts200_response_data.py
 orbuculum_client/models/search_accounts200_response_data_items_inner.py
 orbuculum_client/models/selectable_accounts_response.py
 orbuculum_client/models/selectable_accounts_response_data.py
+orbuculum_client/models/session_refresh_response.py
+orbuculum_client/models/session_refresh_response_data.py
+orbuculum_client/models/session_token_request.py
 orbuculum_client/models/set_balance_invalid_request.py
 orbuculum_client/models/set_balance_invalid_request_accounts_inner.py
 orbuculum_client/models/set_balance_invalid_response.py
@@ -1500,6 +1506,9 @@ test/test_search_accounts200_response_data_items_inner.py
 test/test_selectable_accounts_response.py
 test/test_selectable_accounts_response_data.py
 test/test_selection_api.py
+test/test_session_refresh_response.py
+test/test_session_refresh_response_data.py
+test/test_session_token_request.py
 test/test_set_balance_invalid_request.py
 test/test_set_balance_invalid_request_accounts_inner.py
 test/test_set_balance_invalid_response.py

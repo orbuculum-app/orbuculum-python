@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **email** | **str** | User email | 
 **password** | **str** | User password | 
 **remember** | **bool** | Optional. When true AND the &#39;X-Auth-Method: session&#39; header is sent, the web-session identity cookie (_identity) lives 30 days instead of the default 2 hours. Ignored for JWT-only logins and when omitted. Defaults to false. | [optional] [default to False]
+**session** | **str** | Optional. Send \&quot;long\&quot; to also receive refreshToken and refreshExpiresAt, for POST /api/auth/session/refresh. Any other value answers 422. Omitted or null: the login behaves as without this field. | [optional] 
+**client_label** | **str** | Optional. Name of the client holding the session, stored with it. Ignored unless session is \&quot;long\&quot;. | [optional] 
 
 ## Example
 
