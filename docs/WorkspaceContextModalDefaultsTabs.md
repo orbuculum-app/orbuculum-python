@@ -1,6 +1,6 @@
 # WorkspaceContextModalDefaultsTabs
 
-BE-227. Per tab with double support, the context account's newest record in that tab under rule 1 (the newest typed pair of the tab, or a newer double whose outer pair is typed in it); a hidden or inaccessible counterparty is skipped. History facts: no limitation or label applies. null without account_id; an entry is null when the tab has no such record; Custom has no entry. The opening tab's entry agrees with this block unless the block nulled or demoted something.
+BE-227. Per tab with double support, the context account's newest record in that tab under rule 1 (the newest typed pair of the tab, or a newer double whose outer pair is typed in it); a hidden or inaccessible counterparty is skipped. History facts: no limitation or label applies. null without account_id; an entry is null when the tab has no such record; Custom has no entry. The opening tab's entry agrees with this block unless the block nulled or demoted something, or the context account is a debt or hidden account (rule 1's exception).
 
 ## Properties
 

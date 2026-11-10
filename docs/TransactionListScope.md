@@ -7,7 +7,7 @@ The client's loaded transaction list. Sent as optional `list_scope` with POST /a
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **account_id** | **int** | Account the loaded list is scoped to. Positive integer. | 
-**filter** | **object** | Filter of the loaded list — the &#x60;filter&#x60; object of POST /api/transaction/mutate. Scopes isOut, the more-rows-beyond-the-edge check and the summary. Absent or null: no filter. | [optional] 
+**filter** | **object** | Filter of the loaded list — the &#x60;filter&#x60; object of POST /api/transaction/mutate. Scopes isOut, the more-rows-beyond-the-edge check and the summary. Absent or null: no filter. Its &#x60;notes&#x60; key takes the values of the &#x60;notes&#x60; query parameter of GET /api/transaction/list. | [optional] 
 **window** | **object** | Loaded-window descriptor, as in POST /api/transaction/mutate: { pastOldest:{dt,id}|null, futureNewest:{dt,id}|null }. Absent or null: both cursors null. | [optional] 
 
 ## Example

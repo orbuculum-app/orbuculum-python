@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **activity_journal_list**
-> ActivityJournalList200Response activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id, x_timezone=x_timezone)
+> ActivityJournalList200Response activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, channel=channel, client=client, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id, x_timezone=x_timezone)
 
 Get paginated activity journal entries
 
@@ -138,7 +138,9 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     authors = 'user_1,2,3;api_4' # str | Filter by multiple authors, format: user_1,2,3;api_4 (takes priority over author_id) (optional)
     date_from = 'Thu Jan 01 00:00:00 UTC 2026' # date | Filter from date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
     date_to = 'Thu Dec 31 00:00:00 UTC 2026' # date | Filter to date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
-    action_type = 'action_type_example' # str | Filter by action type (optional)
+    action_type = 'action_type_example' # str | Filter by action type. `foreign_edit` selects edits and deletes of a record made through another channel or client than the one that created it. An unknown value answers 400. (optional)
+    channel = 'channel_example' # str | Filter by write channel: `ui` is a browser UI (legacy web or an SPA session), `mcp` the attested MCP server, `api` any other API client, `chatbot` the product's chatbot. An unknown value answers 400. (optional)
+    client = 'acme-agent' # str | Filter by the exact client name the MCP server vouched for. A value that is not a valid string answers 400. (optional)
     model_type = 'model_type_example' # str | Filter by model type (transaction, account, user, category) (optional)
     user_id = 'user_id_example' # str | Filter by specific user (when model_type=user) (optional)
     account_id = 'account_id_example' # str | Filter by account (optional)
@@ -150,7 +152,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 
     try:
         # Get paginated activity journal entries
-        api_response = api_instance.activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id, x_timezone=x_timezone)
+        api_response = api_instance.activity_journal_list(workspace_id, page=page, per_page=per_page, limit=limit, direction=direction, cursor_dt=cursor_dt, cursor_id=cursor_id, author_id=author_id, authors=authors, date_from=date_from, date_to=date_to, action_type=action_type, channel=channel, client=client, model_type=model_type, user_id=user_id, account_id=account_id, entity_id=entity_id, transaction_account_id=transaction_account_id, sender_account_id=sender_account_id, receiver_account_id=receiver_account_id, x_timezone=x_timezone)
         print("The response of ActivityJournalApi->activity_journal_list:\n")
         pprint(api_response)
     except Exception as e:
@@ -175,7 +177,9 @@ Name | Type | Description  | Notes
  **authors** | **str**| Filter by multiple authors, format: user_1,2,3;api_4 (takes priority over author_id) | [optional] 
  **date_from** | **date**| Filter from date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
  **date_to** | **date**| Filter to date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
- **action_type** | **str**| Filter by action type | [optional] 
+ **action_type** | **str**| Filter by action type. &#x60;foreign_edit&#x60; selects edits and deletes of a record made through another channel or client than the one that created it. An unknown value answers 400. | [optional] 
+ **channel** | **str**| Filter by write channel: &#x60;ui&#x60; is a browser UI (legacy web or an SPA session), &#x60;mcp&#x60; the attested MCP server, &#x60;api&#x60; any other API client, &#x60;chatbot&#x60; the product&#39;s chatbot. An unknown value answers 400. | [optional] 
+ **client** | **str**| Filter by the exact client name the MCP server vouched for. A value that is not a valid string answers 400. | [optional] 
  **model_type** | **str**| Filter by model type (transaction, account, user, category) | [optional] 
  **user_id** | **str**| Filter by specific user (when model_type&#x3D;user) | [optional] 
  **account_id** | **str**| Filter by account | [optional] 

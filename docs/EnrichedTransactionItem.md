@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **done** | **bool** | Whether the transaction is marked done. | 
 **is_future** | **bool** | True when the transaction is dated in the future relative to the seam (dt &gt; NOW() + 59s, evaluated UTC; STRICT — dt &#x3D;&#x3D; seam is false). Temporal flag only; recurrence is signalled separately by is_recurrent. | 
 **is_recurrent** | **bool** | True when the transaction is part of a recurring schedule (future_id set). Drives the FE recurrence icon. | 
-**balance_after** | **str** | Balance on the perspective account after this transaction. Decimal value as number_format-style string. | [optional] 
+**balance_after** | **str** | Balance on the perspective account after this transaction. Decimal value as number_format-style string. Null on a note for a role with hidden balances. | [optional] 
 **counterparty** | [**EnrichedTransactionItemCounterparty**](EnrichedTransactionItemCounterparty.md) |  | 
 **chained_id** | **int** | ID of the paired transaction in a debt-pair, when applicable. | [optional] 
 **chained_commission_id** | **int** | ID of the sender-side commission transaction generated alongside this one. | [optional] 
