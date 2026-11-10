@@ -18,8 +18,11 @@ Name | Type | Description | Notes
 **receiver_account_id** | **int** | Receiver account ID | 
 **sender_amount** | **str** | Sender amount. Decimal value serialized as string to preserve precision; avoids JSON float rounding. | 
 **receiver_amount** | **str** | Receiver amount. Decimal value serialized as string to preserve precision; avoids JSON float rounding. | 
-**sender_balance_after** | **str** | Sender balance after transaction. Decimal value serialized as string to preserve precision; null when not computed. | [optional] 
-**receiver_balance_after** | **str** | Receiver balance after transaction. Decimal value serialized as string to preserve precision; null when not computed. | [optional] 
+**sender_balance_after** | **str** | Sender balance after transaction. Decimal value serialized as string to preserve precision; null when not computed. On a note: the account&#39;s balance at the note&#39;s moment; null on a note for a role with hidden balances. | [optional] 
+**receiver_balance_after** | **str** | Receiver balance after transaction. Decimal value serialized as string to preserve precision; null when not computed. On a note: the account&#39;s balance at the note&#39;s moment; null on a note for a role with hidden balances. | [optional] 
+**is_note** | **bool** | True for a note: sender &#x3D; receiver and both amounts 0. | [optional] 
+**actual_balance** | **str** | The note&#39;s actual balance, as entered; null when not filled, on a row that is not a note, or for a role with hidden balances. | [optional] 
+**balance_difference** | **str** | actualBalance minus the computed balance at the note&#39;s moment, scale 18; null when actualBalance is null. | [optional] 
 **chained_id** | **int** | ID of the paired transaction in a debt-pair. NULL for standalone transactions. | [optional] 
 **chained_commission_id** | **int** | ID of the sender-side commission transaction generated alongside this transaction. NULL when no sender commission applies. | [optional] 
 **chained_receiver_commission** | **int** | Integer FK (a transaction id) referencing the chained receiver commission transaction, despite the missing &#x60;_id&#x60; suffix. NULL when none. | [optional] 

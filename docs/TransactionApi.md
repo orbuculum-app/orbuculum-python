@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**delete_transaction**](TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 [**delete_transaction_file**](TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
 [**download_transaction_file**](TransactionApi.md#download_transaction_file) | **GET** /api/transaction/download-file | Download a transaction file
+[**export_account_transactions_pdf**](TransactionApi.md#export_account_transactions_pdf) | **GET** /account/export-pdf | Export the transaction list of an account as PDF
 [**get_recalculated_balances**](TransactionApi.md#get_recalculated_balances) | **GET** /api/transaction/get-recalculated-balances | Poll for balance recalculation status
 [**get_selectable_accounts**](TransactionApi.md#get_selectable_accounts) | **GET** /api/transaction/selectable-accounts | Accounts selectable in one transaction-modal slot
 [**get_transaction**](TransactionApi.md#get_transaction) | **GET** /api/transaction/get | Get a single transaction by id or apikey with enriched data
@@ -19,6 +20,7 @@ Method | HTTP request | Description
 [**set_balance_invalid**](TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
 [**update_transaction**](TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 [**upload_transaction_files**](TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
+[**verify_transaction_ledger**](TransactionApi.md#verify_transaction_ledger) | **GET** /api/transaction/verify | Check ledger invariants (read-only)
 
 
 # **add_transaction_commission**
@@ -98,7 +100,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **201** | Commission added successfully |  -  |
 **400** | Malformed JSON body. |  -  |
-**422** | Validation failure: malformed commission payload, invalid side, missing required fields, or non-positive amounts. |  -  |
+**422** | Validation failure: malformed commission payload, invalid side, missing required fields, or non-positive amounts. Also returned when a new commission&#39;s parent is a row synchronized from another workspace. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
@@ -275,8 +277,8 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict - duplicate apikey |  -  |
-**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. |  -  |
+**409** | Conflict - duplicate apikey, on a real create and on dry_run |  -  |
+**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. Also returned, with nothing written, when the apikey contains &#39;connection:&#39; and the request carries a commission: such a key marks a row synchronized from another workspace, which takes no new commission. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -543,6 +545,106 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **export_account_transactions_pdf**
+> bytearray export_account_transactions_pdf(account_id=account_id, date_from=date_from, date_to=date_to, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, api=api, label_ids=label_ids, comment=comment, target_date=target_date, timezone=timezone, its_safari=its_safari, simplified=simplified, inverted=inverted, hide_future=hide_future, include_notes=include_notes)
+
+Export the transaction list of an account as PDF
+
+Web route with session authentication; a JWT is not accepted here.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TransactionApi(api_client)
+    account_id = 56 # int |  (optional)
+    date_from = 'date_from_example' # str | Y-m-d H:i:s (optional)
+    date_to = 'date_to_example' # str | Y-m-d H:i:s (optional)
+    counterparty = [56] # List[int] |  (optional)
+    amount_from = 'amount_from_example' # str |  (optional)
+    amount_to = 'amount_to_example' # str |  (optional)
+    api = 'api_example' # str |  (optional)
+    label_ids = [56] # List[int] |  (optional)
+    comment = 'comment_example' # str |  (optional)
+    target_date = 'target_date_example' # str |  (optional)
+    timezone = 'timezone_example' # str |  (optional)
+    its_safari = False # bool |  (optional) (default to False)
+    simplified = False # bool |  (optional) (default to False)
+    inverted = False # bool |  (optional) (default to False)
+    hide_future = False # bool |  (optional) (default to False)
+    include_notes = False # bool | Include notes in the export. Default: notes are left out. (optional) (default to False)
+
+    try:
+        # Export the transaction list of an account as PDF
+        api_response = api_instance.export_account_transactions_pdf(account_id=account_id, date_from=date_from, date_to=date_to, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, api=api, label_ids=label_ids, comment=comment, target_date=target_date, timezone=timezone, its_safari=its_safari, simplified=simplified, inverted=inverted, hide_future=hide_future, include_notes=include_notes)
+        print("The response of TransactionApi->export_account_transactions_pdf:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TransactionApi->export_account_transactions_pdf: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **account_id** | **int**|  | [optional] 
+ **date_from** | **str**| Y-m-d H:i:s | [optional] 
+ **date_to** | **str**| Y-m-d H:i:s | [optional] 
+ **counterparty** | [**List[int]**](int.md)|  | [optional] 
+ **amount_from** | **str**|  | [optional] 
+ **amount_to** | **str**|  | [optional] 
+ **api** | **str**|  | [optional] 
+ **label_ids** | [**List[int]**](int.md)|  | [optional] 
+ **comment** | **str**|  | [optional] 
+ **target_date** | **str**|  | [optional] 
+ **timezone** | **str**|  | [optional] 
+ **its_safari** | **bool**|  | [optional] [default to False]
+ **simplified** | **bool**|  | [optional] [default to False]
+ **inverted** | **bool**|  | [optional] [default to False]
+ **hide_future** | **bool**|  | [optional] [default to False]
+ **include_notes** | **bool**| Include notes in the export. Default: notes are left out. | [optional] [default to False]
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/pdf
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | PDF file |  -  |
+**302** | No session: redirect to login |  -  |
+**400** | A parameter has an invalid value |  -  |
+**403** | No access to the account |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_recalculated_balances**
 > GetRecalculatedBalancesResponse get_recalculated_balances(workspace_id, account_ids=account_ids)
 
@@ -761,7 +863,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     api_instance = orbuculum_client.TransactionApi(api_client)
     workspace_id = 1 # int | Workspace ID
     id = 1 # int | Transaction ID (id or apikey required) (optional)
-    apikey = 'apikey_example' # str | API key for additional access (id or apikey required) (optional)
+    apikey = 'apikey_example' # str | Idempotency key of the transaction to look up (id or apikey required). Returns the single row holding the key: for a transaction through an intermediary account, its first leg. (optional)
 
     try:
         # Get a single transaction by id or apikey with enriched data
@@ -781,7 +883,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Workspace ID | 
  **id** | **int**| Transaction ID (id or apikey required) | [optional] 
- **apikey** | **str**| API key for additional access (id or apikey required) | [optional] 
+ **apikey** | **str**| Idempotency key of the transaction to look up (id or apikey required). Returns the single row holding the key: for a transaction through an intermediary account, its first leg. | [optional] 
 
 ### Return type
 
@@ -897,7 +999,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_transactions**
-> AccountTransactionsResponse list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, with_total=with_total)
+> AccountTransactionsResponse list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, notes=notes, apikey=apikey, with_total=with_total)
 
 List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
 
@@ -950,11 +1052,13 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     comment = 'Supplies' # str | Text search in comment field (optional)
     label_ids = '1_5_12' # str | Label IDs separated by underscore (optional)
     api = 'only' # str | API-source filter. 'only' returns only API-created transactions (apikey IS NOT NULL); 'hide' excludes them (apikey IS NULL); omit or any other value returns all. (optional)
+    notes = all # str | Note filter. 'all' (default) returns notes and transactions; 'hide' excludes notes; 'only' returns notes only, and of the other filters only date_from and date_to then apply. (optional) (default to all)
+    apikey = 'eb:12:345' # str | Exact idempotency key. Returns the row holding this key, future-dated rows included; for a transaction through an intermediary account, its first leg. With account_id, only rows touching that account are searched, so the first leg of such a transaction is not found under its receiver account; to check whether an earlier write landed, omit account_id. Without account_id, an empty chunk means no row with this key is visible to the caller: a restricted role gets an empty chunk even for a key that create refuses with 409. An empty value is ignored; a non-string value answers 400. (optional)
     with_total = False # bool | BE-28: opt-in totalCount. When true (1/true), pagination.totalCount is the exact count of the full filtered set (identical across pages of the same filter). Default false → totalCount is null (COUNT(*) is skipped to keep cursor paging cheap on large tables). (optional) (default to False)
 
     try:
         # List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
-        api_response = api_instance.list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, with_total=with_total)
+        api_response = api_instance.list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, notes=notes, apikey=apikey, with_total=with_total)
         print("The response of TransactionApi->list_transactions:\n")
         pprint(api_response)
     except Exception as e:
@@ -983,6 +1087,8 @@ Name | Type | Description  | Notes
  **comment** | **str**| Text search in comment field | [optional] 
  **label_ids** | **str**| Label IDs separated by underscore | [optional] 
  **api** | **str**| API-source filter. &#39;only&#39; returns only API-created transactions (apikey IS NOT NULL); &#39;hide&#39; excludes them (apikey IS NULL); omit or any other value returns all. | [optional] 
+ **notes** | **str**| Note filter. &#39;all&#39; (default) returns notes and transactions; &#39;hide&#39; excludes notes; &#39;only&#39; returns notes only, and of the other filters only date_from and date_to then apply. | [optional] [default to all]
+ **apikey** | **str**| Exact idempotency key. Returns the row holding this key, future-dated rows included; for a transaction through an intermediary account, its first leg. With account_id, only rows touching that account are searched, so the first leg of such a transaction is not found under its receiver account; to check whether an earlier write landed, omit account_id. Without account_id, an empty chunk means no row with this key is visible to the caller: a restricted role gets an empty chunk even for a key that create refuses with 409. An empty value is ignored; a non-string value answers 400. | [optional] 
  **with_total** | **bool**| BE-28: opt-in totalCount. When true (1/true), pagination.totalCount is the exact count of the full filtered set (identical across pages of the same filter). Default false → totalCount is null (COUNT(*) is skipped to keep cursor paging cheap on large tables). | [optional] [default to False]
 
 ### Return type
@@ -1093,7 +1199,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict - duplicate apikey on create |  -  |
+**409** | Conflict - duplicate apikey on create or update |  -  |
 **422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. set_label: payload.projectId names no label in this workspace. |  -  |
 **500** | Internal server error |  -  |
 
@@ -1272,8 +1378,8 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict — duplicate apikey OR intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
-**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. |  -  |
+**409** | Conflict — intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. Also returned when a new commission&#39;s parent is a row synchronized from another workspace. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1365,6 +1471,103 @@ Name | Type | Description  | Notes
 **413** | File exceeds 50MB limit |  -  |
 **422** | Validation error - file count or name/mime limits exceeded |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **verify_transaction_ledger**
+> LedgerVerificationResponse verify_transaction_ledger(workspace_id, transaction_ids=transaction_ids, date_from=date_from, date_to=date_to, scope_account_ids=scope_account_ids, scope_transaction_ids=scope_transaction_ids, amount_tolerance=amount_tolerance, date_tolerance_days=date_tolerance_days)
+
+Check ledger invariants (read-only)
+
+BE-311. Checks I2a (no exact duplicate by external id: apikey is DB-unique; import hash checked across imports), I2b (no fuzzy duplicate for rows without an external id), I4 (account-pair eligibility floor), I5 (declared scope), I8 (intermediary pair consistency; rule-mirror reference), I10 (structure changes in the window) over either a time window (date_from/date_to: created_at in window or an update/mass_update journal entry in it) or a list of transaction ids. Writes nothing. Requires a full-access role.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.ledger_verification_response import LedgerVerificationResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TransactionApi(api_client)
+    workspace_id = 56 # int | 
+    transaction_ids = [56] # List[int] | Id-list mode: the batch to check. Not combinable with date_from/date_to. (optional)
+    date_from = '2013-10-20T19:20:30+01:00' # datetime | Window mode: window start, inclusive. ISO 8601 with or without an offset; read as UTC when there is no offset. (optional)
+    date_to = '2013-10-20T19:20:30+01:00' # datetime | Window mode: window end, inclusive. (optional)
+    scope_account_ids = [56] # List[int] | Declared scope accounts for I5. (optional)
+    scope_transaction_ids = [56] # List[int] | Declared scope transaction ids for I5. (optional)
+    amount_tolerance = '0' # str | I2b amount tolerance (non-negative decimal), applied to each amount in that amount's account currency. Default 0. (optional)
+    date_tolerance_days = 0 # int | I2b date tolerance in calendar days. Default 0. (optional)
+
+    try:
+        # Check ledger invariants (read-only)
+        api_response = api_instance.verify_transaction_ledger(workspace_id, transaction_ids=transaction_ids, date_from=date_from, date_to=date_to, scope_account_ids=scope_account_ids, scope_transaction_ids=scope_transaction_ids, amount_tolerance=amount_tolerance, date_tolerance_days=date_tolerance_days)
+        print("The response of TransactionApi->verify_transaction_ledger:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TransactionApi->verify_transaction_ledger: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **workspace_id** | **int**|  | 
+ **transaction_ids** | [**List[int]**](int.md)| Id-list mode: the batch to check. Not combinable with date_from/date_to. | [optional] 
+ **date_from** | **datetime**| Window mode: window start, inclusive. ISO 8601 with or without an offset; read as UTC when there is no offset. | [optional] 
+ **date_to** | **datetime**| Window mode: window end, inclusive. | [optional] 
+ **scope_account_ids** | [**List[int]**](int.md)| Declared scope accounts for I5. | [optional] 
+ **scope_transaction_ids** | [**List[int]**](int.md)| Declared scope transaction ids for I5. | [optional] 
+ **amount_tolerance** | **str**| I2b amount tolerance (non-negative decimal), applied to each amount in that amount&#39;s account currency. Default 0. | [optional] 
+ **date_tolerance_days** | **int**| I2b date tolerance in calendar days. Default 0. | [optional] 
+
+### Return type
+
+[**LedgerVerificationResponse**](LedgerVerificationResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Verification result |  -  |
+**400** | Validation error: mode, dates, id lists or tolerances |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - no workspace access, or the role is not full-access |  -  |
+**404** | Workspace not found, or transaction_ids not found in this workspace |  -  |
+**500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

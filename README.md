@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.33.1
-- **Supported API Version**: 0.169.0
+- **Client Version**: 0.34.0
+- **Supported API Version**: 0.173.1
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -316,6 +316,7 @@ Class | Method | HTTP request | Description
 *TransactionApi* | [**delete_transaction**](docs/TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 *TransactionApi* | [**delete_transaction_file**](docs/TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
 *TransactionApi* | [**download_transaction_file**](docs/TransactionApi.md#download_transaction_file) | **GET** /api/transaction/download-file | Download a transaction file
+*TransactionApi* | [**export_account_transactions_pdf**](docs/TransactionApi.md#export_account_transactions_pdf) | **GET** /account/export-pdf | Export the transaction list of an account as PDF
 *TransactionApi* | [**get_recalculated_balances**](docs/TransactionApi.md#get_recalculated_balances) | **GET** /api/transaction/get-recalculated-balances | Poll for balance recalculation status
 *TransactionApi* | [**get_selectable_accounts**](docs/TransactionApi.md#get_selectable_accounts) | **GET** /api/transaction/selectable-accounts | Accounts selectable in one transaction-modal slot
 *TransactionApi* | [**get_transaction**](docs/TransactionApi.md#get_transaction) | **GET** /api/transaction/get | Get a single transaction by id or apikey with enriched data
@@ -325,6 +326,7 @@ Class | Method | HTTP request | Description
 *TransactionApi* | [**set_balance_invalid**](docs/TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
 *TransactionApi* | [**update_transaction**](docs/TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 *TransactionApi* | [**upload_transaction_files**](docs/TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
+*TransactionApi* | [**verify_transaction_ledger**](docs/TransactionApi.md#verify_transaction_ledger) | **GET** /api/transaction/verify | Check ledger invariants (read-only)
 *TransactionDraftApi* | [**build_transaction_draft**](docs/TransactionDraftApi.md#build_transaction_draft) | **POST** /api/transaction-draft | Compose the Add-transaction modal&#39;s complete state
 *TransactionDraftApi* | [**build_transaction_draft_for_edit**](docs/TransactionDraftApi.md#build_transaction_draft_for_edit) | **POST** /api/transaction-draft/edit | Compose the Edit-transaction modal&#39;s complete state
 *UserApi* | [**change_email**](docs/UserApi.md#change_email) | **POST** /api/user/change-email | Initiate email change
@@ -390,6 +392,9 @@ Class | Method | HTTP request | Description
  - [ActivityJournalCursorListResponseDataChunkInnerData](docs/ActivityJournalCursorListResponseDataChunkInnerData.md)
  - [ActivityJournalCursorListResponseDataPagination](docs/ActivityJournalCursorListResponseDataPagination.md)
  - [ActivityJournalCursorListResponseDataPaginationNextCursor](docs/ActivityJournalCursorListResponseDataPaginationNextCursor.md)
+ - [ActivityJournalForeignEdit](docs/ActivityJournalForeignEdit.md)
+ - [ActivityJournalForeignEditCreator](docs/ActivityJournalForeignEditCreator.md)
+ - [ActivityJournalForeignEditEditor](docs/ActivityJournalForeignEditEditor.md)
  - [ActivityJournalList200Response](docs/ActivityJournalList200Response.md)
  - [ActivityJournalListResponse](docs/ActivityJournalListResponse.md)
  - [ActivityJournalListResponseData](docs/ActivityJournalListResponseData.md)
@@ -604,6 +609,11 @@ Class | Method | HTTP request | Description
  - [IntermediaryTransactionCreatedResponse](docs/IntermediaryTransactionCreatedResponse.md)
  - [IntermediaryTransactionUpdatedData](docs/IntermediaryTransactionUpdatedData.md)
  - [IntermediaryTransactionUpdatedResponse](docs/IntermediaryTransactionUpdatedResponse.md)
+ - [LedgerInvariantResult](docs/LedgerInvariantResult.md)
+ - [LedgerInvariantResultOffendersInner](docs/LedgerInvariantResultOffendersInner.md)
+ - [LedgerVerificationResponse](docs/LedgerVerificationResponse.md)
+ - [LedgerVerificationResponseData](docs/LedgerVerificationResponseData.md)
+ - [LedgerVerificationResponseDataInvariants](docs/LedgerVerificationResponseDataInvariants.md)
  - [Limitation](docs/Limitation.md)
  - [LimitationManagedResponse](docs/LimitationManagedResponse.md)
  - [LimitationModalContextResponse](docs/LimitationModalContextResponse.md)
@@ -895,16 +905,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.33.1
-print(orbuculum_client.__api_version__)    # API version: 0.169.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.169.0
+print(orbuculum_client.__version__)        # Client version: 0.34.0
+print(orbuculum_client.__api_version__)    # API version: 0.173.1
+print(orbuculum_client.__api_supported__)  # Supported API: 0.173.1
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.33.1 → 0.33.2): Bug fixes, documentation updates
-- **MINOR** (0.33.2 → 0.34.0): New features, backward-compatible
-- **MAJOR** (0.34.0 → 1.0.0): Breaking changes
+- **PATCH** (0.34.0 → 0.34.1): Bug fixes, documentation updates
+- **MINOR** (0.34.1 → 0.35.0): New features, backward-compatible
+- **MAJOR** (0.35.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

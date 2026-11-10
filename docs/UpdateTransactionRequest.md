@@ -1,6 +1,6 @@
 # UpdateTransactionRequest
 
-Request body for updating transaction. All fields optional except workspace_id and id. For cross-currency transactions, updating exactly one amount re-derives the other at the transaction-date rate and resets forex to 0; updating both computes forex from the implied rate. To clear phantom forex, update only sender_amount (the statement-anchored side). (OMM-2148) When both accounts use the same currency the amounts must be equal; send one and the backend copies it (BE-125).
+Request body for updating transaction. All fields optional except workspace_id and id. For cross-currency transactions, updating exactly one amount re-derives the other at the transaction-date rate and resets forex to 0; updating both computes forex from the implied rate. To clear phantom forex, update only sender_amount (the statement-anchored side). (OMM-2148) When both accounts use the same currency the amounts must be equal; send one and the backend copies it (BE-125). apikey is a creation key: this endpoint does not accept it and never changes a stored key.
 
 ## Properties
 
@@ -16,7 +16,8 @@ Name | Type | Description | Notes
 **dt** | **datetime** | Transaction date and time. Accepted input formats: \&quot;YYYY-MM-DD HH:MM:SS\&quot; (space-separated, no timezone), \&quot;YYYY-MM-DDTHH:MM:SS\&quot; (ISO 8601), \&quot;YYYY-MM-DDTHH:MM:SSZ\&quot; (UTC), \&quot;YYYY-MM-DDTHH:MM:SS+HH:MM\&quot; (with timezone offset). Stored and returned as YYYY-MM-DD HH:MM:SS (UTC). Note: when input contains an embedded timezone, the optional &#x60;timezone&#x60; field must not also be set (HTTP 422). A date-only value &#x60;YYYY-MM-DD&#x60; is also accepted; it is stored as &#x60;YYYY-MM-DD 00:00:00&#x60; and marked time-unset (&#x60;timeUnset:true&#x60; in responses), rendered with a stable calendar date regardless of &#x60;X-Timezone&#x60; (any &#x60;timezone&#x60; field is ignored for a date-only value). Supplying a full datetime clears time-unset; supplying a date-only value sets it. | [optional] 
 **project_id** | **int** | Project ID (HISTORICAL: maps to label_id in DB) | [optional] 
 **comment** | **str** | Transaction comment | [optional] 
-**description** | **str** | Transaction description | [optional] 
+**description** | **str** | Transaction description. Ignored on a note: use actual_balance. | [optional] 
+**actual_balance** | **str** | Note only: the actual balance of the account at dt, a decimal string. A note is a transaction with sender_account_id &#x3D; receiver_account_id and both amounts 0; it needs comment or actual_balance, and dt with a time. Refused on any other transaction. Absent or null keeps the stored value; the literal &#39;null&#39; clears it. | [optional] 
 **done** | **str** | Transaction status (true/false) | [optional] 
 **commission_applied** | **bool** | Whether commission should be applied | [optional] 
 **account_id** | **int** | Account ID for enriched response with transactions and summary | [optional] 

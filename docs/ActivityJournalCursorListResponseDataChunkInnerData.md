@@ -13,10 +13,18 @@ Name | Type | Description | Notes
 **author_name** | **str** |  | [optional] 
 **device** | **str** |  | [optional] 
 **ip** | **str** |  | [optional] 
-**type_action** | **str** |  | [optional] 
+**type_action** | **str** | Action type (create, update, delete, foreign_edit, etc.) | [optional] 
 **amount_impact** | **str** |  | [optional] 
 **type_model** | **str** |  | [optional] 
 **model_id** | **int** |  | [optional] 
+**channel** | **str** | Write channel: &#x60;ui&#x60; is a browser UI (legacy web or an SPA session) | [optional] 
+**client** | **str** | Client name the MCP server vouched for | [optional] 
+**transaction_dt** | **str** | The transaction&#39;s stored date, verbatim, as Y-m-d H:i:s | [optional] 
+**entity_id_1** | **int** | Sender entity ID | [optional] 
+**account_id_1** | **int** | Sender account ID | [optional] 
+**entity_id_2** | **int** | Receiver entity ID | [optional] 
+**account_id_2** | **int** | Receiver account ID | [optional] 
+**foreign_edit** | [**ActivityJournalForeignEdit**](ActivityJournalForeignEdit.md) |  | [optional] 
 
 ## Example
 
