@@ -52,7 +52,8 @@ RESERVED = frozenset(keyword.kwlist) | {
 DATE = datetime.date(2026, 1, 2)
 DATE_FORMAT = "%d.%m.%Y"
 
-# The operations whose bodies the last regeneration changed: each body the
+# The operations whose bodies the last body-changing regeneration changed (a
+# regeneration that changes no body leaves this tuple as it is): each body the
 # document declares must reach the caller, and the server, whole.
 CHANGED_OPERATIONS = (
     "login",
