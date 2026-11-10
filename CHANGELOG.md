@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.33.1 — 2026-11-10 — Supports API 0.169.0
+
+**Behaviour change** (server-side only: no fields, types or method signatures changed).
+
+- **GET /api/reports/export-pdf: Balances files follow the app's sheet, and P&L or Balances exports with nothing to show answer 404** (BE-280): `type=3` (Balances) files now lay out the sheet by the rule GET /api/reports/get-balances already uses. A category is never split and keeps one side in every period: a category whose entity type is `TYPE_ACC` or `TYPE_CFONLY_ACCOUNT` is always on the left (debit), and any other goes by the net of all its accounts in the last period (zero or above on the left, below zero on the right). Before API 0.169.0 the side was chosen account by account. The `Forex gains` or `Forex loss` row and the `Cash revaluation` row balance the sheet, so the two `Total` rows are equal in every period, and a role whose accounts all fall on one side now gets the balancing figure too. Categories and accounts are ordered by name, then id, where they used to follow database order. A side that shows the `Financial Activity` block shows all its rows, zero cells as `0`, and a side with no rows shows `Total` with `0` cells. The 3-year lookback of files is unchanged. `type=1` (P&L) answers 404 `No data available for the selected period` when the label holds no P&L-type account (`type` 6, 7, 9, 10, 11 or 12) that the role can see, where it used to answer 200 with a file; one such account is enough for a file, with or without transactions. `type=3` answers the same 404 when the sheet has no row, where it used to answer 200 with an empty sheet; BE-280 knows of no input that reaches this case. `type=2` (Cash Flow) is unchanged.
+- **GET /api/reports/export-xlsx: the same changes** (BE-280): it renders the same report as GET /api/reports/export-pdf, so each change above holds for the workbook.
+- GET /api/reports/get-balances, get-pnl and get-cashflow answer as before: BE-280 moves them onto the same build path without changing their bodies or status codes, and it changes no request parameter, description or schema in the specification. Its changes to the web report screens and exports and to the nightly console command `report/download` do not reach this client.
+- Regenerated from the API 0.169.0 OpenAPI specification.
+
+
 ## 0.33.0 — 2026-11-08 — Supports API 0.168.2
 
 **Additive** (no breaking changes).
