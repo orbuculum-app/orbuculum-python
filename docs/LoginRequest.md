@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **remember** | **bool** | Optional. When true AND the &#39;X-Auth-Method: session&#39; header is sent, the web-session identity cookie (_identity) lives 30 days instead of the default 2 hours. Ignored for JWT-only logins and when omitted. Defaults to false. | [optional] [default to False]
 **session** | **str** | Optional. Send \&quot;long\&quot; to also receive refreshToken and refreshExpiresAt, for POST /api/auth/session/refresh. Any other value answers 422. Omitted or null: the login behaves as without this field. | [optional] 
 **client_label** | **str** | Optional. Name of the client holding the session, stored with it. Ignored unless session is \&quot;long\&quot;. | [optional] 
+**oauth_client_id** | **str** | OAuth sign-in (MCP server only, requires X-Orbuculum-Mcp-Key): the registered OAuth client_id. Send together with redirectUri. The token then carries connection_id. | [optional] 
+**redirect_uri** | **str** | OAuth sign-in: must equal one of the client&#39;s registered redirect_uris exactly. | [optional] 
 
 ## Example
 

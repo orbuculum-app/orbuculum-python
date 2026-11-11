@@ -55,18 +55,25 @@ DATE_FORMAT = "%d.%m.%Y"
 # The operations whose bodies the last body-changing regeneration changed (a
 # regeneration that changes no body leaves this tuple as it is): each body the
 # document declares must reach the caller, and the server, whole.
-# Left out of the API 0.173.1 regeneration, though their bodies changed:
-# - createTransaction: its `data` is an `allOf`, and `_example` has no `allOf` support;
-# - mutateTransactions: its request schema is inline, and `_arguments` needs a `$ref` (KeyError);
-# - updateTransaction: its request does not come back as sent (the date-time example is sent
-#   with `T`, the nullable `dry_run` default as `False`);
-# - exportAccountTransactionsPdf: it answers a PDF, not a JSON body.
+# The API 0.176.0 regeneration left none out: the 20 write operations that gained the
+# `X-Orbuculum-Change-Set` header kept their bodies.
 CHANGED_OPERATIONS = (
-    "activityJournalList",
-    "deleteTransaction",
-    "getTransaction",
-    "listTransactions",
-    "verifyTransactionLedger",
+    "changeEmail",
+    "changePassword",
+    "commitChangeSet",
+    "createClientConnection",
+    "getChangeSet",
+    "getClientConnectionWorkspace",
+    "getOauthClient",
+    "keyLogin",
+    "listClientConnections",
+    "login",
+    "openChangeSet",
+    "registerOauthClient",
+    "renameClientConnection",
+    "revokeClientConnection",
+    "revokeOtherClientConnections",
+    "setClientConnectionWorkspace",
 )
 
 # The generator HTML-escapes descriptions in the Markdown docs.
@@ -106,10 +113,16 @@ def _section(markdown, method):
 
 
 def _resolved(document, schema):
-    """Return the component schema a `$ref` names, or the schema itself."""
+    """Return the component a local `$ref` names (`#/components/<section>/<name>`), or the object itself."""
     if "$ref" in schema:
-        return document["components"]["schemas"][schema["$ref"].rsplit("/", 1)[-1]]
+        _, section, name = schema["$ref"].rsplit("/", 2)
+        return document["components"][section][name]
     return schema
+
+
+def _request_model(operation_id):
+    """Return the model an inline request body is generated as: <OperationId>Request."""
+    return operation_id[0].upper() + operation_id[1:] + "Request"
 
 
 def _example(document, schema, branch, case):
@@ -238,10 +251,15 @@ class TestOpenApiConformance(unittest.TestCase):
             for method, operation in item.items()
             if isinstance(operation, dict) and "operationId" in operation
         ]
+        # Since API 0.174.0 an operation may name a shared parameter in components.parameters;
+        # every test reads its parameters resolved.
+        for _, _, operation in cls.operations:
+            if "parameters" in operation:
+                operation["parameters"] = [_resolved(cls.document, parameter) for parameter in operation["parameters"]]
         # An inline request body is generated as the model <OperationId>Request;
         # a component schema of that name is shadowed by it and never generated.
         cls.shadowed = {
-            operation["operationId"][0].upper() + operation["operationId"][1:] + "Request"
+            _request_model(operation["operationId"])
             for _, _, operation in cls.operations
             for content in operation.get("requestBody", {}).get("content", {}).values()
             if "$ref" not in content.get("schema", {})
@@ -351,6 +369,26 @@ class TestOpenApiConformance(unittest.TestCase):
                     found = [name for name in inspect.signature(getattr(api, method)).parameters if name in expected]
                     self.assertEqual(found, expected)
 
+    def test_shared_parameters_are_read_in_their_place(self):
+        # The parameter tests read what setUpClass resolved: a shared parameter
+        # it dropped or moved would pass all of them unread.
+        with open(FIXTURE, encoding="utf-8") as fixture_file:
+            recorded = json.load(fixture_file)
+        resolved = {(path, method): operation for path, method, operation in self.operations}
+        shared = [
+            (resolved[path, method], position, _resolved(recorded, parameter))
+            for path, item in recorded["paths"].items()
+            for method, operation in item.items() if (path, method) in resolved
+            for position, parameter in enumerate(operation.get("parameters", [])) if "$ref" in parameter
+        ]
+        self.assertTrue(shared, "the recorded document names no shared parameter")
+        for operation, position, parameter in shared:
+            with self.subTest(operation=operation["operationId"], parameter=parameter["name"]):
+                self.assertEqual(operation["parameters"][position], parameter)
+                api, _ = self._api(operation)
+                signature = inspect.signature(getattr(api, _snake(operation["operationId"]))).parameters
+                self.assertIn(_parameter(parameter["name"]), signature)
+
     def test_api_method_date_parameters_are_dates(self):
         for _, _, operation in self.operations:
             api, _ = self._api(operation)
@@ -435,12 +473,16 @@ class TestOpenApiConformance(unittest.TestCase):
         return call_api.call_args.args[3], client.sanitize_for_serialization(returned)
 
     def _arguments(self, operation, case):
-        """Return a call's arguments, 1 for each required parameter and the request body built from the examples, and that body."""
-        arguments = {_parameter(parameter["name"]): 1 for parameter in operation.get("parameters", []) if parameter.get("required")}
+        """Return a call's arguments, each required parameter and the request body built from the examples, and that body."""
+        arguments = {
+            _parameter(parameter["name"]): _example(self.document, parameter["schema"], 0, "examples")
+            for parameter in operation.get("parameters", []) if parameter.get("required")
+        }
         body = None
         for content in operation.get("requestBody", {}).get("content", {}).values():
-            name = content["schema"]["$ref"].rsplit("/", 1)[-1]
-            body = _example(self.document, content["schema"], 0, case)
+            schema = content["schema"]
+            name = schema["$ref"].rsplit("/", 1)[-1] if "$ref" in schema else _request_model(operation["operationId"])
+            body = _example(self.document, schema, 0, case)
             model = getattr(models, name)
             # A caller that leaves a property out builds the model without it.
             arguments[_snake(name)] = model(**body) if case == "required" else model.from_dict(body)

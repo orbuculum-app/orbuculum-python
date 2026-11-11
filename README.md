@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.34.0
-- **Supported API Version**: 0.173.1
+- **Client Version**: 0.35.0
+- **Supported API Version**: 0.176.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -221,6 +221,7 @@ Class | Method | HTTP request | Description
 *AuthenticationApi* | [**disconnect_social**](docs/AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
 *AuthenticationApi* | [**google_sign_in_callback**](docs/AuthenticationApi.md#google_sign_in_callback) | **GET** /api/auth/google/callback | Google OAuth2 redirect URI
 *AuthenticationApi* | [**google_sign_in_start**](docs/AuthenticationApi.md#google_sign_in_start) | **GET** /api/auth/google/start | Begin Google sign-in
+*AuthenticationApi* | [**key_login**](docs/AuthenticationApi.md#key_login) | **POST** /api/auth/key-login | Sign in with a client connection key
 *AuthenticationApi* | [**login**](docs/AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
 *AuthenticationApi* | [**refresh**](docs/AuthenticationApi.md#refresh) | **POST** /api/auth/refresh | Refresh JWT access token
 *AuthenticationApi* | [**register**](docs/AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
@@ -228,6 +229,16 @@ Class | Method | HTTP request | Description
 *AuthenticationApi* | [**reset_password**](docs/AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
 *AuthenticationApi* | [**session_refresh**](docs/AuthenticationApi.md#session_refresh) | **POST** /api/auth/session/refresh | Renew a long session
 *AuthenticationApi* | [**session_revoke**](docs/AuthenticationApi.md#session_revoke) | **POST** /api/auth/session/revoke | Revoke a long session
+*ChangeSetApi* | [**commit_change_set**](docs/ChangeSetApi.md#commit_change_set) | **POST** /api/change-set/commit | Commit an open change set
+*ChangeSetApi* | [**get_change_set**](docs/ChangeSetApi.md#get_change_set) | **GET** /api/change-set/get | Read a change set with its items
+*ChangeSetApi* | [**open_change_set**](docs/ChangeSetApi.md#open_change_set) | **POST** /api/change-set/open | Open an explicit change set
+*ClientConnectionApi* | [**create_client_connection**](docs/ClientConnectionApi.md#create_client_connection) | **POST** /api/client-connection/create | Create a key connection
+*ClientConnectionApi* | [**get_client_connection_workspace**](docs/ClientConnectionApi.md#get_client_connection_workspace) | **GET** /api/client-connection/get-workspace | Read this connection&#39;s chosen workspace
+*ClientConnectionApi* | [**list_client_connections**](docs/ClientConnectionApi.md#list_client_connections) | **GET** /api/client-connection/list | List my client connections
+*ClientConnectionApi* | [**rename_client_connection**](docs/ClientConnectionApi.md#rename_client_connection) | **POST** /api/client-connection/rename | Rename a client connection
+*ClientConnectionApi* | [**revoke_client_connection**](docs/ClientConnectionApi.md#revoke_client_connection) | **POST** /api/client-connection/revoke | Revoke a client connection
+*ClientConnectionApi* | [**revoke_other_client_connections**](docs/ClientConnectionApi.md#revoke_other_client_connections) | **POST** /api/client-connection/revoke-all-others | Revoke all other client connections
+*ClientConnectionApi* | [**set_client_connection_workspace**](docs/ClientConnectionApi.md#set_client_connection_workspace) | **POST** /api/client-connection/set-workspace | Set this connection&#39;s chosen workspace
 *ConnectionApi* | [**create_connection_recipient**](docs/ConnectionApi.md#create_connection_recipient) | **POST** /api/connection/create-recipient | Create recipient connection
 *ConnectionApi* | [**create_connection_source**](docs/ConnectionApi.md#create_connection_source) | **POST** /api/connection/create-source | Create source connection
 *ConnectionApi* | [**delete_connection**](docs/ConnectionApi.md#delete_connection) | **POST** /api/connection/delete | Delete connection
@@ -268,6 +279,8 @@ Class | Method | HTTP request | Description
 *MembershipApi* | [**membership_invite**](docs/MembershipApi.md#membership_invite) | **POST** /api/membership/invite | Invite an existing user to the workspace (role-free)
 *MembershipApi* | [**membership_list**](docs/MembershipApi.md#membership_list) | **GET** /api/membership/list | List workspace members (role-free)
 *MembershipApi* | [**membership_remove**](docs/MembershipApi.md#membership_remove) | **POST** /api/membership/remove | Remove a member from the workspace
+*OAuthClientApi* | [**get_oauth_client**](docs/OAuthClientApi.md#get_oauth_client) | **GET** /api/oauth-client/get | Look up an OAuth client (MCP server only)
+*OAuthClientApi* | [**register_oauth_client**](docs/OAuthClientApi.md#register_oauth_client) | **POST** /api/oauth-client/register | Register an OAuth client (MCP server only)
 *PermissionsApi* | [**get_entity_permissions_for_user**](docs/PermissionsApi.md#get_entity_permissions_for_user) | **GET** /api/permission/entity | Get a workspace member&#39;s per-entity permissions + create_entity flag (role-free, by user_id)
 *PermissionsApi* | [**get_general_permissions**](docs/PermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get a workspace member&#39;s general permission flags (role-free, by user_id)
 *PermissionsApi* | [**get_project_permissions_for_user**](docs/PermissionsApi.md#get_project_permissions_for_user) | **GET** /api/permission/project | Get a workspace member&#39;s per-project account permissions (role-free, by user_id)
@@ -452,11 +465,29 @@ Class | Method | HTTP request | Description
  - [ChangePassword200Response](docs/ChangePassword200Response.md)
  - [ChangePassword200ResponseData](docs/ChangePassword200ResponseData.md)
  - [ChangePasswordRequest](docs/ChangePasswordRequest.md)
+ - [ChangeSet](docs/ChangeSet.md)
+ - [ChangeSetItem](docs/ChangeSetItem.md)
  - [CheckChainedTransactionsRequest](docs/CheckChainedTransactionsRequest.md)
+ - [ClientConnection](docs/ClientConnection.md)
+ - [ClientConnectionCreateRequest](docs/ClientConnectionCreateRequest.md)
+ - [ClientConnectionCreateResponse](docs/ClientConnectionCreateResponse.md)
+ - [ClientConnectionCreateResponseData](docs/ClientConnectionCreateResponseData.md)
+ - [ClientConnectionIdRequest](docs/ClientConnectionIdRequest.md)
+ - [ClientConnectionListResponse](docs/ClientConnectionListResponse.md)
+ - [ClientConnectionListResponseData](docs/ClientConnectionListResponseData.md)
+ - [ClientConnectionRenameRequest](docs/ClientConnectionRenameRequest.md)
+ - [ClientConnectionResponse](docs/ClientConnectionResponse.md)
+ - [ClientConnectionResponseData](docs/ClientConnectionResponseData.md)
+ - [ClientConnectionRevokeAllOthersResponse](docs/ClientConnectionRevokeAllOthersResponse.md)
+ - [ClientConnectionRevokeAllOthersResponseData](docs/ClientConnectionRevokeAllOthersResponseData.md)
+ - [ClientConnectionWorkspaceRequest](docs/ClientConnectionWorkspaceRequest.md)
+ - [ClientConnectionWorkspaceResponse](docs/ClientConnectionWorkspaceResponse.md)
+ - [ClientConnectionWorkspaceResponseData](docs/ClientConnectionWorkspaceResponseData.md)
  - [ColumnInfo](docs/ColumnInfo.md)
  - [CommissionCreatedResponse](docs/CommissionCreatedResponse.md)
  - [CommissionCreatedResponseData](docs/CommissionCreatedResponseData.md)
  - [CommissionData](docs/CommissionData.md)
+ - [CommitChangeSetRequest](docs/CommitChangeSetRequest.md)
  - [CreateAccountRequest](docs/CreateAccountRequest.md)
  - [CreateConnectionRecipient201Response](docs/CreateConnectionRecipient201Response.md)
  - [CreateConnectionRecipient201ResponseData](docs/CreateConnectionRecipient201ResponseData.md)
@@ -609,6 +640,7 @@ Class | Method | HTTP request | Description
  - [IntermediaryTransactionCreatedResponse](docs/IntermediaryTransactionCreatedResponse.md)
  - [IntermediaryTransactionUpdatedData](docs/IntermediaryTransactionUpdatedData.md)
  - [IntermediaryTransactionUpdatedResponse](docs/IntermediaryTransactionUpdatedResponse.md)
+ - [KeyLoginRequest](docs/KeyLoginRequest.md)
  - [LedgerInvariantResult](docs/LedgerInvariantResult.md)
  - [LedgerInvariantResultOffendersInner](docs/LedgerInvariantResultOffendersInner.md)
  - [LedgerVerificationResponse](docs/LedgerVerificationResponse.md)
@@ -666,6 +698,11 @@ Class | Method | HTTP request | Description
  - [MutateTransactionsRequest](docs/MutateTransactionsRequest.md)
  - [MutateTransactionsResponse](docs/MutateTransactionsResponse.md)
  - [MutateTransactionsResponseData](docs/MutateTransactionsResponseData.md)
+ - [OauthClientRegisterRequest](docs/OauthClientRegisterRequest.md)
+ - [OauthClientResponse](docs/OauthClientResponse.md)
+ - [OauthClientResponseData](docs/OauthClientResponseData.md)
+ - [OpenChangeSet200Response](docs/OpenChangeSet200Response.md)
+ - [OpenChangeSetRequest](docs/OpenChangeSetRequest.md)
  - [PermissionManageAccess200Response](docs/PermissionManageAccess200Response.md)
  - [PermissionManageAccess200ResponseData](docs/PermissionManageAccess200ResponseData.md)
  - [PermissionManageAccess200ResponseDataManagedUsersInner](docs/PermissionManageAccess200ResponseDataManagedUsersInner.md)
@@ -905,16 +942,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.34.0
-print(orbuculum_client.__api_version__)    # API version: 0.173.1
-print(orbuculum_client.__api_supported__)  # Supported API: 0.173.1
+print(orbuculum_client.__version__)        # Client version: 0.35.0
+print(orbuculum_client.__api_version__)    # API version: 0.176.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.176.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.34.0 → 0.34.1): Bug fixes, documentation updates
-- **MINOR** (0.34.1 → 0.35.0): New features, backward-compatible
-- **MAJOR** (0.35.0 → 1.0.0): Breaking changes
+- **PATCH** (0.35.0 → 0.35.1): Bug fixes, documentation updates
+- **MINOR** (0.35.1 → 0.36.0): New features, backward-compatible
+- **MAJOR** (0.36.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

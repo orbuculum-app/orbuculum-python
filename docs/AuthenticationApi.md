@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**disconnect_social**](AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
 [**google_sign_in_callback**](AuthenticationApi.md#google_sign_in_callback) | **GET** /api/auth/google/callback | Google OAuth2 redirect URI
 [**google_sign_in_start**](AuthenticationApi.md#google_sign_in_start) | **GET** /api/auth/google/start | Begin Google sign-in
+[**key_login**](AuthenticationApi.md#key_login) | **POST** /api/auth/key-login | Sign in with a client connection key
 [**login**](AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
 [**refresh**](AuthenticationApi.md#refresh) | **POST** /api/auth/refresh | Refresh JWT access token
 [**register**](AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
@@ -239,12 +240,86 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **key_login**
+> LoginResponse key_login(key_login_request)
+
+Sign in with a client connection key
+
+Exchanges a client connection key for a JWT (valid 1 hour) that names the connection in its connection_id claim. Refresh it with /api/auth/refresh, which keeps the claim. A revoked connection, an unknown key or an inactive user answers 401. Records the connection's user agent, IP and last use.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.key_login_request import KeyLoginRequest
+from orbuculum_client.models.login_response import LoginResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    key_login_request = orbuculum_client.KeyLoginRequest() # KeyLoginRequest | 
+
+    try:
+        # Sign in with a client connection key
+        api_response = api_instance.key_login(key_login_request)
+        print("The response of AuthenticationApi->key_login:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->key_login: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **key_login_request** | [**KeyLoginRequest**](KeyLoginRequest.md)|  | 
+
+### Return type
+
+[**LoginResponse**](LoginResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Signed in |  -  |
+**400** | Validation error (missing connection_key) |  -  |
+**401** | Unknown key, revoked connection, or user not active |  -  |
+**405** | Method not allowed |  -  |
+**422** | Validation error (connection_key is not a string) |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **login**
 > LoginResponse login(login_request)
 
 Login and get JWT token
 
-Authenticates a user and returns a JWT token for API access. Supports both JSON and form-data content types.
+Authenticates a user and returns a JWT token for API access. Supports both JSON and form-data content types. OAuth sign-in (MCP server only): with oauthClientId and redirectUri and the X-Orbuculum-Mcp-Key header, the sign-in finds or creates the user's one connection for that OAuth client, and the token (and the long session's refreshes) carry its connection_id.
 
 ### Example
 
@@ -305,7 +380,9 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful login |  -  |
+**400** | Missing email/password, unknown OAuth client or unregistered redirectUri |  -  |
 **401** | Invalid credentials |  -  |
+**403** | OAuth sign-in fields sent without the MCP server credential |  -  |
 **405** | Method not allowed |  -  |
 **422** | Validation error (invalid session or clientLabel) |  -  |
 **500** | Internal server error |  -  |

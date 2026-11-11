@@ -24,7 +24,7 @@ Method | HTTP request | Description
 
 
 # **add_transaction_commission**
-> CommissionCreatedResponse add_transaction_commission(add_commission_request)
+> CommissionCreatedResponse add_transaction_commission(add_commission_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Add commission to a transaction
 
@@ -62,10 +62,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     add_commission_request = orbuculum_client.AddCommissionRequest() # AddCommissionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Add commission to a transaction
-        api_response = api_instance.add_transaction_commission(add_commission_request)
+        api_response = api_instance.add_transaction_commission(add_commission_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of TransactionApi->add_transaction_commission:\n")
         pprint(api_response)
     except Exception as e:
@@ -80,6 +81,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **add_commission_request** | [**AddCommissionRequest**](AddCommissionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
@@ -188,7 +190,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_transaction**
-> CreateTransaction200Response create_transaction(create_transaction_request)
+> CreateTransaction200Response create_transaction(create_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Create a new transaction
 
@@ -234,10 +236,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     create_transaction_request = orbuculum_client.CreateTransactionRequest() # CreateTransactionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Create a new transaction
-        api_response = api_instance.create_transaction(create_transaction_request)
+        api_response = api_instance.create_transaction(create_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of TransactionApi->create_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -252,6 +255,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_transaction_request** | [**CreateTransactionRequest**](CreateTransactionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
@@ -284,7 +288,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_transaction**
-> TransactionDeletedResponse delete_transaction(delete_transaction_request)
+> TransactionDeletedResponse delete_transaction(delete_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Delete an existing transaction
 
@@ -326,10 +330,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     delete_transaction_request = orbuculum_client.DeleteTransactionRequest() # DeleteTransactionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Delete an existing transaction
-        api_response = api_instance.delete_transaction(delete_transaction_request)
+        api_response = api_instance.delete_transaction(delete_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of TransactionApi->delete_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -344,6 +349,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **delete_transaction_request** | [**DeleteTransactionRequest**](DeleteTransactionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
@@ -1118,7 +1124,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **mutate_transactions**
-> MutateTransactionsResponse mutate_transactions(mutate_transactions_request, x_timezone=x_timezone)
+> MutateTransactionsResponse mutate_transactions(mutate_transactions_request, x_orbuculum_change_set=x_orbuculum_change_set, x_timezone=x_timezone)
 
 Unified transaction mutation endpoint
 
@@ -1156,11 +1162,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     mutate_transactions_request = orbuculum_client.MutateTransactionsRequest() # MutateTransactionsRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2127: IANA timezone name (e.g. Europe/Kyiv). Upsert `dt` instants are emitted as explicit-offset ISO-8601 (matching the list endpoint) and the filter date_from/date_to day window is interpreted in this zone. Absent or invalid → UTC (…Z). (optional)
 
     try:
         # Unified transaction mutation endpoint
-        api_response = api_instance.mutate_transactions(mutate_transactions_request, x_timezone=x_timezone)
+        api_response = api_instance.mutate_transactions(mutate_transactions_request, x_orbuculum_change_set=x_orbuculum_change_set, x_timezone=x_timezone)
         print("The response of TransactionApi->mutate_transactions:\n")
         pprint(api_response)
     except Exception as e:
@@ -1175,6 +1182,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **mutate_transactions_request** | [**MutateTransactionsRequest**](MutateTransactionsRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
  **x_timezone** | **str**| OMM-2127: IANA timezone name (e.g. Europe/Kyiv). Upsert &#x60;dt&#x60; instants are emitted as explicit-offset ISO-8601 (matching the list endpoint) and the filter date_from/date_to day window is interpreted in this zone. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
@@ -1290,7 +1298,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_transaction**
-> UpdateTransaction200Response update_transaction(update_transaction_request)
+> UpdateTransaction200Response update_transaction(update_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Update an existing transaction
 
@@ -1336,10 +1344,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     update_transaction_request = orbuculum_client.UpdateTransactionRequest() # UpdateTransactionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Update an existing transaction
-        api_response = api_instance.update_transaction(update_transaction_request)
+        api_response = api_instance.update_transaction(update_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of TransactionApi->update_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -1354,6 +1363,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_transaction_request** | [**UpdateTransactionRequest**](UpdateTransactionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
