@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **create_scheduled_transaction**
-> CreateScheduledTransaction200Response create_scheduled_transaction(create_scheduled_transaction_request, x_timezone=x_timezone)
+> CreateScheduledTransaction200Response create_scheduled_transaction(create_scheduled_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set, x_timezone=x_timezone)
 
 Create a new scheduled transaction
 
@@ -50,11 +50,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     create_scheduled_transaction_request = orbuculum_client.CreateScheduledTransactionRequest() # CreateScheduledTransactionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
         # Create a new scheduled transaction
-        api_response = api_instance.create_scheduled_transaction(create_scheduled_transaction_request, x_timezone=x_timezone)
+        api_response = api_instance.create_scheduled_transaction(create_scheduled_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set, x_timezone=x_timezone)
         print("The response of ScheduledTransactionApi->create_scheduled_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -69,6 +70,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_scheduled_transaction_request** | [**CreateScheduledTransactionRequest**](CreateScheduledTransactionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
  **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
@@ -99,7 +101,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_scheduled_transaction**
-> DeleteScheduledTransaction200Response delete_scheduled_transaction(delete_scheduled_transaction_request)
+> DeleteScheduledTransaction200Response delete_scheduled_transaction(delete_scheduled_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Delete a scheduled transaction
 
@@ -137,10 +139,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     delete_scheduled_transaction_request = orbuculum_client.DeleteScheduledTransactionRequest() # DeleteScheduledTransactionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Delete a scheduled transaction
-        api_response = api_instance.delete_scheduled_transaction(delete_scheduled_transaction_request)
+        api_response = api_instance.delete_scheduled_transaction(delete_scheduled_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of ScheduledTransactionApi->delete_scheduled_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -155,6 +158,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **delete_scheduled_transaction_request** | [**DeleteScheduledTransactionRequest**](DeleteScheduledTransactionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
@@ -365,7 +369,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_scheduled_transaction**
-> UpdateScheduledTransaction200Response update_scheduled_transaction(update_scheduled_transaction_request, x_timezone=x_timezone)
+> UpdateScheduledTransaction200Response update_scheduled_transaction(update_scheduled_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set, x_timezone=x_timezone)
 
 Update a scheduled transaction
 
@@ -403,11 +407,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     update_scheduled_transaction_request = orbuculum_client.UpdateScheduledTransactionRequest() # UpdateScheduledTransactionRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
         # Update a scheduled transaction
-        api_response = api_instance.update_scheduled_transaction(update_scheduled_transaction_request, x_timezone=x_timezone)
+        api_response = api_instance.update_scheduled_transaction(update_scheduled_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set, x_timezone=x_timezone)
         print("The response of ScheduledTransactionApi->update_scheduled_transaction:\n")
         pprint(api_response)
     except Exception as e:
@@ -422,6 +427,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_scheduled_transaction_request** | [**UpdateScheduledTransactionRequest**](UpdateScheduledTransactionRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
  **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type

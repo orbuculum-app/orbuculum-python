@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **create_project**
-> ProjectCreatedResponse create_project(create_project_request)
+> ProjectCreatedResponse create_project(create_project_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Create project
 
@@ -49,10 +49,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ProjectApi(api_client)
     create_project_request = orbuculum_client.CreateProjectRequest() # CreateProjectRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Create project
-        api_response = api_instance.create_project(create_project_request)
+        api_response = api_instance.create_project(create_project_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of ProjectApi->create_project:\n")
         pprint(api_response)
     except Exception as e:
@@ -67,6 +68,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_project_request** | [**CreateProjectRequest**](CreateProjectRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
@@ -96,7 +98,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_project**
-> SuccessResponse delete_project(delete_project_request)
+> SuccessResponse delete_project(delete_project_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Delete an existing project
 
@@ -134,10 +136,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ProjectApi(api_client)
     delete_project_request = orbuculum_client.DeleteProjectRequest() # DeleteProjectRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Delete an existing project
-        api_response = api_instance.delete_project(delete_project_request)
+        api_response = api_instance.delete_project(delete_project_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of ProjectApi->delete_project:\n")
         pprint(api_response)
     except Exception as e:
@@ -152,6 +155,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **delete_project_request** | [**DeleteProjectRequest**](DeleteProjectRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 
@@ -267,7 +271,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_project**
-> UpdateProjectResponse update_project(update_project_request)
+> UpdateProjectResponse update_project(update_project_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Update project
 
@@ -305,10 +309,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ProjectApi(api_client)
     update_project_request = orbuculum_client.UpdateProjectRequest() # UpdateProjectRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
 
     try:
         # Update project
-        api_response = api_instance.update_project(update_project_request)
+        api_response = api_instance.update_project(update_project_request, x_orbuculum_change_set=x_orbuculum_change_set)
         print("The response of ProjectApi->update_project:\n")
         pprint(api_response)
     except Exception as e:
@@ -323,6 +328,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_project_request** | [**UpdateProjectRequest**](UpdateProjectRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
 
 ### Return type
 

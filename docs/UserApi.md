@@ -265,6 +265,7 @@ Name | Type | Description  | Notes
 **200** | Password created |  -  |
 **400** | Missing password |  -  |
 **401** | Unauthorized |  -  |
+**403** | Not allowed with a client connection token |  -  |
 **405** | Method not allowed |  -  |
 **409** | Local auth already exists |  -  |
 **422** | Weak password |  -  |
