@@ -1,6 +1,6 @@
 # TransactionCanonicalRow
 
-Canonical camelCase transaction wire shape (OMM-2102). Real booleans; amounts/balances/forex as strings to preserve precision.
+Canonical camelCase transaction wire shape (OMM-2102). Real booleans; amounts/balances/forex as strings to preserve precision. BE-307: every camelCase property also has a snake_case twin with the identical value; the camelCase spellings are deprecated.
 
 ## Properties
 
@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **done** | **bool** | Transaction completion status (real JSON boolean) | 
 **apikey** | **str** | External-integration identifier. NULL for transactions created directly via the UI. | [optional] 
 **forex** | **str** | Per-transaction FX gain/loss amount in base-currency units, serialized as string to preserve precision. NULL until calculated. | [optional] 
+**rate_fixed** | **str** | How a single-amount edit of this transaction behaves; see the update request. | [optional] 
 **sender_account_id** | **int** | Sender account ID | 
 **receiver_account_id** | **int** | Receiver account ID | 
 **sender_amount** | **str** | Sender amount. Decimal value serialized as string to preserve precision; avoids JSON float rounding. | 
@@ -33,6 +34,7 @@ Name | Type | Description | Notes
 **editable** | **bool** | Whether the requesting role may edit this transaction. May be null only in the context-less formatter path. | [optional] 
 **is_read_only** | **bool** | Inverse of editable. May be null only in the context-less formatter path. | [optional] 
 **project_id** | **int** | Label FK — the API&#39;s legacy alias for the DB column &#x60;label_id&#x60; (API &#x60;project_id&#x60; &#x3D;&#x3D; DB &#x60;label_id&#x60;). NULL when the transaction carries no label. NOTE: this is the transaction&#39;s LABEL id, NOT the workspace/tenant id. | [optional] 
+**is_out** | **bool** | Present only on &#x60;upserts&#x60; rows of an account-scoped list diff (mutate, and create/update/delete called with an account); absent on list and get rows. | [optional] 
 **labels** | [**List[Project]**](Project.md) | Labels attached to this transaction. Currently at most one element, projected from &#x60;projectId&#x60;/&#x60;label_id&#x60;; always returned as an array for forward compatibility. Empty when the transaction has no label. Not permission-filtered: if the row is visible, its label is visible. | [optional] 
 
 ## Example

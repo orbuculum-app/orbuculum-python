@@ -202,7 +202,7 @@ Single-amount semantic (cross-currency): for a transaction whose sender and rece
 
 Example — record a 57 EUR cost paid from an EUR account into a USD account: send {"sender_account_id": <EUR account>, "receiver_account_id": <USD account>, "sender_amount": "57.00"} and OMIT receiver_amount. The backend computes receiver_amount at the date's EUR→USD rate and forex = 0. Do NOT send "receiver_amount": "57.00" alongside it — that implies a 1:1 rate and creates phantom forex. (OMM-2148)
 
-Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview and on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
+Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview, on any error, and when the diff could not be built after the write committed; reload the list when it is absent. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged. If the row is committed but its full body cannot be built, the answer is still 201 and `data` holds only `id` (intermediary: `leg1_id`, `leg2_id`, `leg1.id`, `leg2.id`). Do not repeat the create.
 
 ### Example
 
@@ -294,7 +294,7 @@ Delete an existing transaction
 
 Permanently deletes a transaction from the system. This action cannot be undone. Note: This endpoint uses POST method instead of DELETE because it requires a JSON request body.
 
-Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
+Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on any error, and when the diff could not be built after the write committed; reload the list when it is absent. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
 
 Chained pairs (BE-235): deleting either leg of a chained pair deletes both legs and their commissions atomically. The partner leg passes the same initial-balance (422) and permission (403) checks as the requested leg; if either leg fails a check, or any delete fails (500), nothing is deleted. The partner leg and its deleted commissions are listed in `removed_ids` (with `account_id`) and in `list_diff.drops` (with `list_scope`); `data.deleted_commissions` keeps describing the requested leg's own commissions.
 
@@ -374,7 +374,7 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
-**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be deleted (OMM-2133) |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be deleted (OMM-2133); correct or remove the opening balance with POST /api/account/update (&#x60;initial_balance&#x60;; &#39;0&#39; removes it) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1310,7 +1310,9 @@ Single-amount semantic (cross-currency, XOR): updating EXACTLY ONE of `sender_am
 
 Cleanup rule — to remove phantom forex from an existing cross-currency transaction, update ONLY `sender_amount` (the side anchored to the historical bank statement). The backend re-derives `receiver_amount` at the transaction-date rate and forex returns to 0 without moving the anchored sender side. Do NOT update only `receiver_amount` for cleanup: that re-derives and SHIFTS `sender_amount` off the historical statement (sender drift). (OMM-2148)
 
-Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview and on any error. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
+Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview, on any error, and when the diff could not be built after the write committed; reload the list when it is absent. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged.
+
+Rate fixed (BE-300): when rate_fixed is keep_rate, keep_amount or refuse, a single-amount edit follows that mode instead of the exchange rate, and forex is not reset. Whenever the server recalculates an amount, data.recalculated names it, with the field, old and new values and the basis.
 
 ### Example
 
@@ -1389,7 +1391,7 @@ Name | Type | Description  | Notes
 **404** | Transaction not found |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict — intermediary pair invariant broken (chained_id mismatch / account mismatch) |  -  |
-**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. Also returned when a new commission&#39;s parent is a row synchronized from another workspace. |  -  |
+**422** | Unprocessable entity — initial-balance transactions are read-only and cannot be modified (OMM-2133); correct the opening balance with POST /api/account/update (&#x60;initial_balance&#x60;). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. Also returned when a new commission&#39;s parent is a row synchronized from another workspace. |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

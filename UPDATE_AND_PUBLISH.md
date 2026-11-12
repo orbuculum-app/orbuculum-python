@@ -144,15 +144,16 @@ docker-compose run --rm updater -u http://host.docker.internal:8080/openapi.json
 
 This command:
 1. Downloads latest OpenAPI spec from specified URL (default: `https://orbuculum.app/swagger/json`)
-2. Creates automatic backup in `backups/backup_YYYYMMDD_HHMMSS/`
-3. Regenerates client code
-4. **Asks interactively** if you want to update client version:
+2. Leaves BE-307's deprecated camelCase twins out of the downloaded spec through `scripts/drop_deprecated_twins.py` (only the snake_case twin is generated), and stops with exit 1, before anything is regenerated, when a deprecated property has no snake_case twin
+3. Creates automatic backup in `backups/backup_YYYYMMDD_HHMMSS/`
+4. Regenerates client code
+5. **Asks interactively** if you want to update client version:
    - Shows current client version and new API version
    - Offers options: keep current, patch/minor/major bump, or manual entry
    - Automatically updates both `pyproject.toml` and `orbuculum_client/__init__.py`
-5. Updates README.md (API Endpoints and Models sections)
-6. Verifies generated code
-7. **Runs tests automatically** (can be skipped with `--skip-tests`)
+6. Updates README.md (API Endpoints and Models sections)
+7. Verifies generated code
+8. **Runs tests automatically** (can be skipped with `--skip-tests`)
 
 #### Usage Examples
 
@@ -274,6 +275,9 @@ If Docker is unavailable:
 ```bash
 # Download spec
 curl -o orbuculum-openapi.json https://orbuculum.app/swagger/json
+
+# Leave BE-307's deprecated camelCase twins out (stops when one has no snake_case twin)
+python3 scripts/drop_deprecated_twins.py orbuculum-openapi.json
 
 # Backup
 cp -r orbuculum_client orbuculum_client.backup
@@ -747,6 +751,7 @@ For implementation details:
 - `dev-notes/VERSION_SYNC.md` - Version synchronization
 - `dev-notes/publishing-automation.md` - Publishing automation
 - `scripts/update_api.sh` - Update script
+- `scripts/drop_deprecated_twins.py` - Twin filter: leaves BE-307's deprecated camelCase properties out of the spec before generation
 - `scripts/publish.sh` - Publishing script
 
 ---

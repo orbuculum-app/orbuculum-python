@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **old_attributes** | **Dict[str, object]** | Pre-update field snapshot (free-form). On a note, for a role with hidden balances, description, sender_balance_after and receiver_balance_after are null. | [optional] 
 **commissions** | [**UpdateTransactionResponseDataCommissions**](UpdateTransactionResponseDataCommissions.md) |  | [optional] 
+**recalculated** | [**TransactionRecalculatedNote**](TransactionRecalculatedNote.md) |  | [optional] 
 **transactions** | **List[object]** | Enriched transactions list (present only when request includes account_id) | [optional] 
 **removed_ids** | **List[int]** | IDs removed from the account view (present only when request includes account_id) | [optional] 
 **summary** | **Dict[str, object]** | Account summary recompute (present only when request includes account_id) | [optional] 

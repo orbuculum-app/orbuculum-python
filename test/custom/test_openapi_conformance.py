@@ -15,12 +15,15 @@ generated from any other document, or a generator that mangles the text on
 the way, fails these rules. The fixture is re-recorded with every regeneration.
 """
 
+import copy
 import datetime
+import importlib.util
 import inspect
 import json
 import keyword
 import os
 import re
+import tempfile
 import typing
 import unittest
 from types import SimpleNamespace
@@ -36,6 +39,10 @@ from pydantic import BaseModel, ValidationError
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "openapi_document.json")
+# The twin filter the generator reads the document through (scripts/update_api.sh, BE-307).
+_spec = importlib.util.spec_from_file_location("drop_deprecated_twins", os.path.join(ROOT, "scripts", "drop_deprecated_twins.py"))
+twins = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(twins)
 
 HEADER = re.compile(r"^    The version of the OpenAPI document: (.*)$", re.MULTILINE)
 
@@ -55,25 +62,24 @@ DATE_FORMAT = "%d.%m.%Y"
 # The operations whose bodies the last body-changing regeneration changed (a
 # regeneration that changes no body leaves this tuple as it is): each body the
 # document declares must reach the caller, and the server, whole.
-# The API 0.176.0 regeneration left none out: the 20 write operations that gained the
-# `X-Orbuculum-Change-Set` header kept their bodies.
+# API 0.179.0: `rate_fixed` and `recalculated` (BE-300), the TestApi operations (BE-297),
+# and the snake_case twins of camelCase read properties (BE-307). Left out, as in the API
+# 0.173.1 regeneration, because the round-trip helpers cannot carry them: createTransaction (its
+# 201 and 200 `data` is an `allOf`, which `_example` lacks) and updateTransaction (its
+# intermediary answer's `dt` example is space-separated, which `_utc_as_offset` does not map);
+# neither request comes back as sent (the `dt` example goes out with `T`, the nullable `dry_run`
+# default as `False`).
 CHANGED_OPERATIONS = (
-    "changeEmail",
-    "changePassword",
-    "commitChangeSet",
-    "createClientConnection",
-    "getChangeSet",
-    "getClientConnectionWorkspace",
-    "getOauthClient",
-    "keyLogin",
-    "listClientConnections",
-    "login",
-    "openChangeSet",
-    "registerOauthClient",
-    "renameClientConnection",
-    "revokeClientConnection",
-    "revokeOtherClientConnections",
-    "setClientConnectionWorkspace",
+    "activityJournalList",
+    "deleteTransaction",
+    "getAccountContext",
+    "getLimitationModalContext",
+    "getTransaction",
+    "listTransactions",
+    "mutateTransactions",
+    "testWorkspaceCreate",
+    "testWorkspaceDelete",
+    "testWorkspaceReset",
 )
 
 # The generator HTML-escapes descriptions in the Markdown docs.
@@ -207,6 +213,15 @@ def _without_nulls(value):
     return value
 
 
+def _without_twins(value):
+    """Return `value` without each key whose snake_case twin is also a key of its object (BE-307)."""
+    if isinstance(value, dict):
+        return {key: _without_twins(item) for key, item in value.items() if twins.snake_case(key) == key or twins.snake_case(key) not in value}
+    if isinstance(value, list):
+        return [_without_twins(item) for item in value]
+    return value
+
+
 def _utc_as_offset(value):
     """Return `value` with each UTC date-time written `+00:00`, the form the client serialises the same instant in."""
     if isinstance(value, dict):
@@ -244,7 +259,10 @@ class TestOpenApiConformance(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         with open(FIXTURE, encoding="utf-8") as fixture_file:
-            cls.document = json.load(fixture_file)
+            text = fixture_file.read()
+        cls.recorded = json.loads(text)
+        cls.document = json.loads(text)
+        twins.drop_deprecated_twins(cls.document)  # the document as the generator reads it
         cls.operations = [
             (path, method, operation)
             for path, item in cls.document["paths"].items()
@@ -458,7 +476,8 @@ class TestOpenApiConformance(unittest.TestCase):
                 markdown = doc_file.read()
             for code, response in operation.get("responses", {}).items():
                 with self.subTest(operation=operation["operationId"], response=code):
-                    row = "**%s** | %s | " % (code, _md_escaped(response.get("description", "")))
+                    # The generator writes a response description's `"` as `\"` before HTML-escaping it.
+                    row = "**%s** | %s | " % (code, _md_escaped(response.get("description", "").replace('"', '\\"')))
                     self.assertIn(row, markdown)
 
     def _call(self, operation, status, answer, **arguments):
@@ -512,7 +531,8 @@ class TestOpenApiConformance(unittest.TestCase):
         def walk(model, schema):
             fields = {field.alias or key: (key, field) for key, field in model.model_fields.items()}
             for prop, prop_schema in schema.get("properties", {}).items():
-                if prop in schema.get("required", ()) and prop_schema.get("nullable") and "$ref" not in prop_schema:
+                required = prop in schema.get("required", ())
+                if required and prop_schema.get("nullable") and "$ref" not in prop_schema:
                     yield model, prop, fields.get(prop)
                 if prop in fields and "properties" in prop_schema:
                     yield from walk(_model_of(fields[prop][1].annotation), prop_schema)
@@ -525,6 +545,63 @@ class TestOpenApiConformance(unittest.TestCase):
                     key, field = found
                     self.assertTrue(field.is_required(), "%s.%s has a default" % (model.__name__, key))
                     model.__pydantic_validator__.validate_assignment(model.model_construct(), key, None)
+
+    def test_deprecated_properties_are_read_through_snake_case_twins(self):
+        # BE-307: a camelCase read property is `deprecated` beside its snake_case twin of the same
+        # value. Both take one Python name, so the generator reads the document without the
+        # deprecated spelling; the twin rule lives in scripts/drop_deprecated_twins.py.
+        def walk(model, schema):
+            fields = {field.alias or key: field for key, field in model.model_fields.items()}
+            for prop, prop_schema in schema.get("properties", {}).items():
+                if prop_schema.get("deprecated"):
+                    yield model, prop, fields
+                elif prop in fields and "properties" in prop_schema:
+                    yield from walk(_model_of(fields[prop].annotation), prop_schema)
+        found = [
+            item for name, schema in self.recorded["components"]["schemas"].items()
+            if name not in self.shadowed for item in walk(getattr(models, name), schema)
+        ]
+        for model, prop, fields in found:
+            with self.subTest(model=model.__name__, property=prop):
+                self.assertNotIn(prop, fields)
+                self.assertNotIn(prop, getattr(model, "_%s__properties" % model.__name__))
+                self.assertIn(twins.snake_case(prop), fields)
+
+    def test_twin_filter_on_the_recorded_document(self):
+        # scripts/drop_deprecated_twins.py on the recorded 0.179.0 document and on variants of it.
+        row = "#/components/schemas/TransactionCanonicalRow"
+        with self.subTest(case="recorded"):
+            document = copy.deepcopy(self.recorded)
+            document["paths"]["/api/transaction/list"]["get"]["deprecated"] = True  # an operation's flag stays
+            dropped = twins.drop_deprecated_twins(document)
+            self.assertIs(document["paths"]["/api/transaction/list"]["get"].pop("deprecated"), True)
+            self.assertNotIn('"deprecated": true', json.dumps(document))
+            self.assertIn(row + "/properties/senderAccountId", dropped)
+            # A deprecated subtree goes whole: nothing under a dropped pointer is reported on its own.
+            self.assertEqual([inner for pointer in dropped for inner in dropped if inner.startswith(pointer + "/")], [])
+            names = {pointer.rsplit("/", 1)[1] for pointer in dropped if pointer.startswith(row + "/properties/")}
+            required = self.recorded["components"]["schemas"]["TransactionCanonicalRow"]["required"]
+            self.assertEqual(document["components"]["schemas"]["TransactionCanonicalRow"]["required"], [name for name in required if name not in names])
+        with self.subTest(case="filtered again"):
+            document = copy.deepcopy(self.document)
+            self.assertEqual((twins.drop_deprecated_twins(document), document), ([], self.document))
+        for case, change, orphans in (
+            ("twin missing", lambda properties: properties.pop("sender_account_id"), ["senderAccountId"]),
+            ("twin deprecated", lambda properties: properties["sender_account_id"].update(deprecated=True), ["senderAccountId", "sender_account_id"]),
+            ("two orphans", lambda properties: [properties.pop(name) for name in ("sender_account_id", "is_out")], ["senderAccountId", "isOut"]),
+        ):
+            document = copy.deepcopy(self.recorded)
+            change(document["components"]["schemas"]["TransactionCanonicalRow"]["properties"])
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as directory:
+                path = os.path.join(directory, "spec.json")
+                with open(path, "w", encoding="utf-8") as spec_file:
+                    json.dump(document, spec_file)
+                with mock.patch("builtins.print") as printed:
+                    self.assertEqual(twins.main(path), 1)
+                for name in orphans:
+                    self.assertIn("%s/properties/%s" % (row, name), printed.call_args.args[0])
+                with open(path, encoding="utf-8") as spec_file:
+                    self.assertEqual(json.load(spec_file), document)  # the spec file is not rewritten
 
     def test_component_models_are_exported_from_package(self):
         for name in self.document["components"]["schemas"]:
@@ -550,10 +627,11 @@ class TestOpenApiConformance(unittest.TestCase):
                         answer = _example(self.document, schema, branch, case)
                         with self.subTest(operation=operation["operationId"], response=code, branch=branch, case=case):
                             _, returned = self._call(operation, int(code), answer, **arguments)
+                            expected = _utc_as_offset(answer)
                             if case == "required":
                                 # A property the server did not send reads as unset, never as an error.
-                                returned = _without_nulls(returned)
-                            self.assertEqual(returned, _utc_as_offset(answer))
+                                returned, expected = _without_nulls(returned), _without_nulls(expected)
+                            self.assertEqual(returned, expected)
 
     def test_recorded_first_page_keeps_filter_projects(self):
         # BE-266: a first page without a cursor, in either direction, offers the account's projects.
@@ -571,9 +649,9 @@ class TestOpenApiConformance(unittest.TestCase):
     def test_recorded_first_page_comes_back_whole(self):
         operation = next(item for _, _, item in self.operations if item["operationId"] == "listTransactions")
         arguments, _ = self._arguments(operation, "examples")
-        for name in ("first_page", "first_page_up"):
+        for name in ("first_page", "first_page_up", "cursor_page", "workspace_wide", "first_page_no_projects", "first_page_empty_account"):
             _, body = _recorded_list(name)
-            expected = _recorded_list(name)[1]
+            expected = _without_twins(_recorded_list(name)[1])
             # Only the two date-time fields the client parses change form; every other date is a string it keeps.
             for item in expected["data"]["chunk"]:
                 item["dt"] = _utc_as_offset(item["dt"])

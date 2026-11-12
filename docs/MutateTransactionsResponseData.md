@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **upserts** | [**List[TransactionCanonicalRow]**](TransactionCanonicalRow.md) | Canonical transaction rows to insert/replace (each carries isOut). | 
 **balance_updates** | [**List[BalanceUpdate]**](BalanceUpdate.md) | In-place cascade balance patches for rows whose identity did not change. | [optional] 
 **summary** | [**AccountTransactionsSummary**](AccountTransactionsSummary.md) |  | [optional] 
+**recalculated** | [**TransactionRecalculatedNote**](TransactionRecalculatedNote.md) |  | [optional] 
 
 ## Example
 

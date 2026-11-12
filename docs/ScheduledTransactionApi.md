@@ -94,6 +94,7 @@ Name | Type | Description  | Notes
 **400** | Bad request - validation failed (including a non-boolean dry_run) |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
+**404** | BE-350: a submitted account does not exist in this workspace — &#x60;error&#x60; names which one: \&quot;Sender account not found\&quot;, \&quot;Receiver account not found\&quot;, \&quot;Intermediary account not found\&quot;, \&quot;Commission sending account not found\&quot;, \&quot;Receiver commission sending account not found\&quot; or \&quot;Receiver commission receiving account not found\&quot;. Checked before eligibility and permission, also on dry_run; nothing is saved. |  -  |
 **405** | Method not allowed |  -  |
 **422** | Validation failed. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. |  -  |
 **500** | Internal server error |  -  |
@@ -451,7 +452,7 @@ Name | Type | Description  | Notes
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant can_manage&#x3D;true on (role, sender, label) AND (role, receiver, label)) |  -  |
-**404** | Scheduled transaction not found |  -  |
+**404** | Scheduled transaction not found; or (BE-350) a submitted account does not exist in this workspace — &#x60;error&#x60; names which one, as on create. Only the account fields the request carries are checked. |  -  |
 **405** | Method not allowed |  -  |
 **422** | Validation failed. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. Also returned for edit_type&#x3D;3 when trx_id is not an occurrence of this schedule, or when trx_id is absent and dt is absent or not on a day after the series start. |  -  |
 **500** | Internal server error |  -  |
