@@ -102,6 +102,11 @@ else
     echo -e "${RED}✗ Failed to download OpenAPI specification from ${OPENAPI_JSON_URL}${NC}"
     exit 1
 fi
+
+# Deprecated twins (BE-307): a camelCase read property is declared `deprecated: true` beside its
+# snake_case twin; the generator reads the document without the deprecated spelling, and the
+# update stops when one has no twin (see scripts/drop_deprecated_twins.py).
+python3 "${WORKSPACE}/scripts/drop_deprecated_twins.py" "${SPEC_FILE}" || exit 1
 echo ""
 
 # Step 2: Create backup of existing code

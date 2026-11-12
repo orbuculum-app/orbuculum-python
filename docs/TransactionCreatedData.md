@@ -31,6 +31,7 @@ Name | Type | Description | Notes
 **import_id** | **int** | ID of the import batch (import table) that created this transaction. Set only when the transaction was inserted via bulk import; NULL otherwise. | [optional] 
 **import_hash** | **str** | Content hash used to deduplicate rows during bulk import — prevents the same source row from being inserted twice when an import is replayed. NULL for transactions not created via import. | [optional] 
 **forex** | **str** | Per-transaction FX gain/loss amount in base-currency units, computed by the forex_calculation Postgres function as (receiver_amount / receiver_rate) - (sender_amount / sender_rate). Despite the field name, this is NOT an exchange rate. NULL until the calculation runs (after balance recalculation is enabled). | [optional] 
+**rate_fixed** | **str** | How a single-amount edit of this transaction behaves; see the update request. | [optional] 
 **sender_commission** | [**TransactionSenderCommission**](TransactionSenderCommission.md) |  | [optional] 
 **receiver_commission** | [**TransactionReceiverCommission**](TransactionReceiverCommission.md) |  | [optional] 
 **labels** | [**List[Project]**](Project.md) | Labels attached to this transaction. Currently at most one element (the &#x60;label_id&#x60; of the transaction); always returned as an array for forward compatibility. | [optional] 

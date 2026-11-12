@@ -166,6 +166,7 @@ docs/CreateTransaction200Response.md
 docs/CreateTransaction201Response.md
 docs/CreateTransaction409Response.md
 docs/CreateTransactionRequest.md
+docs/CreateWorkspaceFromFixtureRequest.md
 docs/CreateWorkspaceRequest.md
 docs/CurrencyApi.md
 docs/CurrencyGetResponse.md
@@ -471,6 +472,7 @@ docs/SystemErrorLogRequest.md
 docs/SystemVersionCheck200Response.md
 docs/SystemVersionCheck200ResponseData.md
 docs/TagApi.md
+docs/TestApi.md
 docs/ToggleFlagRequest.md
 docs/ToggleFullAccessRequest.md
 docs/Transaction.md
@@ -499,6 +501,7 @@ docs/TransactionListDiff.md
 docs/TransactionListScope.md
 docs/TransactionPreview.md
 docs/TransactionPreviewData.md
+docs/TransactionRecalculatedNote.md
 docs/TransactionReceiverCommission.md
 docs/TransactionRules.md
 docs/TransactionRulesTable.md
@@ -575,6 +578,8 @@ docs/WorkspaceCreatedResponse.md
 docs/WorkspaceCreatedResponseData.md
 docs/WorkspaceDeletedResponse.md
 docs/WorkspaceDeletedResponseData.md
+docs/WorkspaceFixtureCloneResponse.md
+docs/WorkspaceFixtureCloneResponseData.md
 docs/WorkspaceImageResponse.md
 docs/WorkspaceImageResponseData.md
 docs/WorkspaceLocaleResponse.md
@@ -605,6 +610,7 @@ orbuculum_client/api/scheduled_transaction_api.py
 orbuculum_client/api/selection_api.py
 orbuculum_client/api/system_api.py
 orbuculum_client/api/tag_api.py
+orbuculum_client/api/test_api.py
 orbuculum_client/api/transaction_api.py
 orbuculum_client/api/transaction_draft_api.py
 orbuculum_client/api/user_api.py
@@ -769,6 +775,7 @@ orbuculum_client/models/create_transaction200_response.py
 orbuculum_client/models/create_transaction201_response.py
 orbuculum_client/models/create_transaction409_response.py
 orbuculum_client/models/create_transaction_request.py
+orbuculum_client/models/create_workspace_from_fixture_request.py
 orbuculum_client/models/create_workspace_request.py
 orbuculum_client/models/currency_get_response.py
 orbuculum_client/models/currency_get_response_data.py
@@ -1084,6 +1091,7 @@ orbuculum_client/models/transaction_list_diff.py
 orbuculum_client/models/transaction_list_scope.py
 orbuculum_client/models/transaction_preview.py
 orbuculum_client/models/transaction_preview_data.py
+orbuculum_client/models/transaction_recalculated_note.py
 orbuculum_client/models/transaction_receiver_commission.py
 orbuculum_client/models/transaction_rules.py
 orbuculum_client/models/transaction_rules_table.py
@@ -1158,6 +1166,8 @@ orbuculum_client/models/workspace_created_response.py
 orbuculum_client/models/workspace_created_response_data.py
 orbuculum_client/models/workspace_deleted_response.py
 orbuculum_client/models/workspace_deleted_response_data.py
+orbuculum_client/models/workspace_fixture_clone_response.py
+orbuculum_client/models/workspace_fixture_clone_response_data.py
 orbuculum_client/models/workspace_image_response.py
 orbuculum_client/models/workspace_image_response_data.py
 orbuculum_client/models/workspace_locale_response.py
@@ -1332,6 +1342,7 @@ test/test_create_transaction200_response.py
 test/test_create_transaction201_response.py
 test/test_create_transaction409_response.py
 test/test_create_transaction_request.py
+test/test_create_workspace_from_fixture_request.py
 test/test_create_workspace_request.py
 test/test_currency_api.py
 test/test_currency_get_response.py
@@ -1637,6 +1648,7 @@ test/test_system_error_log_request.py
 test/test_system_version_check200_response.py
 test/test_system_version_check200_response_data.py
 test/test_tag_api.py
+test/test_test_api.py
 test/test_toggle_flag_request.py
 test/test_toggle_full_access_request.py
 test/test_transaction.py
@@ -1665,6 +1677,7 @@ test/test_transaction_list_diff.py
 test/test_transaction_list_scope.py
 test/test_transaction_preview.py
 test/test_transaction_preview_data.py
+test/test_transaction_recalculated_note.py
 test/test_transaction_receiver_commission.py
 test/test_transaction_rules.py
 test/test_transaction_rules_table.py
@@ -1741,6 +1754,8 @@ test/test_workspace_created_response.py
 test/test_workspace_created_response_data.py
 test/test_workspace_deleted_response.py
 test/test_workspace_deleted_response_data.py
+test/test_workspace_fixture_clone_response.py
+test/test_workspace_fixture_clone_response_data.py
 test/test_workspace_image_response.py
 test/test_workspace_image_response_data.py
 test/test_workspace_locale_response.py

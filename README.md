@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.35.0
-- **Supported API Version**: 0.176.0
+- **Client Version**: 0.36.0
+- **Supported API Version**: 0.179.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -323,6 +323,9 @@ Class | Method | HTTP request | Description
 *TagApi* | [**list_tags**](docs/TagApi.md#list_tags) | **GET** /api/tag/list | Get list of tags
 *TagApi* | [**sync_tag_accounts**](docs/TagApi.md#sync_tag_accounts) | **POST** /api/tag/sync-accounts | Sync (replace) a tag&#39;s accounts
 *TagApi* | [**update_tag**](docs/TagApi.md#update_tag) | **POST** /api/tag/update | Update a tag
+*TestApi* | [**test_workspace_create**](docs/TestApi.md#test_workspace_create) | **POST** /api/test/workspace-create | Test only: create a workspace from a fixture database
+*TestApi* | [**test_workspace_delete**](docs/TestApi.md#test_workspace_delete) | **POST** /api/test/workspace-delete | Test only: delete a fixture clone and its database
+*TestApi* | [**test_workspace_reset**](docs/TestApi.md#test_workspace_reset) | **POST** /api/test/workspace-reset | Test only: recreate a fixture clone&#39;s database from its fixture
 *TransactionApi* | [**add_transaction_commission**](docs/TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
 *TransactionApi* | [**check_chained_transactions**](docs/TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 *TransactionApi* | [**create_transaction**](docs/TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
@@ -521,6 +524,7 @@ Class | Method | HTTP request | Description
  - [CreateTransaction201Response](docs/CreateTransaction201Response.md)
  - [CreateTransaction409Response](docs/CreateTransaction409Response.md)
  - [CreateTransactionRequest](docs/CreateTransactionRequest.md)
+ - [CreateWorkspaceFromFixtureRequest](docs/CreateWorkspaceFromFixtureRequest.md)
  - [CreateWorkspaceRequest](docs/CreateWorkspaceRequest.md)
  - [CurrencyGetResponse](docs/CurrencyGetResponse.md)
  - [CurrencyGetResponseData](docs/CurrencyGetResponseData.md)
@@ -836,6 +840,7 @@ Class | Method | HTTP request | Description
  - [TransactionListScope](docs/TransactionListScope.md)
  - [TransactionPreview](docs/TransactionPreview.md)
  - [TransactionPreviewData](docs/TransactionPreviewData.md)
+ - [TransactionRecalculatedNote](docs/TransactionRecalculatedNote.md)
  - [TransactionReceiverCommission](docs/TransactionReceiverCommission.md)
  - [TransactionRules](docs/TransactionRules.md)
  - [TransactionRulesTable](docs/TransactionRulesTable.md)
@@ -910,6 +915,8 @@ Class | Method | HTTP request | Description
  - [WorkspaceCreatedResponseData](docs/WorkspaceCreatedResponseData.md)
  - [WorkspaceDeletedResponse](docs/WorkspaceDeletedResponse.md)
  - [WorkspaceDeletedResponseData](docs/WorkspaceDeletedResponseData.md)
+ - [WorkspaceFixtureCloneResponse](docs/WorkspaceFixtureCloneResponse.md)
+ - [WorkspaceFixtureCloneResponseData](docs/WorkspaceFixtureCloneResponseData.md)
  - [WorkspaceImageResponse](docs/WorkspaceImageResponse.md)
  - [WorkspaceImageResponseData](docs/WorkspaceImageResponseData.md)
  - [WorkspaceLocaleResponse](docs/WorkspaceLocaleResponse.md)
@@ -942,16 +949,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.35.0
-print(orbuculum_client.__api_version__)    # API version: 0.176.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.176.0
+print(orbuculum_client.__version__)        # Client version: 0.36.0
+print(orbuculum_client.__api_version__)    # API version: 0.179.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.179.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.35.0 → 0.35.1): Bug fixes, documentation updates
-- **MINOR** (0.35.1 → 0.36.0): New features, backward-compatible
-- **MAJOR** (0.36.0 → 1.0.0): Breaking changes
+- **PATCH** (0.36.0 → 0.36.1): Bug fixes, documentation updates
+- **MINOR** (0.36.1 → 0.37.0): New features, backward-compatible
+- **MAJOR** (0.37.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 
