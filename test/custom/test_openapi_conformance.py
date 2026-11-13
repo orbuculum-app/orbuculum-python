@@ -568,7 +568,7 @@ class TestOpenApiConformance(unittest.TestCase):
                 self.assertIn(twins.snake_case(prop), fields)
 
     def test_twin_filter_on_the_recorded_document(self):
-        # scripts/drop_deprecated_twins.py on the recorded 0.179.0 document and on variants of it.
+        # scripts/drop_deprecated_twins.py on the recorded document and on variants of it.
         row = "#/components/schemas/TransactionCanonicalRow"
         with self.subTest(case="recorded"):
             document = copy.deepcopy(self.recorded)

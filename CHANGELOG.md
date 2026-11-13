@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.36.1 — 2026-11-13 — Supports API 0.180.2
+
+**Behaviour change** (server-side only: no fields, types or method signatures changed).
+
+- **POST /api/transaction/update: 404 for an unknown account, 422 for an out-of-range amount or a wrong JSON type** (BE-306): before the permission checks, the server now checks every submitted account id (sender and receiver, the intermediary of a chained row, and a commission slot's `sender_account_id`/`receiver_account_id`), and a missing one answers 404 with `Sender account not found`, `Receiver account not found`, `Intermediary account not found`, `Commission sender account not found` or `Commission receiver account not found`. An amount whose absolute value is 10^18 or more (`sender_amount`, `receiver_amount`, `intermediary_amount`, a commission slot's amounts) answers 422 `Validation failed`, and so does a field whose JSON type the request model cannot take (`<Label> has an invalid type.`, e.g. a `leg1_*`/`leg2_*` slot sent as a string, number or boolean, or an array `intermediary_account_id`). Before API 0.180.0 each of these answered a false 500. The 404 and 422 response descriptions say so. The wrong-type 422 comes from the server's shared request model, so it also holds on other requests with typed fields (among them POST /api/transaction/create, POST /api/transaction/add-commission and POST /api/account/create), whose descriptions do not say so; this client's request models refuse most wrong-typed values before sending.
+- **POST /api/transaction/mutate, action `update`: validated like POST /api/transaction/update** (BE-306): an `update` payload that update would reject now answers 422 `Validation failed` with `details[]` items `{field, message}` (among others a `dt` that is not ISO-8601, an amount of 10^18 or more, an array `comment`, a `leg*_` slot that is not an object). The 422 response description says so.
+- **Monthly schedules on day 29–31 fall on the last day of a short month** (BE-313): a monthly recurrence whose day of month is beyond a month's length now falls on that month's last day instead of skipping the month; later months keep the original day. This reaches `TransactionSchedule.next_date` on transaction reads, the `dates` of the POST /api/scheduled-transaction/create `dry_run` preview, and the occurrences the server materialises. Server-side only: no description or schema changed.
+- **Unknown `/api/…` controllers answer 404** (BE-314): an unknown controller under `/api/` now answers HTTP 404 `{"status":404,"error":"Route not found","details":[]}`, as an unknown action already did, where it used to answer HTTP 200 with an "Internal server error" body. This client calls only documented routes, so it meets this only against a server older than the client. Server-side only: no description or schema changed.
+- BE-367 changed no description or schema in the specification: it is backend test work.
+- Regenerated from the API 0.180.2 OpenAPI specification.
+
 ## 0.36.0 — 2026-11-12 — Supports API 0.179.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
