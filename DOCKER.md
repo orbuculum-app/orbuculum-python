@@ -50,7 +50,7 @@ docker-compose run --rm updater
 
 This service automatically:
 - Downloads the latest OpenAPI spec from https://orbuculum.app/swagger/json
-- Leaves BE-307's deprecated camelCase twins out of the downloaded spec through `scripts/drop_deprecated_twins.py`, and stops before regenerating when a deprecated property has no snake_case twin
+- Leaves BE-307's deprecated camelCase twins out of the downloaded spec through `scripts/prepare_document.py`, and stops before regenerating when a deprecated property has no snake_case twin; the same step rewrites example addresses (an IPv4 address outside `0.0.0.0/8`/`127.0.0.0/8` gets first octet `0`, an e-mail address on a non-reserved domain gets `example.net`)
 - Creates a backup of existing code
 - Regenerates the client using OpenAPI Generator 7.15.0
 - Verifies the generated code

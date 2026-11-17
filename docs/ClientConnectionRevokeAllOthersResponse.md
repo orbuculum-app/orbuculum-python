@@ -1,6 +1,6 @@
 # ClientConnectionRevokeAllOthersResponse
 
-How many client connections were revoked
+How many client connections and sign-in sessions were revoked
 
 ## Properties
 

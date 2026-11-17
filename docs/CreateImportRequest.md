@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **target_account_id** | **int** | Target account ID for AccountAssociation | [optional] 
 **target_hash** | **str** | Target hash for AccountAssociation (blockchain address) | [optional] 
 **data** | **object** | Last-minute edits keyed by transaction ID | [optional] 
+**allow_duplicate** | **bool** | BE-403: write staged rows without a source id even when they are possible duplicates; such rows record the override. Without it those rows are not written: they are reported as skipped_rows reason duplicate_candidate and stay staged under this import_key, also when other rows of the commit were inserted. Repeat this request with the same import_key and allow_duplicate: true to write them, or call /api/import/cancel to discard them. | [optional] [default to False]
 
 ## Example
 

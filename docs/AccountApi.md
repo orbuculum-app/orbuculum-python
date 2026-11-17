@@ -56,7 +56,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     api_instance = orbuculum_client.AccountApi(api_client)
     id = 1 # int | Account ID to activate
     activate_account_request = orbuculum_client.ActivateAccountRequest() # ActivateAccountRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Activate an existing account
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| Account ID to activate | 
  **activate_account_request** | [**ActivateAccountRequest**](ActivateAccountRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -98,6 +98,7 @@ Name | Type | Description  | Notes
 **200** | Account activated successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Resource not found |  -  |
 **500** | Internal server error |  -  |
 
@@ -108,7 +109,7 @@ Name | Type | Description  | Notes
 
 Create a new account
 
-Creates a new account for a specific project and entity with optional currency and commission settings
+Creates a new account for a specific project and entity with optional currency and commission settings Name rule: name, entity_id (category) and currency_id are unique together, an empty name included; a duplicate answers 422, a concurrent request that loses the race answers 409.
 
 ### Example
 
@@ -142,7 +143,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AccountApi(api_client)
     create_account_request = orbuculum_client.CreateAccountRequest() # CreateAccountRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Create a new account
@@ -161,7 +162,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_account_request** | [**CreateAccountRequest**](CreateAccountRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -230,7 +231,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AccountApi(api_client)
     delete_account_request = orbuculum_client.DeleteAccountRequest() # DeleteAccountRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Delete an existing account
@@ -249,7 +250,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **delete_account_request** | [**DeleteAccountRequest**](DeleteAccountRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -271,6 +272,7 @@ Name | Type | Description  | Notes
 **200** | Account deleted successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Resource not found |  -  |
 **422** | System-row constraint: cannot delete a system account or account in a system entity (OMM-1939) |  -  |
 **500** | Internal server error |  -  |
@@ -282,7 +284,7 @@ Name | Type | Description  | Notes
 
 Get account details
 
-Retrieves details of a specific account by workspace ID and account ID. Requires JWT authentication.
+Without `id`: data is the array of the accounts visible to the caller, archived (hidden) accounts excluded, narrowed to one category by `entity_id`; an empty array when none is visible. With `id`: data is that one account object, archived included. Each `balance` counts every transaction dated at or before now and `done` plays no part: an unconfirmed recurring occurrence whose date has passed (schedule_status overdue in the transaction feed) already counts, a pending one does not yet. Requires JWT authentication.
 
 ### Example
 
@@ -315,7 +317,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AccountApi(api_client)
     workspace_id = 1 # int | Workspace ID
-    id = 1 # int | Account ID (optional, to get specific account) (optional)
+    id = 1 # int | Account ID. Omit it to get the list of accounts (data is then an array, archived accounts excluded). (optional)
     entity_id = 1 # int | Entity ID (optional, to get all accounts for specific entity) (optional)
 
     try:
@@ -335,7 +337,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Workspace ID | 
- **id** | **int**| Account ID (optional, to get specific account) | [optional] 
+ **id** | **int**| Account ID. Omit it to get the list of accounts (data is then an array, archived accounts excluded). | [optional] 
  **entity_id** | **int**| Entity ID (optional, to get all accounts for specific entity) | [optional] 
 
 ### Return type
@@ -360,6 +362,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Resource not found |  -  |
+**422** | BE-351: list mode — entity_id names no entity of this workspace (error and details name the id) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -369,7 +372,7 @@ Name | Type | Description  | Notes
 
 Get account balance at a specific date
 
-Returns the balance of an account at a given date/time. Optionally excludes a specific transaction from the calculation (used for 'balance before this transaction' in edit forms).
+Returns the balance of an account at a given date/time. Optionally excludes a specific transaction from the calculation (used for 'balance before this transaction' in edit forms). The balance counts every transaction dated at or before `date` and `done` plays no part: an unconfirmed recurring occurrence whose date has passed (schedule_status overdue) already counts, a pending one does not yet; data.unconfirmed_amount shows the unconfirmed part.
 
 ### Example
 
@@ -704,6 +707,7 @@ Name | Type | Description  | Notes
 **200** | Sorting preference saved successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Resource not found |  -  |
 **500** | Internal server error |  -  |
 
@@ -714,7 +718,7 @@ Name | Type | Description  | Notes
 
 Search accounts in workspace
 
-Searches accounts by name (ILIKE), type, and entity_id with permission-aware filtering. Returns matching accounts with currency details. Used by MCP, chatbots, and UI autocomplete.
+Searches accounts by name (ILIKE), type, and entity_id with permission-aware filtering. Returns matching accounts with currency details. Used by MCP, chatbots, and UI autocomplete. Returns at most `limit` rows (default 20, max 100) in no guaranteed order, with no paging (no offset or cursor); data.total counts the returned rows, not all matches.
 
 ### Example
 
@@ -793,6 +797,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Search results returned successfully |  -  |
 **400** | Bad request - validation failed |  -  |
+**422** | BE-351: entity_id names no entity of this workspace (error and details name the id) |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **500** | Internal server error |  -  |
@@ -804,7 +809,7 @@ Name | Type | Description  | Notes
 
 Update an existing account
 
-Updates an existing account with new information such as name, currency, commission settings
+Updates an existing account with new information such as name, currency, commission settings Name rule: name, entity_id (category) and currency_id are unique together, an empty name included; a duplicate answers 422, a concurrent request that loses the race answers 409.
 
 ### Example
 
@@ -838,7 +843,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AccountApi(api_client)
     update_account_request = orbuculum_client.UpdateAccountRequest() # UpdateAccountRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Update an existing account
@@ -857,7 +862,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_account_request** | [**UpdateAccountRequest**](UpdateAccountRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 

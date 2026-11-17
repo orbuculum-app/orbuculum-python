@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Rate record ID | 
-**rate** | **str** | New display rate value | 
+**rate** | **str** | New display rate: units of the basic currency per 1 unit of this currency (stored inverted) | 
 **dt** | **str** | New datetime (optional) | [optional] 
 
 ## Example

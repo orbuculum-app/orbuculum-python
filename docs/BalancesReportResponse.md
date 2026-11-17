@@ -1,6 +1,6 @@
 # BalancesReportResponse
 
-Response containing Balances report data
+Response containing Balances report data. Accounts whose balance the requesting role may not see (BE-369: its permission on the account has show_balance=false) are omitted, and every total is computed without them. Accounts with hide_balances stay in this report.
 
 ## Properties
 

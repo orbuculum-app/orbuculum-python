@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **sent** | **str** |  | 
 **received** | **str** |  | 
-**balance** | **str** |  | 
+**balance** | **str** | Null when the requesting role may not see this account&#39;s balance (BE-369). | 
 
 ## Example
 

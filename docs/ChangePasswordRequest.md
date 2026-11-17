@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **old_password** | **str** |  | 
 **new_password** | **str** |  | 
+**sign_out_others** | **bool** | End every other session and connection of the user (true, the default when absent or null) or none (false). The caller&#39;s own session or connection keeps working; a caller signed in with a plain token (no session or connection behind it) ends with the user&#39;s other plain tokens. | [optional] [default to True]
 
 ## Example
 

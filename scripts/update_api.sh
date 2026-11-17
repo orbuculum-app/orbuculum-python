@@ -103,10 +103,10 @@ else
     exit 1
 fi
 
-# Deprecated twins (BE-307): a camelCase read property is declared `deprecated: true` beside its
-# snake_case twin; the generator reads the document without the deprecated spelling, and the
-# update stops when one has no twin (see scripts/drop_deprecated_twins.py).
-python3 "${WORKSPACE}/scripts/drop_deprecated_twins.py" "${SPEC_FILE}" || exit 1
+# Document preparation, two passes: deprecated camelCase twins (BE-307) are left out, and the
+# update stops when one has no snake_case twin; example addresses are substituted so the generated
+# tests pass the address rule (see scripts/prepare_document.py).
+python3 "${WORKSPACE}/scripts/prepare_document.py" "${SPEC_FILE}" || exit 1
 echo ""
 
 # Step 2: Create backup of existing code

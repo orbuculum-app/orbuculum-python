@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **sent** | **str** | Total sent in the period. Decimal value as number_format-style string. | 
 **received** | **str** | Total received in the period. Decimal value as number_format-style string. | 
-**balance** | **str** | Account balance at end of the period. Decimal value as number_format-style string. | 
+**balance** | **str** | Account balance at end of the period. Decimal value as number_format-style string. Null when the requesting role may not see this account&#39;s balance (BE-369). | 
 
 ## Example
 

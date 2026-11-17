@@ -95,6 +95,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Selection tree retrieved successfully |  -  |
 **400** | Bad request - invalid parameters |  -  |
+**422** | account_id (selection types counterparty, replacement, import_counterparty_list, commission, sending_commission) or tag_id (account_in_tag) names no account / tag of this workspace (BE-351). 0 means no context and is valid; the types all and author ignore both ids. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **500** | Internal server error |  -  |

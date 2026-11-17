@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 Get application context for SPA initialization
 
-Returns user identity, workspace info, permissions, navigation links, and app metadata in a single request. Replaces window.* globals from PHP layouts.
+Returns user identity, workspace info, permissions, navigation links, and app metadata in a single request. Replaces window.* globals from PHP layouts. With a client connection token, workspace.projects lists only the workspaces of the connection's scope, and user.last_workspace_id is null when that workspace lies outside it (BE-405).
 
 ### Example
 

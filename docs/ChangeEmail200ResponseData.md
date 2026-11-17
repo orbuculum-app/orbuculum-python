@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **message** | **str** |  | [optional] 
-**other_connections** | [**List[ClientConnection]**](ClientConnection.md) | The user&#39;s other active client connections, so the client can offer to sign them out (revoke-all-others). This change revokes none of them. | [optional] 
+**other_connections** | [**List[ClientConnection]**](ClientConnection.md) | The user&#39;s other active sessions and connections remaining after this request (kind &#x60;session&#x60; or &#x60;key&#x60;), so the client can offer to sign them out. | [optional] 
 
 ## Example
 

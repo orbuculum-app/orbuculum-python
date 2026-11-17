@@ -1,6 +1,6 @@
 # TransactionDeletedResponseData
 
-Deletion result: {message, deleted_commissions}; when `account_id` is sent, {transactions, removed_ids, summary} instead.
+Deletion result: {message, deleted_commissions}; when `account_id` is sent, {transactions, removed_ids, summary} instead. There `transactions` is always empty, and `summary` has the shape of AccountSummary, including `unconfirmed_amount`, or is an empty array when the account is not found.
 
 ## Properties
 

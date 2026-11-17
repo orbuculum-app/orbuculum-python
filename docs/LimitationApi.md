@@ -265,6 +265,7 @@ Name | Type | Description  | Notes
 **201** | Account limitation created/updated successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Resource not found |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
@@ -349,6 +350,7 @@ Name | Type | Description  | Notes
 **201** | Entity limitation created/updated successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Resource not found |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |

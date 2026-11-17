@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **name** | **str** | Currency code (required if create_type&#x3D;&#39;custom&#39;, max 5 chars) | [optional] 
 **precision** | **int** | Decimal places (required if create_type&#x3D;&#39;custom&#39;, range 0-18) | [optional] 
 **description** | **str** | Full currency name | [optional] 
-**rate** | **str** | Display rate relative to basic currency | [optional] 
+**rate** | **str** | Display rate: units of the basic currency per 1 unit of this currency | [optional] 
 **import_type** | **int** | Rate import source ID (null for manual) | [optional] 
 **import_reverse** | **bool** | Reverse rate import flag | [optional] 
 **import_interval** | **int** | Import interval in minutes (min 1, default 60) | [optional] 

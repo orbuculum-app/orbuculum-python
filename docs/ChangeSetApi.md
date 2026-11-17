@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**commit_change_set**](ChangeSetApi.md#commit_change_set) | **POST** /api/change-set/commit | Commit an open change set
 [**get_change_set**](ChangeSetApi.md#get_change_set) | **GET** /api/change-set/get | Read a change set with its items
 [**open_change_set**](ChangeSetApi.md#open_change_set) | **POST** /api/change-set/open | Open an explicit change set
+[**undo_change_set**](ChangeSetApi.md#undo_change_set) | **POST** /api/change-set/undo | Undo a change set
 
 
 # **commit_change_set**
@@ -14,7 +15,7 @@ Method | HTTP request | Description
 
 Commit an open change set
 
-Sets an `open` set to `committed` (committed_at = now). Committing a committed set answers 200 unchanged. An implicit set past its 300 s window is committed at its window end first. A proposed set cannot be committed. Only the set's author can commit it; any other set answers 404.
+Sets an `open` set to `committed` (committed_at = now). Committing a committed set answers 200 unchanged. An implicit set past its 300 s window is committed at its window end first. A proposed set cannot be committed. Only the set's author can commit it; any other set answers 404. Before the status changes, the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, and the scope declared at open as I5's scope; none when the set was opened without one) checks every transaction of the set that still exists and whose last item is not a delete; a fail answers 422 with `verification` and the set stays open (BE-341).
 
 ### Example
 
@@ -91,6 +92,7 @@ Name | Type | Description  | Notes
 **404** | Change set not found (absent, or not the caller&#39;s) |  -  |
 **405** | Method not allowed |  -  |
 **409** | A proposed change set cannot be committed; or the change set is undone |  -  |
+**422** | Rejected by the ledger verifier; the set stays open |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -186,7 +188,7 @@ Name | Type | Description  | Notes
 
 Open an explicit change set
 
-Opens a change set the caller then sends as the X-Orbuculum-Change-Set header on mutating requests. mode=commit (default) opens a set with status `open`, which collects the writes until POST /api/change-set/commit. mode=propose opens a set with status `proposed` (dry-run): Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set.
+Opens a change set the caller then sends as the X-Orbuculum-Change-Set header on mutating requests. mode=commit (default) opens a set with status `open`, which collects the writes until POST /api/change-set/commit. mode=propose opens a set with status `proposed` (dry-run): Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. An optional `scope` (BE-413) declares the accounts and/or transactions the set is meant to touch: every write held in the set, and its commit, is then checked by the ledger verifier's invariant I5 against it. A write outside the scope answers 422 with `verification` in an open set and carries I5 `fail` in the `verification` of a proposed set's answer. Without `scope` the set behaves as before (I5 not applicable).
 
 ### Example
 
@@ -257,11 +259,98 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The opened change set, with &#x60;items&#x60; empty |  -  |
-**400** | workspace_id absent, an unknown mode, a non-string source_ref, or a malformed JSON body |  -  |
+**400** | workspace_id absent, an unknown mode, a non-string source_ref, a malformed JSON body, or an invalid scope: not an object, empty, an unknown key, a list that is not a non-empty list of positive integers, or an id that does not exist in the workspace |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no access to this workspace |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **undo_change_set**
+> OpenChangeSet200Response undo_change_set(commit_change_set_request)
+
+Undo a change set
+
+Reverts every write of the change set in one database transaction and records the reversal as a new committed change set of kind `explicit` whose `source_ref` is `undo:<id>`; the undone set gets status `undone`. Allowed to the set's author, the workspace owner and full-access roles; any other caller gets 404. The set may be `open` or `committed`; a `proposed` set never changed the book and is refused with 409, and so is a set that is already `undone`. Conflict check first: if any row of the set changed after it (its current state differs from the set's last snapshot, ignoring computed and link columns), or a row the undo would delete is linked to a transaction the set did not create, nothing changes and 409 lists each row with the later change sets that touched it. Created rows are deleted, updated rows get their earlier state back, deleted rows are re-inserted with the same id; chained legs and commissions keep their links; connected-workspace sync runs after the commit. Not restored: rows the database deleted in cascade with a deleted row (transaction files, matching examples, account/label permissions, limitations and associations), scheduled transactions (not recorded in change sets), and a source row in another workspace that the original deletion of a connected mirror removed.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.commit_change_set_request import CommitChangeSetRequest
+from orbuculum_client.models.open_change_set200_response import OpenChangeSet200Response
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.ChangeSetApi(api_client)
+    commit_change_set_request = orbuculum_client.CommitChangeSetRequest() # CommitChangeSetRequest | 
+
+    try:
+        # Undo a change set
+        api_response = api_instance.undo_change_set(commit_change_set_request)
+        print("The response of ChangeSetApi->undo_change_set:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ChangeSetApi->undo_change_set: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **commit_change_set_request** | [**CommitChangeSetRequest**](CommitChangeSetRequest.md)|  | 
+
+### Return type
+
+[**OpenChangeSet200Response**](OpenChangeSet200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The committed «undo N» change set with its items |  -  |
+**400** | workspace_id absent, change_set_id missing or not a positive integer, or a malformed JSON body |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - no access to this workspace |  -  |
+**404** | Change set not found (absent, or the caller is neither its author, nor the owner, nor a full-access role) |  -  |
+**405** | Method not allowed |  -  |
+**409** | The set is proposed or already undone, a row of it changed after it (conflict report), or a restored row conflicts with the current book |  -  |
+**422** | The «undo» set is committed like POST /api/change-set/commit: the ledger verifier rejected it, and nothing was undone (BE-341) |  -  |
+**500** | Internal server error; nothing was undone |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

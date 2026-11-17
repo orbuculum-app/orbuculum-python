@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**revoked** | **int** | The number of connections that were active and are now revoked. | 
+**revoked** | **int** | The number of connections and sign-in sessions (BE-355) that were active and are now revoked. | 
 
 ## Example
 

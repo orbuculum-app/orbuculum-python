@@ -89,6 +89,7 @@ Name | Type | Description  | Notes
 **200** | Record created successfully |  -  |
 **400** | Bad request - validation failed or table does not exist |  -  |
 **401** | Unauthorized |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -171,6 +172,7 @@ Name | Type | Description  | Notes
 **200** | Record deleted successfully |  -  |
 **400** | Bad request - validation failed or table does not exist |  -  |
 **401** | Unauthorized - invalid or expired token |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Record not found - specified record does not exist in the table |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
@@ -254,6 +256,7 @@ Name | Type | Description  | Notes
 **200** | List of custom tables retrieved successfully |  -  |
 **400** | Bad request - validation failed |  -  |
 **401** | Unauthorized - invalid or expired token |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
 
@@ -337,6 +340,7 @@ Name | Type | Description  | Notes
 **200** | Records retrieved successfully |  -  |
 **400** | Bad request - validation failed or table does not exist |  -  |
 **401** | Unauthorized - invalid or expired token |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
 
@@ -420,6 +424,7 @@ Name | Type | Description  | Notes
 **200** | Record updated successfully |  -  |
 **400** | Bad request - validation failed or table does not exist |  -  |
 **401** | Unauthorized - invalid or expired token |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **404** | Record not found - specified record does not exist in the table |  -  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |

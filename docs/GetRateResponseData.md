@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **currency_id** | **int** | Currency ID | [optional] 
-**rate** | **str** | Exchange rate value (numeric string, 18 decimal places) | [optional] 
+**rate** | **str** | Stored exchange rate: units of this currency per 1 unit of the basic currency, the inverse of the display rate of /api/rate/history (numeric string, 18 decimal places) | [optional] 
 **dt** | **str** | Timestamp of the rate record found | [optional] 
 
 ## Example

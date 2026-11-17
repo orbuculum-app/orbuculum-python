@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** |  | [optional] 
-**data** | **object** | Category/entity/account tree with balances, permissions, and sorting preferences | [optional] 
+**data** | **object** | Category/entity/account tree with balances, permissions, and sorting preferences. Account rows (categories[].entities[].accounts[]) carry currency_name (the stored currency name, may be a sign such as &#39;$&#39;) and currency_code (its ISO code, e.g. &#39;USD&#39;). An account&#39;s balance is null when the requesting role may not see it (BE-369; can_show_balance is then false); an entity&#39;s balance sums only the accounts whose balance the role may see, and is null when there is none. | [optional] 
 
 ## Example
 

@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**rename_client_connection**](ClientConnectionApi.md#rename_client_connection) | **POST** /api/client-connection/rename | Rename a client connection
 [**revoke_client_connection**](ClientConnectionApi.md#revoke_client_connection) | **POST** /api/client-connection/revoke | Revoke a client connection
 [**revoke_other_client_connections**](ClientConnectionApi.md#revoke_other_client_connections) | **POST** /api/client-connection/revoke-all-others | Revoke all other client connections
+[**set_client_connection_scope**](ClientConnectionApi.md#set_client_connection_scope) | **POST** /api/client-connection/set-scope | Set a client connection&#39;s workspace scope
 [**set_client_connection_workspace**](ClientConnectionApi.md#set_client_connection_workspace) | **POST** /api/client-connection/set-workspace | Set this connection&#39;s chosen workspace
 
 
@@ -18,7 +19,7 @@ Method | HTTP request | Description
 
 Create a key connection
 
-Creates a named client connection of kind key and returns its key once; the server stores only the key's hash. Sign in with the key at /api/auth/key-login. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403.
+Creates a named client connection of kind key and returns its key once; the server stores only the key's hash. Sign in with the key at /api/auth/key-login. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403. workspace_ids sets the connection's workspace scope (BE-405): its token reaches only those workspaces, any other answers 403 like a missing membership.
 
 ### Example
 
@@ -89,11 +90,11 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **201** | Connection created; the key is in this response only |  -  |
-**400** | name missing or empty |  -  |
+**400** | name or workspace_ids missing |  -  |
 **401** | Missing, invalid or revoked token |  -  |
 **403** | Not allowed with a client connection token |  -  |
 **405** | Method not allowed |  -  |
-**422** | name is not a string or is blank after trimming |  -  |
+**422** | name is not a string or is blank after trimming, or workspace_ids is not a non-empty list of ids of workspaces you can access |  -  |
 **500** | Failed to save |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -180,7 +181,7 @@ This endpoint does not need any parameter.
 
 List my client connections
 
-Lists all of the caller's client connections, active and revoked, by id ascending. Never returns a key or its hash. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403.
+Lists all of the caller's client connections, active and revoked, by id ascending, followed by the user's active sign-in sessions (kind `session`); `current` marks the entry the request is signed in with. Never returns a key or its hash. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403.
 
 ### Example
 
@@ -341,7 +342,7 @@ Name | Type | Description  | Notes
 
 Revoke a client connection
 
-Revokes one of the caller's connections. Immediate: the connection's next request, refresh or key login is refused. Idempotent: revoking a revoked connection answers 200 and keeps the first revoked_at. Another user's id answers 404. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403.
+Revokes one of the caller's connections, or with kind session one of the caller's sign-in sessions (BE-355). Immediate: the connection's or session's next request, refresh or key login is refused. Idempotent: revoking a revoked connection answers 200 and keeps the first revoked_at. Another user's id answers 404. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403.
 
 ### Example
 
@@ -415,8 +416,9 @@ Name | Type | Description  | Notes
 **400** | id missing or not a positive integer |  -  |
 **401** | Missing, invalid or revoked token |  -  |
 **403** | Not allowed with a client connection token |  -  |
-**404** | Connection not found (missing or another user&#39;s) |  -  |
+**404** | No connection or session with that id and kind belongs to the user |  -  |
 **405** | Method not allowed |  -  |
+**422** | kind is not \&quot;key\&quot; or \&quot;session\&quot; |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -425,7 +427,7 @@ Name | Type | Description  | Notes
 
 Revoke all other client connections
 
-Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403. Revokes every active connection of the user except the one this request belongs to; returns how many it revoked. Immediate.
+Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403. Revokes every active connection of the user except the one this request belongs to, and every other sign-in session; never the request's own session or connection; never rotates auth_key. Returns how many it revoked. Immediate.
 
 ### Example
 
@@ -494,6 +496,91 @@ This endpoint does not need any parameter.
 **401** | Missing, invalid or revoked token |  -  |
 **403** | Not allowed with a client connection token |  -  |
 **405** | Method not allowed |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **set_client_connection_scope**
+> ClientConnectionResponse set_client_connection_scope(client_connection_scope_request)
+
+Set a client connection's workspace scope
+
+Replaces the workspace scope of one of the caller's connections (BE-405); a revoked connection may be scoped too. The connection's token then reaches only those workspaces, from its next request; any other answers 403 like a missing membership. Another user's id answers 404. Your own login only (a session or a password/OAuth JWT); a client connection's token gets 403.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.client_connection_response import ClientConnectionResponse
+from orbuculum_client.models.client_connection_scope_request import ClientConnectionScopeRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.ClientConnectionApi(api_client)
+    client_connection_scope_request = orbuculum_client.ClientConnectionScopeRequest() # ClientConnectionScopeRequest | 
+
+    try:
+        # Set a client connection's workspace scope
+        api_response = api_instance.set_client_connection_scope(client_connection_scope_request)
+        print("The response of ClientConnectionApi->set_client_connection_scope:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ClientConnectionApi->set_client_connection_scope: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **client_connection_scope_request** | [**ClientConnectionScopeRequest**](ClientConnectionScopeRequest.md)|  | 
+
+### Return type
+
+[**ClientConnectionResponse**](ClientConnectionResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Scope set |  -  |
+**400** | id or workspace_ids missing, or id not a positive integer |  -  |
+**401** | Missing, invalid or revoked token |  -  |
+**403** | Not allowed with a client connection token |  -  |
+**404** | Connection not found (missing or another user&#39;s) |  -  |
+**405** | Method not allowed |  -  |
+**422** | workspace_ids is not a non-empty list of ids of workspaces you can access |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **name** | **str** | Currency code (only for custom currencies, max 5 chars) | [optional] 
 **precision** | **int** | Decimal places (only for custom currencies, range 0-18) | [optional] 
 **description** | **str** | Full currency name (only for custom currencies) | [optional] 
-**rate** | **str** | New display rate (creates new rate record if changed) | [optional] 
+**rate** | **str** | New display rate: units of the basic currency per 1 unit of this currency (creates new rate record if changed) | [optional] 
 **import_type** | **int** | Rate import source ID | [optional] 
 **import_reverse** | **bool** | Reverse rate import flag | [optional] 
 **import_interval** | **int** | Import interval in minutes (min 1) | [optional] 

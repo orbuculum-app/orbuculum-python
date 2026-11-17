@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **workspace_id** | **int** | Workspace ID | 
 **currency_id** | **int** | Currency ID (must not be basic currency) | 
 **dt** | **str** | Datetime string | 
-**rate** | **str** | Display rate value | 
+**rate** | **str** | Display rate: units of the basic currency per 1 unit of this currency (stored inverted) | 
 **source** | **str** | Rate source label | [optional] 
 
 ## Example

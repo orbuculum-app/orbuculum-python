@@ -8,10 +8,11 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **name** | **str** |  | [optional] 
 **type** | **int** | Account type. null &#x3D; P&amp;L account. | [optional] 
+**type_id** | **int** | Account type id (int). Same value and meaning on every endpoint; null &#x3D; P&amp;L account. | [optional] 
 **entity_id** | **int** |  | [optional] 
 **entity_name** | **str** |  | [optional] 
 **currency_id** | **int** |  | [optional] 
-**currency_code** | **str** |  | [optional] 
+**currency_code** | **str** | ISO code of the account currency (stored name mapped via Currency::codeOf) | [optional] 
 
 ## Example
 

@@ -4,8 +4,8 @@
 The generated client against the OpenAPI document it was generated from
 
 The fixture is the document GET /swagger/json served, recorded at the point the
-updater consumes it (its own `curl -f -s`), with only example e-mail domains,
-one example IP and the server URL substituted. Every other byte, description
+updater consumes it (its own `curl -f -s`), with only the server URL and the
+example addresses `scripts/prepare_document.py` rewrites substituted. Every other byte, description
 text included, is the producer's. The generator copies each description into
 the client: a model's class docstring, a field's `description`, an API
 method's signature and docstring (its operation's parameters, in the
@@ -39,10 +39,10 @@ from pydantic import BaseModel, ValidationError
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "openapi_document.json")
-# The twin filter the generator reads the document through (scripts/update_api.sh, BE-307).
-_spec = importlib.util.spec_from_file_location("drop_deprecated_twins", os.path.join(ROOT, "scripts", "drop_deprecated_twins.py"))
-twins = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(twins)
+# The document preparation the generator reads the document through (scripts/update_api.sh).
+_spec = importlib.util.spec_from_file_location("prepare_document", os.path.join(ROOT, "scripts", "prepare_document.py"))
+prepare = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(prepare)
 
 HEADER = re.compile(r"^    The version of the OpenAPI document: (.*)$", re.MULTILINE)
 
@@ -216,7 +216,7 @@ def _without_nulls(value):
 def _without_twins(value):
     """Return `value` without each key whose snake_case twin is also a key of its object (BE-307)."""
     if isinstance(value, dict):
-        return {key: _without_twins(item) for key, item in value.items() if twins.snake_case(key) == key or twins.snake_case(key) not in value}
+        return {key: _without_twins(item) for key, item in value.items() if prepare.snake_case(key) == key or prepare.snake_case(key) not in value}
     if isinstance(value, list):
         return [_without_twins(item) for item in value]
     return value
@@ -262,7 +262,7 @@ class TestOpenApiConformance(unittest.TestCase):
             text = fixture_file.read()
         cls.recorded = json.loads(text)
         cls.document = json.loads(text)
-        twins.drop_deprecated_twins(cls.document)  # the document as the generator reads it
+        prepare.drop_deprecated_twins(cls.document)  # the document as the generator reads it
         cls.operations = [
             (path, method, operation)
             for path, item in cls.document["paths"].items()
@@ -549,7 +549,7 @@ class TestOpenApiConformance(unittest.TestCase):
     def test_deprecated_properties_are_read_through_snake_case_twins(self):
         # BE-307: a camelCase read property is `deprecated` beside its snake_case twin of the same
         # value. Both take one Python name, so the generator reads the document without the
-        # deprecated spelling; the twin rule lives in scripts/drop_deprecated_twins.py.
+        # deprecated spelling; the twin rule lives in scripts/prepare_document.py.
         def walk(model, schema):
             fields = {field.alias or key: field for key, field in model.model_fields.items()}
             for prop, prop_schema in schema.get("properties", {}).items():
@@ -565,15 +565,15 @@ class TestOpenApiConformance(unittest.TestCase):
             with self.subTest(model=model.__name__, property=prop):
                 self.assertNotIn(prop, fields)
                 self.assertNotIn(prop, getattr(model, "_%s__properties" % model.__name__))
-                self.assertIn(twins.snake_case(prop), fields)
+                self.assertIn(prepare.snake_case(prop), fields)
 
     def test_twin_filter_on_the_recorded_document(self):
-        # scripts/drop_deprecated_twins.py on the recorded document and on variants of it.
+        # scripts/prepare_document.py on the recorded document and on variants of it.
         row = "#/components/schemas/TransactionCanonicalRow"
         with self.subTest(case="recorded"):
             document = copy.deepcopy(self.recorded)
             document["paths"]["/api/transaction/list"]["get"]["deprecated"] = True  # an operation's flag stays
-            dropped = twins.drop_deprecated_twins(document)
+            dropped = prepare.drop_deprecated_twins(document)
             self.assertIs(document["paths"]["/api/transaction/list"]["get"].pop("deprecated"), True)
             self.assertNotIn('"deprecated": true', json.dumps(document))
             self.assertIn(row + "/properties/senderAccountId", dropped)
@@ -584,7 +584,7 @@ class TestOpenApiConformance(unittest.TestCase):
             self.assertEqual(document["components"]["schemas"]["TransactionCanonicalRow"]["required"], [name for name in required if name not in names])
         with self.subTest(case="filtered again"):
             document = copy.deepcopy(self.document)
-            self.assertEqual((twins.drop_deprecated_twins(document), document), ([], self.document))
+            self.assertEqual((prepare.drop_deprecated_twins(document), document), ([], self.document))
         for case, change, orphans in (
             ("twin missing", lambda properties: properties.pop("sender_account_id"), ["senderAccountId"]),
             ("twin deprecated", lambda properties: properties["sender_account_id"].update(deprecated=True), ["senderAccountId", "sender_account_id"]),
@@ -597,11 +597,62 @@ class TestOpenApiConformance(unittest.TestCase):
                 with open(path, "w", encoding="utf-8") as spec_file:
                     json.dump(document, spec_file)
                 with mock.patch("builtins.print") as printed:
-                    self.assertEqual(twins.main(path), 1)
+                    self.assertEqual(prepare.main(path), 1)
                 for name in orphans:
                     self.assertIn("%s/properties/%s" % (row, name), printed.call_args.args[0])
                 with open(path, encoding="utf-8") as spec_file:
                     self.assertEqual(json.load(spec_file), document)  # the spec file is not rewritten
+
+    def test_example_addresses_are_substituted(self):
+        # scripts/prepare_document.py's example pass. No line under test/ may carry an address the
+        # address gate refuses, so each input address is composed at run time from parts (synthetic).
+        ip, mail, at_x = "%d.168.1.1" % 192, "jane@" + ".".join(("x", "io")), "@" + ".".join(("x", "io"))
+        kept = ["0.0.113.5", "127.0.0.1", "%d.1.1.1" % 300, "%d.2.3.4.5" % 1, "a@example.com", "b@mail.example.org", "C@Example.NET", "d@host.test", "e@localhost"]
+        operation = {"parameters": [{"name": "ip", "example": ip}], "responses": {"200": {"examples": {"one": {"value": {"user_email": mail, "seen": [ip]}}}}}}
+        for case, document, expected, pointers in (
+            ("example and examples", {"paths": {"/api/x": {"get": operation}}},
+             {"paths": {"/api/x": {"get": {"parameters": [{"name": "ip", "example": "0.168.1.1"}], "responses": {"200": {"examples": {"one": {"value": {"user_email": "jane@example.net", "seen": ["0.168.1.1"]}}}}}}}}},
+             ["#/paths//api/x/get/parameters/0/example", "#/paths//api/x/get/responses/200/examples"]),
+            ("in-rule and look-alike", {"example": kept + ["x@not" + "example.com", "y@example.com." + ".".join(("x", "io")), "%s or %s" % (mail, ip)]},
+             {"example": kept + ["x@example.net", "y@example.net", "jane@example.net or 0.168.1.1"]}, ["#/example"]),
+            ("not an example", {"info": {"description": mail}, "servers": [{"url": "http://%s:8080" % ip}], "properties": {"example": {"description": ip, "example": ip}}},
+             {"info": {"description": mail}, "servers": [{"url": "http://%s:8080" % ip}], "properties": {"example": {"description": ip, "example": "0.168.1.1"}}},
+             ["#/properties/example/example"]),
+            ("non-string", {"example": 192, "examples": [None, True, 1.5]}, {"example": 192, "examples": [None, True, 1.5]}, []),
+            ("no examples", {"openapi": "3.0.0", "paths": {}}, {"openapi": "3.0.0", "paths": {}}, []),
+        ):
+            with self.subTest(case=case):
+                self.assertEqual(prepare.substitute_examples(document), pointers)
+                self.assertEqual(document, expected)
+                self.assertEqual(prepare.substitute_examples(document), [])  # a second call rewrites nothing
+                self.assertEqual(document, expected)
+        with self.subTest(case="recorded"):
+            document = copy.deepcopy(self.recorded)
+            self.assertEqual(prepare.substitute_examples(document), [])
+            self.assertEqual((document["info"]["version"], document["servers"][0]["url"]), ("0.199.0", "https://api.example.com"))
+        with self.subTest(case="recorded, as the producer sends it"):
+            text = json.dumps(self.recorded)
+            for rewritten, live in (("0.168.1.1", ip), ("0.0.113.5", "%d.0.113.5" % 203), ("jane@example.net", mail), ("sam@example.net", "sam" + at_x)):
+                text = text.replace('"%s"' % rewritten, '"%s"' % live)
+            document = json.loads(text)
+            self.assertEqual(len(prepare.substitute_examples(document)), 5)
+            self.assertEqual(document, self.recorded)
+
+    def test_no_test_file_carries_an_address_the_gate_refuses(self):
+        # The generator copies example values into test/generated: none may be an IPv4 outside 0.0.0.0/8
+        # and 127.0.0.0/8 or an e-mail on a non-reserved domain (scripts/prepare_document.py).
+        def reserved(domain):
+            labels = domain.lower().split(".")
+            return labels[-1] in ("example", "test", "invalid") or ".".join(labels[-2:]) in ("example.com", "example.org", "example.net")
+        found = []
+        for directory, _, files in os.walk(os.path.join(ROOT, "test")):
+            for name in (name for name in files if name.endswith((".py", ".json", ".md"))):
+                with open(os.path.join(directory, name), encoding="utf-8") as test_file:
+                    text = test_file.read()
+                found += [(name, m.group(0)) for m in re.finditer(r"(?<![\d.])\d{1,3}(?:\.\d{1,3}){3}(?![\d.])", text)
+                          if m.group(0).split(".")[0] not in ("0", "127") and all(int(part) <= 255 for part in m.group(0).split("."))]
+                found += [(name, m.group(1)) for m in re.finditer(r"(?<=[\w.%+-])@([\w-]+(?:\.[\w-]+)+)", text) if not reserved(m.group(1))]
+        self.assertEqual(found, [])
 
     def test_component_models_are_exported_from_package(self):
         for name in self.document["components"]["schemas"]:

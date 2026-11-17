@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **client_label** | **str** | Optional. Name of the client holding the session, stored with it. Ignored unless session is \&quot;long\&quot;. | [optional] 
 **oauth_client_id** | **str** | OAuth sign-in (MCP server only, requires X-Orbuculum-Mcp-Key): the registered OAuth client_id. Send together with redirectUri. The token then carries connection_id. | [optional] 
 **redirect_uri** | **str** | OAuth sign-in: must equal one of the client&#39;s registered redirect_uris exactly. | [optional] 
+**workspace_ids** | **List[int]** | Optional, OAuth sign-in only (BE-405): the workspace scope of the connection this sign-in creates, a non-empty list of ids of workspaces the user can access; anything else answers 422. Omitted or null: the connection&#39;s scope is not set and it reaches every workspace of the user, as before. A sign-in that reuses the user&#39;s existing connection for this OAuth client keeps that connection&#39;s scope (change it with /api/client-connection/set-scope). Ignored unless oauthClientId is sent. | [optional] 
 
 ## Example
 

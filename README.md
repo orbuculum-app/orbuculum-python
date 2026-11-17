@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.36.1
-- **Supported API Version**: 0.180.2
+- **Client Version**: 0.37.0
+- **Supported API Version**: 0.199.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -232,12 +232,14 @@ Class | Method | HTTP request | Description
 *ChangeSetApi* | [**commit_change_set**](docs/ChangeSetApi.md#commit_change_set) | **POST** /api/change-set/commit | Commit an open change set
 *ChangeSetApi* | [**get_change_set**](docs/ChangeSetApi.md#get_change_set) | **GET** /api/change-set/get | Read a change set with its items
 *ChangeSetApi* | [**open_change_set**](docs/ChangeSetApi.md#open_change_set) | **POST** /api/change-set/open | Open an explicit change set
+*ChangeSetApi* | [**undo_change_set**](docs/ChangeSetApi.md#undo_change_set) | **POST** /api/change-set/undo | Undo a change set
 *ClientConnectionApi* | [**create_client_connection**](docs/ClientConnectionApi.md#create_client_connection) | **POST** /api/client-connection/create | Create a key connection
 *ClientConnectionApi* | [**get_client_connection_workspace**](docs/ClientConnectionApi.md#get_client_connection_workspace) | **GET** /api/client-connection/get-workspace | Read this connection&#39;s chosen workspace
 *ClientConnectionApi* | [**list_client_connections**](docs/ClientConnectionApi.md#list_client_connections) | **GET** /api/client-connection/list | List my client connections
 *ClientConnectionApi* | [**rename_client_connection**](docs/ClientConnectionApi.md#rename_client_connection) | **POST** /api/client-connection/rename | Rename a client connection
 *ClientConnectionApi* | [**revoke_client_connection**](docs/ClientConnectionApi.md#revoke_client_connection) | **POST** /api/client-connection/revoke | Revoke a client connection
 *ClientConnectionApi* | [**revoke_other_client_connections**](docs/ClientConnectionApi.md#revoke_other_client_connections) | **POST** /api/client-connection/revoke-all-others | Revoke all other client connections
+*ClientConnectionApi* | [**set_client_connection_scope**](docs/ClientConnectionApi.md#set_client_connection_scope) | **POST** /api/client-connection/set-scope | Set a client connection&#39;s workspace scope
 *ClientConnectionApi* | [**set_client_connection_workspace**](docs/ClientConnectionApi.md#set_client_connection_workspace) | **POST** /api/client-connection/set-workspace | Set this connection&#39;s chosen workspace
 *ConnectionApi* | [**create_connection_recipient**](docs/ConnectionApi.md#create_connection_recipient) | **POST** /api/connection/create-recipient | Create recipient connection
 *ConnectionApi* | [**create_connection_source**](docs/ConnectionApi.md#create_connection_source) | **POST** /api/connection/create-source | Create source connection
@@ -268,19 +270,18 @@ Class | Method | HTTP request | Description
 *LimitationApi* | [**get_limitation_modal_context**](docs/LimitationApi.md#get_limitation_modal_context) | **GET** /api/limitation/modal-context | Get aggregated context for the Detailed Limitations modal
 *LimitationApi* | [**manage_account_limitation**](docs/LimitationApi.md#manage_account_limitation) | **POST** /api/limitation/account-manage | Manage account transaction limitations
 *LimitationApi* | [**manage_entity_limitation**](docs/LimitationApi.md#manage_entity_limitation) | **POST** /api/limitation/entity-manage | Manage entity transaction limitations
-*MatchingApi* | [**matching_create_anti_pattern**](docs/MatchingApi.md#matching_create_anti_pattern) | **POST** /api/matching/create-anti-pattern | Create an anti-pattern (negative learning from rejected suggestion)
-*MatchingApi* | [**matching_create_example**](docs/MatchingApi.md#matching_create_example) | **POST** /api/matching/create-example | Create a confirmed matching example (learning loop)
 *MatchingApi* | [**matching_create_keyword_pattern**](docs/MatchingApi.md#matching_create_keyword_pattern) | **POST** /api/matching/create-keyword-pattern | Create or update a keyword pattern (upsert)
-*MatchingApi* | [**matching_list_examples**](docs/MatchingApi.md#matching_list_examples) | **GET** /api/matching/list-examples | List confirmed matching examples for workspace
 *MatchingApi* | [**matching_list_keyword_patterns**](docs/MatchingApi.md#matching_list_keyword_patterns) | **GET** /api/matching/list-keyword-patterns | List keyword patterns for workspace
 *MatchingApi* | [**matching_suggest**](docs/MatchingApi.md#matching_suggest) | **POST** /api/matching/suggest | Get account matching suggestions for counterparty
-*MatchingApi* | [**matching_update_example**](docs/MatchingApi.md#matching_update_example) | **POST** /api/matching/update-example | Update a matching example (confidence, times_matched, is_active)
 *MembershipApi* | [**membership_flag_set**](docs/MembershipApi.md#membership_flag_set) | **POST** /api/membership/flag-set | Set a member&#39;s access flag (replaces update-role)
 *MembershipApi* | [**membership_invite**](docs/MembershipApi.md#membership_invite) | **POST** /api/membership/invite | Invite an existing user to the workspace (role-free)
 *MembershipApi* | [**membership_list**](docs/MembershipApi.md#membership_list) | **GET** /api/membership/list | List workspace members (role-free)
 *MembershipApi* | [**membership_remove**](docs/MembershipApi.md#membership_remove) | **POST** /api/membership/remove | Remove a member from the workspace
 *OAuthClientApi* | [**get_oauth_client**](docs/OAuthClientApi.md#get_oauth_client) | **GET** /api/oauth-client/get | Look up an OAuth client (MCP server only)
 *OAuthClientApi* | [**register_oauth_client**](docs/OAuthClientApi.md#register_oauth_client) | **POST** /api/oauth-client/register | Register an OAuth client (MCP server only)
+*OpenQuestionApi* | [**close_open_question**](docs/OpenQuestionApi.md#close_open_question) | **POST** /api/open-question/close | Close an open question with a note
+*OpenQuestionApi* | [**create_open_question**](docs/OpenQuestionApi.md#create_open_question) | **POST** /api/open-question/create | Create an open question
+*OpenQuestionApi* | [**list_open_questions**](docs/OpenQuestionApi.md#list_open_questions) | **GET** /api/open-question/list | List open questions
 *PermissionsApi* | [**get_entity_permissions_for_user**](docs/PermissionsApi.md#get_entity_permissions_for_user) | **GET** /api/permission/entity | Get a workspace member&#39;s per-entity permissions + create_entity flag (role-free, by user_id)
 *PermissionsApi* | [**get_general_permissions**](docs/PermissionsApi.md#get_general_permissions) | **GET** /api/permission/general | Get a workspace member&#39;s general permission flags (role-free, by user_id)
 *PermissionsApi* | [**get_project_permissions_for_user**](docs/PermissionsApi.md#get_project_permissions_for_user) | **GET** /api/permission/project | Get a workspace member&#39;s per-project account permissions (role-free, by user_id)
@@ -329,6 +330,7 @@ Class | Method | HTTP request | Description
 *TransactionApi* | [**add_transaction_commission**](docs/TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
 *TransactionApi* | [**check_chained_transactions**](docs/TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 *TransactionApi* | [**create_transaction**](docs/TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
+*TransactionApi* | [**create_transaction_batch**](docs/TransactionApi.md#create_transaction_batch) | **POST** /api/transaction/create-batch | Create many transactions in one all-or-nothing call
 *TransactionApi* | [**delete_transaction**](docs/TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 *TransactionApi* | [**delete_transaction_file**](docs/TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
 *TransactionApi* | [**download_transaction_file**](docs/TransactionApi.md#download_transaction_file) | **GET** /api/transaction/download-file | Download a transaction file
@@ -340,6 +342,7 @@ Class | Method | HTTP request | Description
 *TransactionApi* | [**list_transactions**](docs/TransactionApi.md#list_transactions) | **GET** /api/transaction/list | List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
 *TransactionApi* | [**mutate_transactions**](docs/TransactionApi.md#mutate_transactions) | **POST** /api/transaction/mutate | Unified transaction mutation endpoint
 *TransactionApi* | [**set_balance_invalid**](docs/TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
+*TransactionApi* | [**set_transaction_needs_review**](docs/TransactionApi.md#set_transaction_needs_review) | **POST** /api/transaction/set-needs-review | Set or clear the needs_review mark of a transaction
 *TransactionApi* | [**update_transaction**](docs/TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 *TransactionApi* | [**upload_transaction_files**](docs/TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
 *TransactionApi* | [**verify_transaction_ledger**](docs/TransactionApi.md#verify_transaction_ledger) | **GET** /api/transaction/verify | Check ledger invariants (read-only)
@@ -470,6 +473,9 @@ Class | Method | HTTP request | Description
  - [ChangePasswordRequest](docs/ChangePasswordRequest.md)
  - [ChangeSet](docs/ChangeSet.md)
  - [ChangeSetItem](docs/ChangeSetItem.md)
+ - [ChangeSetScope](docs/ChangeSetScope.md)
+ - [ChangeSetUndoConflict](docs/ChangeSetUndoConflict.md)
+ - [ChangeSetUndoConflictDetailsInner](docs/ChangeSetUndoConflictDetailsInner.md)
  - [CheckChainedTransactionsRequest](docs/CheckChainedTransactionsRequest.md)
  - [ClientConnection](docs/ClientConnection.md)
  - [ClientConnectionCreateRequest](docs/ClientConnectionCreateRequest.md)
@@ -483,13 +489,17 @@ Class | Method | HTTP request | Description
  - [ClientConnectionResponseData](docs/ClientConnectionResponseData.md)
  - [ClientConnectionRevokeAllOthersResponse](docs/ClientConnectionRevokeAllOthersResponse.md)
  - [ClientConnectionRevokeAllOthersResponseData](docs/ClientConnectionRevokeAllOthersResponseData.md)
+ - [ClientConnectionScopeRequest](docs/ClientConnectionScopeRequest.md)
  - [ClientConnectionWorkspaceRequest](docs/ClientConnectionWorkspaceRequest.md)
  - [ClientConnectionWorkspaceResponse](docs/ClientConnectionWorkspaceResponse.md)
  - [ClientConnectionWorkspaceResponseData](docs/ClientConnectionWorkspaceResponseData.md)
+ - [CloseOpenQuestion200Response](docs/CloseOpenQuestion200Response.md)
+ - [CloseOpenQuestionRequest](docs/CloseOpenQuestionRequest.md)
  - [ColumnInfo](docs/ColumnInfo.md)
  - [CommissionCreatedResponse](docs/CommissionCreatedResponse.md)
  - [CommissionCreatedResponseData](docs/CommissionCreatedResponseData.md)
  - [CommissionData](docs/CommissionData.md)
+ - [CommitChangeSet422Response](docs/CommitChangeSet422Response.md)
  - [CommitChangeSetRequest](docs/CommitChangeSetRequest.md)
  - [CreateAccountRequest](docs/CreateAccountRequest.md)
  - [CreateConnectionRecipient201Response](docs/CreateConnectionRecipient201Response.md)
@@ -507,9 +517,9 @@ Class | Method | HTTP request | Description
  - [CreateEntity201Response](docs/CreateEntity201Response.md)
  - [CreateEntity201ResponseData](docs/CreateEntity201ResponseData.md)
  - [CreateEntityRequest](docs/CreateEntityRequest.md)
- - [CreateImport200Response](docs/CreateImport200Response.md)
- - [CreateImport200ResponseData](docs/CreateImport200ResponseData.md)
  - [CreateImportRequest](docs/CreateImportRequest.md)
+ - [CreateOpenQuestion201Response](docs/CreateOpenQuestion201Response.md)
+ - [CreateOpenQuestionRequest](docs/CreateOpenQuestionRequest.md)
  - [CreatePassword200Response](docs/CreatePassword200Response.md)
  - [CreatePassword200ResponseData](docs/CreatePassword200ResponseData.md)
  - [CreatePassword409Response](docs/CreatePassword409Response.md)
@@ -522,7 +532,7 @@ Class | Method | HTTP request | Description
  - [CreateTagRequest](docs/CreateTagRequest.md)
  - [CreateTransaction200Response](docs/CreateTransaction200Response.md)
  - [CreateTransaction201Response](docs/CreateTransaction201Response.md)
- - [CreateTransaction409Response](docs/CreateTransaction409Response.md)
+ - [CreateTransactionBatchRequest](docs/CreateTransactionBatchRequest.md)
  - [CreateTransactionRequest](docs/CreateTransactionRequest.md)
  - [CreateWorkspaceFromFixtureRequest](docs/CreateWorkspaceFromFixtureRequest.md)
  - [CreateWorkspaceRequest](docs/CreateWorkspaceRequest.md)
@@ -571,6 +581,7 @@ Class | Method | HTTP request | Description
  - [DisconnectSocial200ResponseData](docs/DisconnectSocial200ResponseData.md)
  - [DisconnectSocial409Response](docs/DisconnectSocial409Response.md)
  - [DisconnectSocialRequest](docs/DisconnectSocialRequest.md)
+ - [DuplicateCandidate](docs/DuplicateCandidate.md)
  - [EnrichedTransactionItem](docs/EnrichedTransactionItem.md)
  - [EnrichedTransactionItemCounterparty](docs/EnrichedTransactionItemCounterparty.md)
  - [EntityTypeIconsResponse](docs/EntityTypeIconsResponse.md)
@@ -647,9 +658,9 @@ Class | Method | HTTP request | Description
  - [KeyLoginRequest](docs/KeyLoginRequest.md)
  - [LedgerInvariantResult](docs/LedgerInvariantResult.md)
  - [LedgerInvariantResultOffendersInner](docs/LedgerInvariantResultOffendersInner.md)
+ - [LedgerVerification](docs/LedgerVerification.md)
+ - [LedgerVerificationInvariants](docs/LedgerVerificationInvariants.md)
  - [LedgerVerificationResponse](docs/LedgerVerificationResponse.md)
- - [LedgerVerificationResponseData](docs/LedgerVerificationResponseData.md)
- - [LedgerVerificationResponseDataInvariants](docs/LedgerVerificationResponseDataInvariants.md)
  - [Limitation](docs/Limitation.md)
  - [LimitationManagedResponse](docs/LimitationManagedResponse.md)
  - [LimitationModalContextResponse](docs/LimitationModalContextResponse.md)
@@ -660,6 +671,8 @@ Class | Method | HTTP request | Description
  - [LimitationModalContextResponseDataLimitations](docs/LimitationModalContextResponseDataLimitations.md)
  - [ListFilesData](docs/ListFilesData.md)
  - [ListFilesResponse](docs/ListFilesResponse.md)
+ - [ListOpenQuestions200Response](docs/ListOpenQuestions200Response.md)
+ - [ListOpenQuestions200ResponseData](docs/ListOpenQuestions200ResponseData.md)
  - [ListTags200Response](docs/ListTags200Response.md)
  - [ListTags200ResponseDataInner](docs/ListTags200ResponseDataInner.md)
  - [LoginRequest](docs/LoginRequest.md)
@@ -671,14 +684,10 @@ Class | Method | HTTP request | Description
  - [ManageAccessSaveRequestUsersInnerProjectsInner](docs/ManageAccessSaveRequestUsersInnerProjectsInner.md)
  - [ManageAccountLimitationRequest](docs/ManageAccountLimitationRequest.md)
  - [ManageEntityLimitationRequest](docs/ManageEntityLimitationRequest.md)
- - [MatchingAntiPatternCreateRequest](docs/MatchingAntiPatternCreateRequest.md)
  - [MatchingCandidate](docs/MatchingCandidate.md)
- - [MatchingExampleCreateRequest](docs/MatchingExampleCreateRequest.md)
- - [MatchingExampleListRequest](docs/MatchingExampleListRequest.md)
- - [MatchingExampleUpdateRequest](docs/MatchingExampleUpdateRequest.md)
  - [MatchingKeywordPatternCreateRequest](docs/MatchingKeywordPatternCreateRequest.md)
  - [MatchingKeywordPatternListRequest](docs/MatchingKeywordPatternListRequest.md)
- - [MatchingListExamples200Response](docs/MatchingListExamples200Response.md)
+ - [MatchingListKeywordPatterns200Response](docs/MatchingListKeywordPatterns200Response.md)
  - [MatchingSuggest200Response](docs/MatchingSuggest200Response.md)
  - [MatchingSuggest200ResponseData](docs/MatchingSuggest200ResponseData.md)
  - [MatchingSuggestRequest](docs/MatchingSuggestRequest.md)
@@ -707,6 +716,7 @@ Class | Method | HTTP request | Description
  - [OauthClientResponseData](docs/OauthClientResponseData.md)
  - [OpenChangeSet200Response](docs/OpenChangeSet200Response.md)
  - [OpenChangeSetRequest](docs/OpenChangeSetRequest.md)
+ - [OpenQuestion](docs/OpenQuestion.md)
  - [PermissionManageAccess200Response](docs/PermissionManageAccess200Response.md)
  - [PermissionManageAccess200ResponseData](docs/PermissionManageAccess200ResponseData.md)
  - [PermissionManageAccess200ResponseDataManagedUsersInner](docs/PermissionManageAccess200ResponseDataManagedUsersInner.md)
@@ -769,6 +779,7 @@ Class | Method | HTTP request | Description
  - [RemoveWorkspaceImageRequest](docs/RemoveWorkspaceImageRequest.md)
  - [ReportBasicCurrency](docs/ReportBasicCurrency.md)
  - [ReportEffectiveFilters](docs/ReportEffectiveFilters.md)
+ - [ReportRateWarning](docs/ReportRateWarning.md)
  - [RequestResetRequest](docs/RequestResetRequest.md)
  - [RequestResetResponse](docs/RequestResetResponse.md)
  - [RequestResetResponseData](docs/RequestResetResponseData.md)
@@ -801,6 +812,9 @@ Class | Method | HTTP request | Description
  - [SetTimezone200Response](docs/SetTimezone200Response.md)
  - [SetTimezone200ResponseData](docs/SetTimezone200ResponseData.md)
  - [SetTimezoneRequest](docs/SetTimezoneRequest.md)
+ - [SetTransactionNeedsReview200Response](docs/SetTransactionNeedsReview200Response.md)
+ - [SetTransactionNeedsReview200ResponseData](docs/SetTransactionNeedsReview200ResponseData.md)
+ - [SetTransactionNeedsReviewRequest](docs/SetTransactionNeedsReviewRequest.md)
  - [SuccessResponse](docs/SuccessResponse.md)
  - [SuccessResponseData](docs/SuccessResponseData.md)
  - [SyncTagAccounts200Response](docs/SyncTagAccounts200Response.md)
@@ -817,6 +831,9 @@ Class | Method | HTTP request | Description
  - [ToggleFlagRequest](docs/ToggleFlagRequest.md)
  - [ToggleFullAccessRequest](docs/ToggleFullAccessRequest.md)
  - [Transaction](docs/Transaction.md)
+ - [TransactionBatchCreateResponse](docs/TransactionBatchCreateResponse.md)
+ - [TransactionBatchCreateResponseData](docs/TransactionBatchCreateResponseData.md)
+ - [TransactionBatchCreateResponseDataResultsInner](docs/TransactionBatchCreateResponseDataResultsInner.md)
  - [TransactionCanonicalRow](docs/TransactionCanonicalRow.md)
  - [TransactionChainedTransaction](docs/TransactionChainedTransaction.md)
  - [TransactionCreatedData](docs/TransactionCreatedData.md)
@@ -949,16 +966,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.36.1
-print(orbuculum_client.__api_version__)    # API version: 0.180.2
-print(orbuculum_client.__api_supported__)  # Supported API: 0.180.2
+print(orbuculum_client.__version__)        # Client version: 0.37.0
+print(orbuculum_client.__api_version__)    # API version: 0.199.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.199.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.36.1 → 0.36.2): Bug fixes, documentation updates
-- **MINOR** (0.36.2 → 0.37.0): New features, backward-compatible
-- **MAJOR** (0.37.0 → 1.0.0): Breaking changes
+- **PATCH** (0.37.0 → 0.37.1): Bug fixes, documentation updates
+- **MINOR** (0.37.1 → 0.38.0): New features, backward-compatible
+- **MAJOR** (0.38.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

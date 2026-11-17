@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **entity_id** | **int** | Entity ID | 
-**name** | **str** | Account name (optional, defaults to empty string when omitted; OMM-1868) | [optional] 
+**name** | **str** | Account name (optional, defaults to empty string when omitted; OMM-1868) Unique together with entity_id and currency_id, an empty name included: a duplicate answers 422 (409 when a concurrent request wins the race). | [optional] 
 **currency_id** | **int** | Currency ID | [optional] 
 **hidden** | **str** | Whether account is hidden (0 or 1) | [optional] 
 **hide_balances** | **str** | Whether balances are hidden (0 or 1) | [optional] 

@@ -5,8 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**balance** | **str** | Account balance at the specified date. Null if balance is hidden for this role. | [optional] 
-**currency** | **str** | Currency name | [optional] 
+**balance** | **str** | Account balance at the specified date: every transaction dated at or before it counts and &#x60;done&#x60; plays no part. Null if balance is hidden for this role. | [optional] 
+**unconfirmed_amount** | **str** | The part of &#x60;balance&#x60;, at the same &#x60;date&#x60; and &#x60;trx_id&#x60;, that comes from unconfirmed rows (done false, recurring or not). Signed: the balance minus this is what confirmed rows add up to. Null when this account&#39;s balance is hidden for the caller&#39;s role. | [optional] 
+**currency** | **str** | Stored currency name (may be a sign such as &#39;$&#39;) | [optional] 
+**currency_code** | **str** | ISO code of the account currency | [optional] 
 **currency_id** | **int** | Currency ID | [optional] 
 **precision** | **int** | Currency decimal precision | [optional] 
 

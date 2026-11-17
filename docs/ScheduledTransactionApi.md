@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 Create a new scheduled transaction
 
-Creates a new scheduled/recurring transaction with specified schedule type and parameters. With dry_run=true it runs every check of a real create and returns the computed schedule without writing anything (BE-102).
+Creates a new scheduled/recurring transaction with specified schedule type and parameters. With dry_run=true it runs every check of a real create and returns the computed schedule without writing anything (BE-102). A scheduled transaction is a rule, not a transaction: the rows it generates are ordinary transactions marked is_recurrent: true, and only those rows count in balances, each from its own date.
 
 ### Example
 
@@ -50,7 +50,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     create_scheduled_transaction_request = orbuculum_client.CreateScheduledTransactionRequest() # CreateScheduledTransactionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
@@ -70,7 +70,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_scheduled_transaction_request** | [**CreateScheduledTransactionRequest**](CreateScheduledTransactionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
  **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
@@ -140,7 +140,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     delete_scheduled_transaction_request = orbuculum_client.DeleteScheduledTransactionRequest() # DeleteScheduledTransactionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Delete a scheduled transaction
@@ -159,7 +159,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **delete_scheduled_transaction_request** | [**DeleteScheduledTransactionRequest**](DeleteScheduledTransactionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -189,7 +189,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_scheduled_transaction**
-> MatchingListExamples200Response get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled, x_timezone=x_timezone)
+> MatchingListKeywordPatterns200Response get_scheduled_transaction(workspace_id, id=id, account_id=account_id, enabled=enabled, x_timezone=x_timezone)
 
 Get scheduled transaction(s)
 
@@ -201,7 +201,7 @@ Retrieves a single scheduled transaction by ID, or a list filtered by account an
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.matching_list_examples200_response import MatchingListExamples200Response
+from orbuculum_client.models.matching_list_keyword_patterns200_response import MatchingListKeywordPatterns200Response
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -255,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MatchingListExamples200Response**](MatchingListExamples200Response.md)
+[**MatchingListKeywordPatterns200Response**](MatchingListKeywordPatterns200Response.md)
 
 ### Authorization
 
@@ -275,6 +275,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient 3-way label permission (PLP must grant view-or-manage on (role, sender, label) AND (role, receiver, label)) |  -  |
 **404** | Scheduled transaction not found |  -  |
+**422** | BE-351: list mode — account_id names no account of this workspace (error and details name the id) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -408,7 +409,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ScheduledTransactionApi(api_client)
     update_scheduled_transaction_request = orbuculum_client.UpdateScheduledTransactionRequest() # UpdateScheduledTransactionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response `dt` as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). (optional)
 
     try:
@@ -428,7 +429,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_scheduled_transaction_request** | [**UpdateScheduledTransactionRequest**](UpdateScheduledTransactionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
  **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit the response &#x60;dt&#x60; as explicit-offset ISO-8601. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type

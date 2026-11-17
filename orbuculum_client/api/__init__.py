@@ -17,6 +17,7 @@ if __import__("typing").TYPE_CHECKING:
     from orbuculum_client.api.matching_api import MatchingApi
     from orbuculum_client.api.membership_api import MembershipApi
     from orbuculum_client.api.o_auth_client_api import OAuthClientApi
+    from orbuculum_client.api.open_question_api import OpenQuestionApi
     from orbuculum_client.api.permissions_api import PermissionsApi
     from orbuculum_client.api.project_api import ProjectApi
     from orbuculum_client.api.rate_api import RateApi
@@ -53,6 +54,7 @@ from orbuculum_client.api.limitation_api import LimitationApi
 from orbuculum_client.api.matching_api import MatchingApi
 from orbuculum_client.api.membership_api import MembershipApi
 from orbuculum_client.api.o_auth_client_api import OAuthClientApi
+from orbuculum_client.api.open_question_api import OpenQuestionApi
 from orbuculum_client.api.permissions_api import PermissionsApi
 from orbuculum_client.api.project_api import ProjectApi
 from orbuculum_client.api.rate_api import RateApi

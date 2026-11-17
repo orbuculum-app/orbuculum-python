@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 Get exchange rate for a currency on a date
 
-Returns the closest exchange rate for a given currency and date. Algorithm: closest past rate (dt <= date), fallback to closest future rate (dt > date). Rate values are in units of basic currency per 1 unit of this currency.
+Returns the closest exchange rate for a given currency and date. Algorithm: closest past rate (dt <= date), fallback to closest future rate (dt > date). The rate is the stored value: units of this currency per 1 unit of the basic currency, the inverse of the display value that /api/rate/history, create and update use (display 40 = stored 0.025).
 
 ### Example
 
@@ -183,6 +183,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Rate history retrieved successfully |  -  |
 **400** | Bad request |  -  |
+**422** | date_from is later than date_to (BE-351). Equal dates are a valid range; details name both fields. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **404** | Currency not found |  -  |
@@ -195,7 +196,7 @@ Name | Type | Description  | Notes
 
 List exchange rates for currencies
 
-Returns rates for one or all currencies, optionally filtered by date range. Rates grouped by currency_id with currency metadata. Rate values are in units of basic currency per 1 unit of this currency.
+Returns rates for one or all currencies, optionally filtered by date range. Rates grouped by currency_id with currency metadata. The rate is the stored value: units of this currency per 1 unit of the basic currency, the inverse of the display value that /api/rate/history, create and update use (display 40 = stored 0.025).
 
 ### Example
 
@@ -272,6 +273,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Bad request |  -  |
+**422** | date_from is later than date_to (BE-351). Equal dates are a valid range; details name both fields. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **404** | Currency not found |  -  |

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **sender** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | 
 **receiver** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | 
 **double** | [**TransactionDraftSide**](TransactionDraftSide.md) |  | 
-**rate** | **str** | Sender -&gt; receiver rate in force at the effective &#x60;dt&#x60;, as a bcmath scale-18 decimal STRING (never a JSON number). Null when either side is unset, a currency has no rate rows, or the sender rate is zero. | 
+**rate** | **str** | Sender -&gt; receiver rate, in units of the receiver currency per 1 unit of the sender currency, in force at the effective &#x60;dt&#x60;, as a bcmath scale-18 decimal STRING (never a JSON number). Null when either side is unset, a currency has no rate rows, or the sender rate is zero. | 
 **pair_valid** | **bool** | Whether the currently chosen accounts form a pair (and triple) the write path accepts. True while fewer than two sides are set. | 
 **accounts_count** | **int** | Accounts available to the caller in this workspace | 
 

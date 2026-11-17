@@ -96,7 +96,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/pdf
+ - **Accept**: application/pdf, application/json
 
 ### HTTP response details
 
@@ -104,6 +104,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | PDF file |  -  |
 **400** | Invalid parameters |  -  |
+**422** | date_range_from is later than date_range_to, or project_ids names a label that does not exist in this workspace (BE-351). |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **404** | No data for selected period |  -  |
@@ -196,7 +197,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+ - **Accept**: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/json
 
 ### HTTP response details
 
@@ -204,6 +205,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | XLSX file |  -  |
 **400** | Invalid parameters |  -  |
+**422** | date_range_from is later than date_range_to, or project_ids names a label that does not exist in this workspace (BE-351). |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **404** | No data for selected period |  -  |
@@ -303,6 +305,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Balances report data |  -  |
 **400** | Invalid parameters |  -  |
+**422** | date_from is later than date_to, or project_id names a label that does not exist in this workspace (BE-351). project_id&#x3D;0 (all labels) is valid. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 
@@ -410,6 +413,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Cash Flow report data |  -  |
 **400** | Invalid parameters |  -  |
+**422** | date_from is later than date_to, or project_id / entity_ids name an id that does not exist in this workspace (BE-351). project_id&#x3D;0 (all labels) is valid. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 
@@ -509,6 +513,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | P&amp;L report data (render-ready periods[]) |  -  |
 **400** | Invalid parameters |  -  |
+**422** | date_from is later than date_to, or project_ids names a label that does not exist in this workspace (BE-351). project_ids&#x3D;0 (all labels) is valid. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 

@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **model_type** | **str** |  | 
 **model_id** | **int** |  | 
 **action** | **str** |  | 
-**before** | **Dict[str, object]** | full database row (column → value) before this write; null on create | 
-**after** | **Dict[str, object]** | full database row (column → value) after this write; null on delete | 
+**before** | **Dict[str, object]** | full database row (column → value) before this write; null on create. For a transaction row, sender_balance_after / receiver_balance_after are null for a leg whose account balance the requesting role may not see (BE-369). | 
+**after** | **Dict[str, object]** | full database row (column → value) after this write; null on delete. For a transaction row, sender_balance_after / receiver_balance_after are null for a leg whose account balance the requesting role may not see (BE-369). | 
 
 ## Example
 
