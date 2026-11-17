@@ -1,6 +1,6 @@
 # IntermediaryTransactionUpdatedResponse
 
-Response after successfully updating an intermediary transaction pair (atomic two-leg update via POST /api/transaction/update). HTTP 200. The `data` payload uses the same hybrid shape as IntermediaryTransactionCreatedResponse: Group A (legacy keys + leg ids + commission ids) + Group B (14 shared metadata fields lifted from leg1) + Group C (full per-leg formatTransactionResponse shape).
+Response after successfully updating an intermediary transaction pair (atomic two-leg update via POST /api/transaction/update). HTTP 200. The `data` payload uses the same hybrid shape as IntermediaryTransactionCreatedResponse: Group A (legacy keys + leg ids + commission ids) + Group B (13 shared metadata fields lifted from leg1) + Group C (full per-leg formatTransactionResponse shape).
 
 ## Properties
 

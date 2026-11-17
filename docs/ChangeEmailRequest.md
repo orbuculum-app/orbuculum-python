@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **new_email** | **str** |  | 
 **password** | **str** |  | 
+**sign_out_others** | **bool** | Stored with the pending change and applied when the emailed link confirms it: true (default when absent or null) ends every other session and connection except the requester&#39;s; false ends none. Requesting ends nothing. | [optional] [default to True]
 
 ## Example
 

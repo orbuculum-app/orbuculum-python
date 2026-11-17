@@ -1,12 +1,13 @@
 # ClientConnectionIdRequest
 
-Request body naming a client connection
+Request body naming a client connection, or (with kind session) a sign-in session; used by revoke
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** | The connection&#39;s id. | 
+**id** | **int** | The connection&#39;s (or session&#39;s) id. | 
+**kind** | **str** | The kind of the entry to revoke; key when absent. | [optional] [default to 'key']
 
 ## Example
 

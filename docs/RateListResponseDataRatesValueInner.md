@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **dt** | **str** | Rate timestamp | [optional] 
-**rate** | **str** | Exchange rate value | [optional] 
+**rate** | **str** | Stored exchange rate: units of this currency per 1 unit of the basic currency, the inverse of the display rate of /api/rate/history | [optional] 
 
 ## Example
 

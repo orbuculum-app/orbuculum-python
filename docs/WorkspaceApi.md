@@ -222,7 +222,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     workspace_id = 56 # int | Workspace ID
     id = 56 # int | Transaction ID for edit mode (optional)
     account_id = 56 # int | Preselected account ID (optional)
-    label_id = 56 # int | BE-58: label to compute modal_defaults under. When present and manageable by the caller it overrides the preferred-label cascade; otherwise the cascade decides. (optional)
+    label_id = 56 # int | BE-58: label to compute modal_defaults under. When present, manageable by the caller and visible for the account_id account (BE-348: the caller's role can manage that account under it, or under no available label), it overrides the preferred-label cascade; otherwise the cascade decides. (optional)
 
     try:
         # Get workspace context for transaction modal
@@ -243,7 +243,7 @@ Name | Type | Description  | Notes
  **workspace_id** | **int**| Workspace ID | 
  **id** | **int**| Transaction ID for edit mode | [optional] 
  **account_id** | **int**| Preselected account ID | [optional] 
- **label_id** | **int**| BE-58: label to compute modal_defaults under. When present and manageable by the caller it overrides the preferred-label cascade; otherwise the cascade decides. | [optional] 
+ **label_id** | **int**| BE-58: label to compute modal_defaults under. When present, manageable by the caller and visible for the account_id account (BE-348: the caller&#39;s role can manage that account under it, or under no available label), it overrides the preferred-label cascade; otherwise the cascade decides. | [optional] 
 
 ### Return type
 

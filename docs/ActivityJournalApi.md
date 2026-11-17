@@ -139,7 +139,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     date_from = 'Thu Jan 01 00:00:00 UTC 2026' # date | Filter from date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
     date_to = 'Thu Dec 31 00:00:00 UTC 2026' # date | Filter to date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
     action_type = 'action_type_example' # str | Filter by action type. `foreign_edit` selects edits and deletes of a record made through another channel or client than the one that created it. An unknown value answers 400. (optional)
-    channel = 'channel_example' # str | Filter by write channel: `ui` is a browser UI (legacy web or an SPA session), `mcp` the attested MCP server, `api` any other API client, `chatbot` the product's chatbot. An unknown value answers 400. (optional)
+    channel = 'channel_example' # str | Filter by write channel: `ui` is a browser UI (legacy web or an SPA session), `mcp` the attested MCP server, `bot` the attested chatbot v2 server, `api` any other API client, `chatbot` the X-Source-Channel chatbot header, `import` the channel of rows an import created (no journal event carries it; an import's event carries the channel of the request that ran it). An unknown value answers 400. (optional)
     client = 'acme-agent' # str | Filter by the exact client name the MCP server vouched for. A value that is not a valid string answers 400. (optional)
     model_type = 'model_type_example' # str | Filter by model type (transaction, account, user, category) (optional)
     user_id = 'user_id_example' # str | Filter by specific user (when model_type=user) (optional)
@@ -178,7 +178,7 @@ Name | Type | Description  | Notes
  **date_from** | **date**| Filter from date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
  **date_to** | **date**| Filter to date (YYYY-MM-DD). In cursor mode the day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
  **action_type** | **str**| Filter by action type. &#x60;foreign_edit&#x60; selects edits and deletes of a record made through another channel or client than the one that created it. An unknown value answers 400. | [optional] 
- **channel** | **str**| Filter by write channel: &#x60;ui&#x60; is a browser UI (legacy web or an SPA session), &#x60;mcp&#x60; the attested MCP server, &#x60;api&#x60; any other API client, &#x60;chatbot&#x60; the product&#39;s chatbot. An unknown value answers 400. | [optional] 
+ **channel** | **str**| Filter by write channel: &#x60;ui&#x60; is a browser UI (legacy web or an SPA session), &#x60;mcp&#x60; the attested MCP server, &#x60;bot&#x60; the attested chatbot v2 server, &#x60;api&#x60; any other API client, &#x60;chatbot&#x60; the X-Source-Channel chatbot header, &#x60;import&#x60; the channel of rows an import created (no journal event carries it; an import&#39;s event carries the channel of the request that ran it). An unknown value answers 400. | [optional] 
  **client** | **str**| Filter by the exact client name the MCP server vouched for. A value that is not a valid string answers 400. | [optional] 
  **model_type** | **str**| Filter by model type (transaction, account, user, category) | [optional] 
  **user_id** | **str**| Filter by specific user (when model_type&#x3D;user) | [optional] 
@@ -208,6 +208,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Paginated activity journal entries. Offset mode (page/per_page) returns ActivityJournalListResponse; cursor mode (cursor_dt/cursor_id) returns ActivityJournalCursorListResponse. |  -  |
 **400** | Bad request - invalid parameters |  -  |
+**422** | date_from is later than date_to (BE-351). Equal dates are a valid range; details name both fields. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no workspace access |  -  |
 **500** | Internal server error |  -  |

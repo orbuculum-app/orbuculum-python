@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **account_name** | **str** |  | 
 **entity_name** | **str** |  | [optional] 
-**currency_code** | **str** |  | [optional] 
+**currency_code** | **str** | ISO code of the account currency (stored name mapped via Currency::codeOf) | [optional] 
 
 ## Example
 

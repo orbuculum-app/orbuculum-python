@@ -94,9 +94,9 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Confirmation email sent |  -  |
-**400** | Missing parameters |  -  |
+**400** | Missing parameters, or sign_out_others is not a boolean |  -  |
 **401** | Unauthorized |  -  |
-**403** | Wrong password |  -  |
+**403** | Wrong password; or: Not allowed with a client connection token |  -  |
 **405** | Method not allowed |  -  |
 **409** | Email already taken |  -  |
 **422** | Invalid email format or same as current |  -  |
@@ -179,9 +179,9 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Password updated |  -  |
-**400** | Missing parameters |  -  |
+**400** | Missing parameters, or sign_out_others is not a boolean |  -  |
 **401** | Unauthorized |  -  |
-**403** | Wrong current password |  -  |
+**403** | Wrong current password; or: Not allowed with a client connection token |  -  |
 **405** | Method not allowed |  -  |
 **422** | Weak password or same as old |  -  |
 
@@ -350,7 +350,7 @@ Name | Type | Description  | Notes
 **200** | Password authentication disabled |  -  |
 **400** | Missing password |  -  |
 **401** | Unauthorized |  -  |
-**403** | Wrong password |  -  |
+**403** | Wrong password; or: Not allowed with a client connection token |  -  |
 **404** | No local auth to disable |  -  |
 **405** | Method not allowed |  -  |
 
@@ -504,7 +504,7 @@ This endpoint does not need any parameter.
 
 Get user workspaces
 
-Returns all workspaces the authenticated user belongs to, with per-workspace timezone and active workspace ID.
+Returns all workspaces the authenticated user belongs to, with per-workspace timezone and active workspace ID. With a client connection token, only the workspaces of the connection's scope (BE-405); active_workspace_id is null when it lies outside.
 
 ### Example
 

@@ -7,7 +7,7 @@ Response of GET /api/transaction/verify (BE-311).
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status** | **int** | Response of GET /api/transaction/verify (HTTP 200).  BE-311: the read-only ledger verifier&#39;s verdict, one result per invariant, and the limits of the selection mode used. | 
-**data** | [**LedgerVerificationResponseData**](LedgerVerificationResponseData.md) |  | 
+**data** | [**LedgerVerification**](LedgerVerification.md) |  | 
 
 ## Example
 

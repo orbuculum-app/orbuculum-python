@@ -1,12 +1,13 @@
 # ClientConnectionCreateRequest
 
-Request body creating a key connection
+Request body creating a key connection and its workspace scope
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | The connection&#39;s name; trimmed, must not be blank. | 
+**workspace_ids** | **List[int]** | The workspaces the connection may reach (BE-405): a non-empty list of ids of workspaces you can access, as /api/user/get-workspaces lists them. Duplicates are dropped; stored ascending. | 
 
 ## Example
 

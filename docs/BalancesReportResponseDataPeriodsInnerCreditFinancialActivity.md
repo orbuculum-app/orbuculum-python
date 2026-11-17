@@ -1,6 +1,6 @@
 # BalancesReportResponseDataPeriodsInnerCreditFinancialActivity
 
-Forex and the balancing revaluation plug. Each is pinned to one side for all columns and is 0 on the other.
+Forex and the balancing revaluation plug. Each is pinned to one side for all columns and is 0 on the other. revaluation is 0 on both sides when an account is omitted for the requesting role (BE-369).
 
 ## Properties
 

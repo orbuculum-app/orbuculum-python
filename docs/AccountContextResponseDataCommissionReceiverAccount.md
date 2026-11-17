@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **id** | **int** | Account ID | 
 **name** | **str** | Account name | 
 **entity_name** | **str** | Entity name | 
-**currency_code** | **str** | Currency code | 
+**currency_code** | **str** | ISO code of the commission account currency (stored name mapped via Currency::codeOf) | 
 
 ## Example
 

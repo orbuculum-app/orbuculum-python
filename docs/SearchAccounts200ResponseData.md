@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **items** | [**List[SearchAccounts200ResponseDataItemsInner]**](SearchAccounts200ResponseDataItemsInner.md) | List of matching accounts | [optional] 
-**total** | **int** | Number of returned items | [optional] 
+**total** | **int** | Number of items in this response, NOT the number of all matches: when it equals limit, more accounts may match; narrow the search with q, type or entity_id. | [optional] 
 
 ## Example
 

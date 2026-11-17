@@ -98,6 +98,7 @@ Name | Type | Description  | Notes
 **404** | Provider not connected to this account |  -  |
 **405** | Method not allowed |  -  |
 **409** | Cannot disconnect the only authentication method |  -  |
+**403** | Not allowed with a client connection token |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -319,7 +320,7 @@ No authorization required
 
 Login and get JWT token
 
-Authenticates a user and returns a JWT token for API access. Supports both JSON and form-data content types. OAuth sign-in (MCP server only): with oauthClientId and redirectUri and the X-Orbuculum-Mcp-Key header, the sign-in finds or creates the user's one connection for that OAuth client, and the token (and the long session's refreshes) carry its connection_id.
+Authenticates a user and returns a JWT token for API access. Supports both JSON and form-data content types. OAuth sign-in (MCP server only): with oauthClientId and redirectUri and the X-Orbuculum-Mcp-Key header, the sign-in finds or creates the user's one connection for that OAuth client, and the token (and the long session's refreshes) carry its connection_id. With session=long and no OAuth sign-in, the returned token names the long session (session_id claim), and its refreshes keep it (BE-355). An OAuth sign-in may send workspace_ids (BE-405): the workspace scope of the connection it creates. Without it the connection's scope is not set and it reaches every workspace of the user; a sign-in that reuses the connection keeps its scope.
 
 ### Example
 
@@ -384,7 +385,7 @@ No authorization required
 **401** | Invalid credentials |  -  |
 **403** | OAuth sign-in fields sent without the MCP server credential |  -  |
 **405** | Method not allowed |  -  |
-**422** | Validation error (invalid session or clientLabel) |  -  |
+**422** | Validation error (invalid session, clientLabel, OAuth sign-in fields, or workspace_ids) |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -96,7 +96,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_import**
-> CreateImport200Response create_import(create_import_request, x_orbuculum_change_set=x_orbuculum_change_set)
+> ImportCreateResponse create_import(create_import_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
 Execute import
 
@@ -108,8 +108,8 @@ Creates transactions from previewed import data. Requires import_key from the pr
 
 ```python
 import orbuculum_client
-from orbuculum_client.models.create_import200_response import CreateImport200Response
 from orbuculum_client.models.create_import_request import CreateImportRequest
+from orbuculum_client.models.import_create_response import ImportCreateResponse
 from orbuculum_client.rest import ApiException
 from pprint import pprint
 
@@ -134,7 +134,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.ImportApi(api_client)
     create_import_request = orbuculum_client.CreateImportRequest() # CreateImportRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Execute import
@@ -153,11 +153,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_import_request** | [**CreateImportRequest**](CreateImportRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
-[**CreateImport200Response**](CreateImport200Response.md)
+[**ImportCreateResponse**](ImportCreateResponse.md)
 
 ### Authorization
 

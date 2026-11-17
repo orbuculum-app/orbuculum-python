@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**add_transaction_commission**](TransactionApi.md#add_transaction_commission) | **POST** /api/transaction/add-commission | Add commission to a transaction
 [**check_chained_transactions**](TransactionApi.md#check_chained_transactions) | **POST** /api/transaction/check-chained-transactions | Check chained transactions affected by mass action
 [**create_transaction**](TransactionApi.md#create_transaction) | **POST** /api/transaction/create | Create a new transaction
+[**create_transaction_batch**](TransactionApi.md#create_transaction_batch) | **POST** /api/transaction/create-batch | Create many transactions in one all-or-nothing call
 [**delete_transaction**](TransactionApi.md#delete_transaction) | **POST** /api/transaction/delete | Delete an existing transaction
 [**delete_transaction_file**](TransactionApi.md#delete_transaction_file) | **POST** /api/transaction/delete-file | Delete a transaction file
 [**download_transaction_file**](TransactionApi.md#download_transaction_file) | **GET** /api/transaction/download-file | Download a transaction file
@@ -18,6 +19,7 @@ Method | HTTP request | Description
 [**list_transactions**](TransactionApi.md#list_transactions) | **GET** /api/transaction/list | List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
 [**mutate_transactions**](TransactionApi.md#mutate_transactions) | **POST** /api/transaction/mutate | Unified transaction mutation endpoint
 [**set_balance_invalid**](TransactionApi.md#set_balance_invalid) | **POST** /api/transaction/set-balance-invalid | Trigger balance recalculation for specified accounts
+[**set_transaction_needs_review**](TransactionApi.md#set_transaction_needs_review) | **POST** /api/transaction/set-needs-review | Set or clear the needs_review mark of a transaction
 [**update_transaction**](TransactionApi.md#update_transaction) | **POST** /api/transaction/update | Update an existing transaction
 [**upload_transaction_files**](TransactionApi.md#upload_transaction_files) | **POST** /api/transaction/upload-files | Upload files to a transaction
 [**verify_transaction_ledger**](TransactionApi.md#verify_transaction_ledger) | **GET** /api/transaction/verify | Check ledger invariants (read-only)
@@ -62,7 +64,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     add_commission_request = orbuculum_client.AddCommissionRequest() # AddCommissionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Add commission to a transaction
@@ -81,7 +83,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **add_commission_request** | [**AddCommissionRequest**](AddCommissionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -177,7 +179,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -185,6 +187,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **200** | Chained transactions check result |  -  |
 **400** | Bad request |  -  |
+**403** | No access to this workspace: not a member, or a client connection token whose scope excludes it (BE-405) |  -  |
 **422** | Batch limit exceeded |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -203,6 +206,8 @@ Single-amount semantic (cross-currency): for a transaction whose sender and rece
 Example — record a 57 EUR cost paid from an EUR account into a USD account: send {"sender_account_id": <EUR account>, "receiver_account_id": <USD account>, "sender_amount": "57.00"} and OMIT receiver_amount. The backend computes receiver_amount at the date's EUR→USD rate and forex = 0. Do NOT send "receiver_amount": "57.00" alongside it — that implies a 1:1 rate and creates phantom forex. (OMM-2148)
 
 Optional list diff (BE-148): send `list_scope: {accountId, filter, window}` — the list scope that `/api/transaction/mutate` takes — to receive a top-level `list_diff` next to `data`: the window diff `{drops, upserts, balanceUpdates, summary}` that `/api/transaction/mutate` returns for the same change. The write itself does not change. `list_diff` is absent on a dry-run preview, on any error, and when the diff could not be built after the write committed; reload the list when it is absent. An invalid `list_scope` returns 422 `Validation failed` with `details[].field` `list_scope.accountId`, `list_scope.filter` or `list_scope.window`, and nothing is written. Without `list_scope` (or with `list_scope: null`) the response is unchanged. If the row is committed but its full body cannot be built, the answer is still 201 and `data` holds only `id` (intermediary: `leg1_id`, `leg2_id`, `leg1.id`, `leg2.id`). Do not repeat the create.
+
+A create without `apikey` is checked for a possible duplicate (BE-403): an existing transaction you can view with the same sending and receiving account, the same `sender_amount` and `receiver_amount`, and a date within 1 day (an expected payment counts too). Such a create writes nothing and answers 409 with `duplicate_candidate` (the original's id and the matched fields), also on dry_run; repeat it with `allow_duplicate: true` to write it anyway, which the row records. Amounts derived independently on the two sides of a cross-currency transfer do not match.
 
 ### Example
 
@@ -236,7 +241,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     create_transaction_request = orbuculum_client.CreateTransactionRequest() # CreateTransactionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Create a new transaction
@@ -255,7 +260,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_transaction_request** | [**CreateTransactionRequest**](CreateTransactionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -281,8 +286,101 @@ Name | Type | Description  | Notes
 **403** | Forbidden - insufficient permissions |  -  |
 **404** | Account not found |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict - duplicate apikey, on a real create and on dry_run |  -  |
-**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. Also returned, with nothing written, when the apikey contains &#39;connection:&#39; and the request carries a commission: such a key marks a row synchronized from another workspace, which takes no new commission. |  -  |
+**409** | Conflict - duplicate apikey, or a keyless create refused as a possible duplicate (the body carries duplicate_candidate; repeat with allow_duplicate: true to write it); on a real create and on dry_run |  -  |
+**422** | Unprocessable entity - DTO validation failed OR workspace lacks a default label (when project_id is omitted). BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. Also returned, with nothing written, when the apikey contains &#39;connection:&#39; and the request carries a commission: such a key marks a row synchronized from another workspace, which takes no new commission. BE-351: a zero or negative sender_amount / receiver_amount (outside a note) answers 422 on that field (\&quot;… must be greater than zero.\&quot;); both amounts absent answers 422 on both fields (\&quot;At least one amount (sender_amount or receiver_amount) must be provided.\&quot;). |  -  |
+**500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_transaction_batch**
+> TransactionBatchCreateResponse create_transaction_batch(create_transaction_batch_request, x_orbuculum_change_set=x_orbuculum_change_set)
+
+Create many transactions in one all-or-nothing call
+
+BE-340: creates every row of `rows` in one database transaction and reports, per row, `created` (the new transaction's id) or `already_existed` (the original's id). Each row has the shape of CreateTransactionRequest; `workspace_id` comes from the envelope and `dry_run` is ignored.
+
+Idempotency key per row: the row's `apikey` as sent, else a content key derived from the date of `dt` (UTC), the sending and receiving accounts and `sender_amount`. The n-th identical keyless row of one request gets its own key (an ordinal); a keyless row that matches an existing transaction you can view, or an earlier row of the same request (same accounts, same amounts, dates within 1 day), is not written and answers `duplicate_candidate` with the original's `id` (and `duplicate_candidate.row_index` when an earlier row of this request created it); send `allow_duplicate: true` on that row to write it. A repeat of the whole batch creates nothing. A key already exists when a transaction holding it shares the row's sending account or its receiving account (for an intermediary row: the intermediary account). Imports use the same keys, so rows already imported answer `already_existed`.
+
+A row without `apikey` must carry `dt` and a non-empty `sender_amount` (a `receiver_amount` alone is refused with 422). On any error nothing is written, and the error's `details` carries an item with `field` `row_index` naming the failing row. No row-count limit.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.create_transaction_batch_request import CreateTransactionBatchRequest
+from orbuculum_client.models.transaction_batch_create_response import TransactionBatchCreateResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TransactionApi(api_client)
+    create_transaction_batch_request = orbuculum_client.CreateTransactionBatchRequest() # CreateTransactionBatchRequest | 
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
+
+    try:
+        # Create many transactions in one all-or-nothing call
+        api_response = api_instance.create_transaction_batch(create_transaction_batch_request, x_orbuculum_change_set=x_orbuculum_change_set)
+        print("The response of TransactionApi->create_transaction_batch:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TransactionApi->create_transaction_batch: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **create_transaction_batch_request** | [**CreateTransactionBatchRequest**](CreateTransactionBatchRequest.md)|  | 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
+
+### Return type
+
+[**TransactionBatchCreateResponse**](TransactionBatchCreateResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Every row is created or already existed |  -  |
+**400** | Bad request - body not JSON, rows missing or not a non-empty list, a row not an object, an invalid timezone or a missing exchange rate in a row |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden - no access to the workspace, or a row&#39;s permission gate fails |  -  |
+**404** | A row&#39;s account not found |  -  |
+**405** | Method not allowed |  -  |
+**409** | Conflict - a row&#39;s key was written by a concurrent request between the lookup and the insert; a retry of the whole batch answers already_existed |  -  |
+**422** | Unprocessable entity - field validation of a row (&#x60;details[].field&#x60; &#x60;rows[&lt;i&gt;].&lt;field&gt;&#x60;), a keyless row without dt or sender_amount, or a label / eligibility violation of a row |  -  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -330,7 +428,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     delete_transaction_request = orbuculum_client.DeleteTransactionRequest() # DeleteTransactionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Delete an existing transaction
@@ -349,7 +447,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **delete_transaction_request** | [**DeleteTransactionRequest**](DeleteTransactionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -729,6 +827,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Recalculation status |  -  |
 **400** | Validation error |  -  |
+**422** | account_ids names an account that does not exist in this workspace (BE-351). error and details name the ids. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **500** | Server error |  -  |
@@ -1005,13 +1104,19 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_transactions**
-> AccountTransactionsResponse list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, notes=notes, apikey=apikey, with_total=with_total)
+> AccountTransactionsResponse list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, notes=notes, apikey=apikey, with_total=with_total, needs_review=needs_review)
 
 List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
 
 Canonical cursor-based transaction listing. When account_id is supplied, returns that account's ledger with an account-level summary; when omitted, returns every transaction the role is permitted to see across the workspace with summary: null. The now-based seam keeps future-dated rows off the first page by default (direction=down).
 
 In per-account mode the first page (no cursor, either direction) also carries data.filter_projects: the projects the account's Project filter offers, independent of every filter parameter of this request. It is absent on cursor pages and in workspace-wide mode.
+
+Initial balance: an account's initial balance is a transaction dated 1970-01-01 00:00:00 (row field isInitial: true). date_from excludes it like every other earlier row; its amount, with all earlier flows, is carried in summary.opening_balance (per-account mode, when date_from is sent) and in every row's balance_after. With no other filter narrowing the rows, summary.opening_balance + recent.received - recent.sent equals the balance_after of the window's last non-future row.
+
+Filters combine with AND: every filter parameter sent narrows the rows further; within counterparty and within label_ids the ids are alternatives (a row matching any of them passes). Rows are ordered by (dt, id), descending for direction=down and ascending for direction=up. The first page (no cursor) is split at the seam (now + 59 s) whatever date_from and date_to say: direction=down holds no future-dated rows, direction=up only future-dated ones; a non-empty apikey lifts the split, except with notes=only.
+
+Balances: an account balance counts every transaction dated at or before now and `done` plays no part, so a row with schedule_status overdue already counts in it and a row with pending does not yet.
 
 ### Example
 
@@ -1049,22 +1154,23 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     limit = 40 # int | Items per page (1-200, default 40) (optional)
     cursor_dt = '2026-03-30T14:00:00+03:00' # str | Cursor: datetime of last item. Pass back the offset-ISO `pagination.nextCursor.dt` value from a previous page (e.g. 2026-03-30T14:00:00+03:00). A naive 'YYYY-MM-DD HH:MM:SS' value is also accepted and interpreted as UTC. (optional)
     cursor_id = 460 # int | Cursor: ID of last item (optional)
-    date_from = '2026-01-01' # str | Date filter start (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
-    date_to = '2026-12-31' # str | Date filter end (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). (optional)
+    date_from = '2026-01-01' # str | Date filter start (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). Rows dated before this bound, the initial-balance row (1970-01-01 00:00:00) included, are excluded; their net amount is reported in summary.opening_balance. (optional)
+    date_to = '2026-12-31' # str | Date filter end (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). Inclusive: the whole day counts, up to 23:59:59. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit all datetime instants as explicit-offset ISO-8601 and to interpret the date_from/date_to day window. Absent or invalid → UTC (…Z). (optional)
-    counterparty = '101_205_300' # str | Counterparty account IDs separated by underscore (optional)
-    amount_from = '100.00' # str | Min amount filter. Per-account: the leg facing the account; workspace-wide: either leg. (optional)
-    amount_to = '5000.00' # str | Max amount filter. Per-account: the leg facing the account; workspace-wide: either leg. (optional)
-    comment = 'Supplies' # str | Text search in comment field (optional)
-    label_ids = '1_5_12' # str | Label IDs separated by underscore (optional)
-    api = 'only' # str | API-source filter. 'only' returns only API-created transactions (apikey IS NOT NULL); 'hide' excludes them (apikey IS NULL); omit or any other value returns all. (optional)
+    counterparty = '101_205_300' # str | Counterparty account IDs separated by underscore; a row matches when its sender or its receiver account is any of them. Pieces that read as 0 (non-numeric text) are dropped without an error. (optional)
+    amount_from = '100.00' # str | Min amount filter, inclusive (amount >= amount_from). Per-account: the leg facing the account; workspace-wide: either leg. (optional)
+    amount_to = '5000.00' # str | Max amount filter, inclusive (amount <= amount_to). Per-account: the leg facing the account; workspace-wide: either leg. (optional)
+    comment = 'Supplies' # str | Case-insensitive substring match on the comment: a row passes when its comment contains this text. (optional)
+    label_ids = '1_5_12' # str | Label IDs separated by underscore; a row matches when its label is any of them. Pieces that read as 0 (non-numeric text) are dropped without an error. (optional)
+    api = 'only' # str | API-source filter. 'only' returns only API-created transactions (a key set and not imported); 'hide' returns the rest (no key, or imported); omit or any other value returns all. (optional)
     notes = all # str | Note filter. 'all' (default) returns notes and transactions; 'hide' excludes notes; 'only' returns notes only, and of the other filters only date_from and date_to then apply. (optional) (default to all)
-    apikey = 'eb:12:345' # str | Exact idempotency key. Returns the row holding this key, future-dated rows included; for a transaction through an intermediary account, its first leg. With account_id, only rows touching that account are searched, so the first leg of such a transaction is not found under its receiver account; to check whether an earlier write landed, omit account_id. Without account_id, an empty chunk means no row with this key is visible to the caller: a restricted role gets an empty chunk even for a key that create refuses with 409. An empty value is ignored; a non-string value answers 400. (optional)
+    apikey = 'eb:12:345' # str | Exact idempotency key. Returns every row holding this key (a key is unique per account since BE-340, so rows with no account in common may share it), future-dated rows included; for a transaction through an intermediary account, its first leg. With account_id, only rows touching that account are searched, so the first leg of such a transaction is not found under its receiver account; to check whether an earlier write landed, omit account_id. Without account_id, an empty chunk means no row with this key is visible to the caller: a restricted role gets an empty chunk even for a key that create refuses with 409. An empty value is ignored; a non-string value answers 400. (optional)
     with_total = False # bool | BE-28: opt-in totalCount. When true (1/true), pagination.totalCount is the exact count of the full filtered set (identical across pages of the same filter). Default false → totalCount is null (COUNT(*) is skipped to keep cursor paging cheap on large tables). (optional) (default to False)
+    needs_review = true # bool | BE-404: true (1) returns only transactions marked needs_review; false (0) only unmarked ones; omit for all. Ignored when notes=only (only the date range applies there). Any other value answers 400. (optional)
 
     try:
         # List transactions (cursor pagination); account_id optional (workspace-wide when omitted)
-        api_response = api_instance.list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, notes=notes, apikey=apikey, with_total=with_total)
+        api_response = api_instance.list_transactions(workspace_id, account_id=account_id, direction=direction, limit=limit, cursor_dt=cursor_dt, cursor_id=cursor_id, date_from=date_from, date_to=date_to, x_timezone=x_timezone, counterparty=counterparty, amount_from=amount_from, amount_to=amount_to, comment=comment, label_ids=label_ids, api=api, notes=notes, apikey=apikey, with_total=with_total, needs_review=needs_review)
         print("The response of TransactionApi->list_transactions:\n")
         pprint(api_response)
     except Exception as e:
@@ -1084,18 +1190,19 @@ Name | Type | Description  | Notes
  **limit** | **int**| Items per page (1-200, default 40) | [optional] 
  **cursor_dt** | **str**| Cursor: datetime of last item. Pass back the offset-ISO &#x60;pagination.nextCursor.dt&#x60; value from a previous page (e.g. 2026-03-30T14:00:00+03:00). A naive &#39;YYYY-MM-DD HH:MM:SS&#39; value is also accepted and interpreted as UTC. | [optional] 
  **cursor_id** | **int**| Cursor: ID of last item | [optional] 
- **date_from** | **str**| Date filter start (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
- **date_to** | **str**| Date filter end (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). | [optional] 
+ **date_from** | **str**| Date filter start (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). Rows dated before this bound, the initial-balance row (1970-01-01 00:00:00) included, are excluded; their net amount is reported in summary.opening_balance. | [optional] 
+ **date_to** | **str**| Date filter end (YYYY-MM-DD). The day window is interpreted in the working timezone (X-Timezone header; UTC when absent/invalid). Inclusive: the whole day counts, up to 23:59:59. | [optional] 
  **x_timezone** | **str**| OMM-2124: IANA timezone name (e.g. Europe/Kyiv) used to emit all datetime instants as explicit-offset ISO-8601 and to interpret the date_from/date_to day window. Absent or invalid → UTC (…Z). | [optional] 
- **counterparty** | **str**| Counterparty account IDs separated by underscore | [optional] 
- **amount_from** | **str**| Min amount filter. Per-account: the leg facing the account; workspace-wide: either leg. | [optional] 
- **amount_to** | **str**| Max amount filter. Per-account: the leg facing the account; workspace-wide: either leg. | [optional] 
- **comment** | **str**| Text search in comment field | [optional] 
- **label_ids** | **str**| Label IDs separated by underscore | [optional] 
- **api** | **str**| API-source filter. &#39;only&#39; returns only API-created transactions (apikey IS NOT NULL); &#39;hide&#39; excludes them (apikey IS NULL); omit or any other value returns all. | [optional] 
+ **counterparty** | **str**| Counterparty account IDs separated by underscore; a row matches when its sender or its receiver account is any of them. Pieces that read as 0 (non-numeric text) are dropped without an error. | [optional] 
+ **amount_from** | **str**| Min amount filter, inclusive (amount &gt;&#x3D; amount_from). Per-account: the leg facing the account; workspace-wide: either leg. | [optional] 
+ **amount_to** | **str**| Max amount filter, inclusive (amount &lt;&#x3D; amount_to). Per-account: the leg facing the account; workspace-wide: either leg. | [optional] 
+ **comment** | **str**| Case-insensitive substring match on the comment: a row passes when its comment contains this text. | [optional] 
+ **label_ids** | **str**| Label IDs separated by underscore; a row matches when its label is any of them. Pieces that read as 0 (non-numeric text) are dropped without an error. | [optional] 
+ **api** | **str**| API-source filter. &#39;only&#39; returns only API-created transactions (a key set and not imported); &#39;hide&#39; returns the rest (no key, or imported); omit or any other value returns all. | [optional] 
  **notes** | **str**| Note filter. &#39;all&#39; (default) returns notes and transactions; &#39;hide&#39; excludes notes; &#39;only&#39; returns notes only, and of the other filters only date_from and date_to then apply. | [optional] [default to all]
- **apikey** | **str**| Exact idempotency key. Returns the row holding this key, future-dated rows included; for a transaction through an intermediary account, its first leg. With account_id, only rows touching that account are searched, so the first leg of such a transaction is not found under its receiver account; to check whether an earlier write landed, omit account_id. Without account_id, an empty chunk means no row with this key is visible to the caller: a restricted role gets an empty chunk even for a key that create refuses with 409. An empty value is ignored; a non-string value answers 400. | [optional] 
+ **apikey** | **str**| Exact idempotency key. Returns every row holding this key (a key is unique per account since BE-340, so rows with no account in common may share it), future-dated rows included; for a transaction through an intermediary account, its first leg. With account_id, only rows touching that account are searched, so the first leg of such a transaction is not found under its receiver account; to check whether an earlier write landed, omit account_id. Without account_id, an empty chunk means no row with this key is visible to the caller: a restricted role gets an empty chunk even for a key that create refuses with 409. An empty value is ignored; a non-string value answers 400. | [optional] 
  **with_total** | **bool**| BE-28: opt-in totalCount. When true (1/true), pagination.totalCount is the exact count of the full filtered set (identical across pages of the same filter). Default false → totalCount is null (COUNT(*) is skipped to keep cursor paging cheap on large tables). | [optional] [default to False]
+ **needs_review** | **bool**| BE-404: true (1) returns only transactions marked needs_review; false (0) only unmarked ones; omit for all. Ignored when notes&#x3D;only (only the date range applies there). Any other value answers 400. | [optional] 
 
 ### Return type
 
@@ -1116,6 +1223,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Success |  -  |
 **400** | Invalid parameters |  -  |
+**422** | date_from is later than date_to, or label_ids / counterparty name an id that does not exist in this workspace (BE-351). error and details name the field and the ids. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden — no access to workspace; or (per-account mode only) the role has no permission on account_id. Not raised in workspace-wide mode. |  -  |
 **404** | Account not found (per-account mode only) |  -  |
@@ -1162,7 +1270,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     mutate_transactions_request = orbuculum_client.MutateTransactionsRequest() # MutateTransactionsRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
     x_timezone = 'Europe/Kyiv' # str | OMM-2127: IANA timezone name (e.g. Europe/Kyiv). Upsert `dt` instants are emitted as explicit-offset ISO-8601 (matching the list endpoint) and the filter date_from/date_to day window is interpreted in this zone. Absent or invalid → UTC (…Z). (optional)
 
     try:
@@ -1182,7 +1290,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **mutate_transactions_request** | [**MutateTransactionsRequest**](MutateTransactionsRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
  **x_timezone** | **str**| OMM-2127: IANA timezone name (e.g. Europe/Kyiv). Upsert &#x60;dt&#x60; instants are emitted as explicit-offset ISO-8601 (matching the list endpoint) and the filter date_from/date_to day window is interpreted in this zone. Absent or invalid → UTC (…Z). | [optional] 
 
 ### Return type
@@ -1207,7 +1315,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized |  -  |
 **403** | Forbidden - insufficient permissions |  -  |
 **405** | Method not allowed |  -  |
-**409** | Conflict - duplicate apikey on create or update |  -  |
+**409** | Conflict - duplicate apikey on create or update, or a keyless create refused as a possible duplicate (body carries duplicate_candidate) |  -  |
 **422** | Unprocessable Entity - IB-row update, batch size exceeds limit (max 500), or other business-rule violation. BE-66: at least one account-eligibility violation — a forbidden account direction (floor), an account_limitation row, or a sub-tab slot mismatch. &#x60;details[]&#x60; carries one item per violation, each with &#x60;reason&#x60; and &#x60;context&#x60;; all violations of a request are returned together. A permission failure that is the ONLY violation still returns 403, not 422. BE-125: sender and receiver (or an intermediary leg&#39;s two accounts) use the same currency but the amounts differ — &#x60;details[]&#x60; items &#x60;{field, message}&#x60; without &#x60;reason&#x60;. set_label: payload.projectId names no label in this workspace. BE-306: an &#x60;update&#x60; payload is validated like POST /api/transaction/update — what that endpoint rejects answers &#x60;error: Validation failed&#x60; with &#x60;details[]&#x60; items &#x60;{field, message}&#x60; (among others a &#x60;dt&#x60; that is not ISO-8601, an amount whose absolute value is 10^18 or more, an array &#x60;comment&#x60;, a &#x60;leg1_*&#x60;/&#x60;leg2_*&#x60; slot that is not an object). |  -  |
 **500** | Internal server error |  -  |
 
@@ -1297,6 +1405,91 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **set_transaction_needs_review**
+> SetTransactionNeedsReview200Response set_transaction_needs_review(set_transaction_needs_review_request)
+
+Set or clear the needs_review mark of a transaction
+
+BE-404: true marks the transaction by hand (the mark survives closing its questions); false clears it (linked questions stay open). Requires edit permission on the transaction.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import orbuculum_client
+from orbuculum_client.models.set_transaction_needs_review200_response import SetTransactionNeedsReview200Response
+from orbuculum_client.models.set_transaction_needs_review_request import SetTransactionNeedsReviewRequest
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = orbuculum_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TransactionApi(api_client)
+    set_transaction_needs_review_request = orbuculum_client.SetTransactionNeedsReviewRequest() # SetTransactionNeedsReviewRequest | 
+
+    try:
+        # Set or clear the needs_review mark of a transaction
+        api_response = api_instance.set_transaction_needs_review(set_transaction_needs_review_request)
+        print("The response of TransactionApi->set_transaction_needs_review:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TransactionApi->set_transaction_needs_review: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **set_transaction_needs_review_request** | [**SetTransactionNeedsReviewRequest**](SetTransactionNeedsReviewRequest.md)|  | 
+
+### Return type
+
+[**SetTransactionNeedsReview200Response**](SetTransactionNeedsReview200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The mark as stored after the write |  -  |
+**400** | Malformed JSON; transaction_id not a positive integer; needs_review missing or not a boolean |  -  |
+**401** | Unauthorized |  -  |
+**403** | No access to this workspace, or no permission to edit the transaction |  -  |
+**404** | Transaction not found |  -  |
+**405** | Method not allowed |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_transaction**
 > UpdateTransaction200Response update_transaction(update_transaction_request, x_orbuculum_change_set=x_orbuculum_change_set)
 
@@ -1346,7 +1539,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.TransactionApi(api_client)
     update_transaction_request = orbuculum_client.UpdateTransactionRequest() # UpdateTransactionRequest | 
-    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. (optional)
+    x_orbuculum_change_set = 56 # int | Id of an explicit change set opened with POST /api/change-set/open. The request's writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode=propose, every write of the request is rolled back and the response is 200 with data = the ChangeSet (items with before/after) instead of the endpoint's usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with `verification` (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as `data.verification`. (optional)
 
     try:
         # Update an existing transaction
@@ -1365,7 +1558,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **update_transaction_request** | [**UpdateTransactionRequest**](UpdateTransactionRequest.md)|  | 
- **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. | [optional] 
+ **x_orbuculum_change_set** | **int**| Id of an explicit change set opened with POST /api/change-set/open. The request&#39;s writes of transactions, accounts, counterparties and labels are recorded into that set. If the set was opened with mode&#x3D;propose, every write of the request is rolled back and the response is 200 with data &#x3D; the ChangeSet (items with before/after) instead of the endpoint&#39;s usual body; requests to a proposed set are each evaluated against the committed book, so send dependent operations in one request (e.g. one /api/transaction/mutate call). Without this header the server records the writes into an implicit set. BE-341: a write into an open set is checked by the ledger verifier (the rules of GET /api/transaction/verify, default tolerances, no scope) over the transactions it wrote, before anything is saved; if an invariant fails, nothing of the request is saved and the answer is 422 with &#x60;verification&#x60; (verdict and invariants with their offenders). The 200 answer of a write into a proposed set carries the same verdict as &#x60;data.verification&#x60;. | [optional] 
 
 ### Return type
 
@@ -1576,6 +1769,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Verification result |  -  |
 **400** | Validation error: mode, dates, id lists or tolerances |  -  |
+**422** | date_from is later than date_to (BE-351). Equal dates are a valid range; details name both fields. |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden - no workspace access, or the role is not full-access |  -  |
 **404** | Workspace not found, or transaction_ids not found in this workspace |  -  |

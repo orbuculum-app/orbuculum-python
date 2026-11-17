@@ -1,6 +1,6 @@
 # ChangeSet
 
-A server-side group of writes of transactions, accounts, counterparties and labels. `kind` explicit: opened with POST /api/change-set/open; implicit: header-less writes of one user and attested client within a 300 s window; request: one web-UI request; system: one console run.
+A server-side group of writes of transactions, accounts, counterparties and labels. `kind` explicit: opened with POST /api/change-set/open; implicit: header-less writes of one user and attested client within a 300 s window; request: one web-UI request; system: one console run. `verification` is present only in the 200 answer of a write sent to a proposed set (BE-341): the ledger verifier's verdict over the transactions that write touched.
 
 ## Properties
 
@@ -12,11 +12,13 @@ Name | Type | Description | Notes
 **client_connection_id** | **int** |  | [optional] 
 **client** | **str** | Attested MCP client of the writes, when one was sent | [optional] 
 **source_ref** | **str** | Free reference given at open, e.g. a message id or a file id | [optional] 
+**scope** | [**ChangeSetScope**](ChangeSetScope.md) |  | [optional] 
 **kind** | **str** |  | 
 **status** | **str** |  | 
 **created_at** | **datetime** |  | 
 **committed_at** | **datetime** |  | [optional] 
 **items** | [**List[ChangeSetItem]**](ChangeSetItem.md) | The recorded writes in write order | 
+**verification** | [**LedgerVerification**](LedgerVerification.md) |  | [optional] 
 
 ## Example
 

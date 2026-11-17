@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **import_type** | **int** | External rate source ID | [optional] 
 **import_reverse** | **bool** | Reverse rate import flag | [optional] 
 **import_interval** | **int** | Rate import interval in seconds | [optional] 
-**current_rate** | **str** | Current display rate | [optional] 
+**current_rate** | **str** | Current display rate: units of the basic currency per 1 unit of this currency | [optional] 
 **message** | **str** | Success message | [optional] 
 
 ## Example

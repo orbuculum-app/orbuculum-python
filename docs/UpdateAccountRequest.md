@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **workspace_id** | **int** | Workspace ID | 
 **id** | **int** | Account ID to update | 
-**name** | **str** | New account name | [optional] 
+**name** | **str** | New account name. Unique together with the account&#39;s entity_id and currency_id, an empty name included: a duplicate answers 422 (409 when a concurrent request wins the race). | [optional] 
 **currency_id** | **int** | Currency ID | [optional] 
 **entity_id** | **int** | Entity ID | [optional] 
 **hidden** | **int** | Whether account is hidden | [optional] 
@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **limited** | **int** | Whether the account has transaction limitations | [optional] 
 **api_id** | **str** | External API ID | [optional] 
 **type** | **int** | Account type | [optional] 
-**tags** | **List[int]** | Array of account group IDs | [optional] 
+**tags** | **List[int]** | Array of account group IDs. A list replaces the account&#39;s tags with exactly these IDs; [] removes all tags. Omit / null to leave tags unchanged. | [optional] 
 **initial_balance** | **str** | Account initial balance amount (positive or negative numeric string). Accepts &#39;&#39;, &#39;0&#39;, &#39;0.00&#39; to delete an existing initial balance transaction. Omit / null to leave initial balance unchanged. | [optional] 
 
 ## Example

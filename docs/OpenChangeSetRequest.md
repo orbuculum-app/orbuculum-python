@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **workspace_id** | **int** |  | 
 **mode** | **str** |  | [optional] [default to 'commit']
 **source_ref** | **str** | Free reference of the source, e.g. a message id or a file id | [optional] 
+**scope** | [**ChangeSetScope**](ChangeSetScope.md) |  | [optional] 
 
 ## Example
 

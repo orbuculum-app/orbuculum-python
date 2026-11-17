@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **entity_id** | **int** |  | 
 **send_ts** | **int** |  | 
 **receive_ts** | **int** |  | 
+**type_id** | **int** | Account type id (int); same value as type; null &#x3D; PoL account | 
 
 ## Example
 

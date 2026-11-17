@@ -97,7 +97,7 @@ Name | Type | Description  | Notes
 **200** | Per-entity permissions |  -  |
 **400** | Missing/invalid parameters |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT; or: Not allowed with a client connection token |  -  |
 **404** | User not found in workspace |  -  |
 **500** | Server error |  -  |
 
@@ -182,7 +182,7 @@ Name | Type | Description  | Notes
 **200** | General permission flags |  -  |
 **400** | Missing/invalid parameters |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT; or: Not allowed with a client connection token |  -  |
 **404** | User not found in workspace |  -  |
 **500** | Server error |  -  |
 
@@ -267,7 +267,7 @@ Name | Type | Description  | Notes
 **200** | Per-project account permissions |  -  |
 **400** | Missing/invalid parameters |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT; or: Not allowed with a client connection token |  -  |
 **404** | User not found in workspace |  -  |
 **500** | Server error |  -  |
 
@@ -352,7 +352,7 @@ Name | Type | Description  | Notes
 **200** | Per-tag permissions |  -  |
 **400** | Missing/invalid parameters |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT |  -  |
+**403** | Forbidden — caller lacks PERMISSION_MANAGEMENT; or: Not allowed with a client connection token |  -  |
 **404** | User not found in workspace |  -  |
 **500** | Server error |  -  |
 
@@ -437,7 +437,7 @@ Name | Type | Description  | Notes
 **200** | Manage access data |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | Account not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -522,7 +522,7 @@ Name | Type | Description  | Notes
 **200** | Permissions updated successfully |  -  |
 **400** | Validation error |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden - no PERMISSION_MANAGEMENT |  -  |
+**403** | Forbidden - no PERMISSION_MANAGEMENT; or: Not allowed with a client connection token |  -  |
 **404** | Account or user not found |  -  |
 **409** | Role limit exceeded |  -  |
 **422** | Cannot manage permissions for system account/entity |  -  |
@@ -608,7 +608,7 @@ Name | Type | Description  | Notes
 **200** | Permission flag toggled successfully |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | Not found |  -  |
 **409** | Conflict - user has full access |  -  |
 **500** | Server error |  -  |
@@ -693,7 +693,7 @@ Name | Type | Description  | Notes
 **200** | Full access toggled successfully |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | Not found |  -  |
 **500** | Server error |  -  |
 
@@ -774,7 +774,7 @@ void (empty response body)
 **200** | Account permissions updated successfully |  -  |
 **400** | Validation error |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | User not found |  -  |
 **409** | User has full access |  -  |
 **422** | Cannot manage permissions for system account/entity |  -  |
@@ -857,7 +857,7 @@ void (empty response body)
 **200** | Entity permissions updated successfully |  -  |
 **400** | Validation error |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | User not found |  -  |
 **409** | User has full access |  -  |
 **422** | Cannot manage permissions for system account/entity |  -  |
@@ -940,7 +940,7 @@ void (empty response body)
 **200** | Label permissions updated successfully |  -  |
 **400** | Validation error |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | User not found |  -  |
 **409** | User has full access |  -  |
 **422** | Cannot manage permissions for system account/entity |  -  |
@@ -1023,7 +1023,7 @@ void (empty response body)
 **200** | Tag permissions updated successfully |  -  |
 **400** | Validation error |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | User not found |  -  |
 **409** | User has full access |  -  |
 **500** | Internal error |  -  |

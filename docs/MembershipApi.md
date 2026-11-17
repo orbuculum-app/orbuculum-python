@@ -88,7 +88,7 @@ Name | Type | Description  | Notes
 **200** | Flag set successfully |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | Target user not a member |  -  |
 **405** | Method not allowed |  -  |
 **409** | Conflict - target already has full access |  -  |
@@ -174,7 +174,7 @@ Name | Type | Description  | Notes
 **201** | User invited |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | User not found |  -  |
 **405** | Method not allowed |  -  |
 **500** | Server error |  -  |
@@ -257,7 +257,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Workspace members |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **500** | Server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -340,7 +340,7 @@ Name | Type | Description  | Notes
 **200** | Member removed |  -  |
 **400** | Bad request |  -  |
 **401** | Unauthorized |  -  |
-**403** | Forbidden |  -  |
+**403** | Forbidden; or: Not allowed with a client connection token |  -  |
 **404** | User not found |  -  |
 **405** | Method not allowed |  -  |
 **500** | Server error |  -  |

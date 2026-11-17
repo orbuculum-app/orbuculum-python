@@ -6,11 +6,13 @@ Per-account summary (currency, precision, recent/latest sent/received/balance) r
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**currency** | **str** | Account currency code (e.g. &#39;USD&#39;). Null when the account currency is unset. | [optional] 
+**currency** | **str** | Stored currency name (may be a sign such as &#39;$&#39;); the ISO code is in currency_code. Null when the account currency is unset. | [optional] 
+**currency_code** | **str** | ISO code of the account currency | [optional] 
 **precision** | **int** | Decimal precision used for sent/received/balance string formatting. Defaults to 2. | 
-**show_balance** | **bool** | Whether the balance values are meaningful for this account (false for accounts where balances are not tracked). | 
+**show_balance** | **bool** | Whether the requesting role may see this account&#39;s balance (BE-369). When false, recent.balance and latest.balance are null; sent and received are always present. | 
 **recent** | [**AccountSummaryHalf**](AccountSummaryHalf.md) |  | 
 **latest** | [**AccountSummaryHalf**](AccountSummaryHalf.md) |  | [optional] 
+**unconfirmed_amount** | **str** | The part of the current balance (&#x60;recent.balance&#x60;) that comes from unconfirmed rows (done false, recurring or not, dated up to now). Signed: the balance minus this is what confirmed rows add up to. Account-wide: it ignores filters and label scope, and is present even when &#x60;recent&#x60; is null. Confirming a row moves this figure, not the balance. Null when this account&#39;s balance is hidden for the caller&#39;s role. | 
 
 ## Example
 

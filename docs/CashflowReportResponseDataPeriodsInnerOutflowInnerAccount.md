@@ -8,7 +8,9 @@ Name | Type | Description | Notes
 **id** | **int** |  | 
 **name** | **str** |  | 
 **currency** | **str** |  | 
-**type** | **str** |  | 
+**currency_code** | **str** | ISO code of the account currency (&#39;&#39; when absent) | 
+**type** | **str** | Account type slug; the int id is type_id | 
+**type_id** | **int** | Account type id (int); null &#x3D; P&amp;L account | 
 
 ## Example
 

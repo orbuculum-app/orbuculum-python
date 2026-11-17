@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **currency_id** | **int** |  | [optional] 
 **dt** | **str** |  | [optional] 
-**rate** | **str** |  | [optional] 
+**rate** | **str** | Display rate: units of the basic currency per 1 unit of this currency | [optional] 
 **source** | **str** |  | [optional] 
 **is_initial** | **bool** |  | [optional] 
 

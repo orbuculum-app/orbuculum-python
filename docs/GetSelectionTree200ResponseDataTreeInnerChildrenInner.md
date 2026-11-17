@@ -10,8 +10,9 @@ Name | Type | Description | Notes
 **entity_id** | **int** |  | [optional] 
 **entity_name** | **str** |  | [optional] 
 **currency_id** | **int** |  | [optional] 
-**currency_code** | **str** |  | [optional] 
+**currency_code** | **str** | ISO code of the account currency | [optional] 
 **type** | **int** |  | [optional] 
+**type_id** | **int** | Account type id (int); null &#x3D; P&amp;L account | [optional] 
 **icon_html** | **str** |  | [optional] 
 **disabled** | **bool** |  | [optional] 
 

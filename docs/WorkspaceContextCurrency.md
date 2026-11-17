@@ -7,7 +7,7 @@ A currency with its latest rate
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **str** |  | 
-**rate** | **str** | latest rate as a decimal string; null when the currency has no rate | 
+**rate** | **str** | latest stored rate: units of this currency per 1 unit of the basic currency (the inverse of the display rate), as a decimal string; null when the currency has no rate | 
 **precision** | **int** |  | 
 
 ## Example

@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 Create recipient connection
 
-Create a recipient connection by claiming an available source connection identifier. Links the current workspace as the recipient for cross-workspace transaction sync.
+Create a recipient connection by claiming an available source connection identifier. Links the current workspace as the recipient for cross-workspace transaction sync. With a client connection token the paired workspace must be within the connection's scope, or 403 (BE-405).
 
 ### Example
 
@@ -184,7 +184,7 @@ Name | Type | Description  | Notes
 
 Delete connection
 
-Delete a connection by its identifier. Performs cascading delete across main DB and workspace DBs (source and recipient).
+Delete a connection by its identifier. Performs cascading delete across main DB and workspace DBs (source and recipient). With a client connection token the paired workspace must be within the connection's scope, or 403 (BE-405).
 
 ### Example
 

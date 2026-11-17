@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **entity_id** | **int** | Entity ID | 
 **currency_id** | **int** | Currency ID | 
 **type** | **int** | Account type | 
+**type_id** | **int** | Account type id (int); null &#x3D; P&amp;L account | [optional] 
 **hidden** | **bool** | Whether account is hidden | 
 **commission_type** | **int** | Commission type | 
 **commission_appliance** | **bool** | Whether commission is applied | 

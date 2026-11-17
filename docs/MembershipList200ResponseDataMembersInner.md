@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **user_email** | **str** |  | [optional] 
 **is_owner** | **bool** |  | [optional] 
 **has_full_access** | **bool** |  | [optional] 
-**timezone** | **str** |  | [optional] 
+**timezone** | **str** | The member&#39;s stored time zone for this workspace (project_user.timezone). null &#x3D; not set (&#39;automatic&#39;). | [optional] 
 **photo_url** | **str** |  | [optional] 
 
 ## Example

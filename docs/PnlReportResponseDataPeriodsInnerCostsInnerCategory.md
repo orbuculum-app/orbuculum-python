@@ -8,7 +8,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | 
 **name** | **str** |  | 
-**type** | **str** |  | 
+**type** | **str** | Account type slug; the int id is type_id | 
+**type_id** | **int** | Account type id (int); null &#x3D; P&amp;L account | 
 
 ## Example
 

@@ -15,8 +15,10 @@ Name | Type | Description | Notes
 **receiver_entity_id** | **int** | Receiver entity (counterparty) ID | 
 **receiver_entity_name** | **str** | Receiver entity name | 
 **score** | **float** | Confidence score (0.0 to 1.0) | 
-**strategy** | **str** | Strategy name(s) that produced this candidate, joined with + if multiple | 
+**strategy** | **str** | Strategy name(s) that produced this candidate: association, keyword, precedent, account_pair, recurring; joined with + when several matched | 
 **reason** | **str** | Human-readable explanation of the match | 
+**label_id** | **int** | Label (\&quot;project\&quot;) id for the suggested transaction, from the strategy that produced the candidate (precedent, keyword, association); null when none supplies one | [optional] 
+**precedent_transaction_ids** | **List[int]** | Ids (1-3, best match first) of earlier transactions whose comment matched the request description; null unless the precedent strategy contributed | [optional] 
 
 ## Example
 

@@ -144,7 +144,7 @@ docker-compose run --rm updater -u http://host.docker.internal:8080/openapi.json
 
 This command:
 1. Downloads latest OpenAPI spec from specified URL (default: `https://orbuculum.app/swagger/json`)
-2. Leaves BE-307's deprecated camelCase twins out of the downloaded spec through `scripts/drop_deprecated_twins.py` (only the snake_case twin is generated), and stops with exit 1, before anything is regenerated, when a deprecated property has no snake_case twin
+2. Leaves BE-307's deprecated camelCase twins out of the downloaded spec through `scripts/prepare_document.py` (only the snake_case twin is generated), and stops with exit 1, before anything is regenerated, when a deprecated property has no snake_case twin; the same step rewrites example addresses (an IPv4 address outside `0.0.0.0/8`/`127.0.0.0/8` gets first octet `0`, an e-mail address on a non-reserved domain gets `example.net`)
 3. Creates automatic backup in `backups/backup_YYYYMMDD_HHMMSS/`
 4. Regenerates client code
 5. **Asks interactively** if you want to update client version:
@@ -277,7 +277,7 @@ If Docker is unavailable:
 curl -o orbuculum-openapi.json https://orbuculum.app/swagger/json
 
 # Leave BE-307's deprecated camelCase twins out (stops when one has no snake_case twin)
-python3 scripts/drop_deprecated_twins.py orbuculum-openapi.json
+python3 scripts/prepare_document.py orbuculum-openapi.json
 
 # Backup
 cp -r orbuculum_client orbuculum_client.backup
@@ -751,7 +751,7 @@ For implementation details:
 - `dev-notes/VERSION_SYNC.md` - Version synchronization
 - `dev-notes/publishing-automation.md` - Publishing automation
 - `scripts/update_api.sh` - Update script
-- `scripts/drop_deprecated_twins.py` - Twin filter: leaves BE-307's deprecated camelCase properties out of the spec before generation
+- `scripts/prepare_document.py` - Document preparation: leaves BE-307's deprecated camelCase properties out of the spec and substitutes example addresses before generation
 - `scripts/publish.sh` - Publishing script
 
 ---

@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **inflow** | [**List[CashflowReportResponseDataPeriodsInnerInflowInner]**](CashflowReportResponseDataPeriodsInnerInflowInner.md) | Operating cash inflow rows. Signs are emitted exactly as the backend computes them. | 
 **outflow** | [**List[CashflowReportResponseDataPeriodsInnerOutflowInner]**](CashflowReportResponseDataPeriodsInnerOutflowInner.md) | Operating cash outflow rows. Amounts arrive negative; nothing is inverted. | 
 **financing** | [**CashflowReportResponseDataPeriodsInnerFinancing**](CashflowReportResponseDataPeriodsInnerFinancing.md) |  | [optional] 
-**balances** | [**List[CashflowReportResponseDataPeriodsInnerBalancesInner]**](CashflowReportResponseDataPeriodsInnerBalancesInner.md) | End-of-period balances, concatenated accounts then debts then other. account.type is one of debt, account, cf_account. | 
+**balances** | [**List[CashflowReportResponseDataPeriodsInnerBalancesInner]**](CashflowReportResponseDataPeriodsInnerBalancesInner.md) | End-of-period balances, concatenated accounts then debts then other. account.type is one of debt, account, cf_account. Accounts whose balance the requesting role may not see (BE-369: its permission on the account has show_balance&#x3D;false) are omitted, and every balances total is computed without them; their flows stay. Accounts with hide_balances are excluded from these balances for every role, as before. | 
 **totals** | [**CashflowReportResponseDataPeriodsInnerTotals**](CashflowReportResponseDataPeriodsInnerTotals.md) |  | 
 
 ## Example
