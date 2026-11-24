@@ -1,7 +1,7 @@
 # Build Python package inside Docker container
 # Uses latest stable Python and build tools
 
-FROM python:3.13-slim
+FROM python:3.13-slim AS test
 
 # Set working directory
 WORKDIR /workspace
