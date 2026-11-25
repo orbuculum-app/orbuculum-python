@@ -6,9 +6,9 @@ Forex and the balancing revaluation plug. Each is pinned to one side for all col
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**forex** | **int** |  | 
-**revaluation** | **int** |  | 
-**total** | **int** |  | 
+**forex** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
+**revaluation** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
+**total** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 
 ## Example
 

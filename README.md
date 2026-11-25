@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.37.0
-- **Supported API Version**: 0.199.0
+- **Client Version**: 0.38.0
+- **Supported API Version**: 0.201.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -966,16 +966,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.37.0
-print(orbuculum_client.__api_version__)    # API version: 0.199.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.199.0
+print(orbuculum_client.__version__)        # Client version: 0.38.0
+print(orbuculum_client.__api_version__)    # API version: 0.201.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.201.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.37.0 → 0.37.1): Bug fixes, documentation updates
-- **MINOR** (0.37.1 → 0.38.0): New features, backward-compatible
-- **MAJOR** (0.38.0 → 1.0.0): Breaking changes
+- **PATCH** (0.38.0 → 0.38.1): Bug fixes, documentation updates
+- **MINOR** (0.38.1 → 0.39.0): New features, backward-compatible
+- **MAJOR** (0.39.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 
