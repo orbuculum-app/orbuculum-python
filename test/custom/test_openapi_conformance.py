@@ -629,7 +629,7 @@ class TestOpenApiConformance(unittest.TestCase):
         with self.subTest(case="recorded"):
             document = copy.deepcopy(self.recorded)
             self.assertEqual(prepare.substitute_examples(document), [])
-            self.assertEqual((document["info"]["version"], document["servers"][0]["url"]), ("0.199.0", "https://api.example.com"))
+            self.assertEqual((document["info"]["version"], document["servers"][0]["url"]), ("0.201.0", "https://api.example.com"))
         with self.subTest(case="recorded, as the producer sends it"):
             text = json.dumps(self.recorded)
             for rewritten, live in (("0.168.1.1", ip), ("0.0.113.5", "%d.0.113.5" % 203), ("jane@example.net", mail), ("sam@example.net", "sam" + at_x)):

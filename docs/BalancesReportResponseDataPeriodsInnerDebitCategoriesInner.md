@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **type** | **str** | Account type slug; the int id is type_id | 
 **type_id** | **int** | Account type id (int); null &#x3D; P&amp;L account | 
 **accounts** | [**List[BalancesReportResponseDataPeriodsInnerDebitCategoriesInnerAccountsInner]**](BalancesReportResponseDataPeriodsInnerDebitCategoriesInnerAccountsInner.md) |  | 
-**total** | **int** |  | 
+**total** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 
 ## Example
 

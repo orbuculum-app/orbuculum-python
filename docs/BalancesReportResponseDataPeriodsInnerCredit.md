@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **categories** | [**List[BalancesReportResponseDataPeriodsInnerCreditCategoriesInner]**](BalancesReportResponseDataPeriodsInnerCreditCategoriesInner.md) | Categories pinned to this side, ordered by name then id | 
 **financial_activity** | [**BalancesReportResponseDataPeriodsInnerCreditFinancialActivity**](BalancesReportResponseDataPeriodsInnerCreditFinancialActivity.md) |  | 
-**total** | **int** | Side total; equals the opposite side&#39;s total in every period. When an account is omitted for the requesting role (BE-369), revaluation is 0 and the two side totals need not be equal. | 
+**total** | **str** | Side total; equals the opposite side&#39;s total in every period. When an account is omitted for the requesting role (BE-369), revaluation is 0 and the two side totals need not be equal. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 
 ## Example
 

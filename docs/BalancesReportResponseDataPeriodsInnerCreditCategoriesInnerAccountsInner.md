@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **account** | [**BalancesReportResponseDataPeriodsInnerCreditCategoriesInnerAccountsInnerAccount**](BalancesReportResponseDataPeriodsInnerCreditCategoriesInnerAccountsInnerAccount.md) |  | 
-**amount** | **int** |  | 
+**amount** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 
 ## Example
 

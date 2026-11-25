@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**amount** | **int** | net_revenue + costs_of_revenue (already negative). | 
+**amount** | **str** | net_revenue + costs_of_revenue (already negative). Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 **ratio** | **float** | Percent points, not a formatted string. null where the screen shows nothing — no ratio row, or no value at this period key. 0 is a computed zero, never a blank. | 
 
 ## Example

@@ -6,13 +6,13 @@ Period totals, keyed. Replaces the legacy string-labelled summary rows. Every ke
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**revenue** | **int** | Revenue rows summed, before direct revenue expenses. Positive. | 
+**revenue** | **str** | Revenue rows summed, before direct revenue expenses. Positive. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 **revenue_kind** | **str** | Which caption the screen renders for &#x60;revenue&#x60;. The number is identical either way; only the label differs. | 
-**direct_revenue_expenses** | **int** | Negative: cost amounts arrive already signed and are added, never subtracted. 0 when the legacy row is absent. | 
-**net_revenue** | **int** | revenue + direct_revenue_expenses (the expense is already negative). Equals revenue when the legacy row is absent. | 
-**costs_of_revenue** | **int** | Negative; 0 when no cost-of-revenue accounts exist. | 
+**direct_revenue_expenses** | **str** | Negative: cost amounts arrive already signed and are added, never subtracted. 0 when the legacy row is absent. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
+**net_revenue** | **str** | revenue + direct_revenue_expenses (the expense is already negative). Equals revenue when the legacy row is absent. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
+**costs_of_revenue** | **str** | Negative; 0 when no cost-of-revenue accounts exist. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 **gross_profit** | [**PnlReportResponseDataPeriodsInnerTotalsGrossProfit**](PnlReportResponseDataPeriodsInnerTotalsGrossProfit.md) |  | 
-**operating_expenses** | **int** | Negative-dominant. ALREADY INCLUDES this period&#39;s forex whenever the legacy folded it in; 0 when the legacy row is absent. Do not add forex to it. | 
+**operating_expenses** | **str** | Negative-dominant. ALREADY INCLUDES this period&#39;s forex whenever the legacy folded it in; 0 when the legacy row is absent. Do not add forex to it. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 **net_profit** | [**PnlReportResponseDataPeriodsInnerTotalsNetProfit**](PnlReportResponseDataPeriodsInnerTotalsNetProfit.md) |  | 
 
 ## Example

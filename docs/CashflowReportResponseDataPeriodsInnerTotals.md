@@ -6,9 +6,9 @@ Period totals, keyed. Replaces the legacy named summary rows.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**inflow** | **int** |  | 
-**outflow** | **int** |  | 
-**free_cash** | **int** |  | 
+**inflow** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
+**outflow** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
+**free_cash** | **str** | Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 **balances** | [**CashflowReportResponseDataPeriodsInnerTotalsBalances**](CashflowReportResponseDataPeriodsInnerTotalsBalances.md) |  | 
 
 ## Example

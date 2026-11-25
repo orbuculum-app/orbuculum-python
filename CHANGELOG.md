@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.38.0 — 2026-11-25 — Supports API 0.201.0
+
+**Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).
+
+- **GET /api/reports/get-pnl, /get-balances and /get-cashflow: money amounts are decimal strings** (BE-428): every money amount under `data.periods[]` of `PnlReportResponse`, `BalancesReportResponse` and `CashflowReportResponse` changes from `int` to `str` (`StrictInt` → `StrictStr`), an exact decimal such as `"1234.56"`, `"-0.01"` or `"0"`. P&L: `revenue[].amount`, `costs[].amount`, `forex`, and in `totals` `revenue`, `direct_revenue_expenses`, `net_revenue`, `costs_of_revenue`, `operating_expenses`, `gross_profit.amount` and `net_profit.amount`. Balances, in `debit` and `credit` alike: `total`, `categories[].total`, `categories[].accounts[].amount`, and in `financial_activity` `forex`, `revaluation` and `total`. Cashflow: `inflow[].amount`, `outflow[].amount`, `balances[].amount`, in `financing` `rows[].amount`, `revaluation`, `total` and `free_cash_after_financing`, and in `totals` `inflow`, `outflow`, `free_cash`, `balances.accounts`, `balances.debts`, `balances.other` and `balances.total`. A consumer that computes with them converts them itself (for example with `decimal.Decimal`).
+- **POST /api/matching/suggest: `as_of` and `exclude_transaction_ids`** (BE-424, BE-426): `MatchingSuggestRequest` gains the optional, nullable `as_of` (date-time) and `exclude_transaction_ids` (a list of transaction ids, each at least 1). Both may be omitted.
+- **Against an API older than 0.201.0 the three report calls fail**: such a server sends the amounts as integers, and `ReportsApi.get_pnl_report`, `get_balances_report` and `get_cashflow_report` raise a response validation error (`pydantic.ValidationError`) on its answer.
+- Regenerated from the API 0.201.0 OpenAPI specification.
+
 ## 0.37.0 — 2026-11-17 — Supports API 0.199.0
 
 **Breaking changes** (no deprecation window: this client serves internal consumers only, wire compatibility is not maintained across versions).

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **period** | [**PnlReportResponseDataPeriodsInnerPeriod**](PnlReportResponseDataPeriodsInnerPeriod.md) |  | 
 **revenue** | [**List[PnlReportResponseDataPeriodsInnerRevenueInner]**](PnlReportResponseDataPeriodsInnerRevenueInner.md) | Revenue account rows. Positive: signs are emitted exactly as the backend computes them. | 
 **costs** | [**List[PnlReportResponseDataPeriodsInnerCostsInner]**](PnlReportResponseDataPeriodsInnerCostsInner.md) | Cost account rows. Amounts arrive negative; nothing is inverted. | 
-**forex** | **int** | FOREX gains/losses for the period; either sign. Rendered on its own line; already counted inside operating_expenses when the legacy folded it in. | 
+**forex** | **str** | FOREX gains/losses for the period; either sign. Rendered on its own line; already counted inside operating_expenses when the legacy folded it in. Decimal value serialized as string to preserve precision; avoids JSON float rounding. Exact to 18 decimal places, trailing zeros stripped (\&quot;0\&quot; for zero). | 
 **totals** | [**PnlReportResponseDataPeriodsInnerTotals**](PnlReportResponseDataPeriodsInnerTotals.md) |  | 
 
 ## Example
