@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **sender_account_id** | **int** |  | [optional] 
 **receiver_account_id** | **int** |  | [optional] 
-**sender_amount** | **str** | Decimal value as string to preserve precision. | [optional] 
-**receiver_amount** | **str** | Decimal value as string to preserve precision. | [optional] 
+**sender_amount** | **str** | Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | [optional] 
+**receiver_amount** | **str** | Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | [optional] 
 
 ## Example
 

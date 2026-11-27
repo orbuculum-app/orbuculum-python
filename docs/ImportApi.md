@@ -309,7 +309,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     csv_separator = 'csv_separator_example' # str | CSV delimiter: coma = comma (,), semicolon = semicolon (;). Required when import_type=csv: missing or any other value returns 400. Ignored for other import types. (optional)
     timezone = 'timezone_example' # str | User timezone (optional)
     with_already_imported = True # bool | Include already imported transactions (optional)
-    check_duplicated = True # bool | Check for duplicate transactions (optional)
+    check_duplicated = True # bool | Check for duplicate transactions; edits through update-table and create are re-checked (optional)
     import_file = None # bytearray | File to import (CSV, XLSX) (optional)
 
     try:
@@ -334,7 +334,7 @@ Name | Type | Description  | Notes
  **csv_separator** | **str**| CSV delimiter: coma &#x3D; comma (,), semicolon &#x3D; semicolon (;). Required when import_type&#x3D;csv: missing or any other value returns 400. Ignored for other import types. | [optional] 
  **timezone** | **str**| User timezone | [optional] 
  **with_already_imported** | **bool**| Include already imported transactions | [optional] 
- **check_duplicated** | **bool**| Check for duplicate transactions | [optional] 
+ **check_duplicated** | **bool**| Check for duplicate transactions; edits through update-table and create are re-checked | [optional] 
  **import_file** | **bytearray**| File to import (CSV, XLSX) | [optional] 
 
 ### Return type

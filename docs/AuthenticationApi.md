@@ -5,12 +5,15 @@ All URIs are relative to *https://orbuculum.app*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**disconnect_social**](AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
+[**email_link_request**](AuthenticationApi.md#email_link_request) | **POST** /api/auth/email-link/request | Mail a single-use sign-in link
+[**email_link_verify**](AuthenticationApi.md#email_link_verify) | **POST** /api/auth/email-link/verify | Sign in with the token of a mailed link
 [**google_sign_in_callback**](AuthenticationApi.md#google_sign_in_callback) | **GET** /api/auth/google/callback | Google OAuth2 redirect URI
 [**google_sign_in_start**](AuthenticationApi.md#google_sign_in_start) | **GET** /api/auth/google/start | Begin Google sign-in
 [**key_login**](AuthenticationApi.md#key_login) | **POST** /api/auth/key-login | Sign in with a client connection key
 [**login**](AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
 [**refresh**](AuthenticationApi.md#refresh) | **POST** /api/auth/refresh | Refresh JWT access token
-[**register**](AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
+[**register**](AuthenticationApi.md#register) | **POST** /api/auth/register | Register: create the account and sign in
+[**register_by_email_link**](AuthenticationApi.md#register_by_email_link) | **POST** /api/auth/register-by-email-link | Register by email link: mail a sign-in link that creates the account
 [**request_reset**](AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
 [**reset_password**](AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
 [**session_refresh**](AuthenticationApi.md#session_refresh) | **POST** /api/auth/session/refresh | Renew a long session
@@ -99,6 +102,154 @@ Name | Type | Description  | Notes
 **405** | Method not allowed |  -  |
 **409** | Cannot disconnect the only authentication method |  -  |
 **403** | Not allowed with a client connection token |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **email_link_request**
+> SignInLinkSentResponse email_link_request(email_link_request)
+
+Mail a single-use sign-in link
+
+Mails a sign-in link that works once and expires in 15 minutes. Using the link signs the person in; for an address with no account it creates one. Answers the same for a registered and an unregistered address: the account is never looked up here. JSON or form body.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.email_link_request import EmailLinkRequest
+from orbuculum_client.models.sign_in_link_sent_response import SignInLinkSentResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    email_link_request = orbuculum_client.EmailLinkRequest() # EmailLinkRequest | 
+
+    try:
+        # Mail a single-use sign-in link
+        api_response = api_instance.email_link_request(email_link_request)
+        print("The response of AuthenticationApi->email_link_request:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->email_link_request: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **email_link_request** | [**EmailLinkRequest**](EmailLinkRequest.md)|  | 
+
+### Return type
+
+[**SignInLinkSentResponse**](SignInLinkSentResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**202** | Sign-in link sent (same answer for every address) |  -  |
+**400** | Missing email |  -  |
+**405** | Method not allowed |  -  |
+**422** | email is not a valid address |  -  |
+**429** | Too many mail requests for this address or client |  * Retry-After - Seconds until a retry can pass <br>  |
+**500** | The mail could not be sent, or server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **email_link_verify**
+> EmailLinkVerifyResponse email_link_verify(email_link_verify_request)
+
+Sign in with the token of a mailed link
+
+Uses the token from the mailed link's fragment, once. Signs the person in to a browser session (a new ORB_SESSION cookie and the _identity cookie: 30 days with remember, else 2 hours); for an address with no account it first creates the account. JSON body only: any other content type answers 415 and uses nothing. An unknown, used or expired token answers 422.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.email_link_verify_request import EmailLinkVerifyRequest
+from orbuculum_client.models.email_link_verify_response import EmailLinkVerifyResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    email_link_verify_request = orbuculum_client.EmailLinkVerifyRequest() # EmailLinkVerifyRequest | 
+
+    try:
+        # Sign in with the token of a mailed link
+        api_response = api_instance.email_link_verify(email_link_verify_request)
+        print("The response of AuthenticationApi->email_link_verify:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->email_link_verify: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **email_link_verify_request** | [**EmailLinkVerifyRequest**](EmailLinkVerifyRequest.md)|  | 
+
+### Return type
+
+[**EmailLinkVerifyResponse**](EmailLinkVerifyResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Signed in |  -  |
+**400** | Missing token |  -  |
+**405** | Method not allowed |  -  |
+**415** | The body is not application/json |  -  |
+**422** | Invalid or expired link, or token not a string |  -  |
+**500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -386,6 +537,7 @@ No authorization required
 **403** | OAuth sign-in fields sent without the MCP server credential |  -  |
 **405** | Method not allowed |  -  |
 **422** | Validation error (invalid session, clientLabel, OAuth sign-in fields, or workspace_ids) |  -  |
+**429** | Too many failed sign-ins for this address or client |  * Retry-After - Seconds until a retry can pass <br>  |
 **500** | Internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -466,9 +618,9 @@ No authorization required
 # **register**
 > Register201Response register(register_request)
 
-Register a new user and get JWT token
+Register: create the account and sign in
 
-Creates a new user account and returns a JWT token for API access.
+Creates the account with this password and answers 201 with a JWT token, or 409 for a registered address. To mail a sign-in link that creates the account only when it is used, call /api/auth/register-by-email-link. Registration requests are rate limited per address and per client (429).
 
 ### Example
 
@@ -494,7 +646,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     register_request = orbuculum_client.RegisterRequest() # RegisterRequest | 
 
     try:
-        # Register a new user and get JWT token
+        # Register: create the account and sign in
         api_response = api_instance.register(register_request)
         print("The response of AuthenticationApi->register:\n")
         pprint(api_response)
@@ -528,11 +680,85 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Successful registration |  -  |
+**201** | Account created and signed in |  -  |
 **400** | Bad request - validation error |  -  |
 **409** | Email already registered |  -  |
+**429** | Too many registration requests for this address or client |  * Retry-After - Seconds until a retry can pass <br>  |
 **405** | Method not allowed |  -  |
 **500** | Internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **register_by_email_link**
+> SignInLinkSentResponse register_by_email_link(register_request)
+
+Register by email link: mail a sign-in link that creates the account
+
+Takes the same body as /api/auth/register. Mails a single-use sign-in link and creates the account, with this password and username, only when the link is used (/api/auth/email-link/verify). No account is created here, and the answer is the same 202 for a registered and an unregistered address. Same rate limits as /api/auth/register.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.register_request import RegisterRequest
+from orbuculum_client.models.sign_in_link_sent_response import SignInLinkSentResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.AuthenticationApi(api_client)
+    register_request = orbuculum_client.RegisterRequest() # RegisterRequest | 
+
+    try:
+        # Register by email link: mail a sign-in link that creates the account
+        api_response = api_instance.register_by_email_link(register_request)
+        print("The response of AuthenticationApi->register_by_email_link:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->register_by_email_link: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **register_request** | [**RegisterRequest**](RegisterRequest.md)|  | 
+
+### Return type
+
+[**SignInLinkSentResponse**](SignInLinkSentResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**202** | Sign-in link sent, the same answer for every address |  -  |
+**400** | Bad request - validation error |  -  |
+**405** | Method not allowed |  -  |
+**429** | Too many registration requests for this address or client |  * Retry-After - Seconds until a retry can pass <br>  |
+**500** | The mail could not be sent, or server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -599,10 +825,10 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Reset email sent |  -  |
+**200** | Reset requested; a link is mailed only when an active account has this address |  -  |
 **400** | Missing parameters |  -  |
 **405** | Method not allowed |  -  |
-**422** | User not found |  -  |
+**429** | Too many mail requests for this address or client |  * Retry-After - Seconds until a retry can pass <br>  |
 **500** | Reset email could not be sent, or server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -6,9 +6,9 @@ Sent / received / balance triplet for one period (recent or latest) of an Accoun
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**sent** | **str** | Total sent in the period. Decimal value as number_format-style string. | 
-**received** | **str** | Total received in the period. Decimal value as number_format-style string. | 
-**balance** | **str** | Account balance at end of the period. Decimal value as number_format-style string. Null when the requesting role may not see this account&#39;s balance (BE-369). | 
+**sent** | **str** | Total sent in the period. Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | 
+**received** | **str** | Total received in the period. Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | 
+**balance** | **str** | Account balance at end of the period. Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). Null when the requesting role may not see this account&#39;s balance (BE-369). | 
 
 ## Example
 

@@ -368,7 +368,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_account_balance**
-> GetAccountBalanceResponse get_account_balance(workspace_id, account_id, var_date=var_date, trx_id=trx_id)
+> GetAccountBalanceResponse get_account_balance(workspace_id, account_id=account_id, id=id, var_date=var_date, trx_id=trx_id)
 
 Get account balance at a specific date
 
@@ -405,13 +405,14 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AccountApi(api_client)
     workspace_id = 1 # int | Workspace ID
-    account_id = 10 # int | Account ID
+    account_id = 10 # int | Account ID. Required unless id is sent; when both are sent they must be equal, otherwise 400. (optional)
+    id = 10 # int | Alias of account_id. Send account_id or id; when both are sent they must be equal, otherwise 400. (optional)
     var_date = '2013-10-20T19:20:30+01:00' # datetime | Date/time for balance calculation (ISO 8601). Defaults to current time. (optional)
     trx_id = 100 # int | Transaction ID to exclude from balance calculation: the balance just before this transaction in (dt, id) order, the transaction itself excluded (optional)
 
     try:
         # Get account balance at a specific date
-        api_response = api_instance.get_account_balance(workspace_id, account_id, var_date=var_date, trx_id=trx_id)
+        api_response = api_instance.get_account_balance(workspace_id, account_id=account_id, id=id, var_date=var_date, trx_id=trx_id)
         print("The response of AccountApi->get_account_balance:\n")
         pprint(api_response)
     except Exception as e:
@@ -426,7 +427,8 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Workspace ID | 
- **account_id** | **int**| Account ID | 
+ **account_id** | **int**| Account ID. Required unless id is sent; when both are sent they must be equal, otherwise 400. | [optional] 
+ **id** | **int**| Alias of account_id. Send account_id or id; when both are sent they must be equal, otherwise 400. | [optional] 
  **var_date** | **datetime**| Date/time for balance calculation (ISO 8601). Defaults to current time. | [optional] 
  **trx_id** | **int**| Transaction ID to exclude from balance calculation: the balance just before this transaction in (dt, id) order, the transaction itself excluded | [optional] 
 
@@ -448,7 +450,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Account balance retrieved successfully |  -  |
-**400** | Invalid request parameters |  -  |
+**400** | Invalid request parameters (account_id/id missing, conflicting or not an integer; invalid date) |  -  |
 **401** | Unauthorized |  -  |
 **403** | Forbidden |  -  |
 **404** | Account not found |  -  |
@@ -579,7 +581,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = orbuculum_client.AccountApi(api_client)
     workspace_id = 1 # int | Workspace ID
-    hidden = 0 # int | Show archived entities/accounts (0 or 1, default 0) (optional)
+    hidden = False # bool | Show archived entities/accounts (true/false; 1/0 also accepted; default false) (optional) (default to False)
     account_id = 1 # int | Currently selected account ID (optional)
     label_ids = '1,2,3' # str | Filter by label IDs (comma-separated) (optional)
 
@@ -600,7 +602,7 @@ with orbuculum_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspace_id** | **int**| Workspace ID | 
- **hidden** | **int**| Show archived entities/accounts (0 or 1, default 0) | [optional] 
+ **hidden** | **bool**| Show archived entities/accounts (true/false; 1/0 also accepted; default false) | [optional] [default to False]
  **account_id** | **int**| Currently selected account ID | [optional] 
  **label_ids** | **str**| Filter by label IDs (comma-separated) | [optional] 
 

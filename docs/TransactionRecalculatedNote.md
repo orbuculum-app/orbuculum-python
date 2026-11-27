@@ -7,8 +7,8 @@ Names the amount the server recalculated on a single-amount update. Absent when 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **var_field** | **str** | The amount the server recalculated on a single-amount update (BE-300).  Shared by POST /api/transaction/update (&#x60;data.recalculated&#x60;) and POST /api/transaction/mutate action update (&#x60;data.recalculated&#x60;). | 
-**old** | **str** | Stored value before the edit, decimal string. | 
-**new** | **str** | Stored value after the edit, decimal string, unrounded. | 
+**old** | **str** | Stored value before the edit, at the field account currency&#39;s precision. | 
+**new** | **str** | Stored value after the edit, at the field account currency&#39;s precision; a derived amount is rounded half away from zero. | 
 **basis** | **str** | date_rate: the transaction date&#39;s exchange rate. fixed_rate: the stored ratio of the two amounts. | 
 
 ## Example

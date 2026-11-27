@@ -9,8 +9,8 @@ Official Python client library for the [Orbuculum API](https://orbuculum.app/swa
 
 - **PyPI Package**: `orbuculum-client`
 - **Import Name**: `orbuculum_client`
-- **Client Version**: 0.38.0
-- **Supported API Version**: 0.201.0
+- **Client Version**: 0.39.0
+- **Supported API Version**: 0.207.0
 - **Python**: 3.9+
 
 This package is automatically generated from the OpenAPI specification using [OpenAPI Generator](https://openapi-generator.tech) 7.15.0.
@@ -219,12 +219,15 @@ Class | Method | HTTP request | Description
 *ActivityJournalApi* | [**activity_journal_list**](docs/ActivityJournalApi.md#activity_journal_list) | **GET** /api/activity-journal/list | Get paginated activity journal entries
 *AppContextApi* | [**get_app_context**](docs/AppContextApi.md#get_app_context) | **GET** /api/app-context/index | Get application context for SPA initialization
 *AuthenticationApi* | [**disconnect_social**](docs/AuthenticationApi.md#disconnect_social) | **POST** /api/auth/disconnect-social | Disconnect a social auth provider
+*AuthenticationApi* | [**email_link_request**](docs/AuthenticationApi.md#email_link_request) | **POST** /api/auth/email-link/request | Mail a single-use sign-in link
+*AuthenticationApi* | [**email_link_verify**](docs/AuthenticationApi.md#email_link_verify) | **POST** /api/auth/email-link/verify | Sign in with the token of a mailed link
 *AuthenticationApi* | [**google_sign_in_callback**](docs/AuthenticationApi.md#google_sign_in_callback) | **GET** /api/auth/google/callback | Google OAuth2 redirect URI
 *AuthenticationApi* | [**google_sign_in_start**](docs/AuthenticationApi.md#google_sign_in_start) | **GET** /api/auth/google/start | Begin Google sign-in
 *AuthenticationApi* | [**key_login**](docs/AuthenticationApi.md#key_login) | **POST** /api/auth/key-login | Sign in with a client connection key
 *AuthenticationApi* | [**login**](docs/AuthenticationApi.md#login) | **POST** /api/auth/login | Login and get JWT token
 *AuthenticationApi* | [**refresh**](docs/AuthenticationApi.md#refresh) | **POST** /api/auth/refresh | Refresh JWT access token
-*AuthenticationApi* | [**register**](docs/AuthenticationApi.md#register) | **POST** /api/auth/register | Register a new user and get JWT token
+*AuthenticationApi* | [**register**](docs/AuthenticationApi.md#register) | **POST** /api/auth/register | Register: create the account and sign in
+*AuthenticationApi* | [**register_by_email_link**](docs/AuthenticationApi.md#register_by_email_link) | **POST** /api/auth/register-by-email-link | Register by email link: mail a sign-in link that creates the account
 *AuthenticationApi* | [**request_reset**](docs/AuthenticationApi.md#request_reset) | **POST** /api/auth/request-reset | Request password reset email
 *AuthenticationApi* | [**reset_password**](docs/AuthenticationApi.md#reset_password) | **POST** /api/auth/reset-password | Reset password using token from email
 *AuthenticationApi* | [**session_refresh**](docs/AuthenticationApi.md#session_refresh) | **POST** /api/auth/session/refresh | Renew a long session
@@ -324,6 +327,7 @@ Class | Method | HTTP request | Description
 *TagApi* | [**list_tags**](docs/TagApi.md#list_tags) | **GET** /api/tag/list | Get list of tags
 *TagApi* | [**sync_tag_accounts**](docs/TagApi.md#sync_tag_accounts) | **POST** /api/tag/sync-accounts | Sync (replace) a tag&#39;s accounts
 *TagApi* | [**update_tag**](docs/TagApi.md#update_tag) | **POST** /api/tag/update | Update a tag
+*TestApi* | [**test_last_sign_in_link**](docs/TestApi.md#test_last_sign_in_link) | **GET** /api/test/last-sign-in-link | Test only: the sign-in link of the newest captured mail to an address
 *TestApi* | [**test_workspace_create**](docs/TestApi.md#test_workspace_create) | **POST** /api/test/workspace-create | Test only: create a workspace from a fixture database
 *TestApi* | [**test_workspace_delete**](docs/TestApi.md#test_workspace_delete) | **POST** /api/test/workspace-delete | Test only: delete a fixture clone and its database
 *TestApi* | [**test_workspace_reset**](docs/TestApi.md#test_workspace_reset) | **POST** /api/test/workspace-reset | Test only: recreate a fixture clone&#39;s database from its fixture
@@ -447,6 +451,8 @@ Class | Method | HTTP request | Description
  - [CancelImport200Response](docs/CancelImport200Response.md)
  - [CancelImport200ResponseData](docs/CancelImport200ResponseData.md)
  - [CancelImportRequest](docs/CancelImportRequest.md)
+ - [CapturedSignInLinkResponse](docs/CapturedSignInLinkResponse.md)
+ - [CapturedSignInLinkResponseData](docs/CapturedSignInLinkResponseData.md)
  - [CashflowReportResponse](docs/CashflowReportResponse.md)
  - [CashflowReportResponseData](docs/CashflowReportResponseData.md)
  - [CashflowReportResponseDataPeriodsInner](docs/CashflowReportResponseDataPeriodsInner.md)
@@ -582,6 +588,12 @@ Class | Method | HTTP request | Description
  - [DisconnectSocial409Response](docs/DisconnectSocial409Response.md)
  - [DisconnectSocialRequest](docs/DisconnectSocialRequest.md)
  - [DuplicateCandidate](docs/DuplicateCandidate.md)
+ - [EmailLinkRequest](docs/EmailLinkRequest.md)
+ - [EmailLinkVerify415Response](docs/EmailLinkVerify415Response.md)
+ - [EmailLinkVerifyRequest](docs/EmailLinkVerifyRequest.md)
+ - [EmailLinkVerifyResponse](docs/EmailLinkVerifyResponse.md)
+ - [EmailLinkVerifyResponseData](docs/EmailLinkVerifyResponseData.md)
+ - [EmailLinkVerifyResponseDataUser](docs/EmailLinkVerifyResponseDataUser.md)
  - [EnrichedTransactionItem](docs/EnrichedTransactionItem.md)
  - [EnrichedTransactionItemCounterparty](docs/EnrichedTransactionItemCounterparty.md)
  - [EntityTypeIconsResponse](docs/EntityTypeIconsResponse.md)
@@ -597,6 +609,8 @@ Class | Method | HTTP request | Description
  - [ErrorResponse409](docs/ErrorResponse409.md)
  - [ErrorResponse422](docs/ErrorResponse422.md)
  - [ErrorResponse422DetailsInner](docs/ErrorResponse422DetailsInner.md)
+ - [ErrorResponse429](docs/ErrorResponse429.md)
+ - [ErrorResponse429DetailsInner](docs/ErrorResponse429DetailsInner.md)
  - [ErrorResponse500](docs/ErrorResponse500.md)
  - [GetAccountBalanceResponse](docs/GetAccountBalanceResponse.md)
  - [GetAccountBalanceResponseData](docs/GetAccountBalanceResponseData.md)
@@ -815,6 +829,8 @@ Class | Method | HTTP request | Description
  - [SetTransactionNeedsReview200Response](docs/SetTransactionNeedsReview200Response.md)
  - [SetTransactionNeedsReview200ResponseData](docs/SetTransactionNeedsReview200ResponseData.md)
  - [SetTransactionNeedsReviewRequest](docs/SetTransactionNeedsReviewRequest.md)
+ - [SignInLinkSentResponse](docs/SignInLinkSentResponse.md)
+ - [SignInLinkSentResponseData](docs/SignInLinkSentResponseData.md)
  - [SuccessResponse](docs/SuccessResponse.md)
  - [SuccessResponseData](docs/SuccessResponseData.md)
  - [SyncTagAccounts200Response](docs/SyncTagAccounts200Response.md)
@@ -966,16 +982,16 @@ This client follows [Semantic Versioning](https://semver.org/). The client versi
 ```python
 import orbuculum_client
 
-print(orbuculum_client.__version__)        # Client version: 0.38.0
-print(orbuculum_client.__api_version__)    # API version: 0.201.0
-print(orbuculum_client.__api_supported__)  # Supported API: 0.201.0
+print(orbuculum_client.__version__)        # Client version: 0.39.0
+print(orbuculum_client.__api_version__)    # API version: 0.207.0
+print(orbuculum_client.__api_supported__)  # Supported API: 0.207.0
 ```
 
 ### Version Update Guidelines
 
-- **PATCH** (0.38.0 → 0.38.1): Bug fixes, documentation updates
-- **MINOR** (0.38.1 → 0.39.0): New features, backward-compatible
-- **MAJOR** (0.39.0 → 1.0.0): Breaking changes
+- **PATCH** (0.39.0 → 0.39.1): Bug fixes, documentation updates
+- **MINOR** (0.39.1 → 0.40.0): New features, backward-compatible
+- **MAJOR** (0.40.0 → 1.0.0): Breaking changes
 
 See [VERSIONING.md](VERSIONING.md) for complete version management policy.
 

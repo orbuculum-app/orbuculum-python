@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Transaction ID to patch | 
-**sender_balance_after** | **str** | New sender balance after the transaction. Decimal serialized as string to preserve precision; null when not computed. Null when the requesting role may not see that account&#39;s balance (BE-369). | [optional] 
-**receiver_balance_after** | **str** | New receiver balance after the transaction. Decimal serialized as string to preserve precision; null when not computed. Null when the requesting role may not see that account&#39;s balance (BE-369). | [optional] 
+**sender_balance_after** | **str** | New sender balance after the transaction. Decimal serialized as string to preserve precision; null when not computed. Null when the requesting role may not see that account&#39;s balance (BE-369). Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | [optional] 
+**receiver_balance_after** | **str** | New receiver balance after the transaction. Decimal serialized as string to preserve precision; null when not computed. Null when the requesting role may not see that account&#39;s balance (BE-369). Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | [optional] 
 
 ## Example
 
