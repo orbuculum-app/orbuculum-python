@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **source_type** | **str** |  | [optional] 
 **target_account_id** | **int** |  | [optional] 
 **target_hash** | **str** |  | [optional] 
-**stat** | **object** |  | [optional] 
+**stat** | **object** | Import report. stat_list carries an error row for failed on-chain transactions skipped and for a source cut at the import limit. | [optional] 
 
 ## Example
 

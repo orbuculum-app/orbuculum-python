@@ -51,9 +51,9 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     type = 1 # int | Report type: 1=PnL (default), 2=Cash Flow, 3=Balances (optional) (default to 1)
     range = month # str | Period granularity, the same vocabulary as periods[].period.kind. (optional) (default to month)
     project_ids = 56 # int |  (optional)
-    full_period = 0 # int |  (optional) (default to 0)
-    show_totals = 1 # int |  (optional) (default to 1)
-    include_future_periods = 0 # int |  (optional) (default to 0)
+    full_period = False # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to False)
+    show_totals = True # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to True)
+    include_future_periods = False # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to False)
     date_range_from = '2013-10-20' # date | Custom date range start (Y-m-d). Applied only with full_period=0; with full_period=1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. (optional)
     date_range_to = '2013-10-20' # date | Custom date range end (Y-m-d). Applied only with full_period=0; with full_period=1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. (optional)
     timezone = 'timezone_example' # str |  (optional)
@@ -78,9 +78,9 @@ Name | Type | Description  | Notes
  **type** | **int**| Report type: 1&#x3D;PnL (default), 2&#x3D;Cash Flow, 3&#x3D;Balances | [optional] [default to 1]
  **range** | **str**| Period granularity, the same vocabulary as periods[].period.kind. | [optional] [default to month]
  **project_ids** | **int**|  | [optional] 
- **full_period** | **int**|  | [optional] [default to 0]
- **show_totals** | **int**|  | [optional] [default to 1]
- **include_future_periods** | **int**|  | [optional] [default to 0]
+ **full_period** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
+ **show_totals** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to True]
+ **include_future_periods** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
  **date_range_from** | **date**| Custom date range start (Y-m-d). Applied only with full_period&#x3D;0; with full_period&#x3D;1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. | [optional] 
  **date_range_to** | **date**| Custom date range end (Y-m-d). Applied only with full_period&#x3D;0; with full_period&#x3D;1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. | [optional] 
  **timezone** | **str**|  | [optional] 
@@ -152,9 +152,9 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     type = 56 # int | Report type: 1=PnL, 2=Cash Flow, 3=Balances
     range = month # str | Period granularity, the same vocabulary as periods[].period.kind. (optional) (default to month)
     project_ids = 56 # int | Label ID for filtering (optional)
-    full_period = 0 # int | 1 = whole period: date_range_from / date_range_to are ignored. 0 = the sent date_range_from / date_range_to, else the default window. Default 0: if omitted and a date range is given, the request is computed for the date range only - the same rule get-pnl / get-cashflow / get-balances apply (BE-112). (optional) (default to 0)
-    show_totals = 1 # int |  (optional) (default to 1)
-    include_future_periods = 0 # int |  (optional) (default to 0)
+    full_period = False # bool | Boolean (true/false; 1/0 also accepted). 1 = whole period: date_range_from / date_range_to are ignored. 0 = the sent date_range_from / date_range_to, else the default window. Default 0: if omitted and a date range is given, the request is computed for the date range only - the same rule get-pnl / get-cashflow / get-balances apply (BE-112). (optional) (default to False)
+    show_totals = True # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to True)
+    include_future_periods = False # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to False)
     date_range_from = '2013-10-20' # date | Custom date range start (Y-m-d). Applied only with full_period=0; with full_period=1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. (optional)
     date_range_to = '2013-10-20' # date | Custom date range end (Y-m-d). Applied only with full_period=0; with full_period=1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. (optional)
     timezone = 'timezone_example' # str |  (optional)
@@ -179,9 +179,9 @@ Name | Type | Description  | Notes
  **type** | **int**| Report type: 1&#x3D;PnL, 2&#x3D;Cash Flow, 3&#x3D;Balances | 
  **range** | **str**| Period granularity, the same vocabulary as periods[].period.kind. | [optional] [default to month]
  **project_ids** | **int**| Label ID for filtering | [optional] 
- **full_period** | **int**| 1 &#x3D; whole period: date_range_from / date_range_to are ignored. 0 &#x3D; the sent date_range_from / date_range_to, else the default window. Default 0: if omitted and a date range is given, the request is computed for the date range only - the same rule get-pnl / get-cashflow / get-balances apply (BE-112). | [optional] [default to 0]
- **show_totals** | **int**|  | [optional] [default to 1]
- **include_future_periods** | **int**|  | [optional] [default to 0]
+ **full_period** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; whole period: date_range_from / date_range_to are ignored. 0 &#x3D; the sent date_range_from / date_range_to, else the default window. Default 0: if omitted and a date range is given, the request is computed for the date range only - the same rule get-pnl / get-cashflow / get-balances apply (BE-112). | [optional] [default to False]
+ **show_totals** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to True]
+ **include_future_periods** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
  **date_range_from** | **date**| Custom date range start (Y-m-d). Applied only with full_period&#x3D;0; with full_period&#x3D;1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. | [optional] 
  **date_range_to** | **date**| Custom date range end (Y-m-d). Applied only with full_period&#x3D;0; with full_period&#x3D;1 the dates are ignored and the report runs on the whole period - the same rule get-pnl / get-cashflow / get-balances apply, so a file built from their effective_filters echo (full_period, date_range_from, date_range_to) matches the screen. | [optional] 
  **timezone** | **str**|  | [optional] 
@@ -253,11 +253,11 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     project_id = 56 # int |  (optional)
     date_from = '2013-10-20' # date |  (optional)
     date_to = '2013-10-20' # date |  (optional)
-    full_period = 1 # int | 1 = full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 = the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period=0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember=1, else 1. With current_only=1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. (optional) (default to 1)
-    include_future_periods = 0 # int |  (optional) (default to 0)
+    full_period = True # bool | Boolean (true/false; 1/0 also accepted). 1 = full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 = the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period=0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember=1, else 1. With current_only=1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. (optional) (default to True)
+    include_future_periods = False # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to False)
     timezone = 'timezone_example' # str |  (optional)
-    current_only = 0 # int | Return only current month data (first day of month to today) (optional) (default to 0)
-    remember = 0 # int | 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to 0)
+    current_only = False # bool | Return only current month data (first day of month to today). Boolean (true/false; 1/0 also accepted). (optional) (default to False)
+    remember = False # bool | Boolean (true/false; 1/0 also accepted). 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to False)
 
     try:
         # Get Balances report data
@@ -280,11 +280,11 @@ Name | Type | Description  | Notes
  **project_id** | **int**|  | [optional] 
  **date_from** | **date**|  | [optional] 
  **date_to** | **date**|  | [optional] 
- **full_period** | **int**| 1 &#x3D; full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 &#x3D; the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period&#x3D;0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember&#x3D;1, else 1. With current_only&#x3D;1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. | [optional] [default to 1]
- **include_future_periods** | **int**|  | [optional] [default to 0]
+ **full_period** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 &#x3D; the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period&#x3D;0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember&#x3D;1, else 1. With current_only&#x3D;1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. | [optional] [default to True]
+ **include_future_periods** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
  **timezone** | **str**|  | [optional] 
- **current_only** | **int**| Return only current month data (first day of month to today) | [optional] [default to 0]
- **remember** | **int**| 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to 0]
+ **current_only** | **bool**| Return only current month data (first day of month to today). Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
+ **remember** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to False]
 
 ### Return type
 
@@ -351,16 +351,16 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     project_id = 56 # int |  (optional)
     date_from = '2013-10-20' # date |  (optional)
     date_to = '2013-10-20' # date |  (optional)
-    full_period = 1 # int | 1 = full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 = the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period=0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember=1, else 1. With current_only=1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. (optional) (default to 1)
-    show_totals = 1 # int |  (optional) (default to 1)
-    include_future_periods = 0 # int |  (optional) (default to 0)
+    full_period = True # bool | Boolean (true/false; 1/0 also accepted). 1 = full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 = the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period=0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember=1, else 1. With current_only=1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. (optional) (default to True)
+    show_totals = True # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to True)
+    include_future_periods = False # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to False)
     timezone = 'timezone_example' # str |  (optional)
-    current_only = 0 # int | Return only current month data (first day of month to today) (optional) (default to 0)
+    current_only = False # bool | Return only current month data (first day of month to today). Boolean (true/false; 1/0 also accepted). (optional) (default to False)
     entity_ids = 'entity_ids_example' # str | Comma-separated entity IDs to filter by (optional)
-    summary_only = 0 # int | Return only summary rows (1=yes, 0=no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to 0)
+    summary_only = False # bool | Boolean (true/false; 1/0 also accepted). Return only summary rows (1=yes, 0=no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to False)
     granularity = month # str | Data granularity: month or quarter (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) (optional) (default to month)
-    remember = 0 # int | 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to 0)
-    extended = 0 # int | 1 = add the legacy ReportCf extras (BE-177): every row carries `category`, and quarter/year rollup periods are interleaved into `periods` when show_totals is on and range is quarter, month, week or day. 0 or omitted = the response is unchanged. Not remembered and not echoed in effective_filters. Any other value is a 400. (optional) (default to 0)
+    remember = False # bool | Boolean (true/false; 1/0 also accepted). 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to False)
+    extended = False # bool | Boolean (true/false; 1/0 also accepted). 1 = add the legacy ReportCf extras (BE-177): every row carries `category`, and quarter/year rollup periods are interleaved into `periods` when show_totals is on and range is quarter, month, week or day. 0 or omitted = the response is unchanged. Not remembered and not echoed in effective_filters. Any other value is a 400. (optional) (default to False)
 
     try:
         # Get Cash Flow report data
@@ -383,16 +383,16 @@ Name | Type | Description  | Notes
  **project_id** | **int**|  | [optional] 
  **date_from** | **date**|  | [optional] 
  **date_to** | **date**|  | [optional] 
- **full_period** | **int**| 1 &#x3D; full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 &#x3D; the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period&#x3D;0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember&#x3D;1, else 1. With current_only&#x3D;1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. | [optional] [default to 1]
- **show_totals** | **int**|  | [optional] [default to 1]
- **include_future_periods** | **int**|  | [optional] [default to 0]
+ **full_period** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 &#x3D; the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period&#x3D;0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember&#x3D;1, else 1. With current_only&#x3D;1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. | [optional] [default to True]
+ **show_totals** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to True]
+ **include_future_periods** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
  **timezone** | **str**|  | [optional] 
- **current_only** | **int**| Return only current month data (first day of month to today) | [optional] [default to 0]
+ **current_only** | **bool**| Return only current month data (first day of month to today). Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
  **entity_ids** | **str**| Comma-separated entity IDs to filter by | [optional] 
- **summary_only** | **int**| Return only summary rows (1&#x3D;yes, 0&#x3D;no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to 0]
+ **summary_only** | **bool**| Boolean (true/false; 1/0 also accepted). Return only summary rows (1&#x3D;yes, 0&#x3D;no) (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to False]
  **granularity** | **str**| Data granularity: month or quarter (deprecated: accepted for backward compatibility, no effect on the response — derive from periods) | [optional] [default to month]
- **remember** | **int**| 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to 0]
- **extended** | **int**| 1 &#x3D; add the legacy ReportCf extras (BE-177): every row carries &#x60;category&#x60;, and quarter/year rollup periods are interleaved into &#x60;periods&#x60; when show_totals is on and range is quarter, month, week or day. 0 or omitted &#x3D; the response is unchanged. Not remembered and not echoed in effective_filters. Any other value is a 400. | [optional] [default to 0]
+ **remember** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to False]
+ **extended** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; add the legacy ReportCf extras (BE-177): every row carries &#x60;category&#x60;, and quarter/year rollup periods are interleaved into &#x60;periods&#x60; when show_totals is on and range is quarter, month, week or day. 0 or omitted &#x3D; the response is unchanged. Not remembered and not echoed in effective_filters. Any other value is a 400. | [optional] [default to False]
 
 ### Return type
 
@@ -459,12 +459,12 @@ with orbuculum_client.ApiClient(configuration) as api_client:
     project_ids = 56 # int |  (optional)
     date_from = '2013-10-20' # date |  (optional)
     date_to = '2013-10-20' # date |  (optional)
-    full_period = 1 # int | 1 = full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 = the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period=0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember=1, else 1. With current_only=1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. (optional) (default to 1)
-    show_totals = 1 # int |  (optional) (default to 1)
-    include_future_periods = 0 # int |  (optional) (default to 0)
+    full_period = True # bool | Boolean (true/false; 1/0 also accepted). 1 = full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 = the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period=0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember=1, else 1. With current_only=1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. (optional) (default to True)
+    show_totals = True # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to True)
+    include_future_periods = False # bool | Boolean (true/false; 1/0 also accepted). (optional) (default to False)
     timezone = 'timezone_example' # str |  (optional)
-    current_only = 0 # int | Return only current month data (first day of month to today) (optional) (default to 0)
-    remember = 0 # int | 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to 0)
+    current_only = False # bool | Return only current month data (first day of month to today). Boolean (true/false; 1/0 also accepted). (optional) (default to False)
+    remember = False # bool | Boolean (true/false; 1/0 also accepted). 1 = fill any omitted filter from the caller's saved set and persist the resulting set when it differs from what is stored. 0 or omitted = run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only=1 forces the report's own window and flags, but is never part of what is remembered or echoed. (optional) (default to False)
 
     try:
         # Get P&L report data
@@ -487,12 +487,12 @@ Name | Type | Description  | Notes
  **project_ids** | **int**|  | [optional] 
  **date_from** | **date**|  | [optional] 
  **date_to** | **date**|  | [optional] 
- **full_period** | **int**| 1 &#x3D; full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 &#x3D; the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period&#x3D;0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember&#x3D;1, else 1. With current_only&#x3D;1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. | [optional] [default to 1]
- **show_totals** | **int**|  | [optional] [default to 1]
- **include_future_periods** | **int**|  | [optional] [default to 0]
+ **full_period** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; full-period mode: the report runs on the whole period (the window end snaps to a period end); date_from / date_to are then ignored for the calculation but still echoed in effective_filters. 0 &#x3D; the sent date_from / date_to, else the default window. An explicitly sent value always decides, dates or not; if omitted and a date range is given, the request is computed for the date range only - this request runs and echoes full_period&#x3D;0, and the remembered view keeps its saved value (BE-112). Omitted without dates: the saved value with remember&#x3D;1, else 1. With current_only&#x3D;1 the run uses the current month window (sent dates are replaced, so the omitted rule does not apply) without changing what is echoed or remembered. | [optional] [default to True]
+ **show_totals** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to True]
+ **include_future_periods** | **bool**| Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
  **timezone** | **str**|  | [optional] 
- **current_only** | **int**| Return only current month data (first day of month to today) | [optional] [default to 0]
- **remember** | **int**| 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to 0]
+ **current_only** | **bool**| Return only current month data (first day of month to today). Boolean (true/false; 1/0 also accepted). | [optional] [default to False]
+ **remember** | **bool**| Boolean (true/false; 1/0 also accepted). 1 &#x3D; fill any omitted filter from the caller&#39;s saved set and persist the resulting set when it differs from what is stored. 0 or omitted &#x3D; run on exactly what was sent and leave the saved settings untouched. Any other value is a 400. Note: current_only&#x3D;1 forces the report&#39;s own window and flags, but is never part of what is remembered or echoed. | [optional] [default to False]
 
 ### Return type
 

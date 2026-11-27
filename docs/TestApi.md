@@ -4,10 +4,84 @@ All URIs are relative to *https://orbuculum.app*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**test_last_sign_in_link**](TestApi.md#test_last_sign_in_link) | **GET** /api/test/last-sign-in-link | Test only: the sign-in link of the newest captured mail to an address
 [**test_workspace_create**](TestApi.md#test_workspace_create) | **POST** /api/test/workspace-create | Test only: create a workspace from a fixture database
 [**test_workspace_delete**](TestApi.md#test_workspace_delete) | **POST** /api/test/workspace-delete | Test only: delete a fixture clone and its database
 [**test_workspace_reset**](TestApi.md#test_workspace_reset) | **POST** /api/test/workspace-reset | Test only: recreate a fixture clone&#39;s database from its fixture
 
+
+# **test_last_sign_in_link**
+> CapturedSignInLinkResponse test_last_sign_in_link(email)
+
+Test only: the sign-in link of the newest captured mail to an address
+
+Answers 404 unless params.enableTestEndpoints is on. Reads mail captured with X-Integration-Test-Mail-Capture: 1 and returns the sign-in link of the newest one addressed to the email (whole address, case-insensitive). Needs no authentication.
+
+### Example
+
+
+```python
+import orbuculum_client
+from orbuculum_client.models.captured_sign_in_link_response import CapturedSignInLinkResponse
+from orbuculum_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://orbuculum.app
+# See configuration.py for a list of all supported configuration parameters.
+configuration = orbuculum_client.Configuration(
+    host = "https://orbuculum.app"
+)
+
+
+# Enter a context with an instance of the API client
+with orbuculum_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = orbuculum_client.TestApi(api_client)
+    email = 'email_example' # str | 
+
+    try:
+        # Test only: the sign-in link of the newest captured mail to an address
+        api_response = api_instance.test_last_sign_in_link(email)
+        print("The response of TestApi->test_last_sign_in_link:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TestApi->test_last_sign_in_link: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **email** | **str**|  | 
+
+### Return type
+
+[**CapturedSignInLinkResponse**](CapturedSignInLinkResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The newest captured sign-in link |  -  |
+**400** | Invalid request format |  -  |
+**404** | Test endpoints are off, or no captured sign-in mail for this address |  -  |
+**405** | Method not allowed |  -  |
+**422** | Missing or invalid email |  -  |
+**500** | Server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_workspace_create**
 > WorkspaceFixtureCloneResponse test_workspace_create(create_workspace_from_fixture_request)

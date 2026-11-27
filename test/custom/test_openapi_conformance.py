@@ -59,9 +59,9 @@ RESERVED = frozenset(keyword.kwlist) | {
 DATE = datetime.date(2026, 1, 2)
 DATE_FORMAT = "%d.%m.%Y"
 
-# The operations whose bodies the last body-changing regeneration changed (a
-# regeneration that changes no body leaves this tuple as it is): each body the
-# document declares must reach the caller, and the server, whole.
+# A regeneration appends the operations whose bodies it added or changed (one that adds or
+# changes none leaves this tuple as it is): each body the document declares must reach the
+# caller, and the server, whole.
 # API 0.179.0: `rate_fixed` and `recalculated` (BE-300), the TestApi operations (BE-297),
 # and the snake_case twins of camelCase read properties (BE-307). Left out, as in the API
 # 0.173.1 regeneration, because the round-trip helpers cannot carry them: createTransaction (its
@@ -69,6 +69,7 @@ DATE_FORMAT = "%d.%m.%Y"
 # intermediary answer's `dt` example is space-separated, which `_utc_as_offset` does not map);
 # neither request comes back as sent (the `dt` example goes out with `T`, the nullable `dry_run`
 # default as `False`).
+# API 0.207.0: the e-mail-link sign-in operations and the test seam (BE-429, BE-434, BE-437).
 CHANGED_OPERATIONS = (
     "activityJournalList",
     "deleteTransaction",
@@ -80,6 +81,10 @@ CHANGED_OPERATIONS = (
     "testWorkspaceCreate",
     "testWorkspaceDelete",
     "testWorkspaceReset",
+    "emailLinkRequest",
+    "emailLinkVerify",
+    "registerByEmailLink",
+    "testLastSignInLink",
 )
 
 # The generator HTML-escapes descriptions in the Markdown docs.
@@ -498,14 +503,59 @@ class TestOpenApiConformance(unittest.TestCase):
             for parameter in operation.get("parameters", []) if parameter.get("required")
         }
         body = None
+        api, _ = self._api(operation)
+        signature = inspect.signature(getattr(api, _snake(operation["operationId"]))).parameters
         for content in operation.get("requestBody", {}).get("content", {}).values():
-            schema = content["schema"]
-            name = schema["$ref"].rsplit("/", 1)[-1] if "$ref" in schema else _request_model(operation["operationId"])
-            body = _example(self.document, schema, 0, case)
-            model = getattr(models, name)
+            # The method names the body's model: the generator may reuse another operation's
+            # inline body for an equal one (registerByEmailLink takes RegisterRequest).
+            name, model = next((name, _model_of(p.annotation)) for name, p in signature.items() if _model_of(p.annotation))
+            body = _example(self.document, content["schema"], 0, case)
             # A caller that leaves a property out builds the model without it.
-            arguments[_snake(name)] = model(**body) if case == "required" else model.from_dict(body)
+            arguments[name] = model(**body) if case == "required" else model.from_dict(body)
         return arguments, body
+
+    def test_flag_query_parameters_are_sent_as_booleans(self):
+        # BE-317 (API 0.207.0): each flag goes out as true/false; 0 or 1 is refused before any request.
+        client = orbuculum_client.ApiClient(orbuculum_client.Configuration(host="https://api.example.com"))
+        report = ("full_period", "include_future_periods", "current_only", "remember")
+        exports = ("full_period", "show_totals", "include_future_periods")
+        for api, method, required, flags in (
+            (apis.ReportsApi, "get_pnl_report", {}, report + ("show_totals",)),
+            (apis.ReportsApi, "get_balances_report", {}, report),
+            (apis.ReportsApi, "get_cashflow_report", {}, report + ("show_totals", "summary_only", "extended")),
+            (apis.ReportsApi, "export_pnl_pdf", {}, exports),
+            (apis.ReportsApi, "export_xlsx", {"type": 1}, exports),
+            (apis.SelectionApi, "get_selection_tree", {}, ("manageable", "show_hidden")),
+            (apis.AccountApi, "get_menu_config", {}, ("hidden",)),
+        ):
+            call = getattr(api(client), method + "_without_preload_content")
+            for flag in flags:
+                for value, text in ((True, "true"), (False, "false")):
+                    with self.subTest(method=method, flag=flag, value=value):
+                        with mock.patch.object(client, "call_api") as call_api:
+                            call(workspace_id=1, **required, **{flag: value})
+                        sent = parse_qsl(urlsplit(call_api.call_args.args[1]).query)
+                        expected = [("workspace_id", "1"), (flag, text)] + [(k, str(v)) for k, v in required.items()]
+                        self.assertEqual(sorted(sent), sorted(expected))
+        cashflow = apis.ReportsApi(client).get_cashflow_report_without_preload_content
+        with mock.patch.object(client, "call_api") as call_api:
+            cashflow(workspace_id=1, extended=True, show_totals=False, remember=True)
+        sent = parse_qsl(urlsplit(call_api.call_args.args[1]).query)
+        self.assertEqual(sorted(sent), [("extended", "true"), ("remember", "true"), ("show_totals", "false"), ("workspace_id", "1")])
+        for value in (0, 1):
+            with self.subTest(extended=value), mock.patch.object(client, "call_api") as call_api:
+                self.assertRaises(ValidationError, cashflow, workspace_id=1, extended=value)
+                call_api.assert_not_called()
+
+    def test_account_body_flags_are_sent_as_json_booleans(self):
+        # BE-317 (API 0.207.0): sent as JSON true/false, never 1/0 or "1"/"0".
+        for build, flags in (
+            (models.CreateAccountRequest, dict(workspace_id=1, entity_id=1, hidden=True, hide_balances=False, commission_enabled=True)),
+            (models.UpdateAccountRequest, dict(workspace_id=1, id=1, hidden=True, hide_balances=False, limited=True, commission_enabled=False)),
+        ):
+            with self.subTest(model=build.__name__):
+                body = orbuculum_client.ApiClient().sanitize_for_serialization(build(**flags))
+                self.assertEqual(json.dumps(body, sort_keys=True), json.dumps(flags, sort_keys=True))
 
     def test_api_method_form_fields_follow_body_order(self):
         for _, _, operation in self.operations:
@@ -629,7 +679,7 @@ class TestOpenApiConformance(unittest.TestCase):
         with self.subTest(case="recorded"):
             document = copy.deepcopy(self.recorded)
             self.assertEqual(prepare.substitute_examples(document), [])
-            self.assertEqual((document["info"]["version"], document["servers"][0]["url"]), ("0.201.0", "https://api.example.com"))
+            self.assertEqual((document["info"]["version"], document["servers"][0]["url"]), ("0.207.0", "https://api.example.com"))
         with self.subTest(case="recorded, as the producer sends it"):
             text = json.dumps(self.recorded)
             for rewritten, live in (("0.168.1.1", ip), ("0.0.113.5", "%d.0.113.5" % 203), ("jane@example.net", mail), ("sam@example.net", "sam" + at_x)):

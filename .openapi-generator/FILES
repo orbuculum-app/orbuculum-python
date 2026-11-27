@@ -83,6 +83,8 @@ docs/BalancesReportResponseDataPeriodsInnerPeriod.md
 docs/CancelImport200Response.md
 docs/CancelImport200ResponseData.md
 docs/CancelImportRequest.md
+docs/CapturedSignInLinkResponse.md
+docs/CapturedSignInLinkResponseData.md
 docs/CashflowReportResponse.md
 docs/CashflowReportResponseData.md
 docs/CashflowReportResponseDataPeriodsInner.md
@@ -223,6 +225,12 @@ docs/DisconnectSocial200ResponseData.md
 docs/DisconnectSocial409Response.md
 docs/DisconnectSocialRequest.md
 docs/DuplicateCandidate.md
+docs/EmailLinkRequest.md
+docs/EmailLinkVerify415Response.md
+docs/EmailLinkVerifyRequest.md
+docs/EmailLinkVerifyResponse.md
+docs/EmailLinkVerifyResponseData.md
+docs/EmailLinkVerifyResponseDataUser.md
 docs/EnrichedTransactionItem.md
 docs/EnrichedTransactionItemCounterparty.md
 docs/EntityApi.md
@@ -239,6 +247,8 @@ docs/ErrorResponse405.md
 docs/ErrorResponse409.md
 docs/ErrorResponse422.md
 docs/ErrorResponse422DetailsInner.md
+docs/ErrorResponse429.md
+docs/ErrorResponse429DetailsInner.md
 docs/ErrorResponse500.md
 docs/GetAccountBalanceResponse.md
 docs/GetAccountBalanceResponseData.md
@@ -469,6 +479,8 @@ docs/SetTimezoneRequest.md
 docs/SetTransactionNeedsReview200Response.md
 docs/SetTransactionNeedsReview200ResponseData.md
 docs/SetTransactionNeedsReviewRequest.md
+docs/SignInLinkSentResponse.md
+docs/SignInLinkSentResponseData.md
 docs/SuccessResponse.md
 docs/SuccessResponseData.md
 docs/SyncTagAccounts200Response.md
@@ -711,6 +723,8 @@ orbuculum_client/models/balances_report_response_data_periods_inner_period.py
 orbuculum_client/models/cancel_import200_response.py
 orbuculum_client/models/cancel_import200_response_data.py
 orbuculum_client/models/cancel_import_request.py
+orbuculum_client/models/captured_sign_in_link_response.py
+orbuculum_client/models/captured_sign_in_link_response_data.py
 orbuculum_client/models/cashflow_report_response.py
 orbuculum_client/models/cashflow_report_response_data.py
 orbuculum_client/models/cashflow_report_response_data_periods_inner.py
@@ -846,6 +860,12 @@ orbuculum_client/models/disconnect_social200_response_data.py
 orbuculum_client/models/disconnect_social409_response.py
 orbuculum_client/models/disconnect_social_request.py
 orbuculum_client/models/duplicate_candidate.py
+orbuculum_client/models/email_link_request.py
+orbuculum_client/models/email_link_verify415_response.py
+orbuculum_client/models/email_link_verify_request.py
+orbuculum_client/models/email_link_verify_response.py
+orbuculum_client/models/email_link_verify_response_data.py
+orbuculum_client/models/email_link_verify_response_data_user.py
 orbuculum_client/models/enriched_transaction_item.py
 orbuculum_client/models/enriched_transaction_item_counterparty.py
 orbuculum_client/models/entity_type_icons_response.py
@@ -861,6 +881,8 @@ orbuculum_client/models/error_response405.py
 orbuculum_client/models/error_response409.py
 orbuculum_client/models/error_response422.py
 orbuculum_client/models/error_response422_details_inner.py
+orbuculum_client/models/error_response429.py
+orbuculum_client/models/error_response429_details_inner.py
 orbuculum_client/models/error_response500.py
 orbuculum_client/models/get_account_balance_response.py
 orbuculum_client/models/get_account_balance_response_data.py
@@ -1079,6 +1101,8 @@ orbuculum_client/models/set_timezone_request.py
 orbuculum_client/models/set_transaction_needs_review200_response.py
 orbuculum_client/models/set_transaction_needs_review200_response_data.py
 orbuculum_client/models/set_transaction_needs_review_request.py
+orbuculum_client/models/sign_in_link_sent_response.py
+orbuculum_client/models/sign_in_link_sent_response_data.py
 orbuculum_client/models/success_response.py
 orbuculum_client/models/success_response_data.py
 orbuculum_client/models/sync_tag_accounts200_response.py
@@ -1289,6 +1313,8 @@ test/test_balances_report_response_data_periods_inner_period.py
 test/test_cancel_import200_response.py
 test/test_cancel_import200_response_data.py
 test/test_cancel_import_request.py
+test/test_captured_sign_in_link_response.py
+test/test_captured_sign_in_link_response_data.py
 test/test_cashflow_report_response.py
 test/test_cashflow_report_response_data.py
 test/test_cashflow_report_response_data_periods_inner.py
@@ -1429,6 +1455,12 @@ test/test_disconnect_social200_response_data.py
 test/test_disconnect_social409_response.py
 test/test_disconnect_social_request.py
 test/test_duplicate_candidate.py
+test/test_email_link_request.py
+test/test_email_link_verify415_response.py
+test/test_email_link_verify_request.py
+test/test_email_link_verify_response.py
+test/test_email_link_verify_response_data.py
+test/test_email_link_verify_response_data_user.py
 test/test_enriched_transaction_item.py
 test/test_enriched_transaction_item_counterparty.py
 test/test_entity_api.py
@@ -1445,6 +1477,8 @@ test/test_error_response405.py
 test/test_error_response409.py
 test/test_error_response422.py
 test/test_error_response422_details_inner.py
+test/test_error_response429.py
+test/test_error_response429_details_inner.py
 test/test_error_response500.py
 test/test_get_account_balance_response.py
 test/test_get_account_balance_response_data.py
@@ -1675,6 +1709,8 @@ test/test_set_timezone_request.py
 test/test_set_transaction_needs_review200_response.py
 test/test_set_transaction_needs_review200_response_data.py
 test/test_set_transaction_needs_review_request.py
+test/test_sign_in_link_sent_response.py
+test/test_sign_in_link_sent_response_data.py
 test/test_success_response.py
 test/test_success_response_data.py
 test/test_sync_tag_accounts200_response.py

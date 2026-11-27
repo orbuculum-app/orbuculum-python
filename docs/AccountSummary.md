@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **show_balance** | **bool** | Whether the requesting role may see this account&#39;s balance (BE-369). When false, recent.balance and latest.balance are null; sent and received are always present. | 
 **recent** | [**AccountSummaryHalf**](AccountSummaryHalf.md) |  | 
 **latest** | [**AccountSummaryHalf**](AccountSummaryHalf.md) |  | [optional] 
-**unconfirmed_amount** | **str** | The part of the current balance (&#x60;recent.balance&#x60;) that comes from unconfirmed rows (done false, recurring or not, dated up to now). Signed: the balance minus this is what confirmed rows add up to. Account-wide: it ignores filters and label scope, and is present even when &#x60;recent&#x60; is null. Confirming a row moves this figure, not the balance. Null when this account&#39;s balance is hidden for the caller&#39;s role. | 
+**unconfirmed_amount** | **str** | The part of the current balance (&#x60;recent.balance&#x60;) that comes from unconfirmed rows (done false, recurring or not, dated up to now). Signed: the balance minus this is what confirmed rows add up to. Account-wide: it ignores filters and label scope, and is present even when &#x60;recent&#x60; is null. Confirming a row moves this figure, not the balance. Null when this account&#39;s balance is hidden for the caller&#39;s role. Decimal string at the account currency&#39;s precision (exactly &#x60;precision&#x60; decimals, e.g. 2 for USD, 8 for BTC, 0 for JPY). | 
 
 ## Example
 

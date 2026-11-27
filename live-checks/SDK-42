@@ -1,0 +1,192 @@
+#!/usr/bin/env python3
+# live-check: SDK-42
+# target: hive:backend/worker
+# window: 30d
+# timeout: 120
+# says: orbuculum-client 0.39.0, as the lane published it to PyPI, supports API 0.207.0 (__api_supported__ == __api_version__ == "0.207.0") and types each of the 25 BE-317 report, selection and menu flags as pydantic StrictBool in all three variants of its method, so True/False go out and 0/1 are refused; exit 75 while 0.39.0 is not on PyPI or the production backend is still below API 0.207.0.
+# result: the published client's __api_supported__ and its 25 flag annotations are compared with the OpenAPI document the recipient (orbuculum-mcp, then RDB-69's production backend) talks to, https://orbuculum.app/swagger/json: its info.version must equal __api_supported__, and each flag it declares boolean must be StrictBool in the client; any difference exits 1.
+# asserts:
+# live-check-broken: live-checks/SDK-42 - SDK42_CLIENT_TREE=%tree%
+# Read-only: HTTP GETs of PyPI's JSON for 0.39.0, of its wheel (read in memory, checked against PyPI's sha256, never installed or
+# written) and of the production backend's public OpenAPI document. Nothing is imported from the client; its sources are parsed.
+# StrictBool is pydantic's strict boolean: it accepts True/False and refuses 0/1, where a plain bool (lax) or StrictInt would not.
+# SDK42_CLIENT_TREE (the broken target only) reads the client from a source tree instead of PyPI: the base tree's 0.38.0
+# client supports 0.201.0 and types the flags StrictInt, so it exits 1 before any network read.
+# `# asserts:` is empty: the live verdict reads the immutable PyPI release 0.39.0, never a file of this repository.
+import ast
+import hashlib
+import io
+import json
+import os
+import re
+import sys
+import urllib.error
+import urllib.request
+import zipfile
+
+sys.dont_write_bytecode = True
+
+VERSION = "0.39.0"
+API = "0.207.0"
+PYPI_JSON = "https://pypi.org/pypi/orbuculum-client/%s/json" % VERSION
+RECIPIENT_SPEC = "https://orbuculum.app/swagger/json"
+TREE_ENV = "SDK42_CLIENT_TREE"
+TIMEOUT = 40
+USER_AGENT = "orbuculum-live-check"
+REPORT = ("full_period", "include_future_periods", "current_only", "remember")
+EXPORTS = ("full_period", "show_totals", "include_future_periods")
+# (API module, method, the backend path it calls, its flags): BE-317's 25 pairs, the CHANGELOG 0.39.0 first bullet.
+FLAGS = (
+    ("reports_api", "get_pnl_report", "/api/reports/get-pnl", REPORT + ("show_totals",)),
+    ("reports_api", "get_balances_report", "/api/reports/get-balances", REPORT),
+    ("reports_api", "get_cashflow_report", "/api/reports/get-cashflow",
+     REPORT + ("show_totals", "summary_only", "extended")),
+    ("reports_api", "export_pnl_pdf", "/api/reports/export-pdf", EXPORTS),
+    ("reports_api", "export_xlsx", "/api/reports/export-xlsx", EXPORTS),
+    ("selection_api", "get_selection_tree", "/api/selection/tree", ("manageable", "show_hidden")),
+    ("account_api", "get_menu_config", "/api/account/get-menu-config", ("hidden",)),
+)
+LAX = {"StrictInt", "StrictStr", "StrictFloat", "bool", "int", "str", "float"}
+
+
+class Blind(Exception):
+    pass
+
+
+def get(url):
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
+        return response.read()
+
+
+def version_key(text):
+    try:
+        return tuple(int(part) for part in str(text).split("."))
+    except ValueError:
+        return None
+
+
+def published_client():
+    """Return (exit code or None, message, a reader of the wheel's files)."""
+    try:
+        meta = json.loads(get(PYPI_JSON).decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return 75, "orbuculum-client %s is not on PyPI yet" % VERSION, None
+        return 2, "PyPI JSON answered HTTP %s" % e.code, None
+    wheels = [u for u in meta.get("urls", []) if u.get("packagetype") == "bdist_wheel"]
+    if not wheels:
+        return 2, "PyPI lists %s with no wheel" % VERSION, None
+    data = get(wheels[0]["url"])
+    if hashlib.sha256(data).hexdigest() != wheels[0].get("digests", {}).get("sha256"):
+        return 2, "the downloaded wheel does not match PyPI's sha256", None
+    archive = zipfile.ZipFile(io.BytesIO(data))
+    return None, "PyPI %s" % wheels[0]["filename"], lambda name: archive.read(name).decode("utf-8")
+
+
+def tree_client(root):
+    def read(name):
+        with open(os.path.join(root, name), encoding="utf-8") as f:
+            return f.read()
+    return read
+
+
+def judge_client(read):
+    """Return (problems, the client's __api_supported__)."""
+    problems = []
+    init = read("orbuculum_client/__init__.py")
+    found = {}
+    for name in ("version", "api_version", "api_supported"):
+        match = re.search(r'^__%s__ = "([^"]*)"$' % name, init, re.M)
+        found[name] = match.group(1) if match else None
+    if found["version"] != VERSION:
+        problems.append("__version__ is %r, not %r" % (found["version"], VERSION))
+    if found["api_supported"] != API or found["api_version"] != API:
+        problems.append("__api_supported__ %r / __api_version__ %r, not %r"
+                        % (found["api_supported"], found["api_version"], API))
+    trees = {}
+    for module, method, _, flags in FLAGS:
+        if module not in trees:
+            trees[module] = ast.parse(read("orbuculum_client/api/%s.py" % module))
+        tree = trees[module]
+        strict = any(isinstance(node, ast.ImportFrom) and node.module == "pydantic"
+                     and any(alias.name == "StrictBool" and alias.asname is None for alias in node.names)
+                     for node in tree.body)
+        if not strict and "%s does not import StrictBool from pydantic" % module not in problems:
+            problems.append("%s does not import StrictBool from pydantic" % module)
+        functions = {node.name: node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)}
+        for variant in (method, method + "_with_http_info", method + "_without_preload_content"):
+            function = functions.get(variant)
+            if function is None:
+                problems.append("%s.%s is missing" % (module, variant))
+                continue
+            arguments = {a.arg: a.annotation for a in function.args.args + function.args.kwonlyargs}
+            for flag in flags:
+                if arguments.get(flag) is None:
+                    problems.append("%s(%s) is missing" % (variant, flag))
+                    continue
+                names = {n.id for n in ast.walk(arguments[flag]) if isinstance(n, ast.Name)}
+                if "StrictBool" not in names or names & LAX:
+                    problems.append("%s(%s) is typed %s, not StrictBool"
+                                    % (variant, flag, "/".join(sorted(names & (LAX | {"StrictBool"}))) or "?"))
+    return problems, found["api_supported"]
+
+
+def judge_recipient(supported, source):
+    """Compare the client with the document the recipient talks to; return (exit code, evidence)."""
+    try:
+        spec = json.loads(get(RECIPIENT_SPEC).decode("utf-8", "replace"))
+        live = spec["info"]["version"]
+        paths = spec["paths"]
+    except (urllib.error.URLError, OSError, ValueError, KeyError, TypeError) as e:
+        return 2, "%s: client held; recipient's document blind: %s: %s" % (source, type(e).__name__, str(e)[:200])
+    if version_key(live) is None or not isinstance(paths, dict):
+        return 2, "%s: client held; %s is not an OpenAPI document this probe can judge" % (source, RECIPIENT_SPEC)
+    if version_key(live) < version_key(API):
+        return 75, ("%s: client held (API %s, 25 flags StrictBool); the recipient's backend is still at API %s, "
+                    "waiting for RDB-69's deploy of %s" % (source, supported, live, API))
+    mismatched, compared = [], 0
+    for _, method, path, flags in FLAGS:
+        parameters = ((paths.get(path) or {}).get("get") or {}).get("parameters") or []
+        declared = {p.get("name"): (p.get("schema") or {}).get("type") for p in parameters if isinstance(p, dict)}
+        for flag in flags:
+            if flag in declared:
+                compared += 1
+                if declared[flag] != "boolean":
+                    mismatched.append("%s %s is %s" % (path, flag, declared[flag]))
+    if version_key(live) == version_key(API) and compared != 25:
+        return 2, "%s: the recipient's API %s declares %d of the 25 flags; cannot judge" % (source, live, compared)
+    if mismatched:
+        return 1, ("%s: the recipient's API %s does not declare the flags boolean, the client sends bool: %s"
+                   % (source, live, "; ".join(mismatched[:5])))
+    if live != supported:
+        return 0, ("%s: SUPERSEDED: the recipient's backend moved past %s to %s; the %d flags it still declares "
+                   "are boolean, as the client types them" % (source, API, live, compared))
+    return 0, ("%s: __api_supported__ %s == the recipient's API %s; all 25 flags boolean there and StrictBool "
+               "in the client" % (source, supported, live))
+
+
+def main():
+    root = os.environ.get(TREE_ENV)
+    try:
+        if root:
+            code, source, read = None, "tree %s" % root, tree_client(root)
+        else:
+            code, source, read = published_client()
+        if code is not None:
+            print(source)
+            return code
+        problems, supported = judge_client(read)
+    except (urllib.error.URLError, OSError, ValueError, KeyError, SyntaxError, zipfile.BadZipFile) as e:
+        print("probe blind reading the client: %s: %s" % (type(e).__name__, str(e)[:200]))
+        return 2
+    if problems:
+        print("%s: %d problem(s): %s" % (source, len(problems), "; ".join(problems[:6]))[:1900])
+        return 1
+    code, evidence = judge_recipient(supported, source)
+    print(evidence[:1900])
+    return code
+
+
+if __name__ == "__main__":
+    sys.exit(main())

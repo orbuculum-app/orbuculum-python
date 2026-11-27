@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **import_type** | **str** | API import source (no file): tronscan (a TRON address, TRC20 token transfers) or etherscan (an Ethereum address, ETH or ERC-20 token transfers). File imports (csv, excel) use multipart/form-data. | 
 **timezone** | **str** | User timezone | [optional] 
 **with_already_imported** | **bool** | Include already imported transactions | [optional] 
-**check_duplicated** | **bool** | Check for duplicate transactions | [optional] 
+**check_duplicated** | **bool** | Check for duplicate transactions; edits through update-table and create are re-checked | [optional] 
 **account_address** | **str** | tronscan only, required for it: the TRON wallet address (T...) whose TRC20 transfers are imported. | [optional] 
 **trc_hash** | **str** | tronscan only, required for it: the TRC20 token contract id to import (one token per import, e.g. USDT&#39;s). | [optional] 
 **address** | **str** | etherscan only, required for it: the Ethereum address (0x followed by 40 hex characters) whose transfers are imported; any other form is reported as a critical error in the 200 preview, not as a 400. | [optional] 

@@ -26,7 +26,7 @@ Name | Type | Description | Notes
 **subtab** | **str** | BE-66: the transaction-modal sub-tab. ACCEPTED AND IGNORED on update — slot eligibility rules run on create only, and a submitted sub-tab never exempts an update from the direction floor. Present so a client may post the same body shape to create and update. Edit-only sub-tabs (editing, edit_double_income, edit_double_expenses, edit_any) are rejected. | [optional] 
 **intermediary_account_id** | **int** | Intermediary account ID for linked intermediary transactions | [optional] 
 **intermediary_amount** | **str** | Intermediary leg amount (required when intermediary_account_id is set). A leg whose two accounts share a currency must carry equal amounts; when only one side of such a leg is sent, the other side is copied (BE-125). | [optional] 
-**commission_appliance** | **int** | Commission appliance deduction flag (0 or 1) | [optional] 
+**commission_appliance** | **bool** | Commission appliance deduction flag (true/false; 1/0 also accepted) | [optional] 
 **timezone** | **str** | IANA timezone for datetime conversion (e.g., Europe/Kyiv). When provided, &#x60;dt&#x60; is interpreted as local wall-clock time in this zone and converted to UTC for storage. When omitted, &#x60;dt&#x60; is stored verbatim. Note: must NOT be set when &#x60;dt&#x60; contains an embedded timezone (Z or ±HH:MM) — that combination returns HTTP 422. | [optional] 
 **sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 

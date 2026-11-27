@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **receiver_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
 **intermediary_account_id** | **int** | Intermediary account ID for linked intermediary transactions | [optional] 
 **intermediary_amount** | **str** | Intermediary leg amount (required when intermediary_account_id is set). A leg whose two accounts share a currency must carry equal amounts (BE-125). | [optional] 
-**commission_appliance** | **int** | Commission appliance deduction flag (0 or 1) | [optional] 
+**commission_appliance** | **bool** | Commission appliance deduction flag (true/false; 1/0 also accepted) | [optional] 
 **timezone** | **str** | IANA timezone for datetime conversion (e.g., Europe/Kyiv) | [optional] 
 **account_id** | **int** | Account ID for enriched response with transactions and summary | [optional] 
 **leg1_sender_commission** | [**CommissionData**](CommissionData.md) |  | [optional] 
